@@ -1,11 +1,10 @@
 import 'dart:convert';
 
+import 'package:dart_sdk/src/nitric/proto/storage/v1/storage.pbgrpc.dart' as $p;
 import 'package:grpc/grpc.dart';
-import 'package:dart_sdk/src/gen/contracts/proto/storage/v1/storage.pbgrpc.dart'
-    as $p;
 
 class Bucket {
-  late $p.StorageServiceClient client;
+  late $p.StorageClient client;
 
   String name;
 
@@ -16,7 +15,7 @@ class Bucket {
       options: const ChannelOptions(credentials: ChannelCredentials.insecure()),
     );
 
-    client = $p.StorageServiceClient(channel);
+    client = $p.StorageClient(channel);
   }
 
   File file(String key) {
@@ -64,7 +63,7 @@ class File {
 
   Future<bool> exists() async {
     var req = $p.StorageExistsRequest(
-      bucket: bucket.name,
+      bucketName: bucket.name,
       key: key,
     );
 

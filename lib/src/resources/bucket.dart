@@ -1,10 +1,9 @@
 library resources;
 
 import 'package:dart_sdk/src/api/bucket.dart';
-import 'package:dart_sdk/src/gen/contracts/proto/resource/v1/resource.pb.dart'
+import 'package:dart_sdk/src/nitric/proto/resources/v1/resources.pbgrpc.dart'
     as $p;
-
-import 'resource.dart';
+import 'package:dart_sdk/src/resources/resource.dart';
 
 enum BucketPermission { reading, writing, deleting }
 

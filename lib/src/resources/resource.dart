@@ -1,13 +1,13 @@
 library resources;
 
-import 'package:dart_sdk/src/gen/contracts/proto/resource/v1/resource.pbgrpc.dart'
+import 'package:dart_sdk/src/nitric/proto/resources/v1/resources.pbgrpc.dart'
     as $p;
 
 import 'package:grpc/grpc.dart';
 
 abstract class Resource {
   String name;
-  late $p.ResourceServiceClient client;
+  late $p.ResourcesClient client;
 
   Resource(this.name) {
     var channel = ClientChannel(
@@ -16,7 +16,7 @@ abstract class Resource {
       options: const ChannelOptions(credentials: ChannelCredentials.insecure()),
     );
 
-    client = $p.ResourceServiceClient(channel);
+    client = $p.ResourcesClient(channel);
   }
 
   Future<void> register();
