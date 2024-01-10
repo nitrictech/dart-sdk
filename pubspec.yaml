@@ -1,13 +1,14 @@
 name: dart_sdk
-description: A starting point for Dart libraries or applications.
+description: A Dart SDK for creating Nitric applications
 version: 1.0.0
-# repository: https://github.com/my_org/my_repo
+repository: https://github.com/nitrictech/dart_sdk
 
 environment:
   sdk: ^3.2.4
 
 # Add regular dependencies here.
 dependencies:
+  fixnum: ^1.1.0
   grpc: ^3.2.4
   meta: ^1.11.0
   protobuf: ^3.1.0

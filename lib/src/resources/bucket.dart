@@ -1,9 +1,4 @@
-library resources;
-
-import 'package:dart_sdk/src/api/bucket.dart';
-import 'package:dart_sdk/src/nitric/proto/resources/v1/resources.pbgrpc.dart'
-    as $p;
-import 'package:dart_sdk/src/resources/resource.dart';
+part of 'common.dart';
 
 enum BucketPermission { reading, writing, deleting }
 
@@ -40,12 +35,12 @@ class BucketResource extends SecureResource<BucketPermission> {
     return actions;
   }
 
-  Future<Bucket> requires(List<BucketPermission> permissions) async {
+  Bucket requires(List<BucketPermission> permissions) {
     if (permissions.isEmpty) {
       throw "Must supply at least one permission for bucket $name";
     }
 
-    await registerPolicy(permissions);
+    registerPolicy(permissions);
 
     return Bucket(name);
   }

@@ -1,12 +1,4 @@
-import 'dart:async';
-
-import 'package:dart_sdk/src/nitric/proto/apis/v1/apis.pbgrpc.dart' as $ap;
-import 'package:dart_sdk/src/nitric/proto/resources/v1/resources.pbgrpc.dart'
-    as $p;
-import 'package:dart_sdk/src/resources/context.dart';
-import 'package:dart_sdk/src/resources/middleware.dart';
-import 'package:dart_sdk/src/resources/resource.dart';
-import 'package:grpc/grpc.dart';
+part of 'resource.dart';
 
 enum HttpMethod {
   get,
@@ -125,7 +117,8 @@ class Method {
     final registrationRequest = $ap.RegistrationRequest(
       api: route.api.name,
       path: route.match,
-      methods: methods.map((e) => e.name),
+      methods: methods.map((e) => e.name.toUpperCase()),
+      options: $ap.ApiWorkerOptions(securityDisabled: true),
     );
     final initMsg = $ap.ClientMessage(registrationRequest: registrationRequest);
 
@@ -134,8 +127,7 @@ class Method {
     requestStream.add(initMsg);
 
     final response = client.serve(
-      requestStream.stream.map((request) => request),
-      options: CallOptions(timeout: Duration(seconds: 3)),
+      requestStream.stream,
     );
 
     try {
@@ -153,7 +145,7 @@ class Method {
         }
       }
     } on GrpcError catch (e) {
-      print("caught an GrpcError: $e");
+      print("caught a GrpcError: $e");
     } on Error catch (e) {
       var resp = HttpResponse.withError(e);
 
