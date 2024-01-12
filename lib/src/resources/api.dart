@@ -1,4 +1,4 @@
-part of 'resource.dart';
+part of 'common.dart';
 
 enum HttpMethod {
   get,
@@ -8,8 +8,8 @@ enum HttpMethod {
   options,
 }
 
-class ApiResource extends Resource {
-  ApiResource(String name) : super(name);
+class Api extends Resource {
+  Api(String name) : super(name);
 
   @override
   Future<void> register() async {
@@ -69,7 +69,7 @@ class ApiResource extends Resource {
 }
 
 class Route {
-  ApiResource api;
+  Api api;
   String match;
 
   Route(this.api, this.match);

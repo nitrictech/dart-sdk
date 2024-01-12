@@ -1,35 +1,56 @@
 part of 'common.dart';
 
-enum WebsocketEventType { connect, disconnect, message }
+enum WebsocketEvent { connect, disconnect, message }
 
-class WebsocketContext<Req extends WebsocketRequest>
-    extends TriggerContext<Req, WebsocketResponse> {
+class WebsocketContext
+    extends TriggerContext<WebsocketRequest, WebsocketResponse> {
   WebsocketContext(String id, WebsocketRequest req, WebsocketResponse resp)
       : super(id, req, resp);
 
-      WebsocketContext.fromRequest($wp.ServerMessage msg) : super(msg.id) {
-        final eventReq = msg.websocketEventRequest;        
+  WebsocketContext.fromRequest($wp.ServerMessage msg)
+      : this(
+            msg.id,
+            WebsocketRequest(
+                msg.websocketEventRequest.socketName,
+                msg.websocketEventRequest.connectionId,
+                msg.websocketEventRequest.hasConnection()
+                    ? WebsocketEvent.connect
+                    : msg.websocketEventRequest.hasDisconnection()
+                        ? WebsocketEvent.disconnect
+                        : WebsocketEvent.message),
+            msg.websocketEventRequest.hasConnection()
+                ? WebsocketConnectResponse()
+                : WebsocketResponse());
 
-        id = msg.id;
-        req = WebsocketRequest(eventReq.connectionId, eventReq.);
-        resp = WebsocketResponse();
-      }
+  toResponse() {
+    return resp.toWire();
+  }
 }
 
+class WebsocketRequest extends TriggerRequest {
+  String socketName;
+  String connectionId;
+  WebsocketEvent eventType;
 
-abstract class WebsocketRequest {
-  late String connectionId;
-  late WebsocketEventType eventType;
+  WebsocketRequest(this.socketName, this.connectionId, this.eventType);
 }
 
-class WebsocketConnection extends TriggerRequest with WebsocketRequest {
-  List<String, List<String>> queryParams;
+class WebsocketConnectResponse extends WebsocketResponse {
+  bool reject;
 
-  WebsocketConnection(this.queryParams) : super();
+  WebsocketConnectResponse([this.reject = false]);
+
+  @override
+  $wp.WebsocketEventResponse toWire() {
+    return $wp.WebsocketEventResponse(
+        connectionResponse: $wp.WebsocketConnectionResponse(reject: reject));
+  }
 }
 
-class WebsocketDisconnection extends WebsocketRequest {}
+class WebsocketResponse extends TriggerResponse {
+  WebsocketResponse();
 
-class Websocket
-
-class WebsocketResponse extends TriggerResponse {}
+  $wp.WebsocketEventResponse toWire() {
+    return $wp.WebsocketEventResponse();
+  }
+}

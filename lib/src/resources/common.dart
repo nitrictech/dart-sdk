@@ -1,12 +1,14 @@
 library resources;
 
 import 'dart:async';
+import 'dart:convert';
 
-import 'package:dart_sdk/src/api/topic.dart';
 import 'package:grpc/grpc.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:dart_sdk/src/context/common.dart';
 import 'package:dart_sdk/src/api/bucket.dart';
+import 'package:dart_sdk/src/api/topic.dart' as $t;
+import 'package:dart_sdk/src/api/secret.dart' as $s;
 
 import 'package:dart_sdk/src/nitric/proto/resources/v1/resources.pbgrpc.dart'
     as $p;
@@ -14,6 +16,9 @@ import 'package:dart_sdk/src/nitric/proto/apis/v1/apis.pbgrpc.dart' as $ap;
 import 'package:dart_sdk/src/nitric/proto/schedules/v1/schedules.pbgrpc.dart'
     as $sp;
 import 'package:dart_sdk/src/nitric/google/protobuf/duration.pb.dart' as $d;
+import 'package:dart_sdk/src/nitric/proto/topics/v1/topics.pbgrpc.dart' as $tp;
+import 'package:dart_sdk/src/nitric/proto/websockets/v1/websockets.pbgrpc.dart'
+    as $wp;
 
 part 'schedule.dart';
 part 'secret.dart';
@@ -21,6 +26,7 @@ part 'collection.dart';
 part 'bucket.dart';
 part 'api.dart';
 part 'topic.dart';
+part 'websocket.dart';
 
 abstract class Resource {
   String name;

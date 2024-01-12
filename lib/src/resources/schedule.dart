@@ -1,9 +1,9 @@
 part of 'common.dart';
 
-class ScheduleResource extends Resource {
+class Schedule extends Resource {
   late $sp.SchedulesClient schedulesClient;
 
-  ScheduleResource(String name) : super(name) {
+  Schedule(String name) : super(name) {
     final channel = ClientChannel('localhost',
         port: 50051,
         options: ChannelOptions(credentials: ChannelCredentials.insecure()));

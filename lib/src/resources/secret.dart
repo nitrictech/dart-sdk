@@ -6,14 +6,37 @@ class SecretResource extends SecureResource<SecretPermission> {
   SecretResource(String name) : super(name);
 
   @override
-  Future<void> register() {
-    // TODO: implement register
-    throw UnimplementedError();
+  Future<void> register() async {
+    var resource = $p.Resource(
+      name: name,
+      type: $p.ResourceType.Secret,
+    );
+
+    await client.declare($p.ResourceDeclareRequest(resource: resource));
   }
 
   @override
   List<$p.Action> permissionsToActions(List<SecretPermission> permissions) {
-    // TODO: implement permissionsToActions
-    throw UnimplementedError();
+    List<$p.Action> actions = permissions.fold(
+        [],
+        (actions, permission) => switch (permission) {
+              SecretPermission.accessing => [
+                  ...actions,
+                  $p.Action.SecretAccess
+                ],
+              SecretPermission.putting => [...actions, $p.Action.SecretPut],
+            });
+
+    return actions;
+  }
+
+  $s.Secret requires(List<SecretPermission> permissions) {
+    if (permissions.isEmpty) {
+      throw "Must supply at least one permission for secret $name";
+    }
+
+    registerPolicy(permissions);
+
+    return $s.Secret(name);
   }
 }

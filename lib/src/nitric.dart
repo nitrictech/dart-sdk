@@ -8,8 +8,8 @@ BucketResource bucket(String name) {
   return res;
 }
 
-ApiResource api(String name) {
-  var res = ApiResource(name);
+Api api(String name) {
+  var res = Api(name);
 
   res.register();
 
@@ -24,8 +24,8 @@ CollectionResource collection(String name) {
   return res;
 }
 
-ScheduleResource schedule(String name) {
-  var res = ScheduleResource(name);
+Schedule schedule(String name) {
+  var res = Schedule(name);
 
   res.register();
 
@@ -40,8 +40,16 @@ SecretResource secret(String name) {
   return res;
 }
 
-TopicResource topic(String name) {
-  var res = TopicResource(name);
+Topic topic(String name) {
+  var res = Topic(name);
+
+  res.register();
+
+  return res;
+}
+
+Websocket websocket(String name) {
+  var res = Websocket(name);
 
   res.register();
 
