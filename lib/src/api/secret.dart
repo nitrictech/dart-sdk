@@ -1,12 +1,13 @@
 import 'dart:convert';
 
-import 'package:dart_sdk/src/nitric/proto/secrets/v1/secrets.pb.dart';
 import 'package:dart_sdk/src/nitric/proto/secrets/v1/secrets.pbgrpc.dart' as $p;
 import 'package:grpc/grpc.dart';
 
+/// References an encrypted secret stored in a secret manager.
 class Secret {
-  String name;
-  late $p.SecretManagerClient _secretClient;
+  /// The name of the secret
+  final String name;
+  late final $p.SecretManagerClient _secretClient;
 
   Secret(this.name) {
     final channel = ClientChannel('localhost',
@@ -16,14 +17,17 @@ class Secret {
     _secretClient = $p.SecretManagerClient(channel);
   }
 
+  /// Get a reference to a specific [version] of this secret.
   SecretVersion version(String version) {
     return SecretVersion(this, version);
   }
 
+  /// Get a reference to the latest version of this secret.
   SecretVersion latest() {
     return SecretVersion(this);
   }
 
+  /// Put a new [value] to the secret, creating a new secret version and returning it.
   Future<SecretVersion> put(String value) async {
     var req = $p.SecretPutRequest(secret: _toWire(), value: utf8.encode(value));
     var resp = await _secretClient.put(req);
@@ -31,35 +35,46 @@ class Secret {
     return SecretVersion._fromWire(this, resp.secretVersion);
   }
 
+  /// Converts this Secret to a gRPC Secret for requests.
   $p.Secret _toWire() {
     return $p.Secret(name: name);
   }
 }
 
+/// References a specific version of a secret.
 class SecretVersion {
-  Secret secret;
-  late String version;
+  final Secret _secret;
 
-  SecretVersion(this.secret, [this.version = "latest"]);
+  /// The version that this secret version references.
+  late final String version;
 
-  SecretVersion._fromWire(this.secret, $p.SecretVersion secretVersion) {
+  SecretVersion(this._secret, [this.version = "latest"]);
+
+  /// Construct this secret version from a gRPC Secret version.
+  SecretVersion._fromWire(this._secret, $p.SecretVersion secretVersion) {
     version = secretVersion.version;
   }
 
+  /// Access the value of this secret version.
   Future<SecretValue> access() async {
     var req = $p.SecretAccessRequest(secretVersion: _toWire());
-    var resp = await secret._secretClient.access(req);
+    var resp = await _secret._secretClient.access(req);
 
-    return SecretValue(utf8.decode(resp.value));
+    return SecretValue(version, utf8.decode(resp.value));
   }
 
+  /// Converts this Secret version to a gRPC Secret version for requests.
   $p.SecretVersion _toWire() {
-    return $p.SecretVersion(secret: secret._toWire(), version: version);
+    return $p.SecretVersion(secret: _secret._toWire(), version: version);
   }
 }
 
 class SecretValue {
-  String value;
+  /// The version that contained this value.
+  final String version;
 
-  SecretValue(this.value);
+  /// The value that was stored at the referenced version.
+  final String value;
+
+  SecretValue(this.version, this.value);
 }

@@ -8,6 +8,7 @@ enum HttpMethod {
   options,
 }
 
+/// An API resource.
 class Api extends Resource {
   Api(String name) : super(name);
 
@@ -21,91 +22,115 @@ class Api extends Resource {
     await client.declare($p.ResourceDeclareRequest(resource: resource));
   }
 
+  /// A GET request [handler] that [match]es a specific route.
   Future<void> get(
     String match,
-    HttpMiddleware middleware,
+    HttpMiddleware handler,
   ) async {
-    Route(this, match).get(middleware);
+    Route(this, match).get(handler);
   }
 
+  /// A POST request [handler] that [match]es a specific route.
   Future<void> post(
     String match,
-    HttpMiddleware middleware,
+    HttpMiddleware handler,
   ) async {
-    Route(this, match).post(middleware);
+    Route(this, match).post(handler);
   }
 
+  /// A PUT request [handler] that [match]es a specific route.
   Future<void> put(
     String match,
-    HttpMiddleware middleware,
+    HttpMiddleware handler,
   ) async {
-    Route(this, match).put(middleware);
+    Route(this, match).put(handler);
   }
 
+  /// A DELETE request [handler] that [match]es a specific route.
   Future<void> delete(
     String match,
-    HttpMiddleware middleware,
+    HttpMiddleware handler,
   ) async {
-    Route(this, match).delete(middleware);
+    Route(this, match).delete(handler);
   }
 
+  /// A OPTIONS request [handler] that [match]es a specific route.
   Future<void> options(
     String match,
-    HttpMiddleware middleware,
+    HttpMiddleware handler,
   ) async {
-    Route(this, match).options(middleware);
+    Route(this, match).options(handler);
   }
 
+  /// A request [handler] that [match]es a specific route on all HTTP methods.
   Future<void> all(
     String match,
-    HttpMiddleware middleware,
+    HttpMiddleware handler,
   ) async {
-    Route(this, match).all(middleware);
+    Route(this, match).all(handler);
   }
 
+  /// Create a route that [match]es on a specific path.
   Route route(String match) {
     return Route(this, match);
   }
 }
 
+/// Represents a single route on an API.
 class Route {
+  /// The api that this route belongs to.
   Api api;
+
+  /// The path that this route will match on.
   String match;
 
   Route(this.api, this.match);
 
-  Future<void> get(HttpMiddleware middleware) async {
-    Method(this, middleware, [HttpMethod.get]).start();
+  /// A GET request [handler] for this route.
+  Future<void> get(HttpMiddleware handler) async {
+    HttpTrigger(this, handler, [HttpMethod.get]).start();
   }
 
-  Future<void> post(HttpMiddleware middleware) async {
-    Method(this, middleware, [HttpMethod.post]).start();
+  /// A POST request [handler] for this route.
+  Future<void> post(HttpMiddleware handler) async {
+    HttpTrigger(this, handler, [HttpMethod.post]).start();
   }
 
-  Future<void> put(HttpMiddleware middleware) async {
-    Method(this, middleware, [HttpMethod.put]).start();
+  /// A PUT request [handler] for this route.
+  Future<void> put(HttpMiddleware handler) async {
+    HttpTrigger(this, handler, [HttpMethod.put]).start();
   }
 
-  Future<void> delete(HttpMiddleware middleware) async {
-    Method(this, middleware, [HttpMethod.delete]).start();
+  /// A DELETE request [handler] for this route.
+  Future<void> delete(HttpMiddleware handler) async {
+    HttpTrigger(this, handler, [HttpMethod.delete]).start();
   }
 
-  Future<void> options(HttpMiddleware middleware) async {
-    Method(this, middleware, [HttpMethod.options]).start();
+  /// An OPTIONS request [handler] for this route.
+  Future<void> options(HttpMiddleware handler) async {
+    HttpTrigger(this, handler, [HttpMethod.options]).start();
   }
 
-  Future<void> all(HttpMiddleware middleware) async {
-    Method(this, middleware, HttpMethod.values).start();
+  /// A request [handler] for this route that matches all HTTP methods.
+  Future<void> all(HttpMiddleware handler) async {
+    HttpTrigger(this, handler, HttpMethod.values).start();
   }
 }
 
-class Method {
+/// Represents a requestable route with the accepted HTTP methods.
+class HttpTrigger {
+  /// The requestable route.
   Route route;
+
+  /// The handler that will run on a request.
   HttpMiddleware handler;
+
+  /// The HTTP methods that will be accepted for this trigger.
   List<HttpMethod> methods;
 
-  Method(this.route, this.handler, this.methods);
+  HttpTrigger(this.route, this.handler, this.methods);
 
+  /// Start the route handler.
   Future<void> start() async {
     // Create API client
     final channel = ClientChannel('localhost',

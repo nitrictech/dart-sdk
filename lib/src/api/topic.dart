@@ -6,11 +6,11 @@ import 'package:dart_sdk/src/nitric/proto/topics/v1/topics.pbgrpc.dart' as $p;
 import 'package:fixnum/fixnum.dart';
 import 'package:grpc/grpc.dart';
 
-class Message {}
-
+/// A Topic for publishing events to subscribers of this topic.
 class Topic {
-  String name;
-  late $p.TopicsClient _topicsClient;
+  /// The name of the topic
+  final String name;
+  late final $p.TopicsClient _topicsClient;
 
   Topic(this.name) {
     final channel = ClientChannel('localhost',
@@ -23,7 +23,6 @@ class Topic {
   /// Publish a [message] to the topic. Optional [delay] (in seconds) can be set to delay the message publish time.
   Future<void> publish(Map<String, dynamic> message, [int delay = 0]) async {
     // Convert the message to a proto struct wrapped in an event message
-
     final messageStruct = Struct.create();
     messageStruct.mergeFromJsonMap(message);
 

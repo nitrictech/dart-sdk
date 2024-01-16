@@ -5,6 +5,7 @@ enum TopicPermission { publishing }
 class Topic extends SecureResource<TopicPermission> {
   Topic(String name) : super(name);
 
+  /// Register a [handler] to subscribe to messages sent to the topic.
   Future<void> subscribe(MessageMiddleware handler) async {
     // Create Subscriber client
     final channel = ClientChannel('localhost',
@@ -71,6 +72,7 @@ class Topic extends SecureResource<TopicPermission> {
     return actions;
   }
 
+  /// Set the function's required [permissions] for the topic.
   $t.Topic requires(List<TopicPermission> permissions) {
     if (permissions.isEmpty) {
       throw "Must supply at least one permission for topic $name";

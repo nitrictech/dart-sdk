@@ -19,6 +19,7 @@ import 'package:dart_sdk/src/nitric/google/protobuf/duration.pb.dart' as $d;
 import 'package:dart_sdk/src/nitric/proto/topics/v1/topics.pbgrpc.dart' as $tp;
 import 'package:dart_sdk/src/nitric/proto/websockets/v1/websockets.pbgrpc.dart'
     as $wp;
+import 'package:meta/meta.dart';
 
 part 'schedule.dart';
 part 'secret.dart';
@@ -28,10 +29,16 @@ part 'api.dart';
 part 'topic.dart';
 part 'websocket.dart';
 
+/// A representation of a resource that can be registered with the Nitric server.
 abstract class Resource {
-  String name;
-  late $p.ResourcesClient client;
+  /// The name of the resource.
+  final String name;
 
+  /// Internal resource client to declare the resource.
+  @protected
+  late final $p.ResourcesClient client;
+
+  @protected
   Resource(this.name) {
     var channel = ClientChannel(
       'localhost',
@@ -42,14 +49,18 @@ abstract class Resource {
     client = $p.ResourcesClient(channel);
   }
 
+  /// Register the resource with the Nitric server.
   Future<void> register();
 }
 
+/// A resource that requires permissions to access it.
 abstract class SecureResource<T extends Enum> extends Resource {
   SecureResource(String name) : super(name);
 
+  /// Convert a list of permissions to gRPC actions.
   List<$p.Action> permissionsToActions(List<T> permissions);
 
+  /// Register a policy with the Nitric server to secure the resource with least-privilege.
   Future<void> registerPolicy(List<T> permissions) async {
     var policy = $p.PolicyResource(
         principals: [$p.Resource(type: $p.ResourceType.Function)],

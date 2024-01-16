@@ -35,6 +35,7 @@ class BucketResource extends SecureResource<BucketPermission> {
     return actions;
   }
 
+  /// Set the function's required [permissions] to the bucket.
   Bucket requires(List<BucketPermission> permissions) {
     if (permissions.isEmpty) {
       throw "Must supply at least one permission for bucket $name";

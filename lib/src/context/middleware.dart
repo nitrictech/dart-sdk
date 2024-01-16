@@ -6,4 +6,8 @@ typedef HttpMiddleware = Middleware<HttpContext>;
 typedef IntervalMiddleware = Middleware<IntervalContext>;
 typedef MessageMiddleware = Middleware<MessageContext>;
 typedef BlobEventMiddleware = Middleware<BlobEventContext>;
+
 typedef WebsocketMiddleware = Middleware<WebsocketContext>;
+typedef WebsocketConnectMiddleware = Middleware<WebsocketConnectContext>;
+typedef WebsocketDisconnectMiddleware = Middleware<WebsocketDisconnectContext>;
+typedef WebsocketMessageMiddleware = Middleware<WebsocketMessageContext>;

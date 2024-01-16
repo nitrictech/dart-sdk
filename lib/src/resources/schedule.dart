@@ -21,7 +21,7 @@ class Schedule extends Resource {
   Future<void> every(String rate, IntervalMiddleware middleware) async {
     var registrationRequest = $sp.RegistrationRequest(
       scheduleName: name,
-      rate: Rate(rate)._toWire(),
+      rate: _Rate(rate)._toWire(),
     );
 
     _registerIntervalHandler(registrationRequest, middleware);
@@ -78,11 +78,11 @@ class Schedule extends Resource {
 
 enum Frequency { day, hour, minute }
 
-class Rate {
+class _Rate {
   late int rate;
   late Frequency frequency;
 
-  Rate(String rateExpression) {
+  _Rate(String rateExpression) {
     final splitExpression = rateExpression.split(" ");
     if (splitExpression.length != 2) {
       throw FormatException(

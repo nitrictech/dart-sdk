@@ -30,6 +30,7 @@ class SecretResource extends SecureResource<SecretPermission> {
     return actions;
   }
 
+  /// Set the function's required [permissions] for the secret.
   $s.Secret requires(List<SecretPermission> permissions) {
     if (permissions.isEmpty) {
       throw "Must supply at least one permission for secret $name";

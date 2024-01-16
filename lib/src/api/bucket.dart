@@ -74,31 +74,33 @@ class Bucket {
   }
 }
 
+/// A reference to a file in the bucket.
 class File {
-  ///
-  Bucket bucket;
-  String key;
+  final Bucket _bucket;
 
-  File(this.bucket, this.key);
+  /// The name of the file
+  final String key;
+
+  File(this._bucket, this.key);
 
   /// Delete the file from the bucket.
   Future<void> delete() async {
     var req = $p.StorageDeleteRequest(
-      bucketName: bucket.name,
+      bucketName: _bucket.name,
       key: key,
     );
 
-    await bucket._storageClient.delete(req);
+    await _bucket._storageClient.delete(req);
   }
 
   /// Read the file from the bucket.
   Future<String> read() async {
     var req = $p.StorageReadRequest(
-      bucketName: bucket.name,
+      bucketName: _bucket.name,
       key: key,
     );
 
-    var resp = await bucket._storageClient.read(req);
+    var resp = await _bucket._storageClient.read(req);
 
     return utf8.decode(resp.body);
   }
@@ -108,22 +110,22 @@ class File {
     var bytes = utf8.encode(contents);
 
     var req = $p.StorageWriteRequest(
-      bucketName: bucket.name,
+      bucketName: _bucket.name,
       key: key,
       body: bytes,
     );
 
-    await bucket._storageClient.write(req);
+    await _bucket._storageClient.write(req);
   }
 
   /// Check whether the file exists in the bucket.
   Future<bool> exists() async {
     var req = $p.StorageExistsRequest(
-      bucketName: bucket.name,
+      bucketName: _bucket.name,
       key: key,
     );
 
-    var resp = await bucket._storageClient.exists(req);
+    var resp = await _bucket._storageClient.exists(req);
 
     return resp.exists;
   }

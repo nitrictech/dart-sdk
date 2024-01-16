@@ -1,5 +1,6 @@
 import 'resources/common.dart';
 
+/// Create a [name]d bucket for storing blobs.
 BucketResource bucket(String name) {
   var res = BucketResource(name);
 
@@ -8,6 +9,7 @@ BucketResource bucket(String name) {
   return res;
 }
 
+/// Create a [name]d api for registering HTTP handlers.
 Api api(String name) {
   var res = Api(name);
 
@@ -16,6 +18,7 @@ Api api(String name) {
   return res;
 }
 
+/// Create a [name]d collection for storing documents.
 CollectionResource collection(String name) {
   var res = CollectionResource(name);
 
@@ -24,6 +27,7 @@ CollectionResource collection(String name) {
   return res;
 }
 
+/// Create a [name]d schedule for running handlers on a set interval.
 Schedule schedule(String name) {
   var res = Schedule(name);
 
@@ -32,6 +36,7 @@ Schedule schedule(String name) {
   return res;
 }
 
+/// Create a [name]d secret for storing encrypted values.
 SecretResource secret(String name) {
   var res = SecretResource(name);
 
@@ -40,6 +45,7 @@ SecretResource secret(String name) {
   return res;
 }
 
+/// Create a [name]d topic for registering push-based event handlers.
 Topic topic(String name) {
   var res = Topic(name);
 
@@ -48,6 +54,7 @@ Topic topic(String name) {
   return res;
 }
 
+/// Create a [name]d websocket for registering bidirectional HTTP handlers.
 Websocket websocket(String name) {
   var res = Websocket(name);
 
