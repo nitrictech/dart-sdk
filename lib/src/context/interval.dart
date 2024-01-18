@@ -38,7 +38,6 @@ class IntervalResponse extends TriggerResponse {
   IntervalResponse({this.success = true});
 
   /// Converts this blob event response to a gRPC response.
-  @protected
   $sp.IntervalResponse toWire() {
     return $sp.IntervalResponse();
   }

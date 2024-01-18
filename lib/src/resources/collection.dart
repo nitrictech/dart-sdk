@@ -6,15 +6,15 @@ class CollectionResource<T> extends SecureResource<CollectionPermission> {
   CollectionResource(String name) : super(name);
 
   @override
-  Future<void> register() {
+  Future<void> register() async {
     // TODO: implement register
-    throw UnimplementedError();
+    print("Registering $name");
   }
 
   @override
   List<$p.Action> permissionsToActions(List<CollectionPermission> permissions) {
     // TODO: implement permissionsToActions
-    throw UnimplementedError();
+    return [];
   }
 
   Store<T> requires(List<CollectionPermission> permissions) {

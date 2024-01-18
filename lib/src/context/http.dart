@@ -57,8 +57,12 @@ class HttpRequest extends TriggerRequest {
     this.headers = const {},
   });
 
-  T json<T>() {
-    return jsonDecode(body) as T;
+  Map<String, dynamic> json() {
+    try {
+      return jsonDecode(body);
+    } catch (e) {
+      throw FormatException("Body contents must be json serializable");
+    }
   }
 }
 
@@ -73,22 +77,24 @@ class HttpResponse extends TriggerResponse {
   /// The headers to respond with.
   late Map<String, List<String>> headers;
 
-  HttpResponse({this.body = "", this.status = 200, this.headers = const {}});
+  HttpResponse([this.body = "", this.status = 200]) {
+    headers = {};
+  }
 
   /// Creates a http response with an error for the body and 500 (internal server error) as the status.
   HttpResponse.withError(Error e) {
     status = 500;
     body = e.toString();
+    headers = {};
   }
 
   /// Sets the response [body] as a json string and adds a json content type if the content type isn't set.
-  void json<T>(T contents) {
+  void json(Map<String, dynamic> contents) {
     body = jsonEncode(contents);
     headers.putIfAbsent("Content-Type", () => ["application/json"]);
   }
 
   /// Converts to a gRPC response.
-  @protected
   $ap.HttpResponse toWire() {
     return $ap.HttpResponse(
       status: status,

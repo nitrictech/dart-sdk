@@ -38,7 +38,6 @@ class MessageResponse extends TriggerResponse {
   MessageResponse([this.success = true]);
 
   /// Converts this blob event response to a gRPC response.
-  @protected
   $ep.MessageResponse toWire() {
     return $ep.MessageResponse(success: success);
   }

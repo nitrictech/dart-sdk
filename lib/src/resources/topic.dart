@@ -42,6 +42,8 @@ class Topic extends SecureResource<TopicPermission> {
     } on GrpcError catch (e) {
       print("caught a GrpcError: $e");
     } on Error catch (e) {
+      print(e);
+
       var resp = MessageResponse(false);
 
       requestStream.add($tp.ClientMessage(messageResponse: resp.toWire()));

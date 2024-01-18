@@ -172,6 +172,8 @@ class HttpTrigger {
     } on GrpcError catch (e) {
       print("caught a GrpcError: $e");
     } on Error catch (e) {
+      print(e);
+
       var resp = HttpResponse.withError(e);
 
       requestStream.add($ap.ClientMessage(httpResponse: resp.toWire()));

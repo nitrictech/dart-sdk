@@ -85,6 +85,8 @@ class Websocket extends Resource {
     } on GrpcError catch (e) {
       print("caught a GrpcError: $e");
     } on Error catch (e) {
+      print(e);
+
       var resp = WebsocketResponse();
 
       requestStream

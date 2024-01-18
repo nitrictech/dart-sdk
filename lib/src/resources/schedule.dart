@@ -69,6 +69,8 @@ class Schedule extends Resource {
     } on GrpcError catch (e) {
       print("caught a GrpcError: $e");
     } on Error catch (e) {
+      print(e);
+
       var resp = IntervalResponse(success: false);
 
       requestStream.add($sp.ClientMessage(intervalResponse: resp.toWire()));

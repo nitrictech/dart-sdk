@@ -111,7 +111,7 @@ handlers:
 
 ## Create a Profile class
 
-We will create a class to represent the profiles that we will store in the collection.
+We will create a class to represent the profiles that we will store in the collection. We will add `toJson` and `fromJson` functions to assist.
 
 ```dart
 class Profile {
@@ -120,7 +120,19 @@ class Profile {
   String homeTown;
 
   Profile(this.name, this.age, this.homeTown);
+
+  Profile.fromJson(Map<String, dynamic> contents)
+      : name = contents["name"] as String,
+        age = contents["age"] as int,
+        homeTown = contents["homeTown"] as String;
+
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'age': age,
+        'homeTown': homeTown,
+      };
 }
+
 ```
 
 ## Building the API
@@ -173,13 +185,13 @@ profileApi.post("/profiles", (ctx) async {
 
   final id = uuid.v4();
 
-  final profile = ctx.req.json<Profile>();
+  final profile = Profile.fromJson(ctx.req.json());
 
   // Store the new profile in the profiles collection
   await profiles.key(id).put(profile);
 
   // Send a success response.
-  ctx.resp.body = "Profile with $id created.";
+  ctx.resp.body = "Profile $id created.";
 
   return ctx;
 });
@@ -194,11 +206,11 @@ profileApi.get("/profiles/:id", (ctx) async {
   try {
     // Retrieve and return the profile data
     final profile = await profiles.key(id).access();
-    ctx.resp.json(profile);
+    ctx.resp.json(profile.toJson());
   } on KeyNotFoundException catch (e) {
     print(e);
     ctx.resp.status = 404;
-    ctx.resp.body = "Profile with $id not found.";
+    ctx.resp.body = "Profile $id not found.";
   }
 
   return ctx;
@@ -212,7 +224,7 @@ profileApi.get("/profiles", (ctx) async {
   // Return all profiles
   final allProfiles = await profiles.list();
 
-  ctx.resp.json(allProfiles);
+  ctx.resp.json({'profiles': allProfiles});
 
   return ctx;
 });
@@ -227,9 +239,10 @@ profileApi.delete("/profiles/:id", (ctx) async {
   // Delete the profile
   try {
     await profiles.key(id).unset();
+    ctx.resp.body = "Profile $id removed.";
   } on KeyNotFoundException catch (e) {
     ctx.resp.status = 404;
-    ctx.resp.body = "Profile with id $id not found.";
+    ctx.resp.body = "Profile $id not found.";
   }
 
   return ctx;
