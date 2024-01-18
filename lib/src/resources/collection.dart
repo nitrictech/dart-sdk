@@ -2,7 +2,7 @@ part of 'common.dart';
 
 enum CollectionPermission { reading, writing, deleting }
 
-class CollectionResource extends SecureResource<CollectionPermission> {
+class CollectionResource<T> extends SecureResource<CollectionPermission> {
   CollectionResource(String name) : super(name);
 
   @override
@@ -15,5 +15,9 @@ class CollectionResource extends SecureResource<CollectionPermission> {
   List<$p.Action> permissionsToActions(List<CollectionPermission> permissions) {
     // TODO: implement permissionsToActions
     throw UnimplementedError();
+  }
+
+  Store<T> requires(List<CollectionPermission> permissions) {
+    return Store<T>(name);
   }
 }

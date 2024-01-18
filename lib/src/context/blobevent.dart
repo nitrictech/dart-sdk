@@ -1,5 +1,7 @@
 part of 'common.dart';
 
+enum BlobEventType { write, delete }
+
 /// The context of a Blob event request/response.
 class BlobEventContext
     extends TriggerContext<BlobEventRequest, BlobEventResponse> {

@@ -3,9 +3,9 @@ import 'dart:convert';
 
 import 'package:dart_sdk/src/context/common.dart';
 import 'package:dart_sdk/src/nitric/proto/storage/v1/storage.pbgrpc.dart' as $p;
+import 'package:dart_sdk/src/nitric/google/protobuf/duration.pb.dart' as $d;
+import 'package:fixnum/fixnum.dart';
 import 'package:grpc/grpc.dart';
-
-enum BlobEventType { write, delete }
 
 class Bucket {
   late $p.StorageClient _storageClient;
@@ -128,5 +128,32 @@ class File {
     var resp = await _bucket._storageClient.exists(req);
 
     return resp.exists;
+  }
+
+  /// Get a presigned download URL with an [expiry] time (in seconds). Defaults to 600.
+  Future<String> getDownloadUrl([int expiry = 600]) async {
+    return _getSignedUrl($p.StoragePreSignUrlRequest_Operation.READ, expiry);
+  }
+
+  /// Get a presigned upload URL with an [expiry] time (in seconds). Defaults to 600.
+  Future<String> getUploadUrl([int expiry = 600]) async {
+    return _getSignedUrl($p.StoragePreSignUrlRequest_Operation.WRITE, expiry);
+  }
+
+  /// Create a presigned URL with a determined [op] type and [expiry] time (in seconds).
+  Future<String> _getSignedUrl(
+      $p.StoragePreSignUrlRequest_Operation op, int expiry) async {
+    var exp = $d.Duration(seconds: Int64(expiry));
+
+    var req = $p.StoragePreSignUrlRequest(
+      bucketName: _bucket.name,
+      key: key,
+      operation: op,
+      expiry: exp,
+    );
+
+    var resp = await _bucket._storageClient.preSignUrl(req);
+
+    return resp.url;
   }
 }

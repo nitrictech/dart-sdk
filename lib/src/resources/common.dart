@@ -3,6 +3,8 @@ library resources;
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:dart_sdk/src/api/collection.dart';
+import 'package:dart_sdk/src/nitric/proto/websockets/v1/websockets.pb.dart';
 import 'package:grpc/grpc.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:dart_sdk/src/context/common.dart';

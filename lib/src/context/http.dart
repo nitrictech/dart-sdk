@@ -56,6 +56,10 @@ class HttpRequest extends TriggerRequest {
     this.queryParams = const {},
     this.headers = const {},
   });
+
+  T json<T>() {
+    return jsonDecode(body) as T;
+  }
 }
 
 /// Represents a HTTP response.
@@ -78,8 +82,8 @@ class HttpResponse extends TriggerResponse {
   }
 
   /// Sets the response [body] as a json string and adds a json content type if the content type isn't set.
-  json(String body) {
-    body = jsonEncode(body);
+  void json<T>(T contents) {
+    body = jsonEncode(contents);
     headers.putIfAbsent("Content-Type", () => ["application/json"]);
   }
 

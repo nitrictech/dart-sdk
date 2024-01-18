@@ -13,6 +13,7 @@ dependencies:
   meta: ^1.11.0
   protobuf: ^3.1.0
   protobuf_wellknown: ^0.1.1
+  uuid: ^4.3.2
   # path: ^1.8.0
 
 dev_dependencies:

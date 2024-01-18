@@ -1,48 +1,118 @@
-import 'package:dart_sdk/dart_sdk.dart';
-import 'package:dart_sdk/src/api/bucket.dart';
-import 'package:dart_sdk/src/context/common.dart';
+import 'package:dart_sdk/src/api/collection.dart';
 import 'package:dart_sdk/src/nitric.dart';
 import 'package:dart_sdk/src/resources/common.dart';
+import 'package:uuid/uuid.dart';
+
+class Profile {
+  String name;
+  int age;
+  String homeTown;
+
+  Profile(this.name, this.age, this.homeTown);
+}
 
 void main() {
-  var a = api("blah");
+  // Create an API named 'public'
+  final profileApi = api("public");
 
-  var b = bucket("images").requires([BucketPermission.reading]);
+  // Define a collection named 'profiles', then request reading and writing permissions.
+  final profiles = collection<Profile>("profiles").requires([
+    CollectionPermission.writing,
+    CollectionPermission.deleting,
+    CollectionPermission.reading
+  ]);
 
-  var s = secret("secret").requires([SecretPermission.accessing]);
+  final profilesImg = bucket("profilesImg")
+      .requires([BucketPermission.reading, BucketPermission.writing]);
 
-  var t = topic("blah");
+  profileApi.post("/profiles", (ctx) async {
+    final uuid = Uuid();
 
-  var u = t.requires([TopicPermission.publishing]);
+    final id = uuid.v4();
 
-  a.get("/hello", (HttpContext ctx) async {
-    final bytes = await b.file("cat.txt").read();
-    final sec = await s.latest().access();
-    u.publish(Map.from(<String, dynamic>{"message": "hello world", "age": 21}));
+    final profile = ctx.req.json<Profile>();
 
-    ctx.resp.body = "Bucket: $bytes, Secret: ${sec.value}";
+    // Store the new profile in the profiles collection
+    await profiles.key(id).put(profile);
 
-    return ctx;
-  });
-
-  a.post("/hello", (HttpContext ctx) async {
-    await b.file("cat.txt").write("Hello World");
-    await s.put("super secret");
-
-    ctx.resp.body =
-        "Wrote 'Hello World' to 'cat.txt' and 'super secret' to 'secret'";
-
-    return ctx;
-  });
-
-  t.subscribe((ctx) async {
-    print(ctx.req.message);
+    // Send a success response.
+    ctx.resp.body = "Profile with $id created.";
 
     return ctx;
   });
 
-  b.on(BlobEventType.write, "*", (ctx) async {
-    print(ctx.req.file.key);
+  profileApi.get("/profiles/:id", (ctx) async {
+    final id = ctx.req.pathParams["id"]!;
+
+    try {
+      // Retrieve and return the profile data
+      final profile = await profiles.key(id).access();
+      ctx.resp.json(profile);
+    } on KeyNotFoundException catch (e) {
+      print(e);
+      ctx.resp.status = 404;
+      ctx.resp.body = "Profile with $id not found.";
+    }
+
+    return ctx;
+  });
+
+  profileApi.get("/profiles", (ctx) async {
+    // Return all profiles
+    final allProfiles = await profiles.list();
+
+    ctx.resp.json(allProfiles);
+
+    return ctx;
+  });
+
+  profileApi.delete("/profiles/:id", (ctx) async {
+    final id = ctx.req.pathParams["id"]!;
+
+    // Delete the profile
+    try {
+      await profiles.key(id).unset();
+    } on KeyNotFoundException catch (e) {
+      ctx.resp.status = 404;
+      ctx.resp.body = "Profile with id $id not found.";
+    }
+
+    return ctx;
+  });
+
+  profileApi.get("/profiles/:id/image/upload", (ctx) async {
+    final id = ctx.req.pathParams["id"];
+
+    // Return a signed upload URL, which provides temporary access to upload a file.
+    final photoUrl =
+        await profilesImg.file("images/$id/photo.png").getUploadUrl();
+
+    ctx.req.body = photoUrl;
+
+    return ctx;
+  });
+
+  profileApi.get("/profiles/:id/image/download", (ctx) async {
+    final id = ctx.req.pathParams["id"];
+
+    // Return a signed download URL, which provides temporary access to download a file.
+    final photoUrl =
+        await profilesImg.file("images/$id/photo.png").getDownloadUrl();
+
+    ctx.req.body = photoUrl;
+
+    return ctx;
+  });
+
+  profileApi.get("/profiles/:id/image/view", (ctx) async {
+    final id = ctx.req.pathParams["id"];
+
+    // Redirect to a signed read-only file URL.
+    final photoUrl =
+        await profilesImg.file("images/$id/photo.png").getDownloadUrl();
+
+    ctx.resp.status = 303;
+    ctx.resp.headers["Location"] = [photoUrl];
 
     return ctx;
   });

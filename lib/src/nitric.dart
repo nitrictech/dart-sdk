@@ -19,8 +19,8 @@ Api api(String name) {
 }
 
 /// Create a [name]d collection for storing documents.
-CollectionResource collection(String name) {
-  var res = CollectionResource(name);
+CollectionResource<T> collection<T>(String name) {
+  var res = CollectionResource<T>(name);
 
   res.register();
 
