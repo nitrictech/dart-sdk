@@ -105,8 +105,9 @@ To create our Nitric project, we have to create a `nitric.yaml` file. The handle
 
 ```yaml
 name: my_profile_api
-handlers:
-  - bin/*.dart
+services:
+  - match: bin/my_profile_api.dart
+    start: dart run bin/my_profile_api.dart
 ```
 
 ## Create a Profile class
