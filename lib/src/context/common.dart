@@ -2,13 +2,13 @@ library context;
 
 import 'dart:convert';
 
-import 'package:dart_sdk/src/api/bucket.dart';
-import 'package:dart_sdk/src/nitric/proto/apis/v1/apis.pb.dart' as $ap;
-import 'package:dart_sdk/src/nitric/proto/schedules/v1/schedules.pb.dart'
+import 'package:nitric_sdk/src/api/bucket.dart';
+import 'package:nitric_sdk/src/nitric/proto/apis/v1/apis.pb.dart' as $ap;
+import 'package:nitric_sdk/src/nitric/proto/schedules/v1/schedules.pb.dart'
     as $sp;
-import 'package:dart_sdk/src/nitric/proto/topics/v1/topics.pb.dart' as $ep;
-import 'package:dart_sdk/src/nitric/proto/storage/v1/storage.pb.dart' as $bp;
-import 'package:dart_sdk/src/nitric/proto/websockets/v1/websockets.pb.dart'
+import 'package:nitric_sdk/src/nitric/proto/topics/v1/topics.pb.dart' as $ep;
+import 'package:nitric_sdk/src/nitric/proto/storage/v1/storage.pb.dart' as $bp;
+import 'package:nitric_sdk/src/nitric/proto/websockets/v1/websockets.pb.dart'
     as $wp;
 import 'package:meta/meta.dart';
 

@@ -1,4 +1,4 @@
-name: dart_sdk
+name: nitric_sdk
 description: A Dart SDK for creating Nitric applications
 version: 1.0.0
 repository: https://github.com/nitrictech/dart_sdk
