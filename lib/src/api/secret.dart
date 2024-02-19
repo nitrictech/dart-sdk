@@ -1,6 +1,7 @@
 import 'dart:convert';
 
-import 'package:dart_sdk/src/nitric/proto/secrets/v1/secrets.pbgrpc.dart' as $p;
+import 'package:nitric_sdk/src/nitric/proto/secrets/v1/secrets.pbgrpc.dart'
+    as $p;
 import 'package:grpc/grpc.dart';
 
 /// References an encrypted secret stored in a secret manager.

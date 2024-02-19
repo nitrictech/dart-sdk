@@ -1,6 +1,6 @@
-import 'package:dart_sdk/src/api/collection.dart';
-import 'package:dart_sdk/src/nitric.dart';
-import 'package:dart_sdk/src/resources/common.dart';
+import 'package:nitric_sdk/src/api/collection.dart';
+import 'package:nitric_sdk/src/nitric.dart';
+import 'package:nitric_sdk/src/resources/common.dart';
 import 'package:uuid/uuid.dart';
 
 class Profile {

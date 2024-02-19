@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:dart_sdk/src/nitric/google/protobuf/duration.pb.dart' as $d;
-import 'package:dart_sdk/src/nitric/google/protobuf/struct.pb.dart';
-import 'package:dart_sdk/src/nitric/proto/topics/v1/topics.pbgrpc.dart' as $p;
+import 'package:nitric_sdk/src/nitric/google/protobuf/duration.pb.dart' as $d;
+import 'package:nitric_sdk/src/nitric/google/protobuf/struct.pb.dart';
+import 'package:nitric_sdk/src/nitric/proto/topics/v1/topics.pbgrpc.dart' as $p;
 import 'package:fixnum/fixnum.dart';
 import 'package:grpc/grpc.dart';
 

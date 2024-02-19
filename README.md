@@ -72,7 +72,7 @@ dart create -t console my-profile-api
 Add the Nitric SDK by adding the repository URL to your `pubspec.yaml`.
 
 ```yaml
-nitric-sdk:
+nitric_sdk:
   git:
     url: https://github.com/nitrictech/dart-sdk.git
     ref: main
@@ -143,9 +143,9 @@ Applications built with Nitric can contain many APIs, let's start by adding one 
 ```dart
 import 'package:uuid/uuid.dart';
 
-import 'package:dart_sdk/src/api/collection.dart';
-import 'package:dart_sdk/src/nitric.dart';
-import 'package:dart_sdk/src/resources/common.dart';
+import 'package:nitric_sdk/src/api/collection.dart';
+import 'package:nitric_sdk/src/nitric.dart';
+import 'package:nitric_sdk/src/resources/common.dart';
 
 void main() {
   // Create an API named 'public'
