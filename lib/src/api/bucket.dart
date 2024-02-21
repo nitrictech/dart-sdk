@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:nitric_sdk/src/context/common.dart';
 import 'package:nitric_sdk/src/nitric/proto/storage/v1/storage.pbgrpc.dart'
     as $p;
-import 'package:nitric_sdk/src/nitric/google/protobuf/duration.pb.dart' as $d;
+import 'package:nitric_sdk/src/google/protobuf/duration.pb.dart' as $d;
 import 'package:fixnum/fixnum.dart';
 import 'package:grpc/grpc.dart';
 

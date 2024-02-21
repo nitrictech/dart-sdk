@@ -11,3 +11,4 @@ pubspec.lock
 lib/src/nitric/*
 .nitric/
 doc/
+google/

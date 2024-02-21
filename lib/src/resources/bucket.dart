@@ -7,12 +7,12 @@ class BucketResource extends SecureResource<BucketPermission> {
 
   @override
   Future<void> register() async {
-    var resource = $p.Resource(
+    var resource = $p.ResourceIdentifier(
       type: $p.ResourceType.Bucket,
       name: name,
     );
 
-    await client.declare($p.ResourceDeclareRequest(resource: resource));
+    await client.declare($p.ResourceDeclareRequest(id: resource));
   }
 
   @override
