@@ -13,16 +13,14 @@ class Schedule extends Resource {
 
   @override
   Future<void> register() async {
-    var res = $p.Resource(name: name, type: $p.ResourceType.Schedule);
-    await client.declare($p.ResourceDeclareRequest(resource: res));
+    var res = $p.ResourceIdentifier(name: name, type: $p.ResourceType.Schedule);
+    await client.declare($p.ResourceDeclareRequest(id: res));
   }
 
   /// Run [middleware] at a certain interval defined by the [rate]. E.g. '7 days', '3 hours', '30 minutes'.
   Future<void> every(String rate, IntervalMiddleware middleware) async {
     var registrationRequest = $sp.RegistrationRequest(
-      scheduleName: name,
-      rate: _Rate(rate)._toWire(),
-    );
+        scheduleName: name, every: $s.ScheduleEvery(rate: rate));
 
     _registerIntervalHandler(registrationRequest, middleware);
   }
@@ -75,43 +73,5 @@ class Schedule extends Resource {
 
       requestStream.add($sp.ClientMessage(intervalResponse: resp.toWire()));
     }
-  }
-}
-
-enum Frequency { day, hour, minute }
-
-class _Rate {
-  late int rate;
-  late Frequency frequency;
-
-  _Rate(String rateExpression) {
-    final splitExpression = rateExpression.split(" ");
-    if (splitExpression.length != 2) {
-      throw FormatException(
-          "rate expression invalid, must follow convention '3 days'");
-    }
-
-    rate = int.parse(splitExpression[0]);
-
-    frequency = switch (splitExpression[1]) {
-      'days' || 'day' => Frequency.day,
-      'hour' || 'hours' => Frequency.hour,
-      'minute' || 'minutes' => Frequency.minute,
-      _ => throw FormatException(
-          "rate expression invalid, must follow convention '3 days'")
-    };
-  }
-
-  $sp.ScheduleRate _toWire() {
-    final interval = switch (frequency) {
-      Frequency.minute =>
-        $d.Duration(seconds: Int64(rate * Duration.secondsPerMinute)),
-      Frequency.hour =>
-        $d.Duration(seconds: Int64(rate * Duration.secondsPerHour)),
-      Frequency.day =>
-        $d.Duration(seconds: Int64(rate * Duration.secondsPerDay)),
-    };
-
-    return $sp.ScheduleRate(interval: interval);
   }
 }

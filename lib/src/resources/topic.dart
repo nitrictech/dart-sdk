@@ -52,12 +52,12 @@ class Topic extends SecureResource<TopicPermission> {
 
   @override
   Future<void> register() async {
-    var resource = $p.Resource(
+    var resource = $p.ResourceIdentifier(
       name: name,
       type: $p.ResourceType.Topic,
     );
 
-    await client.declare($p.ResourceDeclareRequest(resource: resource));
+    await client.declare($p.ResourceDeclareRequest(id: resource));
   }
 
   @override
@@ -67,7 +67,7 @@ class Topic extends SecureResource<TopicPermission> {
         (actions, permission) => switch (permission) {
               TopicPermission.publishing => [
                   ...actions,
-                  $p.Action.TopicEventPublish,
+                  $p.Action.TopicPublish,
                 ],
             });
 

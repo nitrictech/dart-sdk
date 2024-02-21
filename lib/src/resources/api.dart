@@ -14,12 +14,12 @@ class Api extends Resource {
 
   @override
   Future<void> register() async {
-    var resource = $p.Resource(
+    var resource = $p.ResourceIdentifier(
       name: name,
       type: $p.ResourceType.Api,
     );
 
-    await client.declare($p.ResourceDeclareRequest(resource: resource));
+    await client.declare($p.ResourceDeclareRequest(id: resource));
   }
 
   /// A GET request [handler] that [match]es a specific route.

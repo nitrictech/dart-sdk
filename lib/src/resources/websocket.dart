@@ -15,26 +15,26 @@ class Websocket extends Resource {
 
   @override
   Future<void> register() async {
-    var resource = $p.Resource(
+    var resource = $p.ResourceIdentifier(
       name: name,
       type: $p.ResourceType.Api,
     );
 
-    await client.declare($p.ResourceDeclareRequest(resource: resource));
+    await client.declare($p.ResourceDeclareRequest(id: resource));
   }
 
   /// Send message [data] to a connection, referenced by its [connectionId].
   Future<void> send(String connectionId, String data) async {
     var req = $wp.WebsocketSendRequest(
         socketName: name, connectionId: connectionId, data: utf8.encode(data));
-    await _websocketClient.send(req);
+    await _websocketClient.sendMessage(req);
   }
 
   /// Close a connection to the socket, referenced by its [connectionId].
   Future<void> close(String connectionId) async {
-    var req =
-        $wp.WebsocketCloseRequest(socketName: name, connectionId: connectionId);
-    await _websocketClient.close(req);
+    var req = $wp.WebsocketCloseConnectionRequest(
+        socketName: name, connectionId: connectionId);
+    await _websocketClient.closeConnection(req);
   }
 
   Future<void> _on(

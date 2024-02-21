@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:nitric_sdk/src/nitric/google/protobuf/duration.pb.dart' as $d;
-import 'package:nitric_sdk/src/nitric/google/protobuf/struct.pb.dart';
+import '../nitric/google/protobuf/duration.pb.dart' as $d;
+import '../nitric/google/protobuf/struct.pb.dart';
 import 'package:nitric_sdk/src/nitric/proto/topics/v1/topics.pbgrpc.dart' as $p;
 import 'package:fixnum/fixnum.dart';
 import 'package:grpc/grpc.dart';
@@ -28,7 +28,7 @@ class Topic {
 
     var req = $p.TopicPublishRequest(
       topicName: name,
-      message: $p.Message(structPayload: messageStruct),
+      message: $p.TopicMessage(structPayload: messageStruct),
       delay: $d.Duration(seconds: Int64(delay)),
     );
 
