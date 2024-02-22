@@ -3,13 +3,13 @@ library resources;
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:nitric_sdk/src/api/collection.dart';
+import 'package:nitric_sdk/api.dart';
+import 'package:nitric_sdk/src/nitric.dart';
 import 'package:nitric_sdk/src/nitric/proto/schedules/v1/schedules.pb.dart'
     as $s;
 import 'package:nitric_sdk/src/nitric/proto/websockets/v1/websockets.pb.dart';
 import 'package:grpc/grpc.dart';
 import 'package:nitric_sdk/src/context/common.dart';
-import 'package:nitric_sdk/src/api/bucket.dart';
 import 'package:nitric_sdk/src/api/topic.dart' as $t;
 import 'package:nitric_sdk/src/api/secret.dart' as $s;
 
@@ -26,7 +26,7 @@ import 'package:meta/meta.dart';
 
 part 'schedule.dart';
 part 'secret.dart';
-part 'collection.dart';
+part 'keyvalue.dart';
 part 'bucket.dart';
 part 'api.dart';
 part 'topic.dart';

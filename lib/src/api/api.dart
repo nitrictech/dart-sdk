@@ -1,4 +1,4 @@
 export 'bucket.dart';
-export 'collection.dart';
+export 'keyvalue.dart';
 export 'secret.dart';
 export 'topic.dart';

@@ -1,6 +1,6 @@
-import 'package:nitric_sdk/src/api/collection.dart';
-import 'package:nitric_sdk/src/nitric.dart';
-import 'package:nitric_sdk/src/resources/common.dart';
+import 'package:nitric_sdk/api.dart';
+import 'package:nitric_sdk/nitric.dart';
+import 'package:nitric_sdk/resources.dart';
 import 'package:uuid/uuid.dart';
 
 class Profile {
@@ -24,16 +24,16 @@ class Profile {
 
 void main() {
   // Create an API named 'public'
-  final profileApi = api("public");
+  final profileApi = Nitric.api("public");
 
   // Define a collection named 'profiles', then request reading and writing permissions.
-  final profiles = collection<Profile>("profiles").requires([
-    CollectionPermission.writing,
-    CollectionPermission.deleting,
-    CollectionPermission.reading
+  final profiles = Nitric.store<Profile>("profiles").requires([
+    KeyValueStorePermission.getting,
+    KeyValueStorePermission.deleting,
+    KeyValueStorePermission.setting
   ]);
 
-  final profilesImg = bucket("profilesImg")
+  final profilesImg = Nitric.bucket("profilesImg")
       .requires([BucketPermission.reading, BucketPermission.writing]);
 
   profileApi.post("/profiles", (ctx) async {
@@ -44,7 +44,7 @@ void main() {
     final profile = Profile.fromJson(ctx.req.json());
 
     // Store the new profile in the profiles collection
-    await profiles.key(id).put(profile);
+    await profiles.set(id, profile);
 
     // Send a success response.
     ctx.resp.body = "Profile $id created.";
@@ -57,22 +57,13 @@ void main() {
 
     try {
       // Retrieve and return the profile data
-      final profile = await profiles.key(id).access();
+      final profile = await profiles.get(id);
       ctx.resp.json(profile.toJson());
-    } on KeyNotFoundException catch (e) {
+    } on Exception catch (e) {
       print(e);
       ctx.resp.status = 404;
       ctx.resp.body = "Profile $id not found.";
     }
-
-    return ctx;
-  });
-
-  profileApi.get("/profiles", (ctx) async {
-    // Return all profiles
-    final allProfiles = await profiles.list();
-
-    ctx.resp.json({'profiles': allProfiles});
 
     return ctx;
   });
@@ -82,11 +73,11 @@ void main() {
 
     // Delete the profile
     try {
-      await profiles.key(id).unset();
+      await profiles.delete(id);
       ctx.resp.body = "Profile $id removed.";
-    } on KeyNotFoundException catch (e) {
+    } on Exception catch (e) {
       ctx.resp.status = 404;
-      ctx.resp.body = "Profile $id not found.";
+      ctx.resp.body = "Profile $id not found. $e";
     }
 
     return ctx;

@@ -88,37 +88,49 @@ class Route {
 
   /// A GET request [handler] for this route.
   Future<void> get(HttpMiddleware handler) async {
-    HttpTrigger(this, handler, [HttpMethod.get]).start();
+    var worker = ApiWorker(this, handler, [HttpMethod.get]);
+
+    Nitric.registerWorker(worker);
   }
 
   /// A POST request [handler] for this route.
   Future<void> post(HttpMiddleware handler) async {
-    HttpTrigger(this, handler, [HttpMethod.post]).start();
+    var worker = ApiWorker(this, handler, [HttpMethod.post]);
+
+    Nitric.registerWorker(worker);
   }
 
   /// A PUT request [handler] for this route.
   Future<void> put(HttpMiddleware handler) async {
-    HttpTrigger(this, handler, [HttpMethod.put]).start();
+    var worker = ApiWorker(this, handler, [HttpMethod.put]);
+
+    Nitric.registerWorker(worker);
   }
 
   /// A DELETE request [handler] for this route.
   Future<void> delete(HttpMiddleware handler) async {
-    HttpTrigger(this, handler, [HttpMethod.delete]).start();
+    var worker = ApiWorker(this, handler, [HttpMethod.delete]);
+
+    Nitric.registerWorker(worker);
   }
 
   /// An OPTIONS request [handler] for this route.
   Future<void> options(HttpMiddleware handler) async {
-    HttpTrigger(this, handler, [HttpMethod.options]).start();
+    var worker = ApiWorker(this, handler, [HttpMethod.options]);
+
+    Nitric.registerWorker(worker);
   }
 
   /// A request [handler] for this route that matches all HTTP methods.
   Future<void> all(HttpMiddleware handler) async {
-    HttpTrigger(this, handler, HttpMethod.values).start();
+    var worker = ApiWorker(this, handler, HttpMethod.values);
+
+    Nitric.registerWorker(worker);
   }
 }
 
 /// Represents a requestable route with the accepted HTTP methods.
-class HttpTrigger {
+class ApiWorker implements Worker {
   /// The requestable route.
   Route route;
 
@@ -128,9 +140,10 @@ class HttpTrigger {
   /// The HTTP methods that will be accepted for this trigger.
   List<HttpMethod> methods;
 
-  HttpTrigger(this.route, this.handler, this.methods);
+  ApiWorker(this.route, this.handler, this.methods);
 
   /// Start the route handler.
+  @override
   Future<void> start() async {
     // Create API client
     final channel = ClientChannel('localhost',
