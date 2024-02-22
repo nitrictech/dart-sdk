@@ -42,7 +42,7 @@ class IntervalWorker extends Worker {
   /// Starts the interval handling loop to run the [middleware] at a certain frequency. Uses the [registrationRequest] to register the interval with the Nitric server.
   @override
   Future<void> start() async {
-    final channel = ClientChannel('localhost',
+    final channel = ClientChannel('127.0.0.1',
         port: 50051,
         options: ChannelOptions(credentials: ChannelCredentials.insecure()));
 

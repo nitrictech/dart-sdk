@@ -53,7 +53,7 @@ class SubscriptionWorker extends Worker {
   @override
   Future<void> start() async {
     // Create Subscriber client
-    final channel = ClientChannel('localhost',
+    final channel = ClientChannel('127.0.0.1',
         port: 50051,
         options: ChannelOptions(credentials: ChannelCredentials.insecure()));
     final client = $tp.SubscriberClient(channel);

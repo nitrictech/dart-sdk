@@ -5,7 +5,7 @@ class Websocket extends Resource {
 
   Websocket(String name) : super(name) {
     var channel = ClientChannel(
-      'localhost',
+      '127.0.0.1',
       port: 50051,
       options: ChannelOptions(credentials: ChannelCredentials.insecure()),
     );
@@ -80,7 +80,7 @@ class WebsocketWorker extends Worker {
   @override
   Future<void> start() async {
     // Create Websocket handler client
-    final channel = ClientChannel('localhost',
+    final channel = ClientChannel('127.0.0.1',
         port: 50051,
         options: ChannelOptions(credentials: ChannelCredentials.insecure()));
     final client = $wp.WebsocketHandlerClient(channel);

@@ -13,7 +13,7 @@ class KeyValueStore<T> {
 
   KeyValueStore(this.name) {
     var channel = ClientChannel(
-      'localhost',
+      '127.0.0.1',
       port: 50051,
       options: const ChannelOptions(credentials: ChannelCredentials.insecure()),
     );

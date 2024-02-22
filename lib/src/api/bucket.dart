@@ -15,7 +15,7 @@ class Bucket {
 
   Bucket(this.name) {
     var channel = ClientChannel(
-      'localhost',
+      '127.0.0.1',
       port: 50051,
       options: const ChannelOptions(credentials: ChannelCredentials.insecure()),
     );
@@ -32,7 +32,7 @@ class Bucket {
   Future<void> on(BlobEventType blobEventType, String keyPrefixFilter,
       BlobEventMiddleware handler) async {
     // Create Storage listener client
-    final channel = ClientChannel('localhost',
+    final channel = ClientChannel('127.0.0.1',
         port: 50051,
         options: ChannelOptions(credentials: ChannelCredentials.insecure()));
     final client = $p.StorageListenerClient(channel);

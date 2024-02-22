@@ -13,7 +13,7 @@ class Topic {
   late final $p.TopicsClient _topicsClient;
 
   Topic(this.name) {
-    final channel = ClientChannel('localhost',
+    final channel = ClientChannel('127.0.0.1',
         port: 50051,
         options: ChannelOptions(credentials: ChannelCredentials.insecure()));
 

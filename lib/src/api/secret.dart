@@ -11,7 +11,7 @@ class Secret {
   late final $p.SecretManagerClient _secretClient;
 
   Secret(this.name) {
-    final channel = ClientChannel('localhost',
+    final channel = ClientChannel('127.0.0.1',
         port: 50051,
         options: ChannelOptions(credentials: ChannelCredentials.insecure()));
 

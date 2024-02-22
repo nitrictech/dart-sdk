@@ -146,7 +146,7 @@ class ApiWorker implements Worker {
   @override
   Future<void> start() async {
     // Create API client
-    final channel = ClientChannel('localhost',
+    final channel = ClientChannel('127.0.0.1',
         port: 50051,
         options: ChannelOptions(credentials: ChannelCredentials.insecure()));
     final client = $ap.ApiClient(channel);

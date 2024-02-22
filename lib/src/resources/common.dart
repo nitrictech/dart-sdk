@@ -44,7 +44,7 @@ abstract class Resource {
   @protected
   Resource(this.name) {
     var channel = ClientChannel(
-      'localhost',
+      '127.0.0.1',
       port: 50051,
       options: const ChannelOptions(credentials: ChannelCredentials.insecure()),
     );
