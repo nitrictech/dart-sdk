@@ -13,6 +13,8 @@ class BucketResource extends SecureResource<BucketPermission> {
     );
 
     await client.declare($p.ResourceDeclareRequest(id: resource));
+
+    registrationCompletion.complete(resource);
   }
 
   @override

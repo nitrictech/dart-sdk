@@ -13,6 +13,8 @@ class KeyValueStoreResource<T> extends SecureResource<KeyValueStorePermission> {
     );
 
     await client.declare($p.ResourceDeclareRequest(id: resource));
+
+    registrationCompletion.complete(resource);
   }
 
   @override

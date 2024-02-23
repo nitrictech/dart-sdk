@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'package:nitric_sdk/api.dart';
 import 'package:nitric_sdk/src/grpc_helper.dart';
 import 'package:nitric_sdk/src/nitric.dart';
+import 'package:nitric_sdk/src/nitric/proto/resources/v1/resources.pb.dart';
 import 'package:nitric_sdk/src/nitric/proto/schedules/v1/schedules.pb.dart'
     as $s;
 import 'package:nitric_sdk/src/nitric/proto/websockets/v1/websockets.pb.dart';
@@ -23,7 +24,7 @@ import 'package:nitric_sdk/src/nitric/proto/topics/v1/topics.pbgrpc.dart'
     as $tp;
 import 'package:nitric_sdk/src/nitric/proto/websockets/v1/websockets.pbgrpc.dart'
     as $wp;
-import 'package:meta/meta.dart';
+import 'package:meta/meta.dart' hide ResourceIdentifier;
 
 part 'schedule.dart';
 part 'secret.dart';
@@ -37,6 +38,11 @@ part 'websocket.dart';
 abstract class Resource {
   /// The name of the resource.
   final String name;
+
+  // Used to resolve the given resource for policy creation
+  @protected
+  final Completer<ResourceIdentifier> registrationCompletion =
+      Completer<ResourceIdentifier>();
 
   /// Internal resource client to declare the resource.
   @protected
@@ -62,14 +68,13 @@ abstract class SecureResource<T extends Enum> extends Resource {
 
   /// Register a policy with the Nitric server to secure the resource with least-privilege.
   Future<void> registerPolicy(List<T> permissions) async {
-    var policyResource = $p.ResourceIdentifier(type: $p.ResourceType.Policy);
+    var resourceIdentifier = await registrationCompletion.future;
 
-    var defaultPrincipal =
-        $p.ResourceIdentifier(name: name, type: $p.ResourceType.Service);
+    var policyResource = $p.ResourceIdentifier(type: $p.ResourceType.Policy);
 
     var policy = $p.PolicyResource(
         principals: [$p.ResourceIdentifier(type: $p.ResourceType.Service)],
-        resources: [defaultPrincipal],
+        resources: [resourceIdentifier],
         actions: permissionsToActions(permissions));
 
     await client

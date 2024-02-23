@@ -16,6 +16,8 @@ class Topic extends SecureResource<TopicPermission> {
     );
 
     await client.declare($p.ResourceDeclareRequest(id: resource));
+
+    registrationCompletion.complete(resource);
   }
 
   @override

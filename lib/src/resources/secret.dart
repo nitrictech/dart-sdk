@@ -13,6 +13,8 @@ class SecretResource extends SecureResource<SecretPermission> {
     );
 
     await client.declare($p.ResourceDeclareRequest(id: resource));
+
+    registrationCompletion.complete(resource);
   }
 
   @override
