@@ -1,5 +1,6 @@
 import 'package:nitric_sdk/nitric.dart';
 import 'package:nitric_sdk/resources.dart';
+import 'package:nitric_sdk/src/context/common.dart';
 import 'package:uuid/uuid.dart';
 
 class Profile {
@@ -34,6 +35,10 @@ void main() {
 
   final profilesImg = Nitric.bucket("profilesImg")
       .requires([BucketPermission.reading, BucketPermission.writing]);
+
+  profilesImg.on(BlobEventType.write, "*", (ctx) async {
+    return ctx;
+  });
 
   profileApi.post("/profiles", (ctx) async {
     final uuid = Uuid();
