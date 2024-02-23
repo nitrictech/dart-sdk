@@ -4,52 +4,81 @@ class Websocket extends Resource {
   late $wp.WebsocketClient _websocketClient;
 
   Websocket(String name) : super(name) {
-    var channel = ClientChannel(
-      'localhost',
-      port: 50051,
-      options: ChannelOptions(credentials: ChannelCredentials.insecure()),
-    );
+    final channel = createClientChannelFromEnvVar();
 
     _websocketClient = $wp.WebsocketClient(channel);
   }
 
   @override
   Future<void> register() async {
-    var resource = $p.Resource(
+    var resource = $p.ResourceIdentifier(
       name: name,
       type: $p.ResourceType.Api,
     );
 
-    await client.declare($p.ResourceDeclareRequest(resource: resource));
+    await client.declare($p.ResourceDeclareRequest(id: resource));
   }
 
   /// Send message [data] to a connection, referenced by its [connectionId].
   Future<void> send(String connectionId, String data) async {
     var req = $wp.WebsocketSendRequest(
         socketName: name, connectionId: connectionId, data: utf8.encode(data));
-    await _websocketClient.send(req);
+    await _websocketClient.sendMessage(req);
   }
 
   /// Close a connection to the socket, referenced by its [connectionId].
   Future<void> close(String connectionId) async {
-    var req =
-        $wp.WebsocketCloseRequest(socketName: name, connectionId: connectionId);
-    await _websocketClient.close(req);
+    var req = $wp.WebsocketCloseConnectionRequest(
+        socketName: name, connectionId: connectionId);
+    await _websocketClient.closeConnection(req);
   }
 
-  Future<void> _on(
-      $wp.WebsocketEventType eventType, WebsocketMiddleware handler) async {
+  /// Set a [handler] for connection requests to the socket.
+  Future<void> onConnect(WebsocketConnectMiddleware handler) async {
+    var registrationRequest = $wp.RegistrationRequest(
+        eventType: $wp.WebsocketEventType.Connect, socketName: name);
+
+    var worker =
+        WebsocketWorker(registrationRequest, handler as WebsocketMiddleware);
+
+    Nitric.registerWorker(worker);
+  }
+
+  /// Set a [handler] for disconnection requests to the socket.
+  Future<void> onDisconnect(WebsocketConnectMiddleware handler) async {
+    var registrationRequest = $wp.RegistrationRequest(
+        eventType: $wp.WebsocketEventType.Disconnect, socketName: name);
+
+    var worker =
+        WebsocketWorker(registrationRequest, handler as WebsocketMiddleware);
+
+    Nitric.registerWorker(worker);
+  }
+
+  /// Set a [handler] for messages to the socket.
+  Future<void> onMessage(WebsocketConnectMiddleware handler) async {
+    var registrationRequest = $wp.RegistrationRequest(
+        eventType: $wp.WebsocketEventType.Message, socketName: name);
+
+    var worker =
+        WebsocketWorker(registrationRequest, handler as WebsocketMiddleware);
+
+    Nitric.registerWorker(worker);
+  }
+}
+
+class WebsocketWorker extends Worker {
+  $wp.RegistrationRequest registrationRequest;
+  WebsocketMiddleware middleware;
+
+  WebsocketWorker(this.registrationRequest, this.middleware);
+
+  @override
+  Future<void> start() async {
     // Create Websocket handler client
-    final channel = ClientChannel('localhost',
-        port: 50051,
-        options: ChannelOptions(credentials: ChannelCredentials.insecure()));
+    final channel = createClientChannelFromEnvVar();
     final client = $wp.WebsocketHandlerClient(channel);
 
-    // Create the request to register the Storage listener with the membrane
-    final registrationRequest = $wp.RegistrationRequest(
-      socketName: name,
-      eventType: eventType,
-    );
     final initMsg = $wp.ClientMessage(registrationRequest: registrationRequest);
 
     // Create the request stream and send the initial message
@@ -65,7 +94,7 @@ class Websocket extends Resource {
         if (msg.hasRegistrationResponse()) {
           print("Function connected with membrane");
         } else if (msg.hasWebsocketEventRequest()) {
-          var ctx = switch (eventType) {
+          var ctx = switch (registrationRequest.eventType) {
             $wp.WebsocketEventType.Connect =>
               WebsocketConnectContext.fromRequest(msg),
             $wp.WebsocketEventType.Disconnect =>
@@ -75,7 +104,7 @@ class Websocket extends Resource {
             WebsocketEventType() => null,
           };
 
-          ctx = await handler(ctx!);
+          ctx = await middleware(ctx!);
 
           var resp = ctx.toResponse();
 
@@ -92,20 +121,5 @@ class Websocket extends Resource {
       requestStream
           .add($wp.ClientMessage(websocketEventResponse: resp.toWire()));
     }
-  }
-
-  /// Set a [handler] for connection requests to the socket.
-  Future<void> onConnect(WebsocketConnectMiddleware handler) async {
-    _on($wp.WebsocketEventType.Connect, handler as WebsocketMiddleware);
-  }
-
-  /// Set a [handler] for disconnection requests to the socket.
-  Future<void> onDisconnect(WebsocketConnectMiddleware handler) async {
-    _on($wp.WebsocketEventType.Connect, handler as WebsocketMiddleware);
-  }
-
-  /// Set a [handler] for messages to the socket.
-  Future<void> onMessage(WebsocketConnectMiddleware handler) async {
-    _on($wp.WebsocketEventType.Message, handler as WebsocketMiddleware);
   }
 }

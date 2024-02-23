@@ -16,55 +16,56 @@ service Resources {
   // At Deploy time this will create resources as part of the nitric stacks dependency graph
   // At runtime
   rpc Declare (ResourceDeclareRequest) returns (ResourceDeclareResponse);
-
-  // Retrieve details about a resource at runtime
-  rpc Details (ResourceDetailsRequest) returns (ResourceDetailsResponse);
 }
 
 message PolicyResource {
-  repeated Resource principals = 1;
+  repeated ResourceIdentifier principals = 1;
   repeated Action actions = 2;
-  repeated Resource resources = 3;
+  repeated ResourceIdentifier resources = 3;
 }
 
 enum ResourceType {
   Api = 0;
-  Function = 1;
+  Service = 1;
   Bucket = 2;
   Topic = 3;
   Schedule = 4;
   Subscription = 5;
-  Collection = 6;
+  KeyValueStore = 6;
   Policy = 7;
   Secret = 8;
-  Notification = 9;
+  BucketListener = 9;
   Websocket = 10;
   Http = 11;
   ApiSecurityDefinition = 12;
+  Queue = 13;
 }
 
-message Resource {
+// Unique identifier for a resource within a nitric application.
+message ResourceIdentifier {
   ResourceType type = 1;
   string name = 2;
 }
 
 message ResourceDeclareRequest {
-  Resource resource = 1;
+  ResourceIdentifier id = 1;
 
   oneof config {
     PolicyResource policy = 10;
     BucketResource bucket = 11;
     TopicResource topic = 12;
-    CollectionResource collection = 13;
+    KeyValueStoreResource key_value_store = 13;
     SecretResource secret = 14;
     ApiResource api = 15;
     ApiSecurityDefinitionResource api_security_definition = 16;
+    QueueResource queue = 17;
   }
 }
 
 message BucketResource {}
 message TopicResource {}
-message CollectionResource {}
+message QueueResource {}
+message KeyValueStoreResource {}
 message SecretResource {}
 
 message ApiOpenIdConnectionDefinition {
@@ -98,52 +99,23 @@ enum Action {
   BucketFileDelete = 3;
 
   // Topic Permissions: 2XX
-  TopicList = 200;
-  TopicDetail = 201;
-  TopicEventPublish = 202;
+  TopicPublish = 200;
 
-  // Collection Permissions: 3XX
-  CollectionDocumentRead = 300;
-  CollectionDocumentWrite = 301;
-  CollectionDocumentDelete = 302;
-  CollectionQuery = 303;
-  CollectionList = 304;
+  // KeyValue Store Permissions: 3XX
+  KeyValueStoreRead = 300;
+  KeyValueStoreWrite = 301;
+  KeyValueStoreDelete = 302;
 
-  // Secret Permissions: 5XX
+  // Secret Permissions: 4XX
   SecretPut = 400;
   SecretAccess = 401;
 
-  // Websocket Permissions: 6XX
+  // Websocket Permissions: 5XX
   WebsocketManage = 500;
+
+  // Queue Permissions: 6XX
+  QueueEnqueue = 600;
+  QueueDequeue = 601;
 }
 
 message ResourceDeclareResponse {}
-
-message ApiResourceDetails {
-  string url = 1;
-}
-
-message WebsocketResourceDetails {
-  string url = 1;
-}
-
-message ResourceDetailsRequest {
-  Resource resource = 1;
-}
-
-message ResourceDetailsResponse {
-  // The identifier of the resource
-  string id = 1;
-
-  // The provider this resource is deployed with (e.g. aws)
-  string provider = 2;
-
-  // The service this resource is deployed on (e.g. ApiGateway)
-  string service = 3;
-
-  // Details about the resource
-  oneof details {
-    ApiResourceDetails api = 10;
-    WebsocketResourceDetails websocket = 11;
-  }
-}

@@ -1,30 +1,22 @@
 part of 'common.dart';
 
 class Schedule extends Resource {
-  late $sp.SchedulesClient schedulesClient;
-
-  Schedule(String name) : super(name) {
-    final channel = ClientChannel('localhost',
-        port: 50051,
-        options: ChannelOptions(credentials: ChannelCredentials.insecure()));
-
-    schedulesClient = $sp.SchedulesClient(channel);
-  }
+  Schedule(String name) : super(name);
 
   @override
   Future<void> register() async {
-    var res = $p.Resource(name: name, type: $p.ResourceType.Schedule);
-    await client.declare($p.ResourceDeclareRequest(resource: res));
+    var res = $p.ResourceIdentifier(name: name, type: $p.ResourceType.Schedule);
+    await client.declare($p.ResourceDeclareRequest(id: res));
   }
 
   /// Run [middleware] at a certain interval defined by the [rate]. E.g. '7 days', '3 hours', '30 minutes'.
   Future<void> every(String rate, IntervalMiddleware middleware) async {
     var registrationRequest = $sp.RegistrationRequest(
-      scheduleName: name,
-      rate: _Rate(rate)._toWire(),
-    );
+        scheduleName: name, every: $s.ScheduleEvery(rate: rate));
 
-    _registerIntervalHandler(registrationRequest, middleware);
+    var worker = IntervalWorker(registrationRequest, middleware);
+
+    Nitric.registerWorker(worker);
   }
 
   /// Run [middleware] at a certain interval defined by the [cronExpression].
@@ -35,20 +27,32 @@ class Schedule extends Resource {
       cron: $sp.ScheduleCron(expression: cronExpression),
     );
 
-    _registerIntervalHandler(registrationRequest, middleware);
+    var worker = IntervalWorker(registrationRequest, middleware);
+
+    Nitric.registerWorker(worker);
   }
+}
+
+class IntervalWorker extends Worker {
+  $sp.RegistrationRequest registrationRequest;
+  IntervalMiddleware middleware;
+
+  IntervalWorker(this.registrationRequest, this.middleware);
 
   /// Starts the interval handling loop to run the [middleware] at a certain frequency. Uses the [registrationRequest] to register the interval with the Nitric server.
-  Future<void> _registerIntervalHandler(
-      $sp.RegistrationRequest registrationRequest,
-      IntervalMiddleware middleware) async {
+  @override
+  Future<void> start() async {
+    final channel = createClientChannelFromEnvVar();
+
+    var client = $sp.SchedulesClient(channel);
+
     final initMsg = $sp.ClientMessage(registrationRequest: registrationRequest);
 
     // Create the request stream and send the initial message
     final requestStream = StreamController<$sp.ClientMessage>();
     requestStream.add(initMsg);
 
-    final response = schedulesClient.schedule(
+    final response = client.schedule(
       requestStream.stream,
     );
 
@@ -75,43 +79,5 @@ class Schedule extends Resource {
 
       requestStream.add($sp.ClientMessage(intervalResponse: resp.toWire()));
     }
-  }
-}
-
-enum Frequency { day, hour, minute }
-
-class _Rate {
-  late int rate;
-  late Frequency frequency;
-
-  _Rate(String rateExpression) {
-    final splitExpression = rateExpression.split(" ");
-    if (splitExpression.length != 2) {
-      throw FormatException(
-          "rate expression invalid, must follow convention '3 days'");
-    }
-
-    rate = int.parse(splitExpression[0]);
-
-    frequency = switch (splitExpression[1]) {
-      'days' || 'day' => Frequency.day,
-      'hour' || 'hours' => Frequency.hour,
-      'minute' || 'minutes' => Frequency.minute,
-      _ => throw FormatException(
-          "rate expression invalid, must follow convention '3 days'")
-    };
-  }
-
-  $sp.ScheduleRate _toWire() {
-    final interval = switch (frequency) {
-      Frequency.minute =>
-        $d.Duration(seconds: Int64(rate * Duration.secondsPerMinute)),
-      Frequency.hour =>
-        $d.Duration(seconds: Int64(rate * Duration.secondsPerHour)),
-      Frequency.day =>
-        $d.Duration(seconds: Int64(rate * Duration.secondsPerDay)),
-    };
-
-    return $sp.ScheduleRate(interval: interval);
   }
 }

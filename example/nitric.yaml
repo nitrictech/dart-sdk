@@ -1,1 +1,4 @@
 name: dart_sdk
+services:
+  - match: services/*.dart
+    start: dart run $SERVICE_PATH

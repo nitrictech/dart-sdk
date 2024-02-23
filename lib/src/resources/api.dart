@@ -14,12 +14,16 @@ class Api extends Resource {
 
   @override
   Future<void> register() async {
-    var resource = $p.Resource(
+    var resource = $p.ResourceIdentifier(
       name: name,
       type: $p.ResourceType.Api,
     );
 
-    await client.declare($p.ResourceDeclareRequest(resource: resource));
+    //var apiScopes = $p.ApiScopes();
+    var apiResource = $p.ApiResource(security: {}); // TODO security
+
+    await client
+        .declare($p.ResourceDeclareRequest(id: resource, api: apiResource));
   }
 
   /// A GET request [handler] that [match]es a specific route.
@@ -88,37 +92,49 @@ class Route {
 
   /// A GET request [handler] for this route.
   Future<void> get(HttpMiddleware handler) async {
-    HttpTrigger(this, handler, [HttpMethod.get]).start();
+    var worker = ApiWorker(this, handler, [HttpMethod.get]);
+
+    Nitric.registerWorker(worker);
   }
 
   /// A POST request [handler] for this route.
   Future<void> post(HttpMiddleware handler) async {
-    HttpTrigger(this, handler, [HttpMethod.post]).start();
+    var worker = ApiWorker(this, handler, [HttpMethod.post]);
+
+    Nitric.registerWorker(worker);
   }
 
   /// A PUT request [handler] for this route.
   Future<void> put(HttpMiddleware handler) async {
-    HttpTrigger(this, handler, [HttpMethod.put]).start();
+    var worker = ApiWorker(this, handler, [HttpMethod.put]);
+
+    Nitric.registerWorker(worker);
   }
 
   /// A DELETE request [handler] for this route.
   Future<void> delete(HttpMiddleware handler) async {
-    HttpTrigger(this, handler, [HttpMethod.delete]).start();
+    var worker = ApiWorker(this, handler, [HttpMethod.delete]);
+
+    Nitric.registerWorker(worker);
   }
 
   /// An OPTIONS request [handler] for this route.
   Future<void> options(HttpMiddleware handler) async {
-    HttpTrigger(this, handler, [HttpMethod.options]).start();
+    var worker = ApiWorker(this, handler, [HttpMethod.options]);
+
+    Nitric.registerWorker(worker);
   }
 
   /// A request [handler] for this route that matches all HTTP methods.
   Future<void> all(HttpMiddleware handler) async {
-    HttpTrigger(this, handler, HttpMethod.values).start();
+    var worker = ApiWorker(this, handler, HttpMethod.values);
+
+    Nitric.registerWorker(worker);
   }
 }
 
 /// Represents a requestable route with the accepted HTTP methods.
-class HttpTrigger {
+class ApiWorker implements Worker {
   /// The requestable route.
   Route route;
 
@@ -128,14 +144,13 @@ class HttpTrigger {
   /// The HTTP methods that will be accepted for this trigger.
   List<HttpMethod> methods;
 
-  HttpTrigger(this.route, this.handler, this.methods);
+  ApiWorker(this.route, this.handler, this.methods);
 
   /// Start the route handler.
+  @override
   Future<void> start() async {
     // Create API client
-    final channel = ClientChannel('localhost',
-        port: 50051,
-        options: ChannelOptions(credentials: ChannelCredentials.insecure()));
+    final channel = createClientChannelFromEnvVar();
     final client = $ap.ApiClient(channel);
 
     // Create the request to register the API with the membrane

@@ -7,12 +7,14 @@ class SecretResource extends SecureResource<SecretPermission> {
 
   @override
   Future<void> register() async {
-    var resource = $p.Resource(
+    var resource = $p.ResourceIdentifier(
       name: name,
       type: $p.ResourceType.Secret,
     );
 
-    await client.declare($p.ResourceDeclareRequest(resource: resource));
+    await client.declare($p.ResourceDeclareRequest(id: resource));
+
+    registrationCompletion.complete(resource);
   }
 
   @override

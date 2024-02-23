@@ -3,12 +3,15 @@ library resources;
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:nitric_sdk/src/api/collection.dart';
+import 'package:nitric_sdk/api.dart';
+import 'package:nitric_sdk/src/grpc_helper.dart';
+import 'package:nitric_sdk/src/nitric.dart';
+import 'package:nitric_sdk/src/nitric/proto/resources/v1/resources.pb.dart';
+import 'package:nitric_sdk/src/nitric/proto/schedules/v1/schedules.pb.dart'
+    as $s;
 import 'package:nitric_sdk/src/nitric/proto/websockets/v1/websockets.pb.dart';
 import 'package:grpc/grpc.dart';
-import 'package:fixnum/fixnum.dart';
 import 'package:nitric_sdk/src/context/common.dart';
-import 'package:nitric_sdk/src/api/bucket.dart';
 import 'package:nitric_sdk/src/api/topic.dart' as $t;
 import 'package:nitric_sdk/src/api/secret.dart' as $s;
 
@@ -17,16 +20,15 @@ import 'package:nitric_sdk/src/nitric/proto/resources/v1/resources.pbgrpc.dart'
 import 'package:nitric_sdk/src/nitric/proto/apis/v1/apis.pbgrpc.dart' as $ap;
 import 'package:nitric_sdk/src/nitric/proto/schedules/v1/schedules.pbgrpc.dart'
     as $sp;
-import 'package:nitric_sdk/src/nitric/google/protobuf/duration.pb.dart' as $d;
 import 'package:nitric_sdk/src/nitric/proto/topics/v1/topics.pbgrpc.dart'
     as $tp;
 import 'package:nitric_sdk/src/nitric/proto/websockets/v1/websockets.pbgrpc.dart'
     as $wp;
-import 'package:meta/meta.dart';
+import 'package:meta/meta.dart' hide ResourceIdentifier;
 
 part 'schedule.dart';
 part 'secret.dart';
-part 'collection.dart';
+part 'keyvalue.dart';
 part 'bucket.dart';
 part 'api.dart';
 part 'topic.dart';
@@ -37,17 +39,18 @@ abstract class Resource {
   /// The name of the resource.
   final String name;
 
+  // Used to resolve the given resource for policy creation
+  @protected
+  final Completer<ResourceIdentifier> registrationCompletion =
+      Completer<ResourceIdentifier>();
+
   /// Internal resource client to declare the resource.
   @protected
   late final $p.ResourcesClient client;
 
   @protected
   Resource(this.name) {
-    var channel = ClientChannel(
-      'localhost',
-      port: 50051,
-      options: const ChannelOptions(credentials: ChannelCredentials.insecure()),
-    );
+    final channel = createClientChannelFromEnvVar();
 
     client = $p.ResourcesClient(channel);
   }
@@ -65,11 +68,16 @@ abstract class SecureResource<T extends Enum> extends Resource {
 
   /// Register a policy with the Nitric server to secure the resource with least-privilege.
   Future<void> registerPolicy(List<T> permissions) async {
+    var resourceIdentifier = await registrationCompletion.future;
+
+    var policyResource = $p.ResourceIdentifier(type: $p.ResourceType.Policy);
+
     var policy = $p.PolicyResource(
-        principals: [$p.Resource(type: $p.ResourceType.Function)],
-        resources: [$p.Resource(name: name, type: $p.ResourceType.Policy)],
+        principals: [$p.ResourceIdentifier(type: $p.ResourceType.Service)],
+        resources: [resourceIdentifier],
         actions: permissionsToActions(permissions));
 
-    await client.declare($p.ResourceDeclareRequest(policy: policy));
+    await client
+        .declare($p.ResourceDeclareRequest(policy: policy, id: policyResource));
   }
 }
