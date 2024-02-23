@@ -1,4 +1,3 @@
-import 'package:nitric_sdk/api.dart';
 import 'package:nitric_sdk/nitric.dart';
 import 'package:nitric_sdk/resources.dart';
 import 'package:uuid/uuid.dart';
@@ -119,4 +118,6 @@ void main() {
 
     return ctx;
   });
+
+  Nitric.run();
 }
