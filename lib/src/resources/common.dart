@@ -62,12 +62,17 @@ abstract class SecureResource<T extends Enum> extends Resource {
 
   /// Register a policy with the Nitric server to secure the resource with least-privilege.
   Future<void> registerPolicy(List<T> permissions) async {
-    var policy = $p.PolicyResource(principals: [
-      $p.ResourceIdentifier(type: $p.ResourceType.Service)
-    ], resources: [
-      $p.ResourceIdentifier(name: name, type: $p.ResourceType.Policy)
-    ], actions: permissionsToActions(permissions));
+    var policyResource = $p.ResourceIdentifier(type: $p.ResourceType.Policy);
 
-    await client.declare($p.ResourceDeclareRequest(policy: policy));
+    var defaultPrincipal =
+        $p.ResourceIdentifier(name: name, type: $p.ResourceType.Service);
+
+    var policy = $p.PolicyResource(
+        principals: [$p.ResourceIdentifier(type: $p.ResourceType.Service)],
+        resources: [defaultPrincipal],
+        actions: permissionsToActions(permissions));
+
+    await client
+        .declare($p.ResourceDeclareRequest(policy: policy, id: policyResource));
   }
 }
