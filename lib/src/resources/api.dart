@@ -19,7 +19,11 @@ class Api extends Resource {
       type: $p.ResourceType.Api,
     );
 
-    await client.declare($p.ResourceDeclareRequest(id: resource));
+    //var apiScopes = $p.ApiScopes();
+    var apiResource = $p.ApiResource(security: {}); // TODO security
+
+    await client
+        .declare($p.ResourceDeclareRequest(id: resource, api: apiResource));
   }
 
   /// A GET request [handler] that [match]es a specific route.
