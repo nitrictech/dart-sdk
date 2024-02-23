@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:grpc/grpc.dart';
+import 'package:nitric_sdk/src/grpc_helper.dart';
 import 'package:nitric_sdk/src/nitric/proto/keyvalue/v1/keyvalue.pbgrpc.dart';
 
 import '../nitric/google/protobuf/struct.pb.dart';
@@ -12,11 +12,7 @@ class KeyValueStore<T> {
   final String name;
 
   KeyValueStore(this.name) {
-    var channel = ClientChannel(
-      '127.0.0.1',
-      port: 50051,
-      options: const ChannelOptions(credentials: ChannelCredentials.insecure()),
-    );
+    var channel = createClientChannelFromEnvVar();
 
     _keyValueClient = KeyValueClient(channel);
   }

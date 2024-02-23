@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:nitric_sdk/api.dart';
+import 'package:nitric_sdk/src/grpc_helper.dart';
 import 'package:nitric_sdk/src/nitric.dart';
 import 'package:nitric_sdk/src/nitric/proto/schedules/v1/schedules.pb.dart'
     as $s;
@@ -43,11 +44,7 @@ abstract class Resource {
 
   @protected
   Resource(this.name) {
-    var channel = ClientChannel(
-      '127.0.0.1',
-      port: 50051,
-      options: const ChannelOptions(credentials: ChannelCredentials.insecure()),
-    );
+    final channel = createClientChannelFromEnvVar();
 
     client = $p.ResourcesClient(channel);
   }

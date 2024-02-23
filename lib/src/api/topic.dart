@@ -1,10 +1,9 @@
-import 'dart:convert';
+import 'package:nitric_sdk/src/grpc_helper.dart';
 
 import '../nitric/google/protobuf/duration.pb.dart' as $d;
 import '../nitric/google/protobuf/struct.pb.dart';
 import 'package:nitric_sdk/src/nitric/proto/topics/v1/topics.pbgrpc.dart' as $p;
 import 'package:fixnum/fixnum.dart';
-import 'package:grpc/grpc.dart';
 
 /// A Topic for publishing events to subscribers of this topic.
 class Topic {
@@ -13,9 +12,7 @@ class Topic {
   late final $p.TopicsClient _topicsClient;
 
   Topic(this.name) {
-    final channel = ClientChannel('127.0.0.1',
-        port: 50051,
-        options: ChannelOptions(credentials: ChannelCredentials.insecure()));
+    final channel = createClientChannelFromEnvVar();
 
     _topicsClient = $p.TopicsClient(channel);
   }

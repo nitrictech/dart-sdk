@@ -4,11 +4,7 @@ class Websocket extends Resource {
   late $wp.WebsocketClient _websocketClient;
 
   Websocket(String name) : super(name) {
-    var channel = ClientChannel(
-      '127.0.0.1',
-      port: 50051,
-      options: ChannelOptions(credentials: ChannelCredentials.insecure()),
-    );
+    final channel = createClientChannelFromEnvVar();
 
     _websocketClient = $wp.WebsocketClient(channel);
   }
@@ -80,9 +76,7 @@ class WebsocketWorker extends Worker {
   @override
   Future<void> start() async {
     // Create Websocket handler client
-    final channel = ClientChannel('127.0.0.1',
-        port: 50051,
-        options: ChannelOptions(credentials: ChannelCredentials.insecure()));
+    final channel = createClientChannelFromEnvVar();
     final client = $wp.WebsocketHandlerClient(channel);
 
     final initMsg = $wp.ClientMessage(registrationRequest: registrationRequest);

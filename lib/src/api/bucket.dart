@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:nitric_sdk/src/context/common.dart';
+import 'package:nitric_sdk/src/grpc_helper.dart';
 import 'package:nitric_sdk/src/nitric/proto/storage/v1/storage.pbgrpc.dart'
     as $p;
 import '../nitric/google/protobuf/duration.pb.dart' as $d;
@@ -14,11 +15,7 @@ class Bucket {
   String name;
 
   Bucket(this.name) {
-    var channel = ClientChannel(
-      '127.0.0.1',
-      port: 50051,
-      options: const ChannelOptions(credentials: ChannelCredentials.insecure()),
-    );
+    final channel = createClientChannelFromEnvVar();
 
     _storageClient = $p.StorageClient(channel);
   }
@@ -32,9 +29,7 @@ class Bucket {
   Future<void> on(BlobEventType blobEventType, String keyPrefixFilter,
       BlobEventMiddleware handler) async {
     // Create Storage listener client
-    final channel = ClientChannel('127.0.0.1',
-        port: 50051,
-        options: ChannelOptions(credentials: ChannelCredentials.insecure()));
+    final channel = createClientChannelFromEnvVar();
     final client = $p.StorageListenerClient(channel);
 
     // Create the request to register the Storage listener with the membrane
@@ -67,7 +62,7 @@ class Bucket {
       }
     } on GrpcError catch (e) {
       print("caught a GrpcError: $e");
-    } on Error catch (e) {
+    } on Error {
       var resp = BlobEventResponse(false);
 
       requestStream.add($p.ClientMessage(blobEventResponse: resp.toWire()));

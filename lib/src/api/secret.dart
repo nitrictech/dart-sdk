@@ -1,8 +1,8 @@
 import 'dart:convert';
 
+import 'package:nitric_sdk/src/grpc_helper.dart';
 import 'package:nitric_sdk/src/nitric/proto/secrets/v1/secrets.pbgrpc.dart'
     as $p;
-import 'package:grpc/grpc.dart';
 
 /// References an encrypted secret stored in a secret manager.
 class Secret {
@@ -11,9 +11,7 @@ class Secret {
   late final $p.SecretManagerClient _secretClient;
 
   Secret(this.name) {
-    final channel = ClientChannel('127.0.0.1',
-        port: 50051,
-        options: ChannelOptions(credentials: ChannelCredentials.insecure()));
+    final channel = createClientChannelFromEnvVar();
 
     _secretClient = $p.SecretManagerClient(channel);
   }
