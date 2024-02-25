@@ -37,7 +37,7 @@ class BlobEventResponse extends TriggerResponse {
   BlobEventResponse([this.success = true]);
 
   /// Converts this blob event response to a gRPC response.
-  @protected
+  @internal
   $bp.BlobEventResponse toWire() {
     return $bp.BlobEventResponse(success: success);
   }
