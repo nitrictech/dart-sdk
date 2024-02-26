@@ -10,3 +10,5 @@ pubspec.lock
 
 .nitric/
 doc/
+
+nitric/**/*.proto
