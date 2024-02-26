@@ -18,7 +18,14 @@ const QueueEnqueueRequest$json = {
   '1': 'QueueEnqueueRequest',
   '2': [
     {'1': 'queue_name', '3': 1, '4': 1, '5': 9, '10': 'queueName'},
-    {'1': 'messages', '3': 2, '4': 3, '5': 11, '6': '.nitric.proto.queues.v1.QueueMessage', '10': 'messages'},
+    {
+      '1': 'messages',
+      '3': 2,
+      '4': 3,
+      '5': 11,
+      '6': '.nitric.proto.queues.v1.QueueMessage',
+      '10': 'messages'
+    },
   ],
 };
 
@@ -32,7 +39,14 @@ final $typed_data.Uint8List queueEnqueueRequestDescriptor = $convert.base64Decod
 const QueueEnqueueResponse$json = {
   '1': 'QueueEnqueueResponse',
   '2': [
-    {'1': 'failed_messages', '3': 1, '4': 3, '5': 11, '6': '.nitric.proto.queues.v1.FailedEnqueueMessage', '10': 'failedMessages'},
+    {
+      '1': 'failed_messages',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.nitric.proto.queues.v1.FailedEnqueueMessage',
+      '10': 'failedMessages'
+    },
   ],
 };
 
@@ -59,7 +73,14 @@ final $typed_data.Uint8List queueDequeueRequestDescriptor = $convert.base64Decod
 const QueueDequeueResponse$json = {
   '1': 'QueueDequeueResponse',
   '2': [
-    {'1': 'messages', '3': 1, '4': 3, '5': 11, '6': '.nitric.proto.queues.v1.DequeuedMessage', '10': 'messages'},
+    {
+      '1': 'messages',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.nitric.proto.queues.v1.DequeuedMessage',
+      '10': 'messages'
+    },
   ],
 };
 
@@ -88,14 +109,22 @@ const QueueCompleteResponse$json = {
 };
 
 /// Descriptor for `QueueCompleteResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List queueCompleteResponseDescriptor = $convert.base64Decode(
-    'ChVRdWV1ZUNvbXBsZXRlUmVzcG9uc2U=');
+final $typed_data.Uint8List queueCompleteResponseDescriptor =
+    $convert.base64Decode('ChVRdWV1ZUNvbXBsZXRlUmVzcG9uc2U=');
 
 @$core.Deprecated('Use queueMessageDescriptor instead')
 const QueueMessage$json = {
   '1': 'QueueMessage',
   '2': [
-    {'1': 'struct_payload', '3': 1, '4': 1, '5': 11, '6': '.google.protobuf.Struct', '9': 0, '10': 'structPayload'},
+    {
+      '1': 'struct_payload',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.google.protobuf.Struct',
+      '9': 0,
+      '10': 'structPayload'
+    },
   ],
   '8': [
     {'1': 'content'},
@@ -112,7 +141,14 @@ const DequeuedMessage$json = {
   '1': 'DequeuedMessage',
   '2': [
     {'1': 'lease_id', '3': 1, '4': 1, '5': 9, '10': 'leaseId'},
-    {'1': 'message', '3': 2, '4': 1, '5': 11, '6': '.nitric.proto.queues.v1.QueueMessage', '10': 'message'},
+    {
+      '1': 'message',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.queues.v1.QueueMessage',
+      '10': 'message'
+    },
   ],
 };
 
@@ -125,7 +161,14 @@ final $typed_data.Uint8List dequeuedMessageDescriptor = $convert.base64Decode(
 const FailedEnqueueMessage$json = {
   '1': 'FailedEnqueueMessage',
   '2': [
-    {'1': 'message', '3': 1, '4': 1, '5': 11, '6': '.nitric.proto.queues.v1.QueueMessage', '10': 'message'},
+    {
+      '1': 'message',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.queues.v1.QueueMessage',
+      '10': 'message'
+    },
     {'1': 'details', '3': 2, '4': 1, '5': 9, '10': 'details'},
   ],
 };
@@ -135,4 +178,3 @@ final $typed_data.Uint8List failedEnqueueMessageDescriptor = $convert.base64Deco
     'ChRGYWlsZWRFbnF1ZXVlTWVzc2FnZRI+CgdtZXNzYWdlGAEgASgLMiQubml0cmljLnByb3RvLn'
     'F1ZXVlcy52MS5RdWV1ZU1lc3NhZ2VSB21lc3NhZ2USGAoHZGV0YWlscxgCIAEoCVIHZGV0YWls'
     'cw==');
-

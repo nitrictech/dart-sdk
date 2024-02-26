@@ -17,7 +17,14 @@ import 'dart:typed_data' as $typed_data;
 const ClientMessage$json = {
   '1': 'ClientMessage',
   '2': [
-    {'1': 'request', '3': 1, '4': 1, '5': 11, '6': '.nitric.proto.http.v1.HttpProxyRequest', '10': 'request'},
+    {
+      '1': 'request',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.http.v1.HttpProxyRequest',
+      '10': 'request'
+    },
   ],
 };
 
@@ -32,8 +39,8 @@ const ServerMessage$json = {
 };
 
 /// Descriptor for `ServerMessage`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List serverMessageDescriptor = $convert.base64Decode(
-    'Cg1TZXJ2ZXJNZXNzYWdl');
+final $typed_data.Uint8List serverMessageDescriptor =
+    $convert.base64Decode('Cg1TZXJ2ZXJNZXNzYWdl');
 
 @$core.Deprecated('Use httpProxyRequestDescriptor instead')
 const HttpProxyRequest$json = {
@@ -44,6 +51,5 @@ const HttpProxyRequest$json = {
 };
 
 /// Descriptor for `HttpProxyRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List httpProxyRequestDescriptor = $convert.base64Decode(
-    'ChBIdHRwUHJveHlSZXF1ZXN0EhIKBGhvc3QYASABKAlSBGhvc3Q=');
-
+final $typed_data.Uint8List httpProxyRequestDescriptor = $convert
+    .base64Decode('ChBIdHRwUHJveHlSZXF1ZXN0EhIKBGhvc3QYASABKAlSBGhvc3Q=');

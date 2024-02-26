@@ -14,15 +14,18 @@ import 'dart:core' as $core;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 class BlobEventType extends $pb.ProtobufEnum {
-  static const BlobEventType Created = BlobEventType._(0, _omitEnumNames ? '' : 'Created');
-  static const BlobEventType Deleted = BlobEventType._(1, _omitEnumNames ? '' : 'Deleted');
+  static const BlobEventType Created =
+      BlobEventType._(0, _omitEnumNames ? '' : 'Created');
+  static const BlobEventType Deleted =
+      BlobEventType._(1, _omitEnumNames ? '' : 'Deleted');
 
-  static const $core.List<BlobEventType> values = <BlobEventType> [
+  static const $core.List<BlobEventType> values = <BlobEventType>[
     Created,
     Deleted,
   ];
 
-  static final $core.Map<$core.int, BlobEventType> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static final $core.Map<$core.int, BlobEventType> _byValue =
+      $pb.ProtobufEnum.initByValue(values);
   static BlobEventType? valueOf($core.int value) => _byValue[value];
 
   const BlobEventType._($core.int v, $core.String n) : super(v, n);
@@ -30,19 +33,24 @@ class BlobEventType extends $pb.ProtobufEnum {
 
 /// Operation
 class StoragePreSignUrlRequest_Operation extends $pb.ProtobufEnum {
-  static const StoragePreSignUrlRequest_Operation READ = StoragePreSignUrlRequest_Operation._(0, _omitEnumNames ? '' : 'READ');
-  static const StoragePreSignUrlRequest_Operation WRITE = StoragePreSignUrlRequest_Operation._(1, _omitEnumNames ? '' : 'WRITE');
+  static const StoragePreSignUrlRequest_Operation READ =
+      StoragePreSignUrlRequest_Operation._(0, _omitEnumNames ? '' : 'READ');
+  static const StoragePreSignUrlRequest_Operation WRITE =
+      StoragePreSignUrlRequest_Operation._(1, _omitEnumNames ? '' : 'WRITE');
 
-  static const $core.List<StoragePreSignUrlRequest_Operation> values = <StoragePreSignUrlRequest_Operation> [
+  static const $core.List<StoragePreSignUrlRequest_Operation> values =
+      <StoragePreSignUrlRequest_Operation>[
     READ,
     WRITE,
   ];
 
-  static final $core.Map<$core.int, StoragePreSignUrlRequest_Operation> _byValue = $pb.ProtobufEnum.initByValue(values);
-  static StoragePreSignUrlRequest_Operation? valueOf($core.int value) => _byValue[value];
+  static final $core.Map<$core.int, StoragePreSignUrlRequest_Operation>
+      _byValue = $pb.ProtobufEnum.initByValue(values);
+  static StoragePreSignUrlRequest_Operation? valueOf($core.int value) =>
+      _byValue[value];
 
-  const StoragePreSignUrlRequest_Operation._($core.int v, $core.String n) : super(v, n);
+  const StoragePreSignUrlRequest_Operation._($core.int v, $core.String n)
+      : super(v, n);
 }
-
 
 const _omitEnumNames = $core.bool.fromEnvironment('protobuf.omit_enum_names');

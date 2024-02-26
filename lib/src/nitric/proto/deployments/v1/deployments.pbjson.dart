@@ -26,9 +26,10 @@ const ResourceDeploymentAction$json = {
 };
 
 /// Descriptor for `ResourceDeploymentAction`. Decode as a `google.protobuf.EnumDescriptorProto`.
-final $typed_data.Uint8List resourceDeploymentActionDescriptor = $convert.base64Decode(
-    'ChhSZXNvdXJjZURlcGxveW1lbnRBY3Rpb24SCgoGQ1JFQVRFEAASCgoGVVBEQVRFEAESCwoHUk'
-    'VQTEFDRRACEggKBFNBTUUQAxIKCgZERUxFVEUQBA==');
+final $typed_data.Uint8List resourceDeploymentActionDescriptor =
+    $convert.base64Decode(
+        'ChhSZXNvdXJjZURlcGxveW1lbnRBY3Rpb24SCgoGQ1JFQVRFEAASCgoGVVBEQVRFEAESCwoHUk'
+        'VQTEFDRRACEggKBFNBTUUQAxIKCgZERUxFVEUQBA==');
 
 @$core.Deprecated('Use resourceDeploymentStatusDescriptor instead')
 const ResourceDeploymentStatus$json = {
@@ -42,16 +43,31 @@ const ResourceDeploymentStatus$json = {
 };
 
 /// Descriptor for `ResourceDeploymentStatus`. Decode as a `google.protobuf.EnumDescriptorProto`.
-final $typed_data.Uint8List resourceDeploymentStatusDescriptor = $convert.base64Decode(
-    'ChhSZXNvdXJjZURlcGxveW1lbnRTdGF0dXMSCwoHUEVORElORxAAEg8KC0lOX1BST0dSRVNTEA'
-    'ESCwoHU1VDQ0VTUxACEgoKBkZBSUxFRBAD');
+final $typed_data.Uint8List resourceDeploymentStatusDescriptor =
+    $convert.base64Decode(
+        'ChhSZXNvdXJjZURlcGxveW1lbnRTdGF0dXMSCwoHUEVORElORxAAEg8KC0lOX1BST0dSRVNTEA'
+        'ESCwoHU1VDQ0VTUxACEgoKBkZBSUxFRBAD');
 
 @$core.Deprecated('Use deploymentUpRequestDescriptor instead')
 const DeploymentUpRequest$json = {
   '1': 'DeploymentUpRequest',
   '2': [
-    {'1': 'spec', '3': 1, '4': 1, '5': 11, '6': '.nitric.proto.deployments.v1.Spec', '10': 'spec'},
-    {'1': 'attributes', '3': 2, '4': 1, '5': 11, '6': '.google.protobuf.Struct', '10': 'attributes'},
+    {
+      '1': 'spec',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.deployments.v1.Spec',
+      '10': 'spec'
+    },
+    {
+      '1': 'attributes',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.google.protobuf.Struct',
+      '10': 'attributes'
+    },
     {'1': 'interactive', '3': 3, '4': 1, '5': 8, '10': 'interactive'},
   ],
 };
@@ -68,8 +84,24 @@ const DeploymentUpEvent$json = {
   '1': 'DeploymentUpEvent',
   '2': [
     {'1': 'message', '3': 1, '4': 1, '5': 9, '9': 0, '10': 'message'},
-    {'1': 'update', '3': 2, '4': 1, '5': 11, '6': '.nitric.proto.deployments.v1.ResourceUpdate', '9': 0, '10': 'update'},
-    {'1': 'result', '3': 3, '4': 1, '5': 11, '6': '.nitric.proto.deployments.v1.UpResult', '9': 0, '10': 'result'},
+    {
+      '1': 'update',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.deployments.v1.ResourceUpdate',
+      '9': 0,
+      '10': 'update'
+    },
+    {
+      '1': 'result',
+      '3': 3,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.deployments.v1.UpResult',
+      '9': 0,
+      '10': 'result'
+    },
   ],
   '8': [
     {'1': 'content'},
@@ -87,9 +119,30 @@ final $typed_data.Uint8List deploymentUpEventDescriptor = $convert.base64Decode(
 const ResourceUpdate$json = {
   '1': 'ResourceUpdate',
   '2': [
-    {'1': 'id', '3': 1, '4': 1, '5': 11, '6': '.nitric.proto.resources.v1.ResourceIdentifier', '10': 'id'},
-    {'1': 'action', '3': 3, '4': 1, '5': 14, '6': '.nitric.proto.deployments.v1.ResourceDeploymentAction', '10': 'action'},
-    {'1': 'status', '3': 4, '4': 1, '5': 14, '6': '.nitric.proto.deployments.v1.ResourceDeploymentStatus', '10': 'status'},
+    {
+      '1': 'id',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.resources.v1.ResourceIdentifier',
+      '10': 'id'
+    },
+    {
+      '1': 'action',
+      '3': 3,
+      '4': 1,
+      '5': 14,
+      '6': '.nitric.proto.deployments.v1.ResourceDeploymentAction',
+      '10': 'action'
+    },
+    {
+      '1': 'status',
+      '3': 4,
+      '4': 1,
+      '5': 14,
+      '6': '.nitric.proto.deployments.v1.ResourceDeploymentStatus',
+      '10': 'status'
+    },
     {'1': 'sub_resource', '3': 5, '4': 1, '5': 9, '10': 'subResource'},
     {'1': 'message', '3': 6, '4': 1, '5': 9, '10': 'message'},
   ],
@@ -125,7 +178,14 @@ final $typed_data.Uint8List upResultDescriptor = $convert.base64Decode(
 const DeploymentDownRequest$json = {
   '1': 'DeploymentDownRequest',
   '2': [
-    {'1': 'attributes', '3': 1, '4': 1, '5': 11, '6': '.google.protobuf.Struct', '10': 'attributes'},
+    {
+      '1': 'attributes',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.google.protobuf.Struct',
+      '10': 'attributes'
+    },
     {'1': 'interactive', '3': 2, '4': 1, '5': 8, '10': 'interactive'},
   ],
 };
@@ -141,8 +201,24 @@ const DeploymentDownEvent$json = {
   '1': 'DeploymentDownEvent',
   '2': [
     {'1': 'message', '3': 1, '4': 1, '5': 9, '9': 0, '10': 'message'},
-    {'1': 'result', '3': 2, '4': 1, '5': 11, '6': '.nitric.proto.deployments.v1.DownResult', '9': 0, '10': 'result'},
-    {'1': 'update', '3': 3, '4': 1, '5': 11, '6': '.nitric.proto.deployments.v1.ResourceUpdate', '9': 0, '10': 'update'},
+    {
+      '1': 'result',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.deployments.v1.DownResult',
+      '9': 0,
+      '10': 'result'
+    },
+    {
+      '1': 'update',
+      '3': 3,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.deployments.v1.ResourceUpdate',
+      '9': 0,
+      '10': 'update'
+    },
   ],
   '8': [
     {'1': 'content'},
@@ -162,8 +238,8 @@ const DownResult$json = {
 };
 
 /// Descriptor for `DownResult`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List downResultDescriptor = $convert.base64Decode(
-    'CgpEb3duUmVzdWx0');
+final $typed_data.Uint8List downResultDescriptor =
+    $convert.base64Decode('CgpEb3duUmVzdWx0');
 
 @$core.Deprecated('Use imageSourceDescriptor instead')
 const ImageSource$json = {
@@ -174,14 +250,22 @@ const ImageSource$json = {
 };
 
 /// Descriptor for `ImageSource`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List imageSourceDescriptor = $convert.base64Decode(
-    'CgtJbWFnZVNvdXJjZRIQCgN1cmkYASABKAlSA3VyaQ==');
+final $typed_data.Uint8List imageSourceDescriptor =
+    $convert.base64Decode('CgtJbWFnZVNvdXJjZRIQCgN1cmkYASABKAlSA3VyaQ==');
 
 @$core.Deprecated('Use serviceDescriptor instead')
 const Service$json = {
   '1': 'Service',
   '2': [
-    {'1': 'image', '3': 1, '4': 1, '5': 11, '6': '.nitric.proto.deployments.v1.ImageSource', '9': 0, '10': 'image'},
+    {
+      '1': 'image',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.deployments.v1.ImageSource',
+      '9': 0,
+      '10': 'image'
+    },
     {'1': 'workers', '3': 10, '4': 1, '5': 5, '10': 'workers'},
     {
       '1': 'timeout',
@@ -200,7 +284,14 @@ const Service$json = {
       '10': 'memory',
     },
     {'1': 'type', '3': 13, '4': 1, '5': 9, '10': 'type'},
-    {'1': 'env', '3': 14, '4': 3, '5': 11, '6': '.nitric.proto.deployments.v1.Service.EnvEntry', '10': 'env'},
+    {
+      '1': 'env',
+      '3': 14,
+      '4': 3,
+      '5': 11,
+      '6': '.nitric.proto.deployments.v1.Service.EnvEntry',
+      '10': 'env'
+    },
   ],
   '3': [Service_EnvEntry$json],
   '8': [
@@ -231,7 +322,14 @@ final $typed_data.Uint8List serviceDescriptor = $convert.base64Decode(
 const Bucket$json = {
   '1': 'Bucket',
   '2': [
-    {'1': 'listeners', '3': 1, '4': 3, '5': 11, '6': '.nitric.proto.deployments.v1.BucketListener', '10': 'listeners'},
+    {
+      '1': 'listeners',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.nitric.proto.deployments.v1.BucketListener',
+      '10': 'listeners'
+    },
   ],
 };
 
@@ -244,7 +342,14 @@ final $typed_data.Uint8List bucketDescriptor = $convert.base64Decode(
 const BucketListener$json = {
   '1': 'BucketListener',
   '2': [
-    {'1': 'config', '3': 1, '4': 1, '5': 11, '6': '.nitric.proto.storage.v1.RegistrationRequest', '10': 'config'},
+    {
+      '1': 'config',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.storage.v1.RegistrationRequest',
+      '10': 'config'
+    },
     {'1': 'service', '3': 2, '4': 1, '5': 9, '9': 0, '10': 'service'},
   ],
   '8': [
@@ -262,7 +367,14 @@ final $typed_data.Uint8List bucketListenerDescriptor = $convert.base64Decode(
 const Topic$json = {
   '1': 'Topic',
   '2': [
-    {'1': 'subscriptions', '3': 1, '4': 3, '5': 11, '6': '.nitric.proto.deployments.v1.SubscriptionTarget', '10': 'subscriptions'},
+    {
+      '1': 'subscriptions',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.nitric.proto.deployments.v1.SubscriptionTarget',
+      '10': 'subscriptions'
+    },
   ],
 };
 
@@ -277,8 +389,8 @@ const Queue$json = {
 };
 
 /// Descriptor for `Queue`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List queueDescriptor = $convert.base64Decode(
-    'CgVRdWV1ZQ==');
+final $typed_data.Uint8List queueDescriptor =
+    $convert.base64Decode('CgVRdWV1ZQ==');
 
 @$core.Deprecated('Use keyValueStoreDescriptor instead')
 const KeyValueStore$json = {
@@ -286,8 +398,8 @@ const KeyValueStore$json = {
 };
 
 /// Descriptor for `KeyValueStore`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List keyValueStoreDescriptor = $convert.base64Decode(
-    'Cg1LZXlWYWx1ZVN0b3Jl');
+final $typed_data.Uint8List keyValueStoreDescriptor =
+    $convert.base64Decode('Cg1LZXlWYWx1ZVN0b3Jl');
 
 @$core.Deprecated('Use secretDescriptor instead')
 const Secret$json = {
@@ -295,8 +407,8 @@ const Secret$json = {
 };
 
 /// Descriptor for `Secret`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List secretDescriptor = $convert.base64Decode(
-    'CgZTZWNyZXQ=');
+final $typed_data.Uint8List secretDescriptor =
+    $convert.base64Decode('CgZTZWNyZXQ=');
 
 @$core.Deprecated('Use subscriptionTargetDescriptor instead')
 const SubscriptionTarget$json = {
@@ -318,7 +430,14 @@ final $typed_data.Uint8List subscriptionTargetDescriptor = $convert.base64Decode
 const TopicSubscription$json = {
   '1': 'TopicSubscription',
   '2': [
-    {'1': 'target', '3': 1, '4': 1, '5': 11, '6': '.nitric.proto.deployments.v1.SubscriptionTarget', '10': 'target'},
+    {
+      '1': 'target',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.deployments.v1.SubscriptionTarget',
+      '10': 'target'
+    },
   ],
 };
 
@@ -346,7 +465,14 @@ final $typed_data.Uint8List httpTargetDescriptor = $convert.base64Decode(
 const Http$json = {
   '1': 'Http',
   '2': [
-    {'1': 'target', '3': 1, '4': 1, '5': 11, '6': '.nitric.proto.deployments.v1.HttpTarget', '10': 'target'},
+    {
+      '1': 'target',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.deployments.v1.HttpTarget',
+      '10': 'target'
+    },
   ],
 };
 
@@ -374,9 +500,30 @@ final $typed_data.Uint8List apiDescriptor = $convert.base64Decode(
 const Websocket$json = {
   '1': 'Websocket',
   '2': [
-    {'1': 'connect_target', '3': 1, '4': 1, '5': 11, '6': '.nitric.proto.deployments.v1.WebsocketTarget', '10': 'connectTarget'},
-    {'1': 'disconnect_target', '3': 2, '4': 1, '5': 11, '6': '.nitric.proto.deployments.v1.WebsocketTarget', '10': 'disconnectTarget'},
-    {'1': 'message_target', '3': 3, '4': 1, '5': 11, '6': '.nitric.proto.deployments.v1.WebsocketTarget', '10': 'messageTarget'},
+    {
+      '1': 'connect_target',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.deployments.v1.WebsocketTarget',
+      '10': 'connectTarget'
+    },
+    {
+      '1': 'disconnect_target',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.deployments.v1.WebsocketTarget',
+      '10': 'disconnectTarget'
+    },
+    {
+      '1': 'message_target',
+      '3': 3,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.deployments.v1.WebsocketTarget',
+      '10': 'messageTarget'
+    },
   ],
 };
 
@@ -423,9 +570,32 @@ final $typed_data.Uint8List scheduleTargetDescriptor = $convert.base64Decode(
 const Schedule$json = {
   '1': 'Schedule',
   '2': [
-    {'1': 'target', '3': 1, '4': 1, '5': 11, '6': '.nitric.proto.deployments.v1.ScheduleTarget', '10': 'target'},
-    {'1': 'every', '3': 10, '4': 1, '5': 11, '6': '.nitric.proto.deployments.v1.ScheduleEvery', '9': 0, '10': 'every'},
-    {'1': 'cron', '3': 11, '4': 1, '5': 11, '6': '.nitric.proto.deployments.v1.ScheduleCron', '9': 0, '10': 'cron'},
+    {
+      '1': 'target',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.deployments.v1.ScheduleTarget',
+      '10': 'target'
+    },
+    {
+      '1': 'every',
+      '3': 10,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.deployments.v1.ScheduleEvery',
+      '9': 0,
+      '10': 'every'
+    },
+    {
+      '1': 'cron',
+      '3': 11,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.deployments.v1.ScheduleCron',
+      '9': 0,
+      '10': 'cron'
+    },
   ],
   '8': [
     {'1': 'cadence'},
@@ -449,8 +619,8 @@ const ScheduleEvery$json = {
 };
 
 /// Descriptor for `ScheduleEvery`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List scheduleEveryDescriptor = $convert.base64Decode(
-    'Cg1TY2hlZHVsZUV2ZXJ5EhIKBHJhdGUYASABKAlSBHJhdGU=');
+final $typed_data.Uint8List scheduleEveryDescriptor =
+    $convert.base64Decode('Cg1TY2hlZHVsZUV2ZXJ5EhIKBHJhdGUYASABKAlSBHJhdGU=');
 
 @$core.Deprecated('Use scheduleCronDescriptor instead')
 const ScheduleCron$json = {
@@ -468,18 +638,113 @@ final $typed_data.Uint8List scheduleCronDescriptor = $convert.base64Decode(
 const Resource$json = {
   '1': 'Resource',
   '2': [
-    {'1': 'id', '3': 1, '4': 1, '5': 11, '6': '.nitric.proto.resources.v1.ResourceIdentifier', '10': 'id'},
-    {'1': 'service', '3': 10, '4': 1, '5': 11, '6': '.nitric.proto.deployments.v1.Service', '9': 0, '10': 'service'},
-    {'1': 'bucket', '3': 11, '4': 1, '5': 11, '6': '.nitric.proto.deployments.v1.Bucket', '9': 0, '10': 'bucket'},
-    {'1': 'topic', '3': 12, '4': 1, '5': 11, '6': '.nitric.proto.deployments.v1.Topic', '9': 0, '10': 'topic'},
-    {'1': 'api', '3': 13, '4': 1, '5': 11, '6': '.nitric.proto.deployments.v1.Api', '9': 0, '10': 'api'},
-    {'1': 'policy', '3': 14, '4': 1, '5': 11, '6': '.nitric.proto.deployments.v1.Policy', '9': 0, '10': 'policy'},
-    {'1': 'schedule', '3': 15, '4': 1, '5': 11, '6': '.nitric.proto.deployments.v1.Schedule', '9': 0, '10': 'schedule'},
-    {'1': 'key_value_store', '3': 16, '4': 1, '5': 11, '6': '.nitric.proto.deployments.v1.KeyValueStore', '9': 0, '10': 'keyValueStore'},
-    {'1': 'secret', '3': 17, '4': 1, '5': 11, '6': '.nitric.proto.deployments.v1.Secret', '9': 0, '10': 'secret'},
-    {'1': 'websocket', '3': 18, '4': 1, '5': 11, '6': '.nitric.proto.deployments.v1.Websocket', '9': 0, '10': 'websocket'},
-    {'1': 'http', '3': 19, '4': 1, '5': 11, '6': '.nitric.proto.deployments.v1.Http', '9': 0, '10': 'http'},
-    {'1': 'queue', '3': 20, '4': 1, '5': 11, '6': '.nitric.proto.deployments.v1.Queue', '9': 0, '10': 'queue'},
+    {
+      '1': 'id',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.resources.v1.ResourceIdentifier',
+      '10': 'id'
+    },
+    {
+      '1': 'service',
+      '3': 10,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.deployments.v1.Service',
+      '9': 0,
+      '10': 'service'
+    },
+    {
+      '1': 'bucket',
+      '3': 11,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.deployments.v1.Bucket',
+      '9': 0,
+      '10': 'bucket'
+    },
+    {
+      '1': 'topic',
+      '3': 12,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.deployments.v1.Topic',
+      '9': 0,
+      '10': 'topic'
+    },
+    {
+      '1': 'api',
+      '3': 13,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.deployments.v1.Api',
+      '9': 0,
+      '10': 'api'
+    },
+    {
+      '1': 'policy',
+      '3': 14,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.deployments.v1.Policy',
+      '9': 0,
+      '10': 'policy'
+    },
+    {
+      '1': 'schedule',
+      '3': 15,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.deployments.v1.Schedule',
+      '9': 0,
+      '10': 'schedule'
+    },
+    {
+      '1': 'key_value_store',
+      '3': 16,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.deployments.v1.KeyValueStore',
+      '9': 0,
+      '10': 'keyValueStore'
+    },
+    {
+      '1': 'secret',
+      '3': 17,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.deployments.v1.Secret',
+      '9': 0,
+      '10': 'secret'
+    },
+    {
+      '1': 'websocket',
+      '3': 18,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.deployments.v1.Websocket',
+      '9': 0,
+      '10': 'websocket'
+    },
+    {
+      '1': 'http',
+      '3': 19,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.deployments.v1.Http',
+      '9': 0,
+      '10': 'http'
+    },
+    {
+      '1': 'queue',
+      '3': 20,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.deployments.v1.Queue',
+      '9': 0,
+      '10': 'queue'
+    },
   ],
   '8': [
     {'1': 'config'},
@@ -508,9 +773,30 @@ final $typed_data.Uint8List resourceDescriptor = $convert.base64Decode(
 const Policy$json = {
   '1': 'Policy',
   '2': [
-    {'1': 'principals', '3': 1, '4': 3, '5': 11, '6': '.nitric.proto.deployments.v1.Resource', '10': 'principals'},
-    {'1': 'actions', '3': 2, '4': 3, '5': 14, '6': '.nitric.proto.resources.v1.Action', '10': 'actions'},
-    {'1': 'resources', '3': 3, '4': 3, '5': 11, '6': '.nitric.proto.deployments.v1.Resource', '10': 'resources'},
+    {
+      '1': 'principals',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.nitric.proto.deployments.v1.Resource',
+      '10': 'principals'
+    },
+    {
+      '1': 'actions',
+      '3': 2,
+      '4': 3,
+      '5': 14,
+      '6': '.nitric.proto.resources.v1.Action',
+      '10': 'actions'
+    },
+    {
+      '1': 'resources',
+      '3': 3,
+      '4': 3,
+      '5': 11,
+      '6': '.nitric.proto.deployments.v1.Resource',
+      '10': 'resources'
+    },
   ],
 };
 
@@ -525,7 +811,14 @@ final $typed_data.Uint8List policyDescriptor = $convert.base64Decode(
 const Spec$json = {
   '1': 'Spec',
   '2': [
-    {'1': 'resources', '3': 1, '4': 3, '5': 11, '6': '.nitric.proto.deployments.v1.Resource', '10': 'resources'},
+    {
+      '1': 'resources',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.nitric.proto.deployments.v1.Resource',
+      '10': 'resources'
+    },
   ],
 };
 
@@ -533,4 +826,3 @@ const Spec$json = {
 final $typed_data.Uint8List specDescriptor = $convert.base64Decode(
     'CgRTcGVjEkMKCXJlc291cmNlcxgBIAMoCzIlLm5pdHJpYy5wcm90by5kZXBsb3ltZW50cy52MS'
     '5SZXNvdXJjZVIJcmVzb3VyY2Vz');
-

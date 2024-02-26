@@ -22,8 +22,8 @@ const Store$json = {
 };
 
 /// Descriptor for `Store`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List storeDescriptor = $convert.base64Decode(
-    'CgVTdG9yZRISCgRuYW1lGAEgASgJUgRuYW1l');
+final $typed_data.Uint8List storeDescriptor =
+    $convert.base64Decode('CgVTdG9yZRISCgRuYW1lGAEgASgJUgRuYW1l');
 
 @$core.Deprecated('Use valueRefDescriptor instead')
 const ValueRef$json = {
@@ -42,8 +42,22 @@ final $typed_data.Uint8List valueRefDescriptor = $convert.base64Decode(
 const Value$json = {
   '1': 'Value',
   '2': [
-    {'1': 'ref', '3': 1, '4': 1, '5': 11, '6': '.nitric.proto.KeyValue.v1.ValueRef', '10': 'ref'},
-    {'1': 'content', '3': 2, '4': 1, '5': 11, '6': '.google.protobuf.Struct', '10': 'content'},
+    {
+      '1': 'ref',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.KeyValue.v1.ValueRef',
+      '10': 'ref'
+    },
+    {
+      '1': 'content',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.google.protobuf.Struct',
+      '10': 'content'
+    },
   ],
 };
 
@@ -57,7 +71,14 @@ final $typed_data.Uint8List valueDescriptor = $convert.base64Decode(
 const KeyValueGetRequest$json = {
   '1': 'KeyValueGetRequest',
   '2': [
-    {'1': 'ref', '3': 1, '4': 1, '5': 11, '6': '.nitric.proto.KeyValue.v1.ValueRef', '10': 'ref'},
+    {
+      '1': 'ref',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.KeyValue.v1.ValueRef',
+      '10': 'ref'
+    },
   ],
 };
 
@@ -70,7 +91,14 @@ final $typed_data.Uint8List keyValueGetRequestDescriptor = $convert.base64Decode
 const KeyValueGetResponse$json = {
   '1': 'KeyValueGetResponse',
   '2': [
-    {'1': 'value', '3': 1, '4': 1, '5': 11, '6': '.nitric.proto.KeyValue.v1.Value', '10': 'value'},
+    {
+      '1': 'value',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.KeyValue.v1.Value',
+      '10': 'value'
+    },
   ],
 };
 
@@ -83,8 +111,22 @@ final $typed_data.Uint8List keyValueGetResponseDescriptor = $convert.base64Decod
 const KeyValueSetRequest$json = {
   '1': 'KeyValueSetRequest',
   '2': [
-    {'1': 'ref', '3': 1, '4': 1, '5': 11, '6': '.nitric.proto.KeyValue.v1.ValueRef', '10': 'ref'},
-    {'1': 'content', '3': 3, '4': 1, '5': 11, '6': '.google.protobuf.Struct', '10': 'content'},
+    {
+      '1': 'ref',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.KeyValue.v1.ValueRef',
+      '10': 'ref'
+    },
+    {
+      '1': 'content',
+      '3': 3,
+      '4': 1,
+      '5': 11,
+      '6': '.google.protobuf.Struct',
+      '10': 'content'
+    },
   ],
 };
 
@@ -100,14 +142,21 @@ const KeyValueSetResponse$json = {
 };
 
 /// Descriptor for `KeyValueSetResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List keyValueSetResponseDescriptor = $convert.base64Decode(
-    'ChNLZXlWYWx1ZVNldFJlc3BvbnNl');
+final $typed_data.Uint8List keyValueSetResponseDescriptor =
+    $convert.base64Decode('ChNLZXlWYWx1ZVNldFJlc3BvbnNl');
 
 @$core.Deprecated('Use keyValueDeleteRequestDescriptor instead')
 const KeyValueDeleteRequest$json = {
   '1': 'KeyValueDeleteRequest',
   '2': [
-    {'1': 'ref', '3': 1, '4': 1, '5': 11, '6': '.nitric.proto.KeyValue.v1.ValueRef', '10': 'ref'},
+    {
+      '1': 'ref',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.KeyValue.v1.ValueRef',
+      '10': 'ref'
+    },
   ],
 };
 
@@ -122,6 +171,5 @@ const KeyValueDeleteResponse$json = {
 };
 
 /// Descriptor for `KeyValueDeleteResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List keyValueDeleteResponseDescriptor = $convert.base64Decode(
-    'ChZLZXlWYWx1ZURlbGV0ZVJlc3BvbnNl');
-
+final $typed_data.Uint8List keyValueDeleteResponseDescriptor =
+    $convert.base64Decode('ChZLZXlWYWx1ZURlbGV0ZVJlc3BvbnNl');

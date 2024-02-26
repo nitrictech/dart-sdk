@@ -28,39 +28,53 @@ class WebsocketDetailsRequest extends $pb.GeneratedMessage {
     return $result;
   }
   WebsocketDetailsRequest._() : super();
-  factory WebsocketDetailsRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory WebsocketDetailsRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory WebsocketDetailsRequest.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory WebsocketDetailsRequest.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'WebsocketDetailsRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'nitric.proto.websockets.v1'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'WebsocketDetailsRequest',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'nitric.proto.websockets.v1'),
+      createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'socketName')
-    ..hasRequiredFields = false
-  ;
+    ..hasRequiredFields = false;
 
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  WebsocketDetailsRequest clone() => WebsocketDetailsRequest()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  WebsocketDetailsRequest copyWith(void Function(WebsocketDetailsRequest) updates) => super.copyWith((message) => updates(message as WebsocketDetailsRequest)) as WebsocketDetailsRequest;
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  WebsocketDetailsRequest clone() =>
+      WebsocketDetailsRequest()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  WebsocketDetailsRequest copyWith(
+          void Function(WebsocketDetailsRequest) updates) =>
+      super.copyWith((message) => updates(message as WebsocketDetailsRequest))
+          as WebsocketDetailsRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static WebsocketDetailsRequest create() => WebsocketDetailsRequest._();
   WebsocketDetailsRequest createEmptyInstance() => create();
-  static $pb.PbList<WebsocketDetailsRequest> createRepeated() => $pb.PbList<WebsocketDetailsRequest>();
+  static $pb.PbList<WebsocketDetailsRequest> createRepeated() =>
+      $pb.PbList<WebsocketDetailsRequest>();
   @$core.pragma('dart2js:noInline')
-  static WebsocketDetailsRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<WebsocketDetailsRequest>(create);
+  static WebsocketDetailsRequest getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<WebsocketDetailsRequest>(create);
   static WebsocketDetailsRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get socketName => $_getSZ(0);
   @$pb.TagNumber(1)
-  set socketName($core.String v) { $_setString(0, v); }
+  set socketName($core.String v) {
+    $_setString(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasSocketName() => $_has(0);
   @$pb.TagNumber(1)
@@ -78,39 +92,53 @@ class WebsocketDetailsResponse extends $pb.GeneratedMessage {
     return $result;
   }
   WebsocketDetailsResponse._() : super();
-  factory WebsocketDetailsResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory WebsocketDetailsResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory WebsocketDetailsResponse.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory WebsocketDetailsResponse.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'WebsocketDetailsResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'nitric.proto.websockets.v1'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'WebsocketDetailsResponse',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'nitric.proto.websockets.v1'),
+      createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'url')
-    ..hasRequiredFields = false
-  ;
+    ..hasRequiredFields = false;
 
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  WebsocketDetailsResponse clone() => WebsocketDetailsResponse()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  WebsocketDetailsResponse copyWith(void Function(WebsocketDetailsResponse) updates) => super.copyWith((message) => updates(message as WebsocketDetailsResponse)) as WebsocketDetailsResponse;
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  WebsocketDetailsResponse clone() =>
+      WebsocketDetailsResponse()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  WebsocketDetailsResponse copyWith(
+          void Function(WebsocketDetailsResponse) updates) =>
+      super.copyWith((message) => updates(message as WebsocketDetailsResponse))
+          as WebsocketDetailsResponse;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static WebsocketDetailsResponse create() => WebsocketDetailsResponse._();
   WebsocketDetailsResponse createEmptyInstance() => create();
-  static $pb.PbList<WebsocketDetailsResponse> createRepeated() => $pb.PbList<WebsocketDetailsResponse>();
+  static $pb.PbList<WebsocketDetailsResponse> createRepeated() =>
+      $pb.PbList<WebsocketDetailsResponse>();
   @$core.pragma('dart2js:noInline')
-  static WebsocketDetailsResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<WebsocketDetailsResponse>(create);
+  static WebsocketDetailsResponse getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<WebsocketDetailsResponse>(create);
   static WebsocketDetailsResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get url => $_getSZ(0);
   @$pb.TagNumber(1)
-  set url($core.String v) { $_setString(0, v); }
+  set url($core.String v) {
+    $_setString(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasUrl() => $_has(0);
   @$pb.TagNumber(1)
@@ -136,42 +164,56 @@ class WebsocketSendRequest extends $pb.GeneratedMessage {
     return $result;
   }
   WebsocketSendRequest._() : super();
-  factory WebsocketSendRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory WebsocketSendRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory WebsocketSendRequest.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory WebsocketSendRequest.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'WebsocketSendRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'nitric.proto.websockets.v1'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'WebsocketSendRequest',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'nitric.proto.websockets.v1'),
+      createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'socketName')
     ..aOS(2, _omitFieldNames ? '' : 'connectionId')
-    ..a<$core.List<$core.int>>(3, _omitFieldNames ? '' : 'data', $pb.PbFieldType.OY)
-    ..hasRequiredFields = false
-  ;
+    ..a<$core.List<$core.int>>(
+        3, _omitFieldNames ? '' : 'data', $pb.PbFieldType.OY)
+    ..hasRequiredFields = false;
 
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  WebsocketSendRequest clone() => WebsocketSendRequest()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  WebsocketSendRequest copyWith(void Function(WebsocketSendRequest) updates) => super.copyWith((message) => updates(message as WebsocketSendRequest)) as WebsocketSendRequest;
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  WebsocketSendRequest clone() =>
+      WebsocketSendRequest()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  WebsocketSendRequest copyWith(void Function(WebsocketSendRequest) updates) =>
+      super.copyWith((message) => updates(message as WebsocketSendRequest))
+          as WebsocketSendRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static WebsocketSendRequest create() => WebsocketSendRequest._();
   WebsocketSendRequest createEmptyInstance() => create();
-  static $pb.PbList<WebsocketSendRequest> createRepeated() => $pb.PbList<WebsocketSendRequest>();
+  static $pb.PbList<WebsocketSendRequest> createRepeated() =>
+      $pb.PbList<WebsocketSendRequest>();
   @$core.pragma('dart2js:noInline')
-  static WebsocketSendRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<WebsocketSendRequest>(create);
+  static WebsocketSendRequest getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<WebsocketSendRequest>(create);
   static WebsocketSendRequest? _defaultInstance;
 
   /// The nitric name of the socket to send on
   @$pb.TagNumber(1)
   $core.String get socketName => $_getSZ(0);
   @$pb.TagNumber(1)
-  set socketName($core.String v) { $_setString(0, v); }
+  set socketName($core.String v) {
+    $_setString(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasSocketName() => $_has(0);
   @$pb.TagNumber(1)
@@ -181,7 +223,10 @@ class WebsocketSendRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.String get connectionId => $_getSZ(1);
   @$pb.TagNumber(2)
-  set connectionId($core.String v) { $_setString(1, v); }
+  set connectionId($core.String v) {
+    $_setString(1, v);
+  }
+
   @$pb.TagNumber(2)
   $core.bool hasConnectionId() => $_has(1);
   @$pb.TagNumber(2)
@@ -191,7 +236,10 @@ class WebsocketSendRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.List<$core.int> get data => $_getN(2);
   @$pb.TagNumber(3)
-  set data($core.List<$core.int> v) { $_setBytes(2, v); }
+  set data($core.List<$core.int> v) {
+    $_setBytes(2, v);
+  }
+
   @$pb.TagNumber(3)
   $core.bool hasData() => $_has(2);
   @$pb.TagNumber(3)
@@ -201,32 +249,43 @@ class WebsocketSendRequest extends $pb.GeneratedMessage {
 class WebsocketSendResponse extends $pb.GeneratedMessage {
   factory WebsocketSendResponse() => create();
   WebsocketSendResponse._() : super();
-  factory WebsocketSendResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory WebsocketSendResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory WebsocketSendResponse.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory WebsocketSendResponse.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'WebsocketSendResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'nitric.proto.websockets.v1'), createEmptyInstance: create)
-    ..hasRequiredFields = false
-  ;
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'WebsocketSendResponse',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'nitric.proto.websockets.v1'),
+      createEmptyInstance: create)
+    ..hasRequiredFields = false;
 
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  WebsocketSendResponse clone() => WebsocketSendResponse()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  WebsocketSendResponse copyWith(void Function(WebsocketSendResponse) updates) => super.copyWith((message) => updates(message as WebsocketSendResponse)) as WebsocketSendResponse;
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  WebsocketSendResponse clone() =>
+      WebsocketSendResponse()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  WebsocketSendResponse copyWith(
+          void Function(WebsocketSendResponse) updates) =>
+      super.copyWith((message) => updates(message as WebsocketSendResponse))
+          as WebsocketSendResponse;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static WebsocketSendResponse create() => WebsocketSendResponse._();
   WebsocketSendResponse createEmptyInstance() => create();
-  static $pb.PbList<WebsocketSendResponse> createRepeated() => $pb.PbList<WebsocketSendResponse>();
+  static $pb.PbList<WebsocketSendResponse> createRepeated() =>
+      $pb.PbList<WebsocketSendResponse>();
   @$core.pragma('dart2js:noInline')
-  static WebsocketSendResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<WebsocketSendResponse>(create);
+  static WebsocketSendResponse getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<WebsocketSendResponse>(create);
   static WebsocketSendResponse? _defaultInstance;
 }
 
@@ -245,41 +304,58 @@ class WebsocketCloseConnectionRequest extends $pb.GeneratedMessage {
     return $result;
   }
   WebsocketCloseConnectionRequest._() : super();
-  factory WebsocketCloseConnectionRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory WebsocketCloseConnectionRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory WebsocketCloseConnectionRequest.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory WebsocketCloseConnectionRequest.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'WebsocketCloseConnectionRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'nitric.proto.websockets.v1'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'WebsocketCloseConnectionRequest',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'nitric.proto.websockets.v1'),
+      createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'socketName')
     ..aOS(2, _omitFieldNames ? '' : 'connectionId')
-    ..hasRequiredFields = false
-  ;
+    ..hasRequiredFields = false;
 
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  WebsocketCloseConnectionRequest clone() => WebsocketCloseConnectionRequest()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  WebsocketCloseConnectionRequest copyWith(void Function(WebsocketCloseConnectionRequest) updates) => super.copyWith((message) => updates(message as WebsocketCloseConnectionRequest)) as WebsocketCloseConnectionRequest;
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  WebsocketCloseConnectionRequest clone() =>
+      WebsocketCloseConnectionRequest()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  WebsocketCloseConnectionRequest copyWith(
+          void Function(WebsocketCloseConnectionRequest) updates) =>
+      super.copyWith(
+              (message) => updates(message as WebsocketCloseConnectionRequest))
+          as WebsocketCloseConnectionRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static WebsocketCloseConnectionRequest create() => WebsocketCloseConnectionRequest._();
+  static WebsocketCloseConnectionRequest create() =>
+      WebsocketCloseConnectionRequest._();
   WebsocketCloseConnectionRequest createEmptyInstance() => create();
-  static $pb.PbList<WebsocketCloseConnectionRequest> createRepeated() => $pb.PbList<WebsocketCloseConnectionRequest>();
+  static $pb.PbList<WebsocketCloseConnectionRequest> createRepeated() =>
+      $pb.PbList<WebsocketCloseConnectionRequest>();
   @$core.pragma('dart2js:noInline')
-  static WebsocketCloseConnectionRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<WebsocketCloseConnectionRequest>(create);
+  static WebsocketCloseConnectionRequest getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<WebsocketCloseConnectionRequest>(
+          create);
   static WebsocketCloseConnectionRequest? _defaultInstance;
 
   /// The nitric name of the socket to send on
   @$pb.TagNumber(1)
   $core.String get socketName => $_getSZ(0);
   @$pb.TagNumber(1)
-  set socketName($core.String v) { $_setString(0, v); }
+  set socketName($core.String v) {
+    $_setString(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasSocketName() => $_has(0);
   @$pb.TagNumber(1)
@@ -289,7 +365,10 @@ class WebsocketCloseConnectionRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.String get connectionId => $_getSZ(1);
   @$pb.TagNumber(2)
-  set connectionId($core.String v) { $_setString(1, v); }
+  set connectionId($core.String v) {
+    $_setString(1, v);
+  }
+
   @$pb.TagNumber(2)
   $core.bool hasConnectionId() => $_has(1);
   @$pb.TagNumber(2)
@@ -299,38 +378,52 @@ class WebsocketCloseConnectionRequest extends $pb.GeneratedMessage {
 class WebsocketCloseConnectionResponse extends $pb.GeneratedMessage {
   factory WebsocketCloseConnectionResponse() => create();
   WebsocketCloseConnectionResponse._() : super();
-  factory WebsocketCloseConnectionResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory WebsocketCloseConnectionResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory WebsocketCloseConnectionResponse.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory WebsocketCloseConnectionResponse.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'WebsocketCloseConnectionResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'nitric.proto.websockets.v1'), createEmptyInstance: create)
-    ..hasRequiredFields = false
-  ;
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'WebsocketCloseConnectionResponse',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'nitric.proto.websockets.v1'),
+      createEmptyInstance: create)
+    ..hasRequiredFields = false;
 
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  WebsocketCloseConnectionResponse clone() => WebsocketCloseConnectionResponse()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  WebsocketCloseConnectionResponse copyWith(void Function(WebsocketCloseConnectionResponse) updates) => super.copyWith((message) => updates(message as WebsocketCloseConnectionResponse)) as WebsocketCloseConnectionResponse;
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  WebsocketCloseConnectionResponse clone() =>
+      WebsocketCloseConnectionResponse()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  WebsocketCloseConnectionResponse copyWith(
+          void Function(WebsocketCloseConnectionResponse) updates) =>
+      super.copyWith(
+              (message) => updates(message as WebsocketCloseConnectionResponse))
+          as WebsocketCloseConnectionResponse;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static WebsocketCloseConnectionResponse create() => WebsocketCloseConnectionResponse._();
+  static WebsocketCloseConnectionResponse create() =>
+      WebsocketCloseConnectionResponse._();
   WebsocketCloseConnectionResponse createEmptyInstance() => create();
-  static $pb.PbList<WebsocketCloseConnectionResponse> createRepeated() => $pb.PbList<WebsocketCloseConnectionResponse>();
+  static $pb.PbList<WebsocketCloseConnectionResponse> createRepeated() =>
+      $pb.PbList<WebsocketCloseConnectionResponse>();
   @$core.pragma('dart2js:noInline')
-  static WebsocketCloseConnectionResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<WebsocketCloseConnectionResponse>(create);
+  static WebsocketCloseConnectionResponse getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<WebsocketCloseConnectionResponse>(
+          create);
   static WebsocketCloseConnectionResponse? _defaultInstance;
 }
 
 enum ClientMessage_Content {
-  registrationRequest, 
-  websocketEventResponse, 
+  registrationRequest,
+  websocketEventResponse,
   notSet
 }
 
@@ -354,51 +447,68 @@ class ClientMessage extends $pb.GeneratedMessage {
     return $result;
   }
   ClientMessage._() : super();
-  factory ClientMessage.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory ClientMessage.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory ClientMessage.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory ClientMessage.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static const $core.Map<$core.int, ClientMessage_Content> _ClientMessage_ContentByTag = {
-    2 : ClientMessage_Content.registrationRequest,
-    3 : ClientMessage_Content.websocketEventResponse,
-    0 : ClientMessage_Content.notSet
+  static const $core.Map<$core.int, ClientMessage_Content>
+      _ClientMessage_ContentByTag = {
+    2: ClientMessage_Content.registrationRequest,
+    3: ClientMessage_Content.websocketEventResponse,
+    0: ClientMessage_Content.notSet
   };
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ClientMessage', package: const $pb.PackageName(_omitMessageNames ? '' : 'nitric.proto.websockets.v1'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'ClientMessage',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'nitric.proto.websockets.v1'),
+      createEmptyInstance: create)
     ..oo(0, [2, 3])
     ..aOS(1, _omitFieldNames ? '' : 'id')
-    ..aOM<RegistrationRequest>(2, _omitFieldNames ? '' : 'registrationRequest', subBuilder: RegistrationRequest.create)
-    ..aOM<WebsocketEventResponse>(3, _omitFieldNames ? '' : 'websocketEventResponse', subBuilder: WebsocketEventResponse.create)
-    ..hasRequiredFields = false
-  ;
+    ..aOM<RegistrationRequest>(2, _omitFieldNames ? '' : 'registrationRequest',
+        subBuilder: RegistrationRequest.create)
+    ..aOM<WebsocketEventResponse>(
+        3, _omitFieldNames ? '' : 'websocketEventResponse',
+        subBuilder: WebsocketEventResponse.create)
+    ..hasRequiredFields = false;
 
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
   ClientMessage clone() => ClientMessage()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  ClientMessage copyWith(void Function(ClientMessage) updates) => super.copyWith((message) => updates(message as ClientMessage)) as ClientMessage;
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  ClientMessage copyWith(void Function(ClientMessage) updates) =>
+      super.copyWith((message) => updates(message as ClientMessage))
+          as ClientMessage;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static ClientMessage create() => ClientMessage._();
   ClientMessage createEmptyInstance() => create();
-  static $pb.PbList<ClientMessage> createRepeated() => $pb.PbList<ClientMessage>();
+  static $pb.PbList<ClientMessage> createRepeated() =>
+      $pb.PbList<ClientMessage>();
   @$core.pragma('dart2js:noInline')
-  static ClientMessage getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ClientMessage>(create);
+  static ClientMessage getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<ClientMessage>(create);
   static ClientMessage? _defaultInstance;
 
-  ClientMessage_Content whichContent() => _ClientMessage_ContentByTag[$_whichOneof(0)]!;
+  ClientMessage_Content whichContent() =>
+      _ClientMessage_ContentByTag[$_whichOneof(0)]!;
   void clearContent() => clearField($_whichOneof(0));
 
   /// Globally unique id to pair requests/responses
   @$pb.TagNumber(1)
   $core.String get id => $_getSZ(0);
   @$pb.TagNumber(1)
-  set id($core.String v) { $_setString(0, v); }
+  set id($core.String v) {
+    $_setString(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasId() => $_has(0);
   @$pb.TagNumber(1)
@@ -410,7 +520,10 @@ class ClientMessage extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   RegistrationRequest get registrationRequest => $_getN(1);
   @$pb.TagNumber(2)
-  set registrationRequest(RegistrationRequest v) { setField(2, v); }
+  set registrationRequest(RegistrationRequest v) {
+    setField(2, v);
+  }
+
   @$pb.TagNumber(2)
   $core.bool hasRegistrationRequest() => $_has(1);
   @$pb.TagNumber(2)
@@ -422,7 +535,10 @@ class ClientMessage extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   WebsocketEventResponse get websocketEventResponse => $_getN(2);
   @$pb.TagNumber(3)
-  set websocketEventResponse(WebsocketEventResponse v) { setField(3, v); }
+  set websocketEventResponse(WebsocketEventResponse v) {
+    setField(3, v);
+  }
+
   @$pb.TagNumber(3)
   $core.bool hasWebsocketEventResponse() => $_has(2);
   @$pb.TagNumber(3)
@@ -435,32 +551,42 @@ class ClientMessage extends $pb.GeneratedMessage {
 class RegistrationResponse extends $pb.GeneratedMessage {
   factory RegistrationResponse() => create();
   RegistrationResponse._() : super();
-  factory RegistrationResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory RegistrationResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory RegistrationResponse.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory RegistrationResponse.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'RegistrationResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'nitric.proto.websockets.v1'), createEmptyInstance: create)
-    ..hasRequiredFields = false
-  ;
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'RegistrationResponse',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'nitric.proto.websockets.v1'),
+      createEmptyInstance: create)
+    ..hasRequiredFields = false;
 
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  RegistrationResponse clone() => RegistrationResponse()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  RegistrationResponse copyWith(void Function(RegistrationResponse) updates) => super.copyWith((message) => updates(message as RegistrationResponse)) as RegistrationResponse;
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  RegistrationResponse clone() =>
+      RegistrationResponse()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  RegistrationResponse copyWith(void Function(RegistrationResponse) updates) =>
+      super.copyWith((message) => updates(message as RegistrationResponse))
+          as RegistrationResponse;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static RegistrationResponse create() => RegistrationResponse._();
   RegistrationResponse createEmptyInstance() => create();
-  static $pb.PbList<RegistrationResponse> createRepeated() => $pb.PbList<RegistrationResponse>();
+  static $pb.PbList<RegistrationResponse> createRepeated() =>
+      $pb.PbList<RegistrationResponse>();
   @$core.pragma('dart2js:noInline')
-  static RegistrationResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<RegistrationResponse>(create);
+  static RegistrationResponse getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<RegistrationResponse>(create);
   static RegistrationResponse? _defaultInstance;
 }
 
@@ -479,41 +605,57 @@ class RegistrationRequest extends $pb.GeneratedMessage {
     return $result;
   }
   RegistrationRequest._() : super();
-  factory RegistrationRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory RegistrationRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory RegistrationRequest.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory RegistrationRequest.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'RegistrationRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'nitric.proto.websockets.v1'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'RegistrationRequest',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'nitric.proto.websockets.v1'),
+      createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'socketName')
-    ..e<WebsocketEventType>(2, _omitFieldNames ? '' : 'eventType', $pb.PbFieldType.OE, defaultOrMaker: WebsocketEventType.Connect, valueOf: WebsocketEventType.valueOf, enumValues: WebsocketEventType.values)
-    ..hasRequiredFields = false
-  ;
+    ..e<WebsocketEventType>(
+        2, _omitFieldNames ? '' : 'eventType', $pb.PbFieldType.OE,
+        defaultOrMaker: WebsocketEventType.Connect,
+        valueOf: WebsocketEventType.valueOf,
+        enumValues: WebsocketEventType.values)
+    ..hasRequiredFields = false;
 
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
   RegistrationRequest clone() => RegistrationRequest()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  RegistrationRequest copyWith(void Function(RegistrationRequest) updates) => super.copyWith((message) => updates(message as RegistrationRequest)) as RegistrationRequest;
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  RegistrationRequest copyWith(void Function(RegistrationRequest) updates) =>
+      super.copyWith((message) => updates(message as RegistrationRequest))
+          as RegistrationRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static RegistrationRequest create() => RegistrationRequest._();
   RegistrationRequest createEmptyInstance() => create();
-  static $pb.PbList<RegistrationRequest> createRepeated() => $pb.PbList<RegistrationRequest>();
+  static $pb.PbList<RegistrationRequest> createRepeated() =>
+      $pb.PbList<RegistrationRequest>();
   @$core.pragma('dart2js:noInline')
-  static RegistrationRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<RegistrationRequest>(create);
+  static RegistrationRequest getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<RegistrationRequest>(create);
   static RegistrationRequest? _defaultInstance;
 
   /// The nitric name of the socket that this worker listens on
   @$pb.TagNumber(1)
   $core.String get socketName => $_getSZ(0);
   @$pb.TagNumber(1)
-  set socketName($core.String v) { $_setString(0, v); }
+  set socketName($core.String v) {
+    $_setString(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasSocketName() => $_has(0);
   @$pb.TagNumber(1)
@@ -523,7 +665,10 @@ class RegistrationRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   WebsocketEventType get eventType => $_getN(1);
   @$pb.TagNumber(2)
-  set eventType(WebsocketEventType v) { setField(2, v); }
+  set eventType(WebsocketEventType v) {
+    setField(2, v);
+  }
+
   @$pb.TagNumber(2)
   $core.bool hasEventType() => $_has(1);
   @$pb.TagNumber(2)
@@ -531,9 +676,9 @@ class RegistrationRequest extends $pb.GeneratedMessage {
 }
 
 enum WebsocketEventRequest_WebsocketEvent {
-  connection, 
-  disconnection, 
-  message, 
+  connection,
+  disconnection,
+  message,
   notSet
 }
 
@@ -564,54 +709,74 @@ class WebsocketEventRequest extends $pb.GeneratedMessage {
     return $result;
   }
   WebsocketEventRequest._() : super();
-  factory WebsocketEventRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory WebsocketEventRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory WebsocketEventRequest.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory WebsocketEventRequest.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static const $core.Map<$core.int, WebsocketEventRequest_WebsocketEvent> _WebsocketEventRequest_WebsocketEventByTag = {
-    10 : WebsocketEventRequest_WebsocketEvent.connection,
-    11 : WebsocketEventRequest_WebsocketEvent.disconnection,
-    12 : WebsocketEventRequest_WebsocketEvent.message,
-    0 : WebsocketEventRequest_WebsocketEvent.notSet
+  static const $core.Map<$core.int, WebsocketEventRequest_WebsocketEvent>
+      _WebsocketEventRequest_WebsocketEventByTag = {
+    10: WebsocketEventRequest_WebsocketEvent.connection,
+    11: WebsocketEventRequest_WebsocketEvent.disconnection,
+    12: WebsocketEventRequest_WebsocketEvent.message,
+    0: WebsocketEventRequest_WebsocketEvent.notSet
   };
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'WebsocketEventRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'nitric.proto.websockets.v1'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'WebsocketEventRequest',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'nitric.proto.websockets.v1'),
+      createEmptyInstance: create)
     ..oo(0, [10, 11, 12])
     ..aOS(1, _omitFieldNames ? '' : 'socketName')
     ..aOS(2, _omitFieldNames ? '' : 'connectionId', protoName: 'connectionId')
-    ..aOM<WebsocketConnectionEvent>(10, _omitFieldNames ? '' : 'connection', subBuilder: WebsocketConnectionEvent.create)
-    ..aOM<WebsocketDisconnectionEvent>(11, _omitFieldNames ? '' : 'disconnection', subBuilder: WebsocketDisconnectionEvent.create)
-    ..aOM<WebsocketMessageEvent>(12, _omitFieldNames ? '' : 'message', subBuilder: WebsocketMessageEvent.create)
-    ..hasRequiredFields = false
-  ;
+    ..aOM<WebsocketConnectionEvent>(10, _omitFieldNames ? '' : 'connection',
+        subBuilder: WebsocketConnectionEvent.create)
+    ..aOM<WebsocketDisconnectionEvent>(
+        11, _omitFieldNames ? '' : 'disconnection',
+        subBuilder: WebsocketDisconnectionEvent.create)
+    ..aOM<WebsocketMessageEvent>(12, _omitFieldNames ? '' : 'message',
+        subBuilder: WebsocketMessageEvent.create)
+    ..hasRequiredFields = false;
 
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  WebsocketEventRequest clone() => WebsocketEventRequest()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  WebsocketEventRequest copyWith(void Function(WebsocketEventRequest) updates) => super.copyWith((message) => updates(message as WebsocketEventRequest)) as WebsocketEventRequest;
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  WebsocketEventRequest clone() =>
+      WebsocketEventRequest()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  WebsocketEventRequest copyWith(
+          void Function(WebsocketEventRequest) updates) =>
+      super.copyWith((message) => updates(message as WebsocketEventRequest))
+          as WebsocketEventRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static WebsocketEventRequest create() => WebsocketEventRequest._();
   WebsocketEventRequest createEmptyInstance() => create();
-  static $pb.PbList<WebsocketEventRequest> createRepeated() => $pb.PbList<WebsocketEventRequest>();
+  static $pb.PbList<WebsocketEventRequest> createRepeated() =>
+      $pb.PbList<WebsocketEventRequest>();
   @$core.pragma('dart2js:noInline')
-  static WebsocketEventRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<WebsocketEventRequest>(create);
+  static WebsocketEventRequest getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<WebsocketEventRequest>(create);
   static WebsocketEventRequest? _defaultInstance;
 
-  WebsocketEventRequest_WebsocketEvent whichWebsocketEvent() => _WebsocketEventRequest_WebsocketEventByTag[$_whichOneof(0)]!;
+  WebsocketEventRequest_WebsocketEvent whichWebsocketEvent() =>
+      _WebsocketEventRequest_WebsocketEventByTag[$_whichOneof(0)]!;
   void clearWebsocketEvent() => clearField($_whichOneof(0));
 
   /// The nitric name of the socket that this worker listens on
   @$pb.TagNumber(1)
   $core.String get socketName => $_getSZ(0);
   @$pb.TagNumber(1)
-  set socketName($core.String v) { $_setString(0, v); }
+  set socketName($core.String v) {
+    $_setString(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasSocketName() => $_has(0);
   @$pb.TagNumber(1)
@@ -621,7 +786,10 @@ class WebsocketEventRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.String get connectionId => $_getSZ(1);
   @$pb.TagNumber(2)
-  set connectionId($core.String v) { $_setString(1, v); }
+  set connectionId($core.String v) {
+    $_setString(1, v);
+  }
+
   @$pb.TagNumber(2)
   $core.bool hasConnectionId() => $_has(1);
   @$pb.TagNumber(2)
@@ -630,7 +798,10 @@ class WebsocketEventRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(10)
   WebsocketConnectionEvent get connection => $_getN(2);
   @$pb.TagNumber(10)
-  set connection(WebsocketConnectionEvent v) { setField(10, v); }
+  set connection(WebsocketConnectionEvent v) {
+    setField(10, v);
+  }
+
   @$pb.TagNumber(10)
   $core.bool hasConnection() => $_has(2);
   @$pb.TagNumber(10)
@@ -641,7 +812,10 @@ class WebsocketEventRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(11)
   WebsocketDisconnectionEvent get disconnection => $_getN(3);
   @$pb.TagNumber(11)
-  set disconnection(WebsocketDisconnectionEvent v) { setField(11, v); }
+  set disconnection(WebsocketDisconnectionEvent v) {
+    setField(11, v);
+  }
+
   @$pb.TagNumber(11)
   $core.bool hasDisconnection() => $_has(3);
   @$pb.TagNumber(11)
@@ -652,7 +826,10 @@ class WebsocketEventRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(12)
   WebsocketMessageEvent get message => $_getN(4);
   @$pb.TagNumber(12)
-  set message(WebsocketMessageEvent v) { setField(12, v); }
+  set message(WebsocketMessageEvent v) {
+    setField(12, v);
+  }
+
   @$pb.TagNumber(12)
   $core.bool hasMessage() => $_has(4);
   @$pb.TagNumber(12)
@@ -672,24 +849,30 @@ class QueryValue extends $pb.GeneratedMessage {
     return $result;
   }
   QueryValue._() : super();
-  factory QueryValue.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory QueryValue.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory QueryValue.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory QueryValue.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'QueryValue', package: const $pb.PackageName(_omitMessageNames ? '' : 'nitric.proto.websockets.v1'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'QueryValue',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'nitric.proto.websockets.v1'),
+      createEmptyInstance: create)
     ..pPS(1, _omitFieldNames ? '' : 'value')
-    ..hasRequiredFields = false
-  ;
+    ..hasRequiredFields = false;
 
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
   QueryValue clone() => QueryValue()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  QueryValue copyWith(void Function(QueryValue) updates) => super.copyWith((message) => updates(message as QueryValue)) as QueryValue;
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  QueryValue copyWith(void Function(QueryValue) updates) =>
+      super.copyWith((message) => updates(message as QueryValue)) as QueryValue;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -698,7 +881,8 @@ class QueryValue extends $pb.GeneratedMessage {
   QueryValue createEmptyInstance() => create();
   static $pb.PbList<QueryValue> createRepeated() => $pb.PbList<QueryValue>();
   @$core.pragma('dart2js:noInline')
-  static QueryValue getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<QueryValue>(create);
+  static QueryValue getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<QueryValue>(create);
   static QueryValue? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -706,8 +890,8 @@ class QueryValue extends $pb.GeneratedMessage {
 }
 
 enum ServerMessage_Content {
-  registrationResponse, 
-  websocketEventRequest, 
+  registrationResponse,
+  websocketEventRequest,
   notSet
 }
 
@@ -731,51 +915,69 @@ class ServerMessage extends $pb.GeneratedMessage {
     return $result;
   }
   ServerMessage._() : super();
-  factory ServerMessage.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory ServerMessage.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory ServerMessage.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory ServerMessage.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static const $core.Map<$core.int, ServerMessage_Content> _ServerMessage_ContentByTag = {
-    2 : ServerMessage_Content.registrationResponse,
-    3 : ServerMessage_Content.websocketEventRequest,
-    0 : ServerMessage_Content.notSet
+  static const $core.Map<$core.int, ServerMessage_Content>
+      _ServerMessage_ContentByTag = {
+    2: ServerMessage_Content.registrationResponse,
+    3: ServerMessage_Content.websocketEventRequest,
+    0: ServerMessage_Content.notSet
   };
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ServerMessage', package: const $pb.PackageName(_omitMessageNames ? '' : 'nitric.proto.websockets.v1'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'ServerMessage',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'nitric.proto.websockets.v1'),
+      createEmptyInstance: create)
     ..oo(0, [2, 3])
     ..aOS(1, _omitFieldNames ? '' : 'id')
-    ..aOM<RegistrationResponse>(2, _omitFieldNames ? '' : 'registrationResponse', subBuilder: RegistrationResponse.create)
-    ..aOM<WebsocketEventRequest>(3, _omitFieldNames ? '' : 'websocketEventRequest', subBuilder: WebsocketEventRequest.create)
-    ..hasRequiredFields = false
-  ;
+    ..aOM<RegistrationResponse>(
+        2, _omitFieldNames ? '' : 'registrationResponse',
+        subBuilder: RegistrationResponse.create)
+    ..aOM<WebsocketEventRequest>(
+        3, _omitFieldNames ? '' : 'websocketEventRequest',
+        subBuilder: WebsocketEventRequest.create)
+    ..hasRequiredFields = false;
 
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
   ServerMessage clone() => ServerMessage()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  ServerMessage copyWith(void Function(ServerMessage) updates) => super.copyWith((message) => updates(message as ServerMessage)) as ServerMessage;
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  ServerMessage copyWith(void Function(ServerMessage) updates) =>
+      super.copyWith((message) => updates(message as ServerMessage))
+          as ServerMessage;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static ServerMessage create() => ServerMessage._();
   ServerMessage createEmptyInstance() => create();
-  static $pb.PbList<ServerMessage> createRepeated() => $pb.PbList<ServerMessage>();
+  static $pb.PbList<ServerMessage> createRepeated() =>
+      $pb.PbList<ServerMessage>();
   @$core.pragma('dart2js:noInline')
-  static ServerMessage getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ServerMessage>(create);
+  static ServerMessage getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<ServerMessage>(create);
   static ServerMessage? _defaultInstance;
 
-  ServerMessage_Content whichContent() => _ServerMessage_ContentByTag[$_whichOneof(0)]!;
+  ServerMessage_Content whichContent() =>
+      _ServerMessage_ContentByTag[$_whichOneof(0)]!;
   void clearContent() => clearField($_whichOneof(0));
 
   /// Server message ID, used to pair requests/responses
   @$pb.TagNumber(1)
   $core.String get id => $_getSZ(0);
   @$pb.TagNumber(1)
-  set id($core.String v) { $_setString(0, v); }
+  set id($core.String v) {
+    $_setString(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasId() => $_has(0);
   @$pb.TagNumber(1)
@@ -787,7 +989,10 @@ class ServerMessage extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   RegistrationResponse get registrationResponse => $_getN(1);
   @$pb.TagNumber(2)
-  set registrationResponse(RegistrationResponse v) { setField(2, v); }
+  set registrationResponse(RegistrationResponse v) {
+    setField(2, v);
+  }
+
   @$pb.TagNumber(2)
   $core.bool hasRegistrationResponse() => $_has(1);
   @$pb.TagNumber(2)
@@ -799,7 +1004,10 @@ class ServerMessage extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   WebsocketEventRequest get websocketEventRequest => $_getN(2);
   @$pb.TagNumber(3)
-  set websocketEventRequest(WebsocketEventRequest v) { setField(3, v); }
+  set websocketEventRequest(WebsocketEventRequest v) {
+    setField(3, v);
+  }
+
   @$pb.TagNumber(3)
   $core.bool hasWebsocketEventRequest() => $_has(2);
   @$pb.TagNumber(3)
@@ -808,10 +1016,7 @@ class ServerMessage extends $pb.GeneratedMessage {
   WebsocketEventRequest ensureWebsocketEventRequest() => $_ensure(2);
 }
 
-enum WebsocketEventResponse_WebsocketResponse {
-  connectionResponse, 
-  notSet
-}
+enum WebsocketEventResponse_WebsocketResponse { connectionResponse, notSet }
 
 class WebsocketEventResponse extends $pb.GeneratedMessage {
   factory WebsocketEventResponse({
@@ -824,47 +1029,65 @@ class WebsocketEventResponse extends $pb.GeneratedMessage {
     return $result;
   }
   WebsocketEventResponse._() : super();
-  factory WebsocketEventResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory WebsocketEventResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory WebsocketEventResponse.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory WebsocketEventResponse.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static const $core.Map<$core.int, WebsocketEventResponse_WebsocketResponse> _WebsocketEventResponse_WebsocketResponseByTag = {
-    10 : WebsocketEventResponse_WebsocketResponse.connectionResponse,
-    0 : WebsocketEventResponse_WebsocketResponse.notSet
+  static const $core.Map<$core.int, WebsocketEventResponse_WebsocketResponse>
+      _WebsocketEventResponse_WebsocketResponseByTag = {
+    10: WebsocketEventResponse_WebsocketResponse.connectionResponse,
+    0: WebsocketEventResponse_WebsocketResponse.notSet
   };
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'WebsocketEventResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'nitric.proto.websockets.v1'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'WebsocketEventResponse',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'nitric.proto.websockets.v1'),
+      createEmptyInstance: create)
     ..oo(0, [10])
-    ..aOM<WebsocketConnectionResponse>(10, _omitFieldNames ? '' : 'connectionResponse', subBuilder: WebsocketConnectionResponse.create)
-    ..hasRequiredFields = false
-  ;
+    ..aOM<WebsocketConnectionResponse>(
+        10, _omitFieldNames ? '' : 'connectionResponse',
+        subBuilder: WebsocketConnectionResponse.create)
+    ..hasRequiredFields = false;
 
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  WebsocketEventResponse clone() => WebsocketEventResponse()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  WebsocketEventResponse copyWith(void Function(WebsocketEventResponse) updates) => super.copyWith((message) => updates(message as WebsocketEventResponse)) as WebsocketEventResponse;
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  WebsocketEventResponse clone() =>
+      WebsocketEventResponse()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  WebsocketEventResponse copyWith(
+          void Function(WebsocketEventResponse) updates) =>
+      super.copyWith((message) => updates(message as WebsocketEventResponse))
+          as WebsocketEventResponse;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static WebsocketEventResponse create() => WebsocketEventResponse._();
   WebsocketEventResponse createEmptyInstance() => create();
-  static $pb.PbList<WebsocketEventResponse> createRepeated() => $pb.PbList<WebsocketEventResponse>();
+  static $pb.PbList<WebsocketEventResponse> createRepeated() =>
+      $pb.PbList<WebsocketEventResponse>();
   @$core.pragma('dart2js:noInline')
-  static WebsocketEventResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<WebsocketEventResponse>(create);
+  static WebsocketEventResponse getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<WebsocketEventResponse>(create);
   static WebsocketEventResponse? _defaultInstance;
 
-  WebsocketEventResponse_WebsocketResponse whichWebsocketResponse() => _WebsocketEventResponse_WebsocketResponseByTag[$_whichOneof(0)]!;
+  WebsocketEventResponse_WebsocketResponse whichWebsocketResponse() =>
+      _WebsocketEventResponse_WebsocketResponseByTag[$_whichOneof(0)]!;
   void clearWebsocketResponse() => clearField($_whichOneof(0));
 
   @$pb.TagNumber(10)
   WebsocketConnectionResponse get connectionResponse => $_getN(0);
   @$pb.TagNumber(10)
-  set connectionResponse(WebsocketConnectionResponse v) { setField(10, v); }
+  set connectionResponse(WebsocketConnectionResponse v) {
+    setField(10, v);
+  }
+
   @$pb.TagNumber(10)
   $core.bool hasConnectionResponse() => $_has(0);
   @$pb.TagNumber(10)
@@ -884,33 +1107,50 @@ class WebsocketConnectionEvent extends $pb.GeneratedMessage {
     return $result;
   }
   WebsocketConnectionEvent._() : super();
-  factory WebsocketConnectionEvent.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory WebsocketConnectionEvent.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory WebsocketConnectionEvent.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory WebsocketConnectionEvent.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'WebsocketConnectionEvent', package: const $pb.PackageName(_omitMessageNames ? '' : 'nitric.proto.websockets.v1'), createEmptyInstance: create)
-    ..m<$core.String, QueryValue>(1, _omitFieldNames ? '' : 'queryParams', entryClassName: 'WebsocketConnectionEvent.QueryParamsEntry', keyFieldType: $pb.PbFieldType.OS, valueFieldType: $pb.PbFieldType.OM, valueCreator: QueryValue.create, valueDefaultOrMaker: QueryValue.getDefault, packageName: const $pb.PackageName('nitric.proto.websockets.v1'))
-    ..hasRequiredFields = false
-  ;
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'WebsocketConnectionEvent',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'nitric.proto.websockets.v1'),
+      createEmptyInstance: create)
+    ..m<$core.String, QueryValue>(1, _omitFieldNames ? '' : 'queryParams',
+        entryClassName: 'WebsocketConnectionEvent.QueryParamsEntry',
+        keyFieldType: $pb.PbFieldType.OS,
+        valueFieldType: $pb.PbFieldType.OM,
+        valueCreator: QueryValue.create,
+        valueDefaultOrMaker: QueryValue.getDefault,
+        packageName: const $pb.PackageName('nitric.proto.websockets.v1'))
+    ..hasRequiredFields = false;
 
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  WebsocketConnectionEvent clone() => WebsocketConnectionEvent()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  WebsocketConnectionEvent copyWith(void Function(WebsocketConnectionEvent) updates) => super.copyWith((message) => updates(message as WebsocketConnectionEvent)) as WebsocketConnectionEvent;
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  WebsocketConnectionEvent clone() =>
+      WebsocketConnectionEvent()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  WebsocketConnectionEvent copyWith(
+          void Function(WebsocketConnectionEvent) updates) =>
+      super.copyWith((message) => updates(message as WebsocketConnectionEvent))
+          as WebsocketConnectionEvent;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static WebsocketConnectionEvent create() => WebsocketConnectionEvent._();
   WebsocketConnectionEvent createEmptyInstance() => create();
-  static $pb.PbList<WebsocketConnectionEvent> createRepeated() => $pb.PbList<WebsocketConnectionEvent>();
+  static $pb.PbList<WebsocketConnectionEvent> createRepeated() =>
+      $pb.PbList<WebsocketConnectionEvent>();
   @$core.pragma('dart2js:noInline')
-  static WebsocketConnectionEvent getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<WebsocketConnectionEvent>(create);
+  static WebsocketConnectionEvent getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<WebsocketConnectionEvent>(create);
   static WebsocketConnectionEvent? _defaultInstance;
 
   /// The query params available in the connection request
@@ -929,39 +1169,55 @@ class WebsocketConnectionResponse extends $pb.GeneratedMessage {
     return $result;
   }
   WebsocketConnectionResponse._() : super();
-  factory WebsocketConnectionResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory WebsocketConnectionResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory WebsocketConnectionResponse.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory WebsocketConnectionResponse.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'WebsocketConnectionResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'nitric.proto.websockets.v1'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'WebsocketConnectionResponse',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'nitric.proto.websockets.v1'),
+      createEmptyInstance: create)
     ..aOB(1, _omitFieldNames ? '' : 'reject')
-    ..hasRequiredFields = false
-  ;
+    ..hasRequiredFields = false;
 
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  WebsocketConnectionResponse clone() => WebsocketConnectionResponse()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  WebsocketConnectionResponse copyWith(void Function(WebsocketConnectionResponse) updates) => super.copyWith((message) => updates(message as WebsocketConnectionResponse)) as WebsocketConnectionResponse;
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  WebsocketConnectionResponse clone() =>
+      WebsocketConnectionResponse()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  WebsocketConnectionResponse copyWith(
+          void Function(WebsocketConnectionResponse) updates) =>
+      super.copyWith(
+              (message) => updates(message as WebsocketConnectionResponse))
+          as WebsocketConnectionResponse;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static WebsocketConnectionResponse create() => WebsocketConnectionResponse._();
+  static WebsocketConnectionResponse create() =>
+      WebsocketConnectionResponse._();
   WebsocketConnectionResponse createEmptyInstance() => create();
-  static $pb.PbList<WebsocketConnectionResponse> createRepeated() => $pb.PbList<WebsocketConnectionResponse>();
+  static $pb.PbList<WebsocketConnectionResponse> createRepeated() =>
+      $pb.PbList<WebsocketConnectionResponse>();
   @$core.pragma('dart2js:noInline')
-  static WebsocketConnectionResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<WebsocketConnectionResponse>(create);
+  static WebsocketConnectionResponse getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<WebsocketConnectionResponse>(create);
   static WebsocketConnectionResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.bool get reject => $_getBF(0);
   @$pb.TagNumber(1)
-  set reject($core.bool v) { $_setBool(0, v); }
+  set reject($core.bool v) {
+    $_setBool(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasReject() => $_has(0);
   @$pb.TagNumber(1)
@@ -971,32 +1227,45 @@ class WebsocketConnectionResponse extends $pb.GeneratedMessage {
 class WebsocketDisconnectionEvent extends $pb.GeneratedMessage {
   factory WebsocketDisconnectionEvent() => create();
   WebsocketDisconnectionEvent._() : super();
-  factory WebsocketDisconnectionEvent.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory WebsocketDisconnectionEvent.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory WebsocketDisconnectionEvent.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory WebsocketDisconnectionEvent.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'WebsocketDisconnectionEvent', package: const $pb.PackageName(_omitMessageNames ? '' : 'nitric.proto.websockets.v1'), createEmptyInstance: create)
-    ..hasRequiredFields = false
-  ;
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'WebsocketDisconnectionEvent',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'nitric.proto.websockets.v1'),
+      createEmptyInstance: create)
+    ..hasRequiredFields = false;
 
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  WebsocketDisconnectionEvent clone() => WebsocketDisconnectionEvent()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  WebsocketDisconnectionEvent copyWith(void Function(WebsocketDisconnectionEvent) updates) => super.copyWith((message) => updates(message as WebsocketDisconnectionEvent)) as WebsocketDisconnectionEvent;
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  WebsocketDisconnectionEvent clone() =>
+      WebsocketDisconnectionEvent()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  WebsocketDisconnectionEvent copyWith(
+          void Function(WebsocketDisconnectionEvent) updates) =>
+      super.copyWith(
+              (message) => updates(message as WebsocketDisconnectionEvent))
+          as WebsocketDisconnectionEvent;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static WebsocketDisconnectionEvent create() => WebsocketDisconnectionEvent._();
+  static WebsocketDisconnectionEvent create() =>
+      WebsocketDisconnectionEvent._();
   WebsocketDisconnectionEvent createEmptyInstance() => create();
-  static $pb.PbList<WebsocketDisconnectionEvent> createRepeated() => $pb.PbList<WebsocketDisconnectionEvent>();
+  static $pb.PbList<WebsocketDisconnectionEvent> createRepeated() =>
+      $pb.PbList<WebsocketDisconnectionEvent>();
   @$core.pragma('dart2js:noInline')
-  static WebsocketDisconnectionEvent getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<WebsocketDisconnectionEvent>(create);
+  static WebsocketDisconnectionEvent getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<WebsocketDisconnectionEvent>(create);
   static WebsocketDisconnectionEvent? _defaultInstance;
 }
 
@@ -1011,46 +1280,61 @@ class WebsocketMessageEvent extends $pb.GeneratedMessage {
     return $result;
   }
   WebsocketMessageEvent._() : super();
-  factory WebsocketMessageEvent.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory WebsocketMessageEvent.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory WebsocketMessageEvent.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory WebsocketMessageEvent.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'WebsocketMessageEvent', package: const $pb.PackageName(_omitMessageNames ? '' : 'nitric.proto.websockets.v1'), createEmptyInstance: create)
-    ..a<$core.List<$core.int>>(1, _omitFieldNames ? '' : 'body', $pb.PbFieldType.OY)
-    ..hasRequiredFields = false
-  ;
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'WebsocketMessageEvent',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'nitric.proto.websockets.v1'),
+      createEmptyInstance: create)
+    ..a<$core.List<$core.int>>(
+        1, _omitFieldNames ? '' : 'body', $pb.PbFieldType.OY)
+    ..hasRequiredFields = false;
 
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  WebsocketMessageEvent clone() => WebsocketMessageEvent()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  WebsocketMessageEvent copyWith(void Function(WebsocketMessageEvent) updates) => super.copyWith((message) => updates(message as WebsocketMessageEvent)) as WebsocketMessageEvent;
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  WebsocketMessageEvent clone() =>
+      WebsocketMessageEvent()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  WebsocketMessageEvent copyWith(
+          void Function(WebsocketMessageEvent) updates) =>
+      super.copyWith((message) => updates(message as WebsocketMessageEvent))
+          as WebsocketMessageEvent;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static WebsocketMessageEvent create() => WebsocketMessageEvent._();
   WebsocketMessageEvent createEmptyInstance() => create();
-  static $pb.PbList<WebsocketMessageEvent> createRepeated() => $pb.PbList<WebsocketMessageEvent>();
+  static $pb.PbList<WebsocketMessageEvent> createRepeated() =>
+      $pb.PbList<WebsocketMessageEvent>();
   @$core.pragma('dart2js:noInline')
-  static WebsocketMessageEvent getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<WebsocketMessageEvent>(create);
+  static WebsocketMessageEvent getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<WebsocketMessageEvent>(create);
   static WebsocketMessageEvent? _defaultInstance;
 
   /// Data available on
   @$pb.TagNumber(1)
   $core.List<$core.int> get body => $_getN(0);
   @$pb.TagNumber(1)
-  set body($core.List<$core.int> v) { $_setBytes(0, v); }
+  set body($core.List<$core.int> v) {
+    $_setBytes(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasBody() => $_has(0);
   @$pb.TagNumber(1)
   void clearBody() => clearField(1);
 }
 
-
 const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
-const _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');
+const _omitMessageNames =
+    $core.bool.fromEnvironment('protobuf.omit_message_names');

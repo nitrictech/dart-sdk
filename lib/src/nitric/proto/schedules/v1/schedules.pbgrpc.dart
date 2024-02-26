@@ -21,18 +21,20 @@ export 'schedules.pb.dart';
 
 @$pb.GrpcServiceName('nitric.proto.schedules.v1.Schedules')
 class SchedulesClient extends $grpc.Client {
-  static final _$schedule = $grpc.ClientMethod<$7.ClientMessage, $7.ServerMessage>(
-      '/nitric.proto.schedules.v1.Schedules/Schedule',
-      ($7.ClientMessage value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $7.ServerMessage.fromBuffer(value));
+  static final _$schedule =
+      $grpc.ClientMethod<$7.ClientMessage, $7.ServerMessage>(
+          '/nitric.proto.schedules.v1.Schedules/Schedule',
+          ($7.ClientMessage value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) => $7.ServerMessage.fromBuffer(value));
 
   SchedulesClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
       $core.Iterable<$grpc.ClientInterceptor>? interceptors})
-      : super(channel, options: options,
-        interceptors: interceptors);
+      : super(channel, options: options, interceptors: interceptors);
 
-  $grpc.ResponseStream<$7.ServerMessage> schedule($async.Stream<$7.ClientMessage> request, {$grpc.CallOptions? options}) {
+  $grpc.ResponseStream<$7.ServerMessage> schedule(
+      $async.Stream<$7.ClientMessage> request,
+      {$grpc.CallOptions? options}) {
     return $createStreamingCall(_$schedule, request, options: options);
   }
 }
@@ -51,5 +53,6 @@ abstract class SchedulesServiceBase extends $grpc.Service {
         ($7.ServerMessage value) => value.writeToBuffer()));
   }
 
-  $async.Stream<$7.ServerMessage> schedule($grpc.ServiceCall call, $async.Stream<$7.ClientMessage> request);
+  $async.Stream<$7.ServerMessage> schedule(
+      $grpc.ServiceCall call, $async.Stream<$7.ClientMessage> request);
 }

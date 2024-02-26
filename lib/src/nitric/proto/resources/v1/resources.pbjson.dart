@@ -74,9 +74,30 @@ final $typed_data.Uint8List actionDescriptor = $convert.base64Decode(
 const PolicyResource$json = {
   '1': 'PolicyResource',
   '2': [
-    {'1': 'principals', '3': 1, '4': 3, '5': 11, '6': '.nitric.proto.resources.v1.ResourceIdentifier', '10': 'principals'},
-    {'1': 'actions', '3': 2, '4': 3, '5': 14, '6': '.nitric.proto.resources.v1.Action', '10': 'actions'},
-    {'1': 'resources', '3': 3, '4': 3, '5': 11, '6': '.nitric.proto.resources.v1.ResourceIdentifier', '10': 'resources'},
+    {
+      '1': 'principals',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.nitric.proto.resources.v1.ResourceIdentifier',
+      '10': 'principals'
+    },
+    {
+      '1': 'actions',
+      '3': 2,
+      '4': 3,
+      '5': 14,
+      '6': '.nitric.proto.resources.v1.Action',
+      '10': 'actions'
+    },
+    {
+      '1': 'resources',
+      '3': 3,
+      '4': 3,
+      '5': 11,
+      '6': '.nitric.proto.resources.v1.ResourceIdentifier',
+      '10': 'resources'
+    },
   ],
 };
 
@@ -92,7 +113,14 @@ final $typed_data.Uint8List policyResourceDescriptor = $convert.base64Decode(
 const ResourceIdentifier$json = {
   '1': 'ResourceIdentifier',
   '2': [
-    {'1': 'type', '3': 1, '4': 1, '5': 14, '6': '.nitric.proto.resources.v1.ResourceType', '10': 'type'},
+    {
+      '1': 'type',
+      '3': 1,
+      '4': 1,
+      '5': 14,
+      '6': '.nitric.proto.resources.v1.ResourceType',
+      '10': 'type'
+    },
     {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
   ],
 };
@@ -106,15 +134,86 @@ final $typed_data.Uint8List resourceIdentifierDescriptor = $convert.base64Decode
 const ResourceDeclareRequest$json = {
   '1': 'ResourceDeclareRequest',
   '2': [
-    {'1': 'id', '3': 1, '4': 1, '5': 11, '6': '.nitric.proto.resources.v1.ResourceIdentifier', '10': 'id'},
-    {'1': 'policy', '3': 10, '4': 1, '5': 11, '6': '.nitric.proto.resources.v1.PolicyResource', '9': 0, '10': 'policy'},
-    {'1': 'bucket', '3': 11, '4': 1, '5': 11, '6': '.nitric.proto.resources.v1.BucketResource', '9': 0, '10': 'bucket'},
-    {'1': 'topic', '3': 12, '4': 1, '5': 11, '6': '.nitric.proto.resources.v1.TopicResource', '9': 0, '10': 'topic'},
-    {'1': 'key_value_store', '3': 13, '4': 1, '5': 11, '6': '.nitric.proto.resources.v1.KeyValueStoreResource', '9': 0, '10': 'keyValueStore'},
-    {'1': 'secret', '3': 14, '4': 1, '5': 11, '6': '.nitric.proto.resources.v1.SecretResource', '9': 0, '10': 'secret'},
-    {'1': 'api', '3': 15, '4': 1, '5': 11, '6': '.nitric.proto.resources.v1.ApiResource', '9': 0, '10': 'api'},
-    {'1': 'api_security_definition', '3': 16, '4': 1, '5': 11, '6': '.nitric.proto.resources.v1.ApiSecurityDefinitionResource', '9': 0, '10': 'apiSecurityDefinition'},
-    {'1': 'queue', '3': 17, '4': 1, '5': 11, '6': '.nitric.proto.resources.v1.QueueResource', '9': 0, '10': 'queue'},
+    {
+      '1': 'id',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.resources.v1.ResourceIdentifier',
+      '10': 'id'
+    },
+    {
+      '1': 'policy',
+      '3': 10,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.resources.v1.PolicyResource',
+      '9': 0,
+      '10': 'policy'
+    },
+    {
+      '1': 'bucket',
+      '3': 11,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.resources.v1.BucketResource',
+      '9': 0,
+      '10': 'bucket'
+    },
+    {
+      '1': 'topic',
+      '3': 12,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.resources.v1.TopicResource',
+      '9': 0,
+      '10': 'topic'
+    },
+    {
+      '1': 'key_value_store',
+      '3': 13,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.resources.v1.KeyValueStoreResource',
+      '9': 0,
+      '10': 'keyValueStore'
+    },
+    {
+      '1': 'secret',
+      '3': 14,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.resources.v1.SecretResource',
+      '9': 0,
+      '10': 'secret'
+    },
+    {
+      '1': 'api',
+      '3': 15,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.resources.v1.ApiResource',
+      '9': 0,
+      '10': 'api'
+    },
+    {
+      '1': 'api_security_definition',
+      '3': 16,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.resources.v1.ApiSecurityDefinitionResource',
+      '9': 0,
+      '10': 'apiSecurityDefinition'
+    },
+    {
+      '1': 'queue',
+      '3': 17,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.resources.v1.QueueResource',
+      '9': 0,
+      '10': 'queue'
+    },
   ],
   '8': [
     {'1': 'config'},
@@ -143,8 +242,8 @@ const BucketResource$json = {
 };
 
 /// Descriptor for `BucketResource`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List bucketResourceDescriptor = $convert.base64Decode(
-    'Cg5CdWNrZXRSZXNvdXJjZQ==');
+final $typed_data.Uint8List bucketResourceDescriptor =
+    $convert.base64Decode('Cg5CdWNrZXRSZXNvdXJjZQ==');
 
 @$core.Deprecated('Use topicResourceDescriptor instead')
 const TopicResource$json = {
@@ -152,8 +251,8 @@ const TopicResource$json = {
 };
 
 /// Descriptor for `TopicResource`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List topicResourceDescriptor = $convert.base64Decode(
-    'Cg1Ub3BpY1Jlc291cmNl');
+final $typed_data.Uint8List topicResourceDescriptor =
+    $convert.base64Decode('Cg1Ub3BpY1Jlc291cmNl');
 
 @$core.Deprecated('Use queueResourceDescriptor instead')
 const QueueResource$json = {
@@ -161,8 +260,8 @@ const QueueResource$json = {
 };
 
 /// Descriptor for `QueueResource`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List queueResourceDescriptor = $convert.base64Decode(
-    'Cg1RdWV1ZVJlc291cmNl');
+final $typed_data.Uint8List queueResourceDescriptor =
+    $convert.base64Decode('Cg1RdWV1ZVJlc291cmNl');
 
 @$core.Deprecated('Use keyValueStoreResourceDescriptor instead')
 const KeyValueStoreResource$json = {
@@ -170,8 +269,8 @@ const KeyValueStoreResource$json = {
 };
 
 /// Descriptor for `KeyValueStoreResource`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List keyValueStoreResourceDescriptor = $convert.base64Decode(
-    'ChVLZXlWYWx1ZVN0b3JlUmVzb3VyY2U=');
+final $typed_data.Uint8List keyValueStoreResourceDescriptor =
+    $convert.base64Decode('ChVLZXlWYWx1ZVN0b3JlUmVzb3VyY2U=');
 
 @$core.Deprecated('Use secretResourceDescriptor instead')
 const SecretResource$json = {
@@ -179,8 +278,8 @@ const SecretResource$json = {
 };
 
 /// Descriptor for `SecretResource`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List secretResourceDescriptor = $convert.base64Decode(
-    'Cg5TZWNyZXRSZXNvdXJjZQ==');
+final $typed_data.Uint8List secretResourceDescriptor =
+    $convert.base64Decode('Cg5TZWNyZXRSZXNvdXJjZQ==');
 
 @$core.Deprecated('Use apiOpenIdConnectionDefinitionDescriptor instead')
 const ApiOpenIdConnectionDefinition$json = {
@@ -192,16 +291,25 @@ const ApiOpenIdConnectionDefinition$json = {
 };
 
 /// Descriptor for `ApiOpenIdConnectionDefinition`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List apiOpenIdConnectionDefinitionDescriptor = $convert.base64Decode(
-    'Ch1BcGlPcGVuSWRDb25uZWN0aW9uRGVmaW5pdGlvbhIWCgZpc3N1ZXIYASABKAlSBmlzc3Vlch'
-    'IcCglhdWRpZW5jZXMYAiADKAlSCWF1ZGllbmNlcw==');
+final $typed_data.Uint8List apiOpenIdConnectionDefinitionDescriptor =
+    $convert.base64Decode(
+        'Ch1BcGlPcGVuSWRDb25uZWN0aW9uRGVmaW5pdGlvbhIWCgZpc3N1ZXIYASABKAlSBmlzc3Vlch'
+        'IcCglhdWRpZW5jZXMYAiADKAlSCWF1ZGllbmNlcw==');
 
 @$core.Deprecated('Use apiSecurityDefinitionResourceDescriptor instead')
 const ApiSecurityDefinitionResource$json = {
   '1': 'ApiSecurityDefinitionResource',
   '2': [
     {'1': 'api_name', '3': 1, '4': 1, '5': 9, '10': 'apiName'},
-    {'1': 'oidc', '3': 2, '4': 1, '5': 11, '6': '.nitric.proto.resources.v1.ApiOpenIdConnectionDefinition', '9': 0, '10': 'oidc'},
+    {
+      '1': 'oidc',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.resources.v1.ApiOpenIdConnectionDefinition',
+      '9': 0,
+      '10': 'oidc'
+    },
   ],
   '8': [
     {'1': 'definition'},
@@ -209,10 +317,11 @@ const ApiSecurityDefinitionResource$json = {
 };
 
 /// Descriptor for `ApiSecurityDefinitionResource`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List apiSecurityDefinitionResourceDescriptor = $convert.base64Decode(
-    'Ch1BcGlTZWN1cml0eURlZmluaXRpb25SZXNvdXJjZRIZCghhcGlfbmFtZRgBIAEoCVIHYXBpTm'
-    'FtZRJOCgRvaWRjGAIgASgLMjgubml0cmljLnByb3RvLnJlc291cmNlcy52MS5BcGlPcGVuSWRD'
-    'b25uZWN0aW9uRGVmaW5pdGlvbkgAUgRvaWRjQgwKCmRlZmluaXRpb24=');
+final $typed_data.Uint8List apiSecurityDefinitionResourceDescriptor =
+    $convert.base64Decode(
+        'Ch1BcGlTZWN1cml0eURlZmluaXRpb25SZXNvdXJjZRIZCghhcGlfbmFtZRgBIAEoCVIHYXBpTm'
+        'FtZRJOCgRvaWRjGAIgASgLMjgubml0cmljLnByb3RvLnJlc291cmNlcy52MS5BcGlPcGVuSWRD'
+        'b25uZWN0aW9uRGVmaW5pdGlvbkgAUgRvaWRjQgwKCmRlZmluaXRpb24=');
 
 @$core.Deprecated('Use apiScopesDescriptor instead')
 const ApiScopes$json = {
@@ -223,14 +332,21 @@ const ApiScopes$json = {
 };
 
 /// Descriptor for `ApiScopes`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List apiScopesDescriptor = $convert.base64Decode(
-    'CglBcGlTY29wZXMSFgoGc2NvcGVzGAEgAygJUgZzY29wZXM=');
+final $typed_data.Uint8List apiScopesDescriptor =
+    $convert.base64Decode('CglBcGlTY29wZXMSFgoGc2NvcGVzGAEgAygJUgZzY29wZXM=');
 
 @$core.Deprecated('Use apiResourceDescriptor instead')
 const ApiResource$json = {
   '1': 'ApiResource',
   '2': [
-    {'1': 'security', '3': 1, '4': 3, '5': 11, '6': '.nitric.proto.resources.v1.ApiResource.SecurityEntry', '10': 'security'},
+    {
+      '1': 'security',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.nitric.proto.resources.v1.ApiResource.SecurityEntry',
+      '10': 'security'
+    },
   ],
   '3': [ApiResource_SecurityEntry$json],
 };
@@ -240,7 +356,14 @@ const ApiResource_SecurityEntry$json = {
   '1': 'SecurityEntry',
   '2': [
     {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
-    {'1': 'value', '3': 2, '4': 1, '5': 11, '6': '.nitric.proto.resources.v1.ApiScopes', '10': 'value'},
+    {
+      '1': 'value',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.resources.v1.ApiScopes',
+      '10': 'value'
+    },
   ],
   '7': {'7': true},
 };
@@ -258,6 +381,5 @@ const ResourceDeclareResponse$json = {
 };
 
 /// Descriptor for `ResourceDeclareResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List resourceDeclareResponseDescriptor = $convert.base64Decode(
-    'ChdSZXNvdXJjZURlY2xhcmVSZXNwb25zZQ==');
-
+final $typed_data.Uint8List resourceDeclareResponseDescriptor =
+    $convert.base64Decode('ChdSZXNvdXJjZURlY2xhcmVSZXNwb25zZQ==');

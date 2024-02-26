@@ -29,10 +29,11 @@ class HttpClient extends $grpc.Client {
   HttpClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
       $core.Iterable<$grpc.ClientInterceptor>? interceptors})
-      : super(channel, options: options,
-        interceptors: interceptors);
+      : super(channel, options: options, interceptors: interceptors);
 
-  $grpc.ResponseStream<$4.ServerMessage> proxy($async.Stream<$4.ClientMessage> request, {$grpc.CallOptions? options}) {
+  $grpc.ResponseStream<$4.ServerMessage> proxy(
+      $async.Stream<$4.ClientMessage> request,
+      {$grpc.CallOptions? options}) {
     return $createStreamingCall(_$proxy, request, options: options);
   }
 }
@@ -51,5 +52,6 @@ abstract class HttpServiceBase extends $grpc.Service {
         ($4.ServerMessage value) => value.writeToBuffer()));
   }
 
-  $async.Stream<$4.ServerMessage> proxy($grpc.ServiceCall call, $async.Stream<$4.ClientMessage> request);
+  $async.Stream<$4.ServerMessage> proxy(
+      $grpc.ServiceCall call, $async.Stream<$4.ClientMessage> request);
 }

@@ -18,8 +18,24 @@ const ClientMessage$json = {
   '1': 'ClientMessage',
   '2': [
     {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
-    {'1': 'registration_request', '3': 2, '4': 1, '5': 11, '6': '.nitric.proto.topics.v1.RegistrationRequest', '9': 0, '10': 'registrationRequest'},
-    {'1': 'message_response', '3': 3, '4': 1, '5': 11, '6': '.nitric.proto.topics.v1.MessageResponse', '9': 0, '10': 'messageResponse'},
+    {
+      '1': 'registration_request',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.topics.v1.RegistrationRequest',
+      '9': 0,
+      '10': 'registrationRequest'
+    },
+    {
+      '1': 'message_response',
+      '3': 3,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.topics.v1.MessageResponse',
+      '9': 0,
+      '10': 'messageResponse'
+    },
   ],
   '8': [
     {'1': 'content'},
@@ -39,7 +55,14 @@ const MessageRequest$json = {
   '1': 'MessageRequest',
   '2': [
     {'1': 'topic_name', '3': 1, '4': 1, '5': 9, '10': 'topicName'},
-    {'1': 'message', '3': 2, '4': 1, '5': 11, '6': '.nitric.proto.topics.v1.TopicMessage', '10': 'message'},
+    {
+      '1': 'message',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.topics.v1.TopicMessage',
+      '10': 'message'
+    },
   ],
 };
 
@@ -65,8 +88,24 @@ const ServerMessage$json = {
   '1': 'ServerMessage',
   '2': [
     {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
-    {'1': 'registration_response', '3': 2, '4': 1, '5': 11, '6': '.nitric.proto.topics.v1.RegistrationResponse', '9': 0, '10': 'registrationResponse'},
-    {'1': 'message_request', '3': 3, '4': 1, '5': 11, '6': '.nitric.proto.topics.v1.MessageRequest', '9': 0, '10': 'messageRequest'},
+    {
+      '1': 'registration_response',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.topics.v1.RegistrationResponse',
+      '9': 0,
+      '10': 'registrationResponse'
+    },
+    {
+      '1': 'message_request',
+      '3': 3,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.topics.v1.MessageRequest',
+      '9': 0,
+      '10': 'messageRequest'
+    },
   ],
   '8': [
     {'1': 'content'},
@@ -99,14 +138,22 @@ const RegistrationResponse$json = {
 };
 
 /// Descriptor for `RegistrationResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List registrationResponseDescriptor = $convert.base64Decode(
-    'ChRSZWdpc3RyYXRpb25SZXNwb25zZQ==');
+final $typed_data.Uint8List registrationResponseDescriptor =
+    $convert.base64Decode('ChRSZWdpc3RyYXRpb25SZXNwb25zZQ==');
 
 @$core.Deprecated('Use topicMessageDescriptor instead')
 const TopicMessage$json = {
   '1': 'TopicMessage',
   '2': [
-    {'1': 'struct_payload', '3': 1, '4': 1, '5': 11, '6': '.google.protobuf.Struct', '9': 0, '10': 'structPayload'},
+    {
+      '1': 'struct_payload',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.google.protobuf.Struct',
+      '9': 0,
+      '10': 'structPayload'
+    },
   ],
   '8': [
     {'1': 'content'},
@@ -123,8 +170,22 @@ const TopicPublishRequest$json = {
   '1': 'TopicPublishRequest',
   '2': [
     {'1': 'topic_name', '3': 1, '4': 1, '5': 9, '10': 'topicName'},
-    {'1': 'message', '3': 2, '4': 1, '5': 11, '6': '.nitric.proto.topics.v1.TopicMessage', '10': 'message'},
-    {'1': 'delay', '3': 3, '4': 1, '5': 11, '6': '.google.protobuf.Duration', '10': 'delay'},
+    {
+      '1': 'message',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.topics.v1.TopicMessage',
+      '10': 'message'
+    },
+    {
+      '1': 'delay',
+      '3': 3,
+      '4': 1,
+      '5': 11,
+      '6': '.google.protobuf.Duration',
+      '10': 'delay'
+    },
   ],
 };
 
@@ -140,6 +201,5 @@ const TopicPublishResponse$json = {
 };
 
 /// Descriptor for `TopicPublishResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List topicPublishResponseDescriptor = $convert.base64Decode(
-    'ChRUb3BpY1B1Ymxpc2hSZXNwb25zZQ==');
-
+final $typed_data.Uint8List topicPublishResponseDescriptor =
+    $convert.base64Decode('ChRUb3BpY1B1Ymxpc2hSZXNwb25zZQ==');

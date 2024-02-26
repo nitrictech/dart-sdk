@@ -18,8 +18,24 @@ const ClientMessage$json = {
   '1': 'ClientMessage',
   '2': [
     {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
-    {'1': 'registration_request', '3': 2, '4': 1, '5': 11, '6': '.nitric.proto.schedules.v1.RegistrationRequest', '9': 0, '10': 'registrationRequest'},
-    {'1': 'interval_response', '3': 3, '4': 1, '5': 11, '6': '.nitric.proto.schedules.v1.IntervalResponse', '9': 0, '10': 'intervalResponse'},
+    {
+      '1': 'registration_request',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.schedules.v1.RegistrationRequest',
+      '9': 0,
+      '10': 'registrationRequest'
+    },
+    {
+      '1': 'interval_response',
+      '3': 3,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.schedules.v1.IntervalResponse',
+      '9': 0,
+      '10': 'intervalResponse'
+    },
   ],
   '8': [
     {'1': 'content'},
@@ -51,8 +67,24 @@ const ServerMessage$json = {
   '1': 'ServerMessage',
   '2': [
     {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
-    {'1': 'registration_response', '3': 2, '4': 1, '5': 11, '6': '.nitric.proto.schedules.v1.RegistrationResponse', '9': 0, '10': 'registrationResponse'},
-    {'1': 'interval_request', '3': 3, '4': 1, '5': 11, '6': '.nitric.proto.schedules.v1.IntervalRequest', '9': 0, '10': 'intervalRequest'},
+    {
+      '1': 'registration_response',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.schedules.v1.RegistrationResponse',
+      '9': 0,
+      '10': 'registrationResponse'
+    },
+    {
+      '1': 'interval_request',
+      '3': 3,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.schedules.v1.IntervalRequest',
+      '9': 0,
+      '10': 'intervalRequest'
+    },
   ],
   '8': [
     {'1': 'content'},
@@ -72,8 +104,24 @@ const RegistrationRequest$json = {
   '1': 'RegistrationRequest',
   '2': [
     {'1': 'schedule_name', '3': 1, '4': 1, '5': 9, '10': 'scheduleName'},
-    {'1': 'every', '3': 10, '4': 1, '5': 11, '6': '.nitric.proto.schedules.v1.ScheduleEvery', '9': 0, '10': 'every'},
-    {'1': 'cron', '3': 11, '4': 1, '5': 11, '6': '.nitric.proto.schedules.v1.ScheduleCron', '9': 0, '10': 'cron'},
+    {
+      '1': 'every',
+      '3': 10,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.schedules.v1.ScheduleEvery',
+      '9': 0,
+      '10': 'every'
+    },
+    {
+      '1': 'cron',
+      '3': 11,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.schedules.v1.ScheduleCron',
+      '9': 0,
+      '10': 'cron'
+    },
   ],
   '8': [
     {'1': 'cadence'},
@@ -96,8 +144,8 @@ const ScheduleEvery$json = {
 };
 
 /// Descriptor for `ScheduleEvery`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List scheduleEveryDescriptor = $convert.base64Decode(
-    'Cg1TY2hlZHVsZUV2ZXJ5EhIKBHJhdGUYASABKAlSBHJhdGU=');
+final $typed_data.Uint8List scheduleEveryDescriptor =
+    $convert.base64Decode('Cg1TY2hlZHVsZUV2ZXJ5EhIKBHJhdGUYASABKAlSBHJhdGU=');
 
 @$core.Deprecated('Use scheduleCronDescriptor instead')
 const ScheduleCron$json = {
@@ -117,8 +165,8 @@ const RegistrationResponse$json = {
 };
 
 /// Descriptor for `RegistrationResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List registrationResponseDescriptor = $convert.base64Decode(
-    'ChRSZWdpc3RyYXRpb25SZXNwb25zZQ==');
+final $typed_data.Uint8List registrationResponseDescriptor =
+    $convert.base64Decode('ChRSZWdpc3RyYXRpb25SZXNwb25zZQ==');
 
 @$core.Deprecated('Use intervalResponseDescriptor instead')
 const IntervalResponse$json = {
@@ -126,6 +174,5 @@ const IntervalResponse$json = {
 };
 
 /// Descriptor for `IntervalResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List intervalResponseDescriptor = $convert.base64Decode(
-    'ChBJbnRlcnZhbFJlc3BvbnNl');
-
+final $typed_data.Uint8List intervalResponseDescriptor =
+    $convert.base64Decode('ChBJbnRlcnZhbFJlc3BvbnNl');

@@ -14,21 +14,24 @@ import 'dart:core' as $core;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 class WebsocketEventType extends $pb.ProtobufEnum {
-  static const WebsocketEventType Connect = WebsocketEventType._(0, _omitEnumNames ? '' : 'Connect');
-  static const WebsocketEventType Disconnect = WebsocketEventType._(1, _omitEnumNames ? '' : 'Disconnect');
-  static const WebsocketEventType Message = WebsocketEventType._(2, _omitEnumNames ? '' : 'Message');
+  static const WebsocketEventType Connect =
+      WebsocketEventType._(0, _omitEnumNames ? '' : 'Connect');
+  static const WebsocketEventType Disconnect =
+      WebsocketEventType._(1, _omitEnumNames ? '' : 'Disconnect');
+  static const WebsocketEventType Message =
+      WebsocketEventType._(2, _omitEnumNames ? '' : 'Message');
 
-  static const $core.List<WebsocketEventType> values = <WebsocketEventType> [
+  static const $core.List<WebsocketEventType> values = <WebsocketEventType>[
     Connect,
     Disconnect,
     Message,
   ];
 
-  static final $core.Map<$core.int, WebsocketEventType> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static final $core.Map<$core.int, WebsocketEventType> _byValue =
+      $pb.ProtobufEnum.initByValue(values);
   static WebsocketEventType? valueOf($core.int value) => _byValue[value];
 
   const WebsocketEventType._($core.int v, $core.String n) : super(v, n);
 }
-
 
 const _omitEnumNames = $core.bool.fromEnvironment('protobuf.omit_enum_names');
