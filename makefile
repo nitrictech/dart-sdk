@@ -5,6 +5,7 @@ build: download
 	mkdir -p lib/src/nitric/proto
 	mkdir -p lib/src/nitric/google
 	protoc -I ./ --dart_out=grpc:lib/src/ ./nitric/proto/*/*/*.proto
+# relocate well known types as their relative location is not generated correctly on first build
 	mv lib/src/nitric/google lib/src/google
 
 NITRIC_VERSION := 1.0.0
