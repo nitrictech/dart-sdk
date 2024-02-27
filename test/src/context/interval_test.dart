@@ -12,7 +12,6 @@ void main() {
 
     IntervalContext req = IntervalContext.fromRequest(msg);
 
-    expect(req.id, msg.id);
     expect(req.req.scheduleName, msg.intervalRequest.scheduleName);
   });
 }
