@@ -21,7 +21,11 @@ include: package:lints/recommended.yaml
 
 analyzer:
   exclude:
-    - lib/src/nitric/**
+    - lib/**/*.pb.dart
+    - lib/**/*.pbenum.dart
+    - lib/**/*.pbgrpb.dart
+    - lib/**/*.pbjson.dart
+
 # For more information about the core and recommended set of lints, see
 # https://dart.dev/go/core-lints
 

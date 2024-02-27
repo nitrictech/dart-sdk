@@ -17,7 +17,14 @@ import 'dart:typed_data' as $typed_data;
 const SecretPutRequest$json = {
   '1': 'SecretPutRequest',
   '2': [
-    {'1': 'secret', '3': 1, '4': 1, '5': 11, '6': '.nitric.proto.secrets.v1.Secret', '10': 'secret'},
+    {
+      '1': 'secret',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.secrets.v1.Secret',
+      '10': 'secret'
+    },
     {'1': 'value', '3': 2, '4': 1, '5': 12, '10': 'value'},
   ],
 };
@@ -31,7 +38,14 @@ final $typed_data.Uint8List secretPutRequestDescriptor = $convert.base64Decode(
 const SecretPutResponse$json = {
   '1': 'SecretPutResponse',
   '2': [
-    {'1': 'secret_version', '3': 1, '4': 1, '5': 11, '6': '.nitric.proto.secrets.v1.SecretVersion', '10': 'secretVersion'},
+    {
+      '1': 'secret_version',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.secrets.v1.SecretVersion',
+      '10': 'secretVersion'
+    },
   ],
 };
 
@@ -44,7 +58,14 @@ final $typed_data.Uint8List secretPutResponseDescriptor = $convert.base64Decode(
 const SecretAccessRequest$json = {
   '1': 'SecretAccessRequest',
   '2': [
-    {'1': 'secret_version', '3': 1, '4': 1, '5': 11, '6': '.nitric.proto.secrets.v1.SecretVersion', '10': 'secretVersion'},
+    {
+      '1': 'secret_version',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.secrets.v1.SecretVersion',
+      '10': 'secretVersion'
+    },
   ],
 };
 
@@ -57,7 +78,14 @@ final $typed_data.Uint8List secretAccessRequestDescriptor = $convert.base64Decod
 const SecretAccessResponse$json = {
   '1': 'SecretAccessResponse',
   '2': [
-    {'1': 'secret_version', '3': 1, '4': 1, '5': 11, '6': '.nitric.proto.secrets.v1.SecretVersion', '10': 'secretVersion'},
+    {
+      '1': 'secret_version',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.secrets.v1.SecretVersion',
+      '10': 'secretVersion'
+    },
     {'1': 'value', '3': 2, '4': 1, '5': 12, '10': 'value'},
   ],
 };
@@ -77,14 +105,21 @@ const Secret$json = {
 };
 
 /// Descriptor for `Secret`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List secretDescriptor = $convert.base64Decode(
-    'CgZTZWNyZXQSEgoEbmFtZRgBIAEoCVIEbmFtZQ==');
+final $typed_data.Uint8List secretDescriptor =
+    $convert.base64Decode('CgZTZWNyZXQSEgoEbmFtZRgBIAEoCVIEbmFtZQ==');
 
 @$core.Deprecated('Use secretVersionDescriptor instead')
 const SecretVersion$json = {
   '1': 'SecretVersion',
   '2': [
-    {'1': 'secret', '3': 1, '4': 1, '5': 11, '6': '.nitric.proto.secrets.v1.Secret', '10': 'secret'},
+    {
+      '1': 'secret',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.secrets.v1.Secret',
+      '10': 'secret'
+    },
     {'1': 'version', '3': 2, '4': 1, '5': 9, '10': 'version'},
   ],
 };
@@ -93,4 +128,3 @@ const SecretVersion$json = {
 final $typed_data.Uint8List secretVersionDescriptor = $convert.base64Decode(
     'Cg1TZWNyZXRWZXJzaW9uEjcKBnNlY3JldBgBIAEoCzIfLm5pdHJpYy5wcm90by5zZWNyZXRzLn'
     'YxLlNlY3JldFIGc2VjcmV0EhgKB3ZlcnNpb24YAiABKAlSB3ZlcnNpb24=');
-

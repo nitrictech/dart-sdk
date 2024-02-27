@@ -34,16 +34,32 @@ const ApiDetailsResponse$json = {
 };
 
 /// Descriptor for `ApiDetailsResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List apiDetailsResponseDescriptor = $convert.base64Decode(
-    'ChJBcGlEZXRhaWxzUmVzcG9uc2USEAoDdXJsGAEgASgJUgN1cmw=');
+final $typed_data.Uint8List apiDetailsResponseDescriptor = $convert
+    .base64Decode('ChJBcGlEZXRhaWxzUmVzcG9uc2USEAoDdXJsGAEgASgJUgN1cmw=');
 
 @$core.Deprecated('Use clientMessageDescriptor instead')
 const ClientMessage$json = {
   '1': 'ClientMessage',
   '2': [
     {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
-    {'1': 'registration_request', '3': 2, '4': 1, '5': 11, '6': '.nitric.proto.apis.v1.RegistrationRequest', '9': 0, '10': 'registrationRequest'},
-    {'1': 'http_response', '3': 3, '4': 1, '5': 11, '6': '.nitric.proto.apis.v1.HttpResponse', '9': 0, '10': 'httpResponse'},
+    {
+      '1': 'registration_request',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.apis.v1.RegistrationRequest',
+      '9': 0,
+      '10': 'registrationRequest'
+    },
+    {
+      '1': 'http_response',
+      '3': 3,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.apis.v1.HttpResponse',
+      '9': 0,
+      '10': 'httpResponse'
+    },
   ],
   '8': [
     {'1': 'content'},
@@ -66,8 +82,8 @@ const HeaderValue$json = {
 };
 
 /// Descriptor for `HeaderValue`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List headerValueDescriptor = $convert.base64Decode(
-    'CgtIZWFkZXJWYWx1ZRIUCgV2YWx1ZRgBIAMoCVIFdmFsdWU=');
+final $typed_data.Uint8List headerValueDescriptor =
+    $convert.base64Decode('CgtIZWFkZXJWYWx1ZRIUCgV2YWx1ZRgBIAMoCVIFdmFsdWU=');
 
 @$core.Deprecated('Use queryValueDescriptor instead')
 const QueryValue$json = {
@@ -78,8 +94,8 @@ const QueryValue$json = {
 };
 
 /// Descriptor for `QueryValue`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List queryValueDescriptor = $convert.base64Decode(
-    'CgpRdWVyeVZhbHVlEhQKBXZhbHVlGAEgAygJUgV2YWx1ZQ==');
+final $typed_data.Uint8List queryValueDescriptor =
+    $convert.base64Decode('CgpRdWVyeVZhbHVlEhQKBXZhbHVlGAEgAygJUgV2YWx1ZQ==');
 
 @$core.Deprecated('Use httpRequestDescriptor instead')
 const HttpRequest$json = {
@@ -87,12 +103,37 @@ const HttpRequest$json = {
   '2': [
     {'1': 'method', '3': 1, '4': 1, '5': 9, '10': 'method'},
     {'1': 'path', '3': 2, '4': 1, '5': 9, '10': 'path'},
-    {'1': 'headers', '3': 3, '4': 3, '5': 11, '6': '.nitric.proto.apis.v1.HttpRequest.HeadersEntry', '10': 'headers'},
-    {'1': 'query_params', '3': 4, '4': 3, '5': 11, '6': '.nitric.proto.apis.v1.HttpRequest.QueryParamsEntry', '10': 'queryParams'},
-    {'1': 'path_params', '3': 5, '4': 3, '5': 11, '6': '.nitric.proto.apis.v1.HttpRequest.PathParamsEntry', '10': 'pathParams'},
+    {
+      '1': 'headers',
+      '3': 3,
+      '4': 3,
+      '5': 11,
+      '6': '.nitric.proto.apis.v1.HttpRequest.HeadersEntry',
+      '10': 'headers'
+    },
+    {
+      '1': 'query_params',
+      '3': 4,
+      '4': 3,
+      '5': 11,
+      '6': '.nitric.proto.apis.v1.HttpRequest.QueryParamsEntry',
+      '10': 'queryParams'
+    },
+    {
+      '1': 'path_params',
+      '3': 5,
+      '4': 3,
+      '5': 11,
+      '6': '.nitric.proto.apis.v1.HttpRequest.PathParamsEntry',
+      '10': 'pathParams'
+    },
     {'1': 'body', '3': 6, '4': 1, '5': 12, '10': 'body'},
   ],
-  '3': [HttpRequest_HeadersEntry$json, HttpRequest_QueryParamsEntry$json, HttpRequest_PathParamsEntry$json],
+  '3': [
+    HttpRequest_HeadersEntry$json,
+    HttpRequest_QueryParamsEntry$json,
+    HttpRequest_PathParamsEntry$json
+  ],
 };
 
 @$core.Deprecated('Use httpRequestDescriptor instead')
@@ -100,7 +141,14 @@ const HttpRequest_HeadersEntry$json = {
   '1': 'HeadersEntry',
   '2': [
     {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
-    {'1': 'value', '3': 2, '4': 1, '5': 11, '6': '.nitric.proto.apis.v1.HeaderValue', '10': 'value'},
+    {
+      '1': 'value',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.apis.v1.HeaderValue',
+      '10': 'value'
+    },
   ],
   '7': {'7': true},
 };
@@ -110,7 +158,14 @@ const HttpRequest_QueryParamsEntry$json = {
   '1': 'QueryParamsEntry',
   '2': [
     {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
-    {'1': 'value', '3': 2, '4': 1, '5': 11, '6': '.nitric.proto.apis.v1.QueryValue', '10': 'value'},
+    {
+      '1': 'value',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.apis.v1.QueryValue',
+      '10': 'value'
+    },
   ],
   '7': {'7': true},
 };
@@ -144,7 +199,14 @@ const HttpResponse$json = {
   '1': 'HttpResponse',
   '2': [
     {'1': 'status', '3': 1, '4': 1, '5': 5, '10': 'status'},
-    {'1': 'headers', '3': 2, '4': 3, '5': 11, '6': '.nitric.proto.apis.v1.HttpResponse.HeadersEntry', '10': 'headers'},
+    {
+      '1': 'headers',
+      '3': 2,
+      '4': 3,
+      '5': 11,
+      '6': '.nitric.proto.apis.v1.HttpResponse.HeadersEntry',
+      '10': 'headers'
+    },
     {'1': 'body', '3': 3, '4': 1, '5': 12, '10': 'body'},
   ],
   '3': [HttpResponse_HeadersEntry$json],
@@ -155,7 +217,14 @@ const HttpResponse_HeadersEntry$json = {
   '1': 'HeadersEntry',
   '2': [
     {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
-    {'1': 'value', '3': 2, '4': 1, '5': 11, '6': '.nitric.proto.apis.v1.HeaderValue', '10': 'value'},
+    {
+      '1': 'value',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.apis.v1.HeaderValue',
+      '10': 'value'
+    },
   ],
   '7': {'7': true},
 };
@@ -173,8 +242,24 @@ const ServerMessage$json = {
   '1': 'ServerMessage',
   '2': [
     {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
-    {'1': 'registration_response', '3': 2, '4': 1, '5': 11, '6': '.nitric.proto.apis.v1.RegistrationResponse', '9': 0, '10': 'registrationResponse'},
-    {'1': 'http_request', '3': 3, '4': 1, '5': 11, '6': '.nitric.proto.apis.v1.HttpRequest', '9': 0, '10': 'httpRequest'},
+    {
+      '1': 'registration_response',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.apis.v1.RegistrationResponse',
+      '9': 0,
+      '10': 'registrationResponse'
+    },
+    {
+      '1': 'http_request',
+      '3': 3,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.apis.v1.HttpRequest',
+      '9': 0,
+      '10': 'httpRequest'
+    },
   ],
   '8': [
     {'1': 'content'},
@@ -194,8 +279,8 @@ const RegistrationResponse$json = {
 };
 
 /// Descriptor for `RegistrationResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List registrationResponseDescriptor = $convert.base64Decode(
-    'ChRSZWdpc3RyYXRpb25SZXNwb25zZQ==');
+final $typed_data.Uint8List registrationResponseDescriptor =
+    $convert.base64Decode('ChRSZWdpc3RyYXRpb25SZXNwb25zZQ==');
 
 @$core.Deprecated('Use apiWorkerScopesDescriptor instead')
 const ApiWorkerScopes$json = {
@@ -206,15 +291,28 @@ const ApiWorkerScopes$json = {
 };
 
 /// Descriptor for `ApiWorkerScopes`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List apiWorkerScopesDescriptor = $convert.base64Decode(
-    'Cg9BcGlXb3JrZXJTY29wZXMSFgoGc2NvcGVzGAEgAygJUgZzY29wZXM=');
+final $typed_data.Uint8List apiWorkerScopesDescriptor = $convert
+    .base64Decode('Cg9BcGlXb3JrZXJTY29wZXMSFgoGc2NvcGVzGAEgAygJUgZzY29wZXM=');
 
 @$core.Deprecated('Use apiWorkerOptionsDescriptor instead')
 const ApiWorkerOptions$json = {
   '1': 'ApiWorkerOptions',
   '2': [
-    {'1': 'security', '3': 1, '4': 3, '5': 11, '6': '.nitric.proto.apis.v1.ApiWorkerOptions.SecurityEntry', '10': 'security'},
-    {'1': 'security_disabled', '3': 2, '4': 1, '5': 8, '10': 'securityDisabled'},
+    {
+      '1': 'security',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.nitric.proto.apis.v1.ApiWorkerOptions.SecurityEntry',
+      '10': 'security'
+    },
+    {
+      '1': 'security_disabled',
+      '3': 2,
+      '4': 1,
+      '5': 8,
+      '10': 'securityDisabled'
+    },
   ],
   '3': [ApiWorkerOptions_SecurityEntry$json],
 };
@@ -224,7 +322,14 @@ const ApiWorkerOptions_SecurityEntry$json = {
   '1': 'SecurityEntry',
   '2': [
     {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
-    {'1': 'value', '3': 2, '4': 1, '5': 11, '6': '.nitric.proto.apis.v1.ApiWorkerScopes', '10': 'value'},
+    {
+      '1': 'value',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.apis.v1.ApiWorkerScopes',
+      '10': 'value'
+    },
   ],
   '7': {'7': true},
 };
@@ -244,7 +349,14 @@ const RegistrationRequest$json = {
     {'1': 'api', '3': 1, '4': 1, '5': 9, '10': 'api'},
     {'1': 'path', '3': 2, '4': 1, '5': 9, '10': 'path'},
     {'1': 'methods', '3': 3, '4': 3, '5': 9, '10': 'methods'},
-    {'1': 'options', '3': 4, '4': 1, '5': 11, '6': '.nitric.proto.apis.v1.ApiWorkerOptions', '10': 'options'},
+    {
+      '1': 'options',
+      '3': 4,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.apis.v1.ApiWorkerOptions',
+      '10': 'options'
+    },
   ],
 };
 
@@ -253,4 +365,3 @@ final $typed_data.Uint8List registrationRequestDescriptor = $convert.base64Decod
     'ChNSZWdpc3RyYXRpb25SZXF1ZXN0EhAKA2FwaRgBIAEoCVIDYXBpEhIKBHBhdGgYAiABKAlSBH'
     'BhdGgSGAoHbWV0aG9kcxgDIAMoCVIHbWV0aG9kcxJACgdvcHRpb25zGAQgASgLMiYubml0cmlj'
     'LnByb3RvLmFwaXMudjEuQXBpV29ya2VyT3B0aW9uc1IHb3B0aW9ucw==');
-

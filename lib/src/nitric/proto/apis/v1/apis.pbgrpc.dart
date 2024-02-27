@@ -25,22 +25,27 @@ class ApiClient extends $grpc.Client {
       '/nitric.proto.apis.v1.Api/Serve',
       ($0.ClientMessage value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.ServerMessage.fromBuffer(value));
-  static final _$apiDetails = $grpc.ClientMethod<$0.ApiDetailsRequest, $0.ApiDetailsResponse>(
-      '/nitric.proto.apis.v1.Api/ApiDetails',
-      ($0.ApiDetailsRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.ApiDetailsResponse.fromBuffer(value));
+  static final _$apiDetails =
+      $grpc.ClientMethod<$0.ApiDetailsRequest, $0.ApiDetailsResponse>(
+          '/nitric.proto.apis.v1.Api/ApiDetails',
+          ($0.ApiDetailsRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) =>
+              $0.ApiDetailsResponse.fromBuffer(value));
 
   ApiClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
       $core.Iterable<$grpc.ClientInterceptor>? interceptors})
-      : super(channel, options: options,
-        interceptors: interceptors);
+      : super(channel, options: options, interceptors: interceptors);
 
-  $grpc.ResponseStream<$0.ServerMessage> serve($async.Stream<$0.ClientMessage> request, {$grpc.CallOptions? options}) {
+  $grpc.ResponseStream<$0.ServerMessage> serve(
+      $async.Stream<$0.ClientMessage> request,
+      {$grpc.CallOptions? options}) {
     return $createStreamingCall(_$serve, request, options: options);
   }
 
-  $grpc.ResponseFuture<$0.ApiDetailsResponse> apiDetails($0.ApiDetailsRequest request, {$grpc.CallOptions? options}) {
+  $grpc.ResponseFuture<$0.ApiDetailsResponse> apiDetails(
+      $0.ApiDetailsRequest request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$apiDetails, request, options: options);
   }
 }
@@ -66,10 +71,13 @@ abstract class ApiServiceBase extends $grpc.Service {
         ($0.ApiDetailsResponse value) => value.writeToBuffer()));
   }
 
-  $async.Future<$0.ApiDetailsResponse> apiDetails_Pre($grpc.ServiceCall call, $async.Future<$0.ApiDetailsRequest> request) async {
+  $async.Future<$0.ApiDetailsResponse> apiDetails_Pre($grpc.ServiceCall call,
+      $async.Future<$0.ApiDetailsRequest> request) async {
     return apiDetails(call, await request);
   }
 
-  $async.Stream<$0.ServerMessage> serve($grpc.ServiceCall call, $async.Stream<$0.ClientMessage> request);
-  $async.Future<$0.ApiDetailsResponse> apiDetails($grpc.ServiceCall call, $0.ApiDetailsRequest request);
+  $async.Stream<$0.ServerMessage> serve(
+      $grpc.ServiceCall call, $async.Stream<$0.ClientMessage> request);
+  $async.Future<$0.ApiDetailsResponse> apiDetails(
+      $grpc.ServiceCall call, $0.ApiDetailsRequest request);
 }

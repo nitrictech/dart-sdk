@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:nitric_sdk/src/grpc_helper.dart';
 import 'package:nitric_sdk/src/nitric/proto/keyvalue/v1/keyvalue.pbgrpc.dart';
 
-import '../nitric/google/protobuf/struct.pb.dart';
+import '../google/protobuf/struct.pb.dart';
 
 /// A Key Value Store.
 class KeyValueStore<T> {

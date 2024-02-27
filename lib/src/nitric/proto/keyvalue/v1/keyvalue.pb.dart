@@ -13,7 +13,7 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import '../../../google/protobuf/struct.pb.dart' as $12;
+import '../../../../google/protobuf/struct.pb.dart' as $12;
 
 /// Provides a Key/Value Store
 class Store extends $pb.GeneratedMessage {

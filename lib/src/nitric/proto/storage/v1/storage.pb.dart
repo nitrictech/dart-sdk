@@ -13,7 +13,7 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import '../../../google/protobuf/duration.pb.dart' as $11;
+import '../../../../google/protobuf/duration.pb.dart' as $11;
 import 'storage.pbenum.dart';
 
 export 'storage.pbenum.dart';

@@ -13,7 +13,7 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import '../../../google/protobuf/struct.pb.dart' as $12;
+import '../../../../google/protobuf/struct.pb.dart' as $12;
 import '../../resources/v1/resources.pb.dart' as $1;
 import '../../resources/v1/resources.pbenum.dart' as $1;
 import '../../storage/v1/storage.pb.dart' as $2;

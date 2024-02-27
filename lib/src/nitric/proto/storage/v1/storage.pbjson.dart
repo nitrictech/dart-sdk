@@ -23,16 +23,32 @@ const BlobEventType$json = {
 };
 
 /// Descriptor for `BlobEventType`. Decode as a `google.protobuf.EnumDescriptorProto`.
-final $typed_data.Uint8List blobEventTypeDescriptor = $convert.base64Decode(
-    'Cg1CbG9iRXZlbnRUeXBlEgsKB0NyZWF0ZWQQABILCgdEZWxldGVkEAE=');
+final $typed_data.Uint8List blobEventTypeDescriptor = $convert
+    .base64Decode('Cg1CbG9iRXZlbnRUeXBlEgsKB0NyZWF0ZWQQABILCgdEZWxldGVkEAE=');
 
 @$core.Deprecated('Use clientMessageDescriptor instead')
 const ClientMessage$json = {
   '1': 'ClientMessage',
   '2': [
     {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
-    {'1': 'registration_request', '3': 2, '4': 1, '5': 11, '6': '.nitric.proto.storage.v1.RegistrationRequest', '9': 0, '10': 'registrationRequest'},
-    {'1': 'blob_event_response', '3': 3, '4': 1, '5': 11, '6': '.nitric.proto.storage.v1.BlobEventResponse', '9': 0, '10': 'blobEventResponse'},
+    {
+      '1': 'registration_request',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.storage.v1.RegistrationRequest',
+      '9': 0,
+      '10': 'registrationRequest'
+    },
+    {
+      '1': 'blob_event_response',
+      '3': 3,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.storage.v1.BlobEventResponse',
+      '9': 0,
+      '10': 'blobEventResponse'
+    },
   ],
   '8': [
     {'1': 'content'},
@@ -52,8 +68,24 @@ const ServerMessage$json = {
   '1': 'ServerMessage',
   '2': [
     {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
-    {'1': 'registration_response', '3': 2, '4': 1, '5': 11, '6': '.nitric.proto.storage.v1.RegistrationResponse', '9': 0, '10': 'registrationResponse'},
-    {'1': 'blob_event_request', '3': 3, '4': 1, '5': 11, '6': '.nitric.proto.storage.v1.BlobEventRequest', '9': 0, '10': 'blobEventRequest'},
+    {
+      '1': 'registration_response',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.storage.v1.RegistrationResponse',
+      '9': 0,
+      '10': 'registrationResponse'
+    },
+    {
+      '1': 'blob_event_request',
+      '3': 3,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.storage.v1.BlobEventRequest',
+      '9': 0,
+      '10': 'blobEventRequest'
+    },
   ],
   '8': [
     {'1': 'content'},
@@ -73,7 +105,15 @@ const BlobEventRequest$json = {
   '1': 'BlobEventRequest',
   '2': [
     {'1': 'bucket_name', '3': 1, '4': 1, '5': 9, '10': 'bucketName'},
-    {'1': 'blob_event', '3': 10, '4': 1, '5': 11, '6': '.nitric.proto.storage.v1.BlobEvent', '9': 0, '10': 'blobEvent'},
+    {
+      '1': 'blob_event',
+      '3': 10,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.storage.v1.BlobEvent',
+      '9': 0,
+      '10': 'blobEvent'
+    },
   ],
   '8': [
     {'1': 'event'},
@@ -91,7 +131,14 @@ const BlobEvent$json = {
   '1': 'BlobEvent',
   '2': [
     {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
-    {'1': 'type', '3': 2, '4': 1, '5': 14, '6': '.nitric.proto.storage.v1.BlobEventType', '10': 'type'},
+    {
+      '1': 'type',
+      '3': 2,
+      '4': 1,
+      '5': 14,
+      '6': '.nitric.proto.storage.v1.BlobEventType',
+      '10': 'type'
+    },
   ],
 };
 
@@ -117,7 +164,14 @@ const RegistrationRequest$json = {
   '1': 'RegistrationRequest',
   '2': [
     {'1': 'bucket_name', '3': 1, '4': 1, '5': 9, '10': 'bucketName'},
-    {'1': 'blob_event_type', '3': 2, '4': 1, '5': 14, '6': '.nitric.proto.storage.v1.BlobEventType', '10': 'blobEventType'},
+    {
+      '1': 'blob_event_type',
+      '3': 2,
+      '4': 1,
+      '5': 14,
+      '6': '.nitric.proto.storage.v1.BlobEventType',
+      '10': 'blobEventType'
+    },
     {'1': 'key_prefix_filter', '3': 3, '4': 1, '5': 9, '10': 'keyPrefixFilter'},
   ],
 };
@@ -138,8 +192,8 @@ const RegistrationResponse$json = {
 };
 
 /// Descriptor for `RegistrationResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List registrationResponseDescriptor = $convert.base64Decode(
-    'ChRSZWdpc3RyYXRpb25SZXNwb25zZRIOCgJpZBgBIAEoCVICaWQ=');
+final $typed_data.Uint8List registrationResponseDescriptor = $convert
+    .base64Decode('ChRSZWdpc3RyYXRpb25SZXNwb25zZRIOCgJpZBgBIAEoCVICaWQ=');
 
 @$core.Deprecated('Use storageWriteRequestDescriptor instead')
 const StorageWriteRequest$json = {
@@ -162,8 +216,8 @@ const StorageWriteResponse$json = {
 };
 
 /// Descriptor for `StorageWriteResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List storageWriteResponseDescriptor = $convert.base64Decode(
-    'ChRTdG9yYWdlV3JpdGVSZXNwb25zZQ==');
+final $typed_data.Uint8List storageWriteResponseDescriptor =
+    $convert.base64Decode('ChRTdG9yYWdlV3JpdGVSZXNwb25zZQ==');
 
 @$core.Deprecated('Use storageReadRequestDescriptor instead')
 const StorageReadRequest$json = {
@@ -188,8 +242,8 @@ const StorageReadResponse$json = {
 };
 
 /// Descriptor for `StorageReadResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List storageReadResponseDescriptor = $convert.base64Decode(
-    'ChNTdG9yYWdlUmVhZFJlc3BvbnNlEhIKBGJvZHkYASABKAxSBGJvZHk=');
+final $typed_data.Uint8List storageReadResponseDescriptor = $convert
+    .base64Decode('ChNTdG9yYWdlUmVhZFJlc3BvbnNlEhIKBGJvZHkYASABKAxSBGJvZHk=');
 
 @$core.Deprecated('Use storageDeleteRequestDescriptor instead')
 const StorageDeleteRequest$json = {
@@ -211,8 +265,8 @@ const StorageDeleteResponse$json = {
 };
 
 /// Descriptor for `StorageDeleteResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List storageDeleteResponseDescriptor = $convert.base64Decode(
-    'ChVTdG9yYWdlRGVsZXRlUmVzcG9uc2U=');
+final $typed_data.Uint8List storageDeleteResponseDescriptor =
+    $convert.base64Decode('ChVTdG9yYWdlRGVsZXRlUmVzcG9uc2U=');
 
 @$core.Deprecated('Use storagePreSignUrlRequestDescriptor instead')
 const StoragePreSignUrlRequest$json = {
@@ -220,8 +274,22 @@ const StoragePreSignUrlRequest$json = {
   '2': [
     {'1': 'bucket_name', '3': 1, '4': 1, '5': 9, '10': 'bucketName'},
     {'1': 'key', '3': 2, '4': 1, '5': 9, '10': 'key'},
-    {'1': 'operation', '3': 3, '4': 1, '5': 14, '6': '.nitric.proto.storage.v1.StoragePreSignUrlRequest.Operation', '10': 'operation'},
-    {'1': 'expiry', '3': 4, '4': 1, '5': 11, '6': '.google.protobuf.Duration', '10': 'expiry'},
+    {
+      '1': 'operation',
+      '3': 3,
+      '4': 1,
+      '5': 14,
+      '6': '.nitric.proto.storage.v1.StoragePreSignUrlRequest.Operation',
+      '10': 'operation'
+    },
+    {
+      '1': 'expiry',
+      '3': 4,
+      '4': 1,
+      '5': 11,
+      '6': '.google.protobuf.Duration',
+      '10': 'expiry'
+    },
   ],
   '4': [StoragePreSignUrlRequest_Operation$json],
 };
@@ -252,8 +320,9 @@ const StoragePreSignUrlResponse$json = {
 };
 
 /// Descriptor for `StoragePreSignUrlResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List storagePreSignUrlResponseDescriptor = $convert.base64Decode(
-    'ChlTdG9yYWdlUHJlU2lnblVybFJlc3BvbnNlEhAKA3VybBgBIAEoCVIDdXJs');
+final $typed_data.Uint8List storagePreSignUrlResponseDescriptor =
+    $convert.base64Decode(
+        'ChlTdG9yYWdlUHJlU2lnblVybFJlc3BvbnNlEhAKA3VybBgBIAEoCVIDdXJs');
 
 @$core.Deprecated('Use storageListBlobsRequestDescriptor instead')
 const StorageListBlobsRequest$json = {
@@ -265,9 +334,10 @@ const StorageListBlobsRequest$json = {
 };
 
 /// Descriptor for `StorageListBlobsRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List storageListBlobsRequestDescriptor = $convert.base64Decode(
-    'ChdTdG9yYWdlTGlzdEJsb2JzUmVxdWVzdBIfCgtidWNrZXRfbmFtZRgBIAEoCVIKYnVja2V0Tm'
-    'FtZRIWCgZwcmVmaXgYAiABKAlSBnByZWZpeA==');
+final $typed_data.Uint8List storageListBlobsRequestDescriptor =
+    $convert.base64Decode(
+        'ChdTdG9yYWdlTGlzdEJsb2JzUmVxdWVzdBIfCgtidWNrZXRfbmFtZRgBIAEoCVIKYnVja2V0Tm'
+        'FtZRIWCgZwcmVmaXgYAiABKAlSBnByZWZpeA==');
 
 @$core.Deprecated('Use blobDescriptor instead')
 const Blob$json = {
@@ -278,21 +348,29 @@ const Blob$json = {
 };
 
 /// Descriptor for `Blob`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List blobDescriptor = $convert.base64Decode(
-    'CgRCbG9iEhAKA2tleRgBIAEoCVIDa2V5');
+final $typed_data.Uint8List blobDescriptor =
+    $convert.base64Decode('CgRCbG9iEhAKA2tleRgBIAEoCVIDa2V5');
 
 @$core.Deprecated('Use storageListBlobsResponseDescriptor instead')
 const StorageListBlobsResponse$json = {
   '1': 'StorageListBlobsResponse',
   '2': [
-    {'1': 'blobs', '3': 1, '4': 3, '5': 11, '6': '.nitric.proto.storage.v1.Blob', '10': 'blobs'},
+    {
+      '1': 'blobs',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.nitric.proto.storage.v1.Blob',
+      '10': 'blobs'
+    },
   ],
 };
 
 /// Descriptor for `StorageListBlobsResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List storageListBlobsResponseDescriptor = $convert.base64Decode(
-    'ChhTdG9yYWdlTGlzdEJsb2JzUmVzcG9uc2USMwoFYmxvYnMYASADKAsyHS5uaXRyaWMucHJvdG'
-    '8uc3RvcmFnZS52MS5CbG9iUgVibG9icw==');
+final $typed_data.Uint8List storageListBlobsResponseDescriptor =
+    $convert.base64Decode(
+        'ChhTdG9yYWdlTGlzdEJsb2JzUmVzcG9uc2USMwoFYmxvYnMYASADKAsyHS5uaXRyaWMucHJvdG'
+        '8uc3RvcmFnZS52MS5CbG9iUgVibG9icw==');
 
 @$core.Deprecated('Use storageExistsRequestDescriptor instead')
 const StorageExistsRequest$json = {
@@ -317,6 +395,6 @@ const StorageExistsResponse$json = {
 };
 
 /// Descriptor for `StorageExistsResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List storageExistsResponseDescriptor = $convert.base64Decode(
-    'ChVTdG9yYWdlRXhpc3RzUmVzcG9uc2USFgoGZXhpc3RzGAEgASgIUgZleGlzdHM=');
-
+final $typed_data.Uint8List storageExistsResponseDescriptor =
+    $convert.base64Decode(
+        'ChVTdG9yYWdlRXhpc3RzUmVzcG9uc2USFgoGZXhpc3RzGAEgASgIUgZleGlzdHM=');
