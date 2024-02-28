@@ -29,7 +29,7 @@ class Api extends Resource {
   /// A GET request [handler] that [match]es a specific route.
   Future<void> get(
     String match,
-    HttpMiddleware handler,
+    HttpHandler handler,
   ) async {
     Route(this, match).get(handler);
   }
@@ -37,7 +37,7 @@ class Api extends Resource {
   /// A POST request [handler] that [match]es a specific route.
   Future<void> post(
     String match,
-    HttpMiddleware handler,
+    HttpHandler handler,
   ) async {
     Route(this, match).post(handler);
   }
@@ -45,7 +45,7 @@ class Api extends Resource {
   /// A PUT request [handler] that [match]es a specific route.
   Future<void> put(
     String match,
-    HttpMiddleware handler,
+    HttpHandler handler,
   ) async {
     Route(this, match).put(handler);
   }
@@ -53,7 +53,7 @@ class Api extends Resource {
   /// A DELETE request [handler] that [match]es a specific route.
   Future<void> delete(
     String match,
-    HttpMiddleware handler,
+    HttpHandler handler,
   ) async {
     Route(this, match).delete(handler);
   }
@@ -61,7 +61,7 @@ class Api extends Resource {
   /// A OPTIONS request [handler] that [match]es a specific route.
   Future<void> options(
     String match,
-    HttpMiddleware handler,
+    HttpHandler handler,
   ) async {
     Route(this, match).options(handler);
   }
@@ -69,7 +69,7 @@ class Api extends Resource {
   /// A request [handler] that [match]es a specific route on all HTTP methods.
   Future<void> all(
     String match,
-    HttpMiddleware handler,
+    HttpHandler handler,
   ) async {
     Route(this, match).all(handler);
   }
@@ -91,45 +91,45 @@ class Route {
   Route(this.api, this.match);
 
   /// A GET request [handler] for this route.
-  Future<void> get(HttpMiddleware handler) async {
+  Future<void> get(HttpHandler handler) async {
     var worker = ApiWorker(this, handler, [HttpMethod.get]);
 
-    Nitric.registerWorker(worker);
+    worker.start();
   }
 
   /// A POST request [handler] for this route.
-  Future<void> post(HttpMiddleware handler) async {
+  Future<void> post(HttpHandler handler) async {
     var worker = ApiWorker(this, handler, [HttpMethod.post]);
 
-    Nitric.registerWorker(worker);
+    worker.start();
   }
 
   /// A PUT request [handler] for this route.
-  Future<void> put(HttpMiddleware handler) async {
+  Future<void> put(HttpHandler handler) async {
     var worker = ApiWorker(this, handler, [HttpMethod.put]);
 
-    Nitric.registerWorker(worker);
+    worker.start();
   }
 
   /// A DELETE request [handler] for this route.
-  Future<void> delete(HttpMiddleware handler) async {
+  Future<void> delete(HttpHandler handler) async {
     var worker = ApiWorker(this, handler, [HttpMethod.delete]);
 
-    Nitric.registerWorker(worker);
+    worker.start();
   }
 
   /// An OPTIONS request [handler] for this route.
-  Future<void> options(HttpMiddleware handler) async {
+  Future<void> options(HttpHandler handler) async {
     var worker = ApiWorker(this, handler, [HttpMethod.options]);
 
-    Nitric.registerWorker(worker);
+    worker.start();
   }
 
   /// A request [handler] for this route that matches all HTTP methods.
-  Future<void> all(HttpMiddleware handler) async {
+  Future<void> all(HttpHandler handler) async {
     var worker = ApiWorker(this, handler, HttpMethod.values);
 
-    Nitric.registerWorker(worker);
+    worker.start();
   }
 }
 
@@ -139,7 +139,7 @@ class ApiWorker implements Worker {
   Route route;
 
   /// The handler that will run on a request.
-  HttpMiddleware handler;
+  HttpHandler handler;
 
   /// The HTTP methods that will be accepted for this trigger.
   List<HttpMethod> methods;
@@ -170,28 +170,25 @@ class ApiWorker implements Worker {
       requestStream.stream,
     );
 
-    try {
-      await for (final msg in response) {
-        if (msg.hasRegistrationResponse()) {
-          print("Function connected with membrane");
-        } else if (msg.hasHttpRequest()) {
-          var ctx = HttpContext.fromRequest(msg);
+    await for (final msg in response) {
+      if (msg.hasRegistrationResponse()) {
+        // Function connected with Nitric server
+      } else if (msg.hasHttpRequest()) {
+        var ctx = HttpContext.fromRequest(msg);
 
+        try {
           ctx = await handler(ctx);
+        } on GrpcError catch (e) {
+          print("caught a GrpcError: $e");
+        } catch (e) {
+          // Program has experienced an unexpected programatic error
+          print("unhandled application error: $e");
 
-          var resp = ctx.toResponse();
-
-          requestStream.add(resp);
+          ctx.resp.withError(e);
         }
+
+        requestStream.add(ctx.toResponse());
       }
-    } on GrpcError catch (e) {
-      print("caught a GrpcError: $e");
-    } on Error catch (e) {
-      print(e);
-
-      var resp = HttpResponse.withError(e);
-
-      requestStream.add($ap.ClientMessage(httpResponse: resp.toWire()));
     }
   }
 }

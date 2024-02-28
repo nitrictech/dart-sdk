@@ -1,13 +1,13 @@
 part of './common.dart';
 
-typedef Middleware<T extends TriggerContext> = Future<T> Function(T ctx);
+typedef Handler<T extends TriggerContext> = Future<T> Function(T ctx);
 
-typedef HttpMiddleware = Middleware<HttpContext>;
-typedef IntervalMiddleware = Middleware<IntervalContext>;
-typedef MessageMiddleware = Middleware<MessageContext>;
-typedef BlobEventMiddleware = Middleware<BlobEventContext>;
+typedef HttpHandler = Handler<HttpContext>;
+typedef IntervalHandler = Handler<IntervalContext>;
+typedef MessageHandler = Handler<MessageContext>;
+typedef BlobEventHandler = Handler<BlobEventContext>;
 
-typedef WebsocketMiddleware = Middleware<WebsocketContext>;
-typedef WebsocketConnectMiddleware = Middleware<WebsocketConnectContext>;
-typedef WebsocketDisconnectMiddleware = Middleware<WebsocketDisconnectContext>;
-typedef WebsocketMessageMiddleware = Middleware<WebsocketMessageContext>;
+typedef WebsocketHandler = Handler<WebsocketContext>;
+typedef WebsocketConnectHandler = Handler<WebsocketConnectContext>;
+typedef WebsocketDisconnectHandler = Handler<WebsocketDisconnectContext>;
+typedef WebsocketMessageHandler = Handler<WebsocketMessageContext>;

@@ -37,6 +37,7 @@ void main() {
       .requires([BucketPermission.reading, BucketPermission.writing]);
 
   profilesImg.on(BlobEventType.write, "*", (ctx) async {
+    print("New image created ${ctx.req.file.key}");
     return ctx;
   });
 
@@ -123,6 +124,4 @@ void main() {
 
     return ctx;
   });
-
-  Nitric.run();
 }

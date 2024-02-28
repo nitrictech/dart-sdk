@@ -5,26 +5,6 @@ abstract class Worker {
 }
 
 class Nitric {
-  static final Nitric _nitric = Nitric._internal();
-  static final List<Worker> _workers = [];
-
-  factory Nitric() {
-    return _nitric;
-  }
-
-  // Internal use
-  static registerWorker(Worker worker) {
-    _workers.add(worker);
-  }
-
-  static run() {
-    Future.wait(_workers.map((worker) async {
-      await worker.start();
-    }));
-  }
-
-  Nitric._internal();
-
   /// Create a [name]d bucket for storing blobs.
   static BucketResource bucket(String name) {
     var res = BucketResource(name);

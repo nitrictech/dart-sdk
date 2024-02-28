@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:nitric_sdk/nitric.dart';
 import 'package:nitric_sdk/src/context/common.dart';
 import 'package:nitric_sdk/src/grpc_helper.dart';
 import 'package:nitric_sdk/src/nitric/proto/storage/v1/storage.pbgrpc.dart'
@@ -27,46 +28,22 @@ class Bucket {
 
   /// Create a blob event subscription when
   Future<void> on(BlobEventType blobEventType, String keyPrefixFilter,
-      BlobEventMiddleware handler) async {
-    // Create Storage listener client
-    final channel = createClientChannelFromEnvVar();
-    final client = $p.StorageListenerClient(channel);
-
+      BlobEventHandler handler) async {
     // Create the request to register the Storage listener with the membrane
+    final eventType = switch (blobEventType) {
+      BlobEventType.write => $p.BlobEventType.Created,
+      BlobEventType.delete => $p.BlobEventType.Deleted,
+    };
+
     final registrationRequest = $p.RegistrationRequest(
       bucketName: name,
-    );
-    final initMsg = $p.ClientMessage(registrationRequest: registrationRequest);
-
-    // Create the request stream and send the initial message
-    final requestStream = StreamController<$p.ClientMessage>();
-    requestStream.add(initMsg);
-
-    final response = client.listen(
-      requestStream.stream,
+      keyPrefixFilter: keyPrefixFilter,
+      blobEventType: eventType,
     );
 
-    try {
-      await for (final msg in response) {
-        if (msg.hasRegistrationResponse()) {
-          print("Function connected with membrane");
-        } else if (msg.hasBlobEventRequest()) {
-          var ctx = BlobEventContext.fromRequest(msg, this);
+    var worker = BlobEventWorker(registrationRequest, handler, this);
 
-          ctx = await handler(ctx);
-
-          var resp = ctx.toResponse();
-
-          requestStream.add(resp);
-        }
-      }
-    } on GrpcError catch (e) {
-      print("caught a GrpcError: $e");
-    } on Error {
-      var resp = BlobEventResponse(false);
-
-      requestStream.add($p.ClientMessage(blobEventResponse: resp.toWire()));
-    }
+    worker.start();
   }
 }
 
@@ -151,5 +128,50 @@ class File {
     var resp = await _bucket._storageClient.preSignUrl(req);
 
     return resp.url;
+  }
+}
+
+class BlobEventWorker implements Worker {
+  $p.RegistrationRequest registrationRequest;
+  BlobEventHandler middleware;
+  Bucket bucket;
+
+  BlobEventWorker(this.registrationRequest, this.middleware, this.bucket);
+
+  @override
+  Future<void> start() async {
+    // Create Storage listener client
+    final channel = createClientChannelFromEnvVar();
+    final client = $p.StorageListenerClient(channel);
+
+    final initMsg = $p.ClientMessage(registrationRequest: registrationRequest);
+
+    // Create the request stream and send the initial message
+    final requestStream = StreamController<$p.ClientMessage>();
+    requestStream.add(initMsg);
+
+    final response = client.listen(
+      requestStream.stream,
+    );
+
+    await for (final msg in response) {
+      if (msg.hasRegistrationResponse()) {
+        // Blob Notification has connected with Nitric server
+      } else if (msg.hasBlobEventRequest()) {
+        var ctx = BlobEventContext.fromRequest(msg, bucket);
+
+        try {
+          ctx = await middleware(ctx);
+        } on GrpcError catch (e) {
+          print("caught a GrpcError: $e");
+        } catch (e) {
+          print("unhandled application error: $e");
+
+          ctx.resp.success = false;
+        }
+
+        requestStream.add(ctx.toResponse());
+      }
+    }
   }
 }

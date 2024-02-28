@@ -6,7 +6,7 @@ class Topic extends SecureResource<TopicPermission> {
   Topic(String name) : super(name);
 
   /// Register a [handler] to subscribe to messages sent to the topic.
-  Future<void> subscribe(MessageMiddleware handler) async {}
+  Future<void> subscribe(MessageHandler handler) async {}
 
   @override
   Future<void> register() async {
@@ -46,9 +46,9 @@ class Topic extends SecureResource<TopicPermission> {
   }
 }
 
-class SubscriptionWorker extends Worker {
+class SubscriptionWorker implements Worker {
   $tp.RegistrationRequest registrationRequest;
-  MessageMiddleware middleware;
+  MessageHandler middleware;
 
   SubscriptionWorker(this.registrationRequest, this.middleware);
 
@@ -69,28 +69,24 @@ class SubscriptionWorker extends Worker {
       requestStream.stream,
     );
 
-    try {
-      await for (final msg in response) {
-        if (msg.hasRegistrationResponse()) {
-          print("Function connected with membrane");
-        } else if (msg.hasMessageRequest()) {
-          var ctx = MessageContext.fromRequest(msg);
+    await for (final msg in response) {
+      if (msg.hasRegistrationResponse()) {
+        // Topic connected with Nitric server
+      } else if (msg.hasMessageRequest()) {
+        var ctx = MessageContext.fromRequest(msg);
 
+        try {
           ctx = await middleware(ctx);
+        } on GrpcError catch (e) {
+          print("caught a GrpcError: $e");
+        } catch (e) {
+          print("unhandled application error: $e");
 
-          var resp = ctx.toResponse();
-
-          requestStream.add(resp);
+          ctx.resp.success = false;
         }
+
+        requestStream.add(ctx.toResponse());
       }
-    } on GrpcError catch (e) {
-      print("caught a GrpcError: $e");
-    } on Error catch (e) {
-      print(e);
-
-      var resp = MessageResponse(false);
-
-      requestStream.add($tp.ClientMessage(messageResponse: resp.toWire()));
     }
   }
 }
