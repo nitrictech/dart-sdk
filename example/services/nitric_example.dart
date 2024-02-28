@@ -36,11 +36,6 @@ void main() {
   final profilesImg = Nitric.bucket("profilesImg")
       .requires([BucketPermission.reading, BucketPermission.writing]);
 
-  profilesImg.on(BlobEventType.write, "*", (ctx) async {
-    print("New image created ${ctx.req.file.key}");
-    return ctx;
-  });
-
   profileApi.post("/profiles", (ctx) async {
     final uuid = Uuid();
 
