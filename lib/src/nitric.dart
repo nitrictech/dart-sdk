@@ -24,8 +24,8 @@ class Nitric {
   }
 
   /// Create a [name]d collection for storing documents.
-  static KeyValueStoreResource<T> store<T>(String name) {
-    var res = KeyValueStoreResource<T>(name);
+  static KeyValueStoreResource store(String name) {
+    var res = KeyValueStoreResource(name);
 
     res.register();
 
