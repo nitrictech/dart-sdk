@@ -6,7 +6,7 @@ import 'package:nitric_sdk/src/context/common.dart';
 import 'package:nitric_sdk/src/grpc_helper.dart';
 import 'package:nitric_sdk/src/nitric/proto/storage/v1/storage.pbgrpc.dart'
     as $p;
-import '../google/protobuf/duration.pb.dart' as $d;
+import 'package:nitric_sdk/src/google/protobuf/duration.pb.dart' as $d;
 import 'package:fixnum/fixnum.dart';
 import 'package:grpc/grpc.dart';
 
@@ -15,10 +15,14 @@ class Bucket {
 
   String name;
 
-  Bucket(this.name) {
-    final channel = createClientChannelFromEnvVar();
+  Bucket(this.name, {$p.StorageClient? client}) {
+    if (client == null) {
+      final channel = createClientChannelFromEnvVar();
 
-    _storageClient = $p.StorageClient(channel);
+      _storageClient = $p.StorageClient(channel);
+    } else {
+      _storageClient = client;
+    }
   }
 
   /// Get a reference to

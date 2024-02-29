@@ -10,10 +10,14 @@ class Secret {
   final String name;
   late final $p.SecretManagerClient _secretClient;
 
-  Secret(this.name) {
-    final channel = createClientChannelFromEnvVar();
+  Secret(this.name, {$p.SecretManagerClient? client}) {
+    if (client == null) {
+      final channel = createClientChannelFromEnvVar();
 
-    _secretClient = $p.SecretManagerClient(channel);
+      _secretClient = $p.SecretManagerClient(channel);
+    } else {
+      _secretClient = client;
+    }
   }
 
   /// Get a reference to a specific [version] of this secret.

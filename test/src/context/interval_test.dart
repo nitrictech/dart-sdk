@@ -4,14 +4,26 @@ import 'package:nitric_sdk/src/nitric/proto/schedules/v1/schedules.pbgrpc.dart'
 import 'package:test/test.dart';
 
 void main() {
-  test('Interval Request from ServerMessage', () {
+  test('Interval Context from ServerMessage', () {
     var msg = $pb.ServerMessage(
       id: 'id',
       intervalRequest: $pb.IntervalRequest(scheduleName: 'scheduleName'),
     );
 
-    IntervalContext req = IntervalContext.fromRequest(msg);
+    final ctx = IntervalContext.fromRequest(msg);
 
-    expect(req.req.scheduleName, msg.intervalRequest.scheduleName);
+    expect(ctx.req.scheduleName, msg.intervalRequest.scheduleName);
+  });
+
+  test('ClientMessage from Interval Context', () {
+    final ctx = IntervalContext(
+        "id",
+        IntervalRequest(scheduleName: "scheduleName"),
+        IntervalResponse(success: true));
+
+    final clientMessage = ctx.toResponse();
+
+    expect(clientMessage.id, "id");
+    expect(clientMessage.hasIntervalResponse(), true);
   });
 }

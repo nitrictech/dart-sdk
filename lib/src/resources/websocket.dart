@@ -34,34 +34,31 @@ class Websocket extends Resource {
   }
 
   /// Set a [handler] for connection requests to the socket.
-  Future<void> onConnect(WebsocketConnectHandler handler) async {
+  Future<void> onConnect(WebsocketHandler handler) async {
     var registrationRequest = $wp.RegistrationRequest(
         eventType: $wp.WebsocketEventType.Connect, socketName: name);
 
-    var worker =
-        WebsocketWorker(registrationRequest, handler as WebsocketHandler);
+    var worker = WebsocketWorker(registrationRequest, handler);
 
     worker.start();
   }
 
   /// Set a [handler] for disconnection requests to the socket.
-  Future<void> onDisconnect(WebsocketDisconnectHandler handler) async {
+  Future<void> onDisconnect(WebsocketHandler handler) async {
     var registrationRequest = $wp.RegistrationRequest(
         eventType: $wp.WebsocketEventType.Disconnect, socketName: name);
 
-    var worker =
-        WebsocketWorker(registrationRequest, handler as WebsocketHandler);
+    var worker = WebsocketWorker(registrationRequest, handler);
 
     worker.start();
   }
 
   /// Set a [handler] for messages to the socket.
-  Future<void> onMessage(WebsocketMessageHandler handler) async {
+  Future<void> onMessage(WebsocketHandler handler) async {
     var registrationRequest = $wp.RegistrationRequest(
         eventType: $wp.WebsocketEventType.Message, socketName: name);
 
-    var worker =
-        WebsocketWorker(registrationRequest, handler as WebsocketHandler);
+    var worker = WebsocketWorker(registrationRequest, handler);
 
     worker.start();
   }
@@ -93,16 +90,7 @@ class WebsocketWorker implements Worker {
       if (msg.hasRegistrationResponse()) {
         // Websocket connected with Nitric server
       } else if (msg.hasWebsocketEventRequest()) {
-        var ctx = switch (registrationRequest.eventType) {
-          $wp.WebsocketEventType.Connect =>
-            WebsocketConnectContext.fromRequest(msg),
-          $wp.WebsocketEventType.Disconnect =>
-            WebsocketDisconnectContext.fromRequest(msg),
-          $wp.WebsocketEventType.Message =>
-            WebsocketMessageContext.fromRequest(msg),
-          WebsocketEventType() =>
-            throw FormatException("Websocket Event Type is invalid."),
-        };
+        var ctx = WebsocketContext.fromRequest(msg);
 
         try {
           ctx = await middleware(ctx);

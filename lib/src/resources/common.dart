@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:nitric_sdk/api.dart';
+import 'package:nitric_sdk/resource.dart';
 import 'package:nitric_sdk/src/grpc_helper.dart';
 import 'package:nitric_sdk/src/nitric.dart';
 import 'package:nitric_sdk/src/nitric/proto/resources/v1/resources.pb.dart';
