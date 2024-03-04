@@ -16,6 +16,8 @@ class Proto {
       return Value(numberValue: value.toDouble());
     } else if (value is double) {
       return Value(numberValue: value);
+    } else if (value is bool) {
+      return Value(boolValue: value);
     } else if (value is List) {
       return Value(
           listValue:
@@ -42,12 +44,12 @@ class Proto {
     return switch (protoValue.whichKind()) {
       Value_Kind.boolValue => protoValue.boolValue,
       Value_Kind.listValue => protoValue.listValue.values
-          .map((v) => Proto.dynamicFromValue(protoValue)),
-      Value_Kind.nullValue => null,
+          .map((v) => Proto.dynamicFromValue(v))
+          .toList(),
       Value_Kind.numberValue => protoValue.numberValue,
       Value_Kind.stringValue => protoValue.stringValue,
       Value_Kind.structValue => Proto.mapFromStruct(protoValue.structValue),
-      _ => throw FormatException("The proto value type is invalid.")
+      _ => null
     };
   }
 }

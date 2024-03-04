@@ -3,7 +3,7 @@ part of 'common.dart';
 enum TopicPermission { publishing }
 
 class Topic extends SecureResource<TopicPermission> {
-  Topic(String name) : super(name);
+  Topic(String name, {$p.ResourcesClient? client}) : super(name, client);
 
   /// Register a [handler] to subscribe to messages sent to the topic.
   Future<void> subscribe(MessageHandler handler) async {}
@@ -15,7 +15,8 @@ class Topic extends SecureResource<TopicPermission> {
       type: $p.ResourceType.Topic,
     );
 
-    await client.declare($p.ResourceDeclareRequest(id: resource));
+    await client.declare(
+        $p.ResourceDeclareRequest(id: resource, topic: $p.TopicResource()));
 
     registrationCompletion.complete(resource);
   }

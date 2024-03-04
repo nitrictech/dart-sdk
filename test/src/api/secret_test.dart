@@ -11,14 +11,20 @@ import '../common.dart';
 class MockSecretClient extends Mock implements $p.SecretManagerClient {}
 
 void main() {
+  late MockSecretClient secretClient;
+
+  setUp(() => secretClient = MockSecretClient());
+
+  tearDown(() => reset(secretClient));
+
   test('Test build secret', () {
-    var secret = Secret("secretName");
+    var secret = Secret("secretName", client: secretClient);
 
     expect(secret.name, "secretName");
   });
 
   test('Test get secret version', () {
-    var secret = Secret("secretName");
+    var secret = Secret("secretName", client: secretClient);
 
     var version = secret.version("versionID");
 
@@ -26,7 +32,7 @@ void main() {
   });
 
   test('Test get latest secret version', () {
-    var secret = Secret("secretName");
+    var secret = Secret("secretName", client: secretClient);
 
     var latest = secret.latest();
 
@@ -34,8 +40,6 @@ void main() {
   });
 
   test('Test set new secret', () async {
-    var secretClient = MockSecretClient();
-
     var req = $p.SecretPutRequest(
         secret: $p.Secret(name: "secretName"), value: utf8.encode("contents"));
 
@@ -53,47 +57,27 @@ void main() {
     verify(() => secretClient.put(req)).called(1);
   });
 
-  test('Test read from file', () async {
-    var storageClient = MockStorageClient();
+  test('Test access a secret', () async {
+    var req = $p.SecretAccessRequest(
+        secretVersion: $p.SecretVersion(
+            secret: $p.Secret(name: "secretName"), version: "secretVersion"));
 
-    var req = StorageReadRequest(
-      bucketName: "bucketName",
-      key: "fileName",
+    var resp = $p.SecretAccessResponse(
+      secretVersion: $p.SecretVersion(
+          secret: $p.Secret(name: "secretName"), version: "secretVersion"),
+      value: utf8.encode("secret contents"),
     );
 
-    var resp = StorageReadResponse(
-      body: utf8.encode("bucket contents"),
-    );
-
-    when(() => storageClient.read(req))
+    when(() => secretClient.access(req))
         .thenAnswer((_) => MockResponseFuture.value(resp));
 
-    var bucket = Bucket("bucketName", client: storageClient);
+    var secret = Secret("secretName", client: secretClient);
 
-    var contents = await bucket.file("fileName").read();
+    var contents = await secret.version("secretVersion").access();
 
-    verify(() => storageClient.read(req)).called(1);
+    verify(() => secretClient.access(req)).called(1);
 
-    expect(contents, "bucket contents");
-  });
-
-  test('Test delete file', () async {
-    var storageClient = MockStorageClient();
-
-    var req = StorageDeleteRequest(
-      bucketName: "bucketName",
-      key: "fileName",
-    );
-
-    var resp = StorageDeleteResponse();
-
-    when(() => storageClient.delete(req))
-        .thenAnswer((_) => MockResponseFuture.value(resp));
-
-    var bucket = Bucket("bucketName", client: storageClient);
-
-    await bucket.file("fileName").delete();
-
-    verify(() => storageClient.delete(req)).called(1);
+    expect(contents.value, "secret contents");
+    expect(contents.version, "secretVersion");
   });
 }

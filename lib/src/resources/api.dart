@@ -10,7 +10,7 @@ enum HttpMethod {
 
 /// An API resource.
 class Api extends Resource {
-  Api(String name) : super(name);
+  Api(String name, {$p.ResourcesClient? client}) : super(name, client);
 
   @override
   Future<void> register() async {

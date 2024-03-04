@@ -3,7 +3,8 @@ part of 'common.dart';
 enum BucketPermission { reading, writing, deleting }
 
 class BucketResource extends SecureResource<BucketPermission> {
-  BucketResource(String name) : super(name);
+  BucketResource(String name, {$p.ResourcesClient? client})
+      : super(name, client);
 
   @override
   Future<void> register() async {
@@ -12,7 +13,8 @@ class BucketResource extends SecureResource<BucketPermission> {
       name: name,
     );
 
-    await client.declare($p.ResourceDeclareRequest(id: resource));
+    await client.declare(
+        $p.ResourceDeclareRequest(id: resource, bucket: $p.BucketResource()));
 
     registrationCompletion.complete(resource);
   }

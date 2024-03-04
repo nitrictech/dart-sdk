@@ -19,7 +19,7 @@ class KeyValueStore {
     }
   }
 
-  /// Get a reference to a key in the store.
+  /// Get a reference to a [key] in the store.
   Future<Map<String, dynamic>> get(String key) async {
     var req = $p.KeyValueGetRequest(ref: $p.ValueRef(key: key, store: name));
 
@@ -28,6 +28,7 @@ class KeyValueStore {
     return Proto.mapFromStruct(resp.value.content);
   }
 
+  /// Set a new [value] to a [key] in the store.
   Future<void> set(String key, Map<String, dynamic> value) async {
     var content = Proto.structFromMap(value);
 
@@ -37,6 +38,7 @@ class KeyValueStore {
     await _keyValueClient.set(req);
   }
 
+  /// Delete a [key] from the store.
   Future<void> delete(String key) async {
     var req = $p.KeyValueDeleteRequest(ref: $p.ValueRef(key: key, store: name));
 

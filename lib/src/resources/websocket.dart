@@ -3,7 +3,7 @@ part of 'common.dart';
 class Websocket extends Resource {
   late $wp.WebsocketClient _websocketClient;
 
-  Websocket(String name) : super(name) {
+  Websocket(String name, {$p.ResourcesClient? client}) : super(name, client) {
     final channel = createClientChannelFromEnvVar();
 
     _websocketClient = $wp.WebsocketClient(channel);
@@ -13,7 +13,7 @@ class Websocket extends Resource {
   Future<void> register() async {
     var resource = $p.ResourceIdentifier(
       name: name,
-      type: $p.ResourceType.Api,
+      type: $p.ResourceType.Websocket,
     );
 
     await client.declare($p.ResourceDeclareRequest(id: resource));

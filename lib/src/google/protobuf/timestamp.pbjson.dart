@@ -1,6 +1,6 @@
 //
 //  Generated code. Do not modify.
-//  source: nitric/google/protobuf/timestamp.proto
+//  source: google/protobuf/timestamp.proto
 //
 // @dart = 2.12
 

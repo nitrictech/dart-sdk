@@ -25,12 +25,12 @@ class Bucket {
     }
   }
 
-  /// Get a reference to
+  /// Get a reference to a file by it's [key].
   File file(String key) {
     return File(this, key);
   }
 
-  /// Create a blob event subscription when
+  /// Create a blob event subscription triggered on the [blobEventType] filtered by files that match the [keyPrefixFilter].
   Future<void> on(BlobEventType blobEventType, String keyPrefixFilter,
       BlobEventHandler handler) async {
     // Create the request to register the Storage listener with the membrane
@@ -51,7 +51,7 @@ class Bucket {
   }
 }
 
-/// A reference to a file in the bucket.
+/// A reference to a [File] in the bucket.
 class File {
   final Bucket _bucket;
 
@@ -107,12 +107,12 @@ class File {
     return resp.exists;
   }
 
-  /// Get a presigned download URL with an [expiry] time (in seconds). Defaults to 600.
+  /// Get a presigned download URL with an [expiry] time (in seconds). Defaults to 600 (10 minutes), max of 604800 (7 days).
   Future<String> getDownloadUrl([int expiry = 600]) async {
     return _getSignedUrl($p.StoragePreSignUrlRequest_Operation.READ, expiry);
   }
 
-  /// Get a presigned upload URL with an [expiry] time (in seconds). Defaults to 600.
+  /// Get a presigned upload URL with an [expiry] time (in seconds). Defaults to 600 (10 minutes), max of 604800 (7 days).
   Future<String> getUploadUrl([int expiry = 600]) async {
     return _getSignedUrl($p.StoragePreSignUrlRequest_Operation.WRITE, expiry);
   }
@@ -120,6 +120,11 @@ class File {
   /// Create a presigned URL with a determined [op] type and [expiry] time (in seconds).
   Future<String> _getSignedUrl(
       $p.StoragePreSignUrlRequest_Operation op, int expiry) async {
+    if (expiry < 0 || expiry > 604800) {
+      throw ArgumentError.value(expiry, "expiry",
+          "presigned url expiry must be between 0 and 604800");
+    }
+
     var exp = $d.Duration(seconds: Int64(expiry));
 
     var req = $p.StoragePreSignUrlRequest(

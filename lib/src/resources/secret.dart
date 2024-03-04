@@ -3,7 +3,8 @@ part of 'common.dart';
 enum SecretPermission { accessing, putting }
 
 class SecretResource extends SecureResource<SecretPermission> {
-  SecretResource(String name) : super(name);
+  SecretResource(String name, {$p.ResourcesClient? client})
+      : super(name, client);
 
   @override
   Future<void> register() async {
@@ -12,7 +13,8 @@ class SecretResource extends SecureResource<SecretPermission> {
       type: $p.ResourceType.Secret,
     );
 
-    await client.declare($p.ResourceDeclareRequest(id: resource));
+    await client.declare(
+        $p.ResourceDeclareRequest(id: resource, secret: $p.SecretResource()));
 
     registrationCompletion.complete(resource);
   }

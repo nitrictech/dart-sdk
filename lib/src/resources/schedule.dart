@@ -1,7 +1,7 @@
 part of 'common.dart';
 
 class Schedule extends Resource {
-  Schedule(String name) : super(name);
+  Schedule(String name, {$p.ResourcesClient? client}) : super(name, client);
 
   @override
   Future<void> register() async {

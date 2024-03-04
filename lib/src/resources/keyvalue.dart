@@ -3,7 +3,8 @@ part of 'common.dart';
 enum KeyValueStorePermission { getting, setting, deleting }
 
 class KeyValueStoreResource extends SecureResource<KeyValueStorePermission> {
-  KeyValueStoreResource(String name) : super(name);
+  KeyValueStoreResource(String name, {$p.ResourcesClient? client})
+      : super(name, client);
 
   @override
   Future<void> register() async {
@@ -12,7 +13,8 @@ class KeyValueStoreResource extends SecureResource<KeyValueStorePermission> {
       name: name,
     );
 
-    await client.declare($p.ResourceDeclareRequest(id: resource));
+    await client.declare($p.ResourceDeclareRequest(
+        id: resource, keyValueStore: $p.KeyValueStoreResource()));
 
     registrationCompletion.complete(resource);
   }

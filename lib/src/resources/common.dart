@@ -4,13 +4,12 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:nitric_sdk/api.dart';
-import 'package:nitric_sdk/resource.dart';
+import 'package:nitric_sdk/src/api/queue.dart';
 import 'package:nitric_sdk/src/grpc_helper.dart';
 import 'package:nitric_sdk/src/nitric.dart';
 import 'package:nitric_sdk/src/nitric/proto/resources/v1/resources.pb.dart';
 import 'package:nitric_sdk/src/nitric/proto/schedules/v1/schedules.pb.dart'
     as $s;
-import 'package:nitric_sdk/src/nitric/proto/websockets/v1/websockets.pb.dart';
 import 'package:grpc/grpc.dart';
 import 'package:nitric_sdk/src/context/common.dart';
 import 'package:nitric_sdk/src/api/topic.dart' as $t;
@@ -34,6 +33,8 @@ part 'bucket.dart';
 part 'api.dart';
 part 'topic.dart';
 part 'websocket.dart';
+part 'queue.dart';
+part 'oidc.dart';
 
 /// A representation of a resource that can be registered with the Nitric server.
 abstract class Resource {
@@ -50,10 +51,14 @@ abstract class Resource {
   late final $p.ResourcesClient client;
 
   @protected
-  Resource(this.name) {
-    final channel = createClientChannelFromEnvVar();
+  Resource(this.name, $p.ResourcesClient? client) {
+    if (client == null) {
+      final channel = createClientChannelFromEnvVar();
 
-    client = $p.ResourcesClient(channel);
+      this.client = $p.ResourcesClient(channel);
+    } else {
+      this.client = client;
+    }
   }
 
   /// Register the resource with the Nitric server.
@@ -62,7 +67,7 @@ abstract class Resource {
 
 /// A resource that requires permissions to access it.
 abstract class SecureResource<T extends Enum> extends Resource {
-  SecureResource(String name) : super(name);
+  SecureResource(String name, $p.ResourcesClient? client) : super(name, client);
 
   /// Convert a list of permissions to gRPC actions.
   List<$p.Action> permissionsToActions(List<T> permissions);

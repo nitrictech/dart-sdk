@@ -9,15 +9,19 @@ import '../common.dart';
 class MockKeyValueClient extends Mock implements KeyValueClient {}
 
 void main() {
+  late MockKeyValueClient keyValueClient;
+
+  setUp(() => keyValueClient = MockKeyValueClient());
+
+  tearDown(() => reset(keyValueClient));
+
   test('Test build key value store', () {
-    var kv = KeyValueStore("keyvalueName");
+    var kv = KeyValueStore("keyvalueName", client: keyValueClient);
 
     expect(kv.name, "keyvalueName");
   });
 
   test('Test set to key value store', () async {
-    var keyvalueClient = MockKeyValueClient();
-
     var contents = $p.Struct();
     contents.fields["message"] = $p.Value(stringValue: "test");
 
@@ -27,19 +31,17 @@ void main() {
 
     var resp = KeyValueSetResponse();
 
-    when(() => keyvalueClient.set(req))
+    when(() => keyValueClient.set(req))
         .thenAnswer((_) => MockResponseFuture.value(resp));
 
-    var kvStore = KeyValueStore("keyvalueName", client: keyvalueClient);
+    var kvStore = KeyValueStore("keyvalueName", client: keyValueClient);
 
     await kvStore.set("keyName", {'message': 'test'});
 
-    verify(() => keyvalueClient.set(req)).called(1);
+    verify(() => keyValueClient.set(req)).called(1);
   });
 
   test('Test get to key value store', () async {
-    var keyvalueClient = MockKeyValueClient();
-
     var contents = $p.Struct();
     contents.fields["message"] = $p.Value(stringValue: "test");
 
@@ -52,34 +54,32 @@ void main() {
             ref: ValueRef(store: "keyvalueName", key: "keyName"),
             content: contents));
 
-    when(() => keyvalueClient.get(req))
+    when(() => keyValueClient.get(req))
         .thenAnswer((_) => MockResponseFuture.value(resp));
 
-    var kvStore = KeyValueStore("keyvalueName", client: keyvalueClient);
+    var kvStore = KeyValueStore("keyvalueName", client: keyValueClient);
 
     var keyContents = await kvStore.get("keyName");
 
-    verify(() => keyvalueClient.get(req)).called(1);
+    verify(() => keyValueClient.get(req)).called(1);
 
     expect(keyContents, Map.from({'message': 'test'}));
   });
 
   test('Test delete from key value store', () async {
-    var keyvalueClient = MockKeyValueClient();
-
     var req = KeyValueDeleteRequest(
       ref: ValueRef(store: "keyvalueName", key: "keyName"),
     );
 
     var resp = KeyValueDeleteResponse();
 
-    when(() => keyvalueClient.delete(req))
+    when(() => keyValueClient.delete(req))
         .thenAnswer((_) => MockResponseFuture.value(resp));
 
-    var kvStore = KeyValueStore("keyvalueName", client: keyvalueClient);
+    var kvStore = KeyValueStore("keyvalueName", client: keyValueClient);
 
     await kvStore.delete("keyName");
 
-    verify(() => keyvalueClient.delete(req)).called(1);
+    verify(() => keyValueClient.delete(req)).called(1);
   });
 }

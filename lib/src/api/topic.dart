@@ -22,7 +22,7 @@ class Topic {
   }
 
   /// Publish a [message] to the topic. Optional [delay] (in seconds) can be set to delay the message publish time.
-  Future<void> publish(Map<String, dynamic> message, [int delay = 0]) async {
+  Future<void> publish(Map<String, dynamic> message, {int delay = 0}) async {
     // Convert the message to a proto struct wrapped in an event message
     final messageStruct = Proto.structFromMap(message);
 

@@ -1,6 +1,5 @@
 import 'package:nitric_sdk/nitric.dart';
 import 'package:nitric_sdk/resources.dart';
-import 'package:nitric_sdk/src/context/common.dart';
 import 'package:uuid/uuid.dart';
 
 class Profile {
@@ -24,6 +23,13 @@ class Profile {
 void main() {
   // Create an API named 'public'
   final profileApi = Nitric.api("public");
+
+  var oidc = Nitric.oidcRule(
+      "profile security",
+      "https://dev-w7gm5ldb.us.auth0.com",
+      ["https://test-security-definition/"]);
+
+  Nitric.attachOidc(profileApi.name, oidc);
 
   // Define a collection named 'profiles', then request reading and writing permissions.
   final profiles = Nitric.store("profiles").requires([
