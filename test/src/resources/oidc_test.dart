@@ -26,8 +26,7 @@ void main() {
     var opts =
         OidcOptions("oidcName", "http://test-issuer", ["users"], ["user:read"]);
 
-    var oidc = OidcSecurityDefinition("apiName", "oidcName-apiName", opts,
-        client: resourceClient);
+    var oidc = OidcSecurityDefinition("apiName", opts, client: resourceClient);
 
     var req = ResourceDeclareRequest(
         id: ResourceIdentifier(

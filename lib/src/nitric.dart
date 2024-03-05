@@ -1,3 +1,5 @@
+import 'package:nitric_sdk/resources.dart';
+
 import 'resources/common.dart';
 
 abstract class Worker {
@@ -31,7 +33,8 @@ class Nitric {
       _makeResource(name, BucketResource.new) as BucketResource;
 
   /// Create a [name]d api for registering HTTP handlers.
-  static Api api(String name) => _makeResource(name, Api.new) as Api;
+  static Api api(String name, {ApiOptions? opts}) =>
+      _makeResource(name, (name) => Api(name, opts: opts)) as Api;
 
   /// Create a [name]d collection for storing documents.
   static KeyValueStoreResource store(String name) =>
@@ -53,13 +56,10 @@ class Nitric {
       _makeResource(name, Websocket.new) as Websocket;
 
   /// Create a [name]d oidc rule for attaching security definitions to APIs.
-  static oidcRule(String name, String issuer, List<String> audiences) {
+  static SecurityOption oidcRule(
+      String name, String issuer, List<String> audiences) {
     return (List<String> scopes) {
       return OidcOptions(name, issuer, audiences, scopes);
     };
-  }
-
-  static attachOidc(String apiName, OidcOptions oidc) {
-    return OidcSecurityDefinition(apiName, "${oidc.name}-$apiName", oidc);
   }
 }

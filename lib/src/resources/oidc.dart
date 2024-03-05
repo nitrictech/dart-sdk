@@ -11,15 +11,22 @@ class OidcOptions {
 
 typedef SecurityOption = OidcOptions Function(List<String> scopes);
 
+Future<OidcSecurityDefinition> _attach_oidc(
+    String apiName, OidcOptions options) async {
+  var secDef = OidcSecurityDefinition(apiName, options);
+  await secDef.register();
+  return secDef;
+}
+
 class OidcSecurityDefinition extends Resource {
   String apiName;
   late String ruleName;
   late String issuer;
   late List<String> audiences;
 
-  OidcSecurityDefinition(this.apiName, String name, OidcOptions options,
+  OidcSecurityDefinition(this.apiName, OidcOptions options,
       {$p.ResourcesClient? client})
-      : super(name, client) {
+      : super("${options.name}-$apiName", client) {
     ruleName = options.name;
     issuer = options.issuer;
     audiences = options.audiences;

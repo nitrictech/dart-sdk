@@ -8,9 +8,25 @@ enum HttpMethod {
   options,
 }
 
+class ApiOptions {
+  List<OidcOptions> security;
+  String basePath;
+
+  ApiOptions({this.security = const [], this.basePath = "/"});
+}
+
 /// An API resource.
 class Api extends Resource {
-  Api(String name, {$p.ResourcesClient? client}) : super(name, client);
+  late ApiOptions opts;
+
+  Api(String name, {ApiOptions? opts, $p.ResourcesClient? client})
+      : super(name, client) {
+    if (opts == null) {
+      this.opts = ApiOptions();
+    } else {
+      this.opts = opts;
+    }
+  }
 
   @override
   Future<void> register() async {
@@ -19,64 +35,57 @@ class Api extends Resource {
       type: $p.ResourceType.Api,
     );
 
-    //var apiScopes = $p.ApiScopes();
-    var apiResource = $p.ApiResource(security: {}); // TODO security
+    var apiResource = $p.ApiResource();
+
+    for (var opt in opts.security) {
+      await _attach_oidc(name, opt);
+
+      apiResource.security[opt.name] = $p.ApiScopes(scopes: opt.scopes);
+    }
 
     await client
         .declare($p.ResourceDeclareRequest(id: resource, api: apiResource));
   }
 
   /// A GET request [handler] that [match]es a specific route.
-  Future<void> get(
-    String match,
-    HttpHandler handler,
-  ) async {
-    Route(this, match).get(handler);
+  Future<void> get(String match, HttpHandler handler,
+      {List<OidcOptions> security = const []}) async {
+    Route(this, match, security: security).get(handler);
   }
 
   /// A POST request [handler] that [match]es a specific route.
-  Future<void> post(
-    String match,
-    HttpHandler handler,
-  ) async {
-    Route(this, match).post(handler);
+  Future<void> post(String match, HttpHandler handler,
+      {List<OidcOptions> security = const []}) async {
+    Route(this, match, security: security).post(handler);
   }
 
   /// A PUT request [handler] that [match]es a specific route.
-  Future<void> put(
-    String match,
-    HttpHandler handler,
-  ) async {
-    Route(this, match).put(handler);
+  Future<void> put(String match, HttpHandler handler,
+      {List<OidcOptions> security = const []}) async {
+    Route(this, match, security: security).put(handler);
   }
 
   /// A DELETE request [handler] that [match]es a specific route.
-  Future<void> delete(
-    String match,
-    HttpHandler handler,
-  ) async {
-    Route(this, match).delete(handler);
+  Future<void> delete(String match, HttpHandler handler,
+      {List<OidcOptions> security = const []}) async {
+    Route(this, match, security: security).delete(handler);
   }
 
   /// A OPTIONS request [handler] that [match]es a specific route.
-  Future<void> options(
-    String match,
-    HttpHandler handler,
-  ) async {
-    Route(this, match).options(handler);
+  Future<void> options(String match, HttpHandler handler,
+      {List<OidcOptions> security = const []}) async {
+    Route(this, match, security: security).options(handler);
   }
 
   /// A request [handler] that [match]es a specific route on all HTTP methods.
-  Future<void> all(
-    String match,
-    HttpHandler handler,
-  ) async {
-    Route(this, match).all(handler);
+  Future<void> all(String match, HttpHandler handler,
+      {List<OidcOptions> security = const []}) async {
+    Route(this, match, security: security).all(handler);
   }
 
   /// Create a route that [match]es on a specific path.
-  Route route(String match) {
-    return Route(this, match);
+  Route route(String match, {List<OidcOptions> security = const []}) {
+    return Route(this, match, security: security);
   }
 }
 
@@ -88,7 +97,10 @@ class Route {
   /// The path that this route will match on.
   String match;
 
-  Route(this.api, this.match);
+  /// The security to apply to the route.
+  List<OidcOptions> security;
+
+  Route(this.api, this.match, {this.security = const []});
 
   /// A GET request [handler] for this route.
   Future<void> get(HttpHandler handler) async {
@@ -144,7 +156,10 @@ class ApiWorker implements Worker {
   /// The HTTP methods that will be accepted for this trigger.
   List<HttpMethod> methods;
 
-  ApiWorker(this.route, this.handler, this.methods);
+  /// The security to apply to this api worker.
+  List<OidcOptions> security;
+
+  ApiWorker(this.route, this.handler, this.methods, {this.security = const []});
 
   /// Start the route handler.
   @override
@@ -153,12 +168,23 @@ class ApiWorker implements Worker {
     final channel = createClientChannelFromEnvVar();
     final client = $ap.ApiClient(channel);
 
+    var options = $ap.ApiWorkerOptions();
+    for (var s in security) {
+      await _attach_oidc(route.api.name, s);
+
+      options.security[s.name] = $ap.ApiWorkerScopes(scopes: s.scopes);
+    }
+
+    if (options.security.isEmpty) {
+      options.securityDisabled = true;
+    }
+
     // Create the request to register the API with the membrane
     final registrationRequest = $ap.RegistrationRequest(
       api: route.api.name,
       path: route.match,
       methods: methods.map((e) => e.name.toUpperCase()),
-      options: $ap.ApiWorkerOptions(securityDisabled: true),
+      options: options,
     );
     final initMsg = $ap.ClientMessage(registrationRequest: registrationRequest);
 
