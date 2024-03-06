@@ -38,13 +38,15 @@ class Api extends Resource {
     var apiResource = $p.ApiResource();
 
     for (var opt in opts.security) {
-      await _attach_oidc(name, opt);
+      await _attachOidc(name, opt);
 
       apiResource.security[opt.name] = $p.ApiScopes(scopes: opt.scopes);
     }
 
     await client
         .declare($p.ResourceDeclareRequest(id: resource, api: apiResource));
+
+    await channel.shutdown();
   }
 
   /// A GET request [handler] that [match]es a specific route.
@@ -170,7 +172,7 @@ class ApiWorker implements Worker {
 
     var options = $ap.ApiWorkerOptions();
     for (var s in security) {
-      await _attach_oidc(route.api.name, s);
+      await _attachOidc(route.api.name, s);
 
       options.security[s.name] = $ap.ApiWorkerScopes(scopes: s.scopes);
     }
@@ -189,7 +191,8 @@ class ApiWorker implements Worker {
     final initMsg = $ap.ClientMessage(registrationRequest: registrationRequest);
 
     // Create the request stream and send the initial message
-    final requestStream = StreamController<$ap.ClientMessage>();
+    final requestStream =
+        StreamController<$ap.ClientMessage>(onCancel: () => channel.shutdown());
     requestStream.add(initMsg);
 
     final response = client.serve(
@@ -216,5 +219,7 @@ class ApiWorker implements Worker {
         requestStream.add(ctx.toResponse());
       }
     }
+
+    await channel.shutdown();
   }
 }

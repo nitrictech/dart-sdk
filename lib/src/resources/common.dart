@@ -51,10 +51,12 @@ abstract class Resource {
   @protected
   late final $p.ResourcesClient client;
 
+  late final ClientChannel channel;
+
   @protected
   Resource(this.name, $p.ResourcesClient? client) {
     if (client == null) {
-      final channel = createClientChannelFromEnvVar();
+      channel = createClientChannelFromEnvVar();
 
       this.client = $p.ResourcesClient(channel);
     } else {
@@ -86,5 +88,7 @@ abstract class SecureResource<T extends Enum> extends Resource {
 
     await client
         .declare($p.ResourceDeclareRequest(policy: policy, id: policyResource));
+
+    await channel.shutdown();
   }
 }

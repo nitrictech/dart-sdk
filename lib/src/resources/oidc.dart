@@ -11,7 +11,7 @@ class OidcOptions {
 
 typedef SecurityOption = OidcOptions Function(List<String> scopes);
 
-Future<OidcSecurityDefinition> _attach_oidc(
+Future<OidcSecurityDefinition> _attachOidc(
     String apiName, OidcOptions options) async {
   var secDef = OidcSecurityDefinition(apiName, options);
   await secDef.register();
@@ -46,5 +46,7 @@ class OidcSecurityDefinition extends Resource {
 
     await client.declare($p.ResourceDeclareRequest(
         id: resource, apiSecurityDefinition: securityDefinition));
+
+    await channel.shutdown();
   }
 }

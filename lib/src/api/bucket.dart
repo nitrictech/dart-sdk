@@ -182,5 +182,7 @@ class BlobEventWorker implements Worker {
         requestStream.add(ctx.toResponse());
       }
     }
+
+    await channel.shutdown();
   }
 }

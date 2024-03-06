@@ -17,6 +17,8 @@ class Websocket extends Resource {
     );
 
     await client.declare($p.ResourceDeclareRequest(id: resource));
+
+    await channel.shutdown();
   }
 
   /// Send message [data] to a connection, referenced by its [connectionId].
@@ -103,5 +105,7 @@ class WebsocketWorker implements Worker {
         requestStream.add(ctx.toResponse());
       }
     }
+
+    await channel.shutdown();
   }
 }

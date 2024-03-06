@@ -19,6 +19,8 @@ class Topic extends SecureResource<TopicPermission> {
         $p.ResourceDeclareRequest(id: resource, topic: $p.TopicResource()));
 
     registrationCompletion.complete(resource);
+
+    await channel.shutdown();
   }
 
   @override
@@ -89,5 +91,7 @@ class SubscriptionWorker implements Worker {
         requestStream.add(ctx.toResponse());
       }
     }
+
+    await channel.shutdown();
   }
 }

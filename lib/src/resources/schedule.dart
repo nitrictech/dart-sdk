@@ -6,7 +6,10 @@ class Schedule extends Resource {
   @override
   Future<void> register() async {
     var res = $p.ResourceIdentifier(name: name, type: $p.ResourceType.Schedule);
+
     await client.declare($p.ResourceDeclareRequest(id: res));
+
+    await channel.shutdown();
   }
 
   /// Run [middleware] at a certain interval defined by the [rate]. E.g. '7 days', '3 hours', '30 minutes'.
@@ -16,7 +19,7 @@ class Schedule extends Resource {
 
     var worker = IntervalWorker(registrationRequest, middleware);
 
-    worker.start();
+    await worker.start();
   }
 
   /// Run [middleware] at a certain interval defined by the [cronExpression].
@@ -28,7 +31,7 @@ class Schedule extends Resource {
 
     var worker = IntervalWorker(registrationRequest, middleware);
 
-    worker.start();
+    await worker.start();
   }
 }
 
@@ -74,5 +77,7 @@ class IntervalWorker implements Worker {
         requestStream.add(ctx.toResponse());
       }
     }
+
+    await channel.shutdown();
   }
 }
