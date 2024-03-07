@@ -2,7 +2,7 @@ clean:
 	rm -rf lib/src/nitric
 	rm -rf lib/src/google
 
-NITRIC_VERSION := 1.0.0
+NITRIC_VERSION := 1.1.1
 GRPC_VERSION := 3.2.4
 
 download-nitric:

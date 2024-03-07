@@ -1,6 +1,6 @@
 //
 //  Generated code. Do not modify.
-//  source: nitric/proto/keyvalue/v1/keyvalue.proto
+//  source: nitric/proto/kvstore/v1/kvstore.proto
 //
 // @dart = 2.12
 
@@ -37,7 +37,7 @@ class Store extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'Store',
       package: const $pb.PackageName(
-          _omitMessageNames ? '' : 'nitric.proto.KeyValue.v1'),
+          _omitMessageNames ? '' : 'nitric.proto.kvstore.v1'),
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'name')
     ..hasRequiredFields = false;
@@ -103,7 +103,7 @@ class ValueRef extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'ValueRef',
       package: const $pb.PackageName(
-          _omitMessageNames ? '' : 'nitric.proto.KeyValue.v1'),
+          _omitMessageNames ? '' : 'nitric.proto.kvstore.v1'),
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'store')
     ..aOS(2, _omitFieldNames ? '' : 'key')
@@ -183,7 +183,7 @@ class Value extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'Value',
       package: const $pb.PackageName(
-          _omitMessageNames ? '' : 'nitric.proto.KeyValue.v1'),
+          _omitMessageNames ? '' : 'nitric.proto.kvstore.v1'),
       createEmptyInstance: create)
     ..aOM<ValueRef>(1, _omitFieldNames ? '' : 'ref',
         subBuilder: ValueRef.create)
@@ -243,8 +243,8 @@ class Value extends $pb.GeneratedMessage {
   $13.Struct ensureContent() => $_ensure(1);
 }
 
-class KeyValueGetRequest extends $pb.GeneratedMessage {
-  factory KeyValueGetRequest({
+class KvStoreGetValueRequest extends $pb.GeneratedMessage {
+  factory KvStoreGetValueRequest({
     ValueRef? ref,
   }) {
     final $result = create();
@@ -253,18 +253,18 @@ class KeyValueGetRequest extends $pb.GeneratedMessage {
     }
     return $result;
   }
-  KeyValueGetRequest._() : super();
-  factory KeyValueGetRequest.fromBuffer($core.List<$core.int> i,
+  KvStoreGetValueRequest._() : super();
+  factory KvStoreGetValueRequest.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(i, r);
-  factory KeyValueGetRequest.fromJson($core.String i,
+  factory KvStoreGetValueRequest.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'KeyValueGetRequest',
+      _omitMessageNames ? '' : 'KvStoreGetValueRequest',
       package: const $pb.PackageName(
-          _omitMessageNames ? '' : 'nitric.proto.KeyValue.v1'),
+          _omitMessageNames ? '' : 'nitric.proto.kvstore.v1'),
       createEmptyInstance: create)
     ..aOM<ValueRef>(1, _omitFieldNames ? '' : 'ref',
         subBuilder: ValueRef.create)
@@ -273,25 +273,27 @@ class KeyValueGetRequest extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  KeyValueGetRequest clone() => KeyValueGetRequest()..mergeFromMessage(this);
+  KvStoreGetValueRequest clone() =>
+      KvStoreGetValueRequest()..mergeFromMessage(this);
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
-  KeyValueGetRequest copyWith(void Function(KeyValueGetRequest) updates) =>
-      super.copyWith((message) => updates(message as KeyValueGetRequest))
-          as KeyValueGetRequest;
+  KvStoreGetValueRequest copyWith(
+          void Function(KvStoreGetValueRequest) updates) =>
+      super.copyWith((message) => updates(message as KvStoreGetValueRequest))
+          as KvStoreGetValueRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static KeyValueGetRequest create() => KeyValueGetRequest._();
-  KeyValueGetRequest createEmptyInstance() => create();
-  static $pb.PbList<KeyValueGetRequest> createRepeated() =>
-      $pb.PbList<KeyValueGetRequest>();
+  static KvStoreGetValueRequest create() => KvStoreGetValueRequest._();
+  KvStoreGetValueRequest createEmptyInstance() => create();
+  static $pb.PbList<KvStoreGetValueRequest> createRepeated() =>
+      $pb.PbList<KvStoreGetValueRequest>();
   @$core.pragma('dart2js:noInline')
-  static KeyValueGetRequest getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<KeyValueGetRequest>(create);
-  static KeyValueGetRequest? _defaultInstance;
+  static KvStoreGetValueRequest getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<KvStoreGetValueRequest>(create);
+  static KvStoreGetValueRequest? _defaultInstance;
 
   /// ValueRef of the key/value pair to get, which includes the store and key
   @$pb.TagNumber(1)
@@ -309,8 +311,8 @@ class KeyValueGetRequest extends $pb.GeneratedMessage {
   ValueRef ensureRef() => $_ensure(0);
 }
 
-class KeyValueGetResponse extends $pb.GeneratedMessage {
-  factory KeyValueGetResponse({
+class KvStoreGetValueResponse extends $pb.GeneratedMessage {
+  factory KvStoreGetValueResponse({
     Value? value,
   }) {
     final $result = create();
@@ -319,18 +321,18 @@ class KeyValueGetResponse extends $pb.GeneratedMessage {
     }
     return $result;
   }
-  KeyValueGetResponse._() : super();
-  factory KeyValueGetResponse.fromBuffer($core.List<$core.int> i,
+  KvStoreGetValueResponse._() : super();
+  factory KvStoreGetValueResponse.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(i, r);
-  factory KeyValueGetResponse.fromJson($core.String i,
+  factory KvStoreGetValueResponse.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'KeyValueGetResponse',
+      _omitMessageNames ? '' : 'KvStoreGetValueResponse',
       package: const $pb.PackageName(
-          _omitMessageNames ? '' : 'nitric.proto.KeyValue.v1'),
+          _omitMessageNames ? '' : 'nitric.proto.kvstore.v1'),
       createEmptyInstance: create)
     ..aOM<Value>(1, _omitFieldNames ? '' : 'value', subBuilder: Value.create)
     ..hasRequiredFields = false;
@@ -338,25 +340,27 @@ class KeyValueGetResponse extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  KeyValueGetResponse clone() => KeyValueGetResponse()..mergeFromMessage(this);
+  KvStoreGetValueResponse clone() =>
+      KvStoreGetValueResponse()..mergeFromMessage(this);
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
-  KeyValueGetResponse copyWith(void Function(KeyValueGetResponse) updates) =>
-      super.copyWith((message) => updates(message as KeyValueGetResponse))
-          as KeyValueGetResponse;
+  KvStoreGetValueResponse copyWith(
+          void Function(KvStoreGetValueResponse) updates) =>
+      super.copyWith((message) => updates(message as KvStoreGetValueResponse))
+          as KvStoreGetValueResponse;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static KeyValueGetResponse create() => KeyValueGetResponse._();
-  KeyValueGetResponse createEmptyInstance() => create();
-  static $pb.PbList<KeyValueGetResponse> createRepeated() =>
-      $pb.PbList<KeyValueGetResponse>();
+  static KvStoreGetValueResponse create() => KvStoreGetValueResponse._();
+  KvStoreGetValueResponse createEmptyInstance() => create();
+  static $pb.PbList<KvStoreGetValueResponse> createRepeated() =>
+      $pb.PbList<KvStoreGetValueResponse>();
   @$core.pragma('dart2js:noInline')
-  static KeyValueGetResponse getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<KeyValueGetResponse>(create);
-  static KeyValueGetResponse? _defaultInstance;
+  static KvStoreGetValueResponse getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<KvStoreGetValueResponse>(create);
+  static KvStoreGetValueResponse? _defaultInstance;
 
   /// The retrieved value
   @$pb.TagNumber(1)
@@ -374,8 +378,8 @@ class KeyValueGetResponse extends $pb.GeneratedMessage {
   Value ensureValue() => $_ensure(0);
 }
 
-class KeyValueSetRequest extends $pb.GeneratedMessage {
-  factory KeyValueSetRequest({
+class KvStoreSetValueRequest extends $pb.GeneratedMessage {
+  factory KvStoreSetValueRequest({
     ValueRef? ref,
     $13.Struct? content,
   }) {
@@ -388,18 +392,18 @@ class KeyValueSetRequest extends $pb.GeneratedMessage {
     }
     return $result;
   }
-  KeyValueSetRequest._() : super();
-  factory KeyValueSetRequest.fromBuffer($core.List<$core.int> i,
+  KvStoreSetValueRequest._() : super();
+  factory KvStoreSetValueRequest.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(i, r);
-  factory KeyValueSetRequest.fromJson($core.String i,
+  factory KvStoreSetValueRequest.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'KeyValueSetRequest',
+      _omitMessageNames ? '' : 'KvStoreSetValueRequest',
       package: const $pb.PackageName(
-          _omitMessageNames ? '' : 'nitric.proto.KeyValue.v1'),
+          _omitMessageNames ? '' : 'nitric.proto.kvstore.v1'),
       createEmptyInstance: create)
     ..aOM<ValueRef>(1, _omitFieldNames ? '' : 'ref',
         subBuilder: ValueRef.create)
@@ -410,25 +414,27 @@ class KeyValueSetRequest extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  KeyValueSetRequest clone() => KeyValueSetRequest()..mergeFromMessage(this);
+  KvStoreSetValueRequest clone() =>
+      KvStoreSetValueRequest()..mergeFromMessage(this);
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
-  KeyValueSetRequest copyWith(void Function(KeyValueSetRequest) updates) =>
-      super.copyWith((message) => updates(message as KeyValueSetRequest))
-          as KeyValueSetRequest;
+  KvStoreSetValueRequest copyWith(
+          void Function(KvStoreSetValueRequest) updates) =>
+      super.copyWith((message) => updates(message as KvStoreSetValueRequest))
+          as KvStoreSetValueRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static KeyValueSetRequest create() => KeyValueSetRequest._();
-  KeyValueSetRequest createEmptyInstance() => create();
-  static $pb.PbList<KeyValueSetRequest> createRepeated() =>
-      $pb.PbList<KeyValueSetRequest>();
+  static KvStoreSetValueRequest create() => KvStoreSetValueRequest._();
+  KvStoreSetValueRequest createEmptyInstance() => create();
+  static $pb.PbList<KvStoreSetValueRequest> createRepeated() =>
+      $pb.PbList<KvStoreSetValueRequest>();
   @$core.pragma('dart2js:noInline')
-  static KeyValueSetRequest getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<KeyValueSetRequest>(create);
-  static KeyValueSetRequest? _defaultInstance;
+  static KvStoreSetValueRequest getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<KvStoreSetValueRequest>(create);
+  static KvStoreSetValueRequest? _defaultInstance;
 
   /// ValueRef of the key/value pair to set, which includes the store and key
   @$pb.TagNumber(1)
@@ -461,49 +467,51 @@ class KeyValueSetRequest extends $pb.GeneratedMessage {
   $13.Struct ensureContent() => $_ensure(1);
 }
 
-class KeyValueSetResponse extends $pb.GeneratedMessage {
-  factory KeyValueSetResponse() => create();
-  KeyValueSetResponse._() : super();
-  factory KeyValueSetResponse.fromBuffer($core.List<$core.int> i,
+class KvStoreSetValueResponse extends $pb.GeneratedMessage {
+  factory KvStoreSetValueResponse() => create();
+  KvStoreSetValueResponse._() : super();
+  factory KvStoreSetValueResponse.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(i, r);
-  factory KeyValueSetResponse.fromJson($core.String i,
+  factory KvStoreSetValueResponse.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'KeyValueSetResponse',
+      _omitMessageNames ? '' : 'KvStoreSetValueResponse',
       package: const $pb.PackageName(
-          _omitMessageNames ? '' : 'nitric.proto.KeyValue.v1'),
+          _omitMessageNames ? '' : 'nitric.proto.kvstore.v1'),
       createEmptyInstance: create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  KeyValueSetResponse clone() => KeyValueSetResponse()..mergeFromMessage(this);
+  KvStoreSetValueResponse clone() =>
+      KvStoreSetValueResponse()..mergeFromMessage(this);
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
-  KeyValueSetResponse copyWith(void Function(KeyValueSetResponse) updates) =>
-      super.copyWith((message) => updates(message as KeyValueSetResponse))
-          as KeyValueSetResponse;
+  KvStoreSetValueResponse copyWith(
+          void Function(KvStoreSetValueResponse) updates) =>
+      super.copyWith((message) => updates(message as KvStoreSetValueResponse))
+          as KvStoreSetValueResponse;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static KeyValueSetResponse create() => KeyValueSetResponse._();
-  KeyValueSetResponse createEmptyInstance() => create();
-  static $pb.PbList<KeyValueSetResponse> createRepeated() =>
-      $pb.PbList<KeyValueSetResponse>();
+  static KvStoreSetValueResponse create() => KvStoreSetValueResponse._();
+  KvStoreSetValueResponse createEmptyInstance() => create();
+  static $pb.PbList<KvStoreSetValueResponse> createRepeated() =>
+      $pb.PbList<KvStoreSetValueResponse>();
   @$core.pragma('dart2js:noInline')
-  static KeyValueSetResponse getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<KeyValueSetResponse>(create);
-  static KeyValueSetResponse? _defaultInstance;
+  static KvStoreSetValueResponse getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<KvStoreSetValueResponse>(create);
+  static KvStoreSetValueResponse? _defaultInstance;
 }
 
-class KeyValueDeleteRequest extends $pb.GeneratedMessage {
-  factory KeyValueDeleteRequest({
+class KvStoreDeleteKeyRequest extends $pb.GeneratedMessage {
+  factory KvStoreDeleteKeyRequest({
     ValueRef? ref,
   }) {
     final $result = create();
@@ -512,18 +520,18 @@ class KeyValueDeleteRequest extends $pb.GeneratedMessage {
     }
     return $result;
   }
-  KeyValueDeleteRequest._() : super();
-  factory KeyValueDeleteRequest.fromBuffer($core.List<$core.int> i,
+  KvStoreDeleteKeyRequest._() : super();
+  factory KvStoreDeleteKeyRequest.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(i, r);
-  factory KeyValueDeleteRequest.fromJson($core.String i,
+  factory KvStoreDeleteKeyRequest.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'KeyValueDeleteRequest',
+      _omitMessageNames ? '' : 'KvStoreDeleteKeyRequest',
       package: const $pb.PackageName(
-          _omitMessageNames ? '' : 'nitric.proto.KeyValue.v1'),
+          _omitMessageNames ? '' : 'nitric.proto.kvstore.v1'),
       createEmptyInstance: create)
     ..aOM<ValueRef>(1, _omitFieldNames ? '' : 'ref',
         subBuilder: ValueRef.create)
@@ -532,27 +540,27 @@ class KeyValueDeleteRequest extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  KeyValueDeleteRequest clone() =>
-      KeyValueDeleteRequest()..mergeFromMessage(this);
+  KvStoreDeleteKeyRequest clone() =>
+      KvStoreDeleteKeyRequest()..mergeFromMessage(this);
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
-  KeyValueDeleteRequest copyWith(
-          void Function(KeyValueDeleteRequest) updates) =>
-      super.copyWith((message) => updates(message as KeyValueDeleteRequest))
-          as KeyValueDeleteRequest;
+  KvStoreDeleteKeyRequest copyWith(
+          void Function(KvStoreDeleteKeyRequest) updates) =>
+      super.copyWith((message) => updates(message as KvStoreDeleteKeyRequest))
+          as KvStoreDeleteKeyRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static KeyValueDeleteRequest create() => KeyValueDeleteRequest._();
-  KeyValueDeleteRequest createEmptyInstance() => create();
-  static $pb.PbList<KeyValueDeleteRequest> createRepeated() =>
-      $pb.PbList<KeyValueDeleteRequest>();
+  static KvStoreDeleteKeyRequest create() => KvStoreDeleteKeyRequest._();
+  KvStoreDeleteKeyRequest createEmptyInstance() => create();
+  static $pb.PbList<KvStoreDeleteKeyRequest> createRepeated() =>
+      $pb.PbList<KvStoreDeleteKeyRequest>();
   @$core.pragma('dart2js:noInline')
-  static KeyValueDeleteRequest getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<KeyValueDeleteRequest>(create);
-  static KeyValueDeleteRequest? _defaultInstance;
+  static KvStoreDeleteKeyRequest getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<KvStoreDeleteKeyRequest>(create);
+  static KvStoreDeleteKeyRequest? _defaultInstance;
 
   /// ValueRef of the key/value pair to delete, which includes the store and key
   @$pb.TagNumber(1)
@@ -570,47 +578,197 @@ class KeyValueDeleteRequest extends $pb.GeneratedMessage {
   ValueRef ensureRef() => $_ensure(0);
 }
 
-class KeyValueDeleteResponse extends $pb.GeneratedMessage {
-  factory KeyValueDeleteResponse() => create();
-  KeyValueDeleteResponse._() : super();
-  factory KeyValueDeleteResponse.fromBuffer($core.List<$core.int> i,
+class KvStoreDeleteKeyResponse extends $pb.GeneratedMessage {
+  factory KvStoreDeleteKeyResponse() => create();
+  KvStoreDeleteKeyResponse._() : super();
+  factory KvStoreDeleteKeyResponse.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(i, r);
-  factory KeyValueDeleteResponse.fromJson($core.String i,
+  factory KvStoreDeleteKeyResponse.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'KeyValueDeleteResponse',
+      _omitMessageNames ? '' : 'KvStoreDeleteKeyResponse',
       package: const $pb.PackageName(
-          _omitMessageNames ? '' : 'nitric.proto.KeyValue.v1'),
+          _omitMessageNames ? '' : 'nitric.proto.kvstore.v1'),
       createEmptyInstance: create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  KeyValueDeleteResponse clone() =>
-      KeyValueDeleteResponse()..mergeFromMessage(this);
+  KvStoreDeleteKeyResponse clone() =>
+      KvStoreDeleteKeyResponse()..mergeFromMessage(this);
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
-  KeyValueDeleteResponse copyWith(
-          void Function(KeyValueDeleteResponse) updates) =>
-      super.copyWith((message) => updates(message as KeyValueDeleteResponse))
-          as KeyValueDeleteResponse;
+  KvStoreDeleteKeyResponse copyWith(
+          void Function(KvStoreDeleteKeyResponse) updates) =>
+      super.copyWith((message) => updates(message as KvStoreDeleteKeyResponse))
+          as KvStoreDeleteKeyResponse;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static KeyValueDeleteResponse create() => KeyValueDeleteResponse._();
-  KeyValueDeleteResponse createEmptyInstance() => create();
-  static $pb.PbList<KeyValueDeleteResponse> createRepeated() =>
-      $pb.PbList<KeyValueDeleteResponse>();
+  static KvStoreDeleteKeyResponse create() => KvStoreDeleteKeyResponse._();
+  KvStoreDeleteKeyResponse createEmptyInstance() => create();
+  static $pb.PbList<KvStoreDeleteKeyResponse> createRepeated() =>
+      $pb.PbList<KvStoreDeleteKeyResponse>();
   @$core.pragma('dart2js:noInline')
-  static KeyValueDeleteResponse getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<KeyValueDeleteResponse>(create);
-  static KeyValueDeleteResponse? _defaultInstance;
+  static KvStoreDeleteKeyResponse getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<KvStoreDeleteKeyResponse>(create);
+  static KvStoreDeleteKeyResponse? _defaultInstance;
+}
+
+class KvStoreScanKeysRequest extends $pb.GeneratedMessage {
+  factory KvStoreScanKeysRequest({
+    Store? store,
+    $core.String? prefix,
+  }) {
+    final $result = create();
+    if (store != null) {
+      $result.store = store;
+    }
+    if (prefix != null) {
+      $result.prefix = prefix;
+    }
+    return $result;
+  }
+  KvStoreScanKeysRequest._() : super();
+  factory KvStoreScanKeysRequest.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory KvStoreScanKeysRequest.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'KvStoreScanKeysRequest',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'nitric.proto.kvstore.v1'),
+      createEmptyInstance: create)
+    ..aOM<Store>(1, _omitFieldNames ? '' : 'store', subBuilder: Store.create)
+    ..aOS(2, _omitFieldNames ? '' : 'prefix')
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  KvStoreScanKeysRequest clone() =>
+      KvStoreScanKeysRequest()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  KvStoreScanKeysRequest copyWith(
+          void Function(KvStoreScanKeysRequest) updates) =>
+      super.copyWith((message) => updates(message as KvStoreScanKeysRequest))
+          as KvStoreScanKeysRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static KvStoreScanKeysRequest create() => KvStoreScanKeysRequest._();
+  KvStoreScanKeysRequest createEmptyInstance() => create();
+  static $pb.PbList<KvStoreScanKeysRequest> createRepeated() =>
+      $pb.PbList<KvStoreScanKeysRequest>();
+  @$core.pragma('dart2js:noInline')
+  static KvStoreScanKeysRequest getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<KvStoreScanKeysRequest>(create);
+  static KvStoreScanKeysRequest? _defaultInstance;
+
+  /// The store to iterate over
+  @$pb.TagNumber(1)
+  Store get store => $_getN(0);
+  @$pb.TagNumber(1)
+  set store(Store v) {
+    setField(1, v);
+  }
+
+  @$pb.TagNumber(1)
+  $core.bool hasStore() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearStore() => clearField(1);
+  @$pb.TagNumber(1)
+  Store ensureStore() => $_ensure(0);
+
+  /// The prefix to filter keys by
+  @$pb.TagNumber(2)
+  $core.String get prefix => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set prefix($core.String v) {
+    $_setString(1, v);
+  }
+
+  @$pb.TagNumber(2)
+  $core.bool hasPrefix() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearPrefix() => clearField(2);
+}
+
+class KvStoreScanKeysResponse extends $pb.GeneratedMessage {
+  factory KvStoreScanKeysResponse({
+    $core.String? key,
+  }) {
+    final $result = create();
+    if (key != null) {
+      $result.key = key;
+    }
+    return $result;
+  }
+  KvStoreScanKeysResponse._() : super();
+  factory KvStoreScanKeysResponse.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory KvStoreScanKeysResponse.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'KvStoreScanKeysResponse',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'nitric.proto.kvstore.v1'),
+      createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'key')
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  KvStoreScanKeysResponse clone() =>
+      KvStoreScanKeysResponse()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  KvStoreScanKeysResponse copyWith(
+          void Function(KvStoreScanKeysResponse) updates) =>
+      super.copyWith((message) => updates(message as KvStoreScanKeysResponse))
+          as KvStoreScanKeysResponse;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static KvStoreScanKeysResponse create() => KvStoreScanKeysResponse._();
+  KvStoreScanKeysResponse createEmptyInstance() => create();
+  static $pb.PbList<KvStoreScanKeysResponse> createRepeated() =>
+      $pb.PbList<KvStoreScanKeysResponse>();
+  @$core.pragma('dart2js:noInline')
+  static KvStoreScanKeysResponse getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<KvStoreScanKeysResponse>(create);
+  static KvStoreScanKeysResponse? _defaultInstance;
+
+  /// The key of the key/value pair
+  @$pb.TagNumber(1)
+  $core.String get key => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set key($core.String v) {
+    $_setString(0, v);
+  }
+
+  @$pb.TagNumber(1)
+  $core.bool hasKey() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearKey() => clearField(1);
 }
 
 const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');

@@ -18,4 +18,22 @@ class MockResponseFuture<T> extends Mock implements ResponseFuture<T> {
       Future.value(future).then(onValue, onError: onError);
 }
 
+/// A gRPC response producing a stream of values.
+class MockResponseStream<T> extends Mock
+    with Stream<T>
+    implements ResponseStream<T> {
+  List<T> contents;
+
+  MockResponseStream.fromIterable(this.contents);
+
+  @override
+  MockResponseFuture<T> get single {
+    var content = contents.last;
+
+    contents.removeLast();
+
+    return MockResponseFuture.value(content);
+  }
+}
+
 class MockResourceClient extends Mock implements ResourcesClient {}

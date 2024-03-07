@@ -162,7 +162,7 @@ const UpResult$json = {
   '1': 'UpResult',
   '2': [
     {'1': 'success', '3': 1, '4': 1, '5': 8, '10': 'success'},
-    {'1': 'Text', '3': 2, '4': 1, '5': 9, '9': 0, '10': 'Text'},
+    {'1': 'text', '3': 2, '4': 1, '5': 9, '9': 0, '10': 'text'},
   ],
   '8': [
     {'1': 'content'},
@@ -171,7 +171,7 @@ const UpResult$json = {
 
 /// Descriptor for `UpResult`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List upResultDescriptor = $convert.base64Decode(
-    'CghVcFJlc3VsdBIYCgdzdWNjZXNzGAEgASgIUgdzdWNjZXNzEhQKBFRleHQYAiABKAlIAFIEVG'
+    'CghVcFJlc3VsdBIYCgdzdWNjZXNzGAEgASgIUgdzdWNjZXNzEhQKBHRleHQYAiABKAlIAFIEdG'
     'V4dEIJCgdjb250ZW50');
 
 @$core.Deprecated('Use deploymentDownRequestDescriptor instead')

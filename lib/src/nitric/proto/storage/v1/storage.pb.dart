@@ -13,7 +13,7 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import '../../../../google/protobuf/duration.pb.dart' as $11;
+import '../../../../google/protobuf/duration.pb.dart' as $12;
 import 'storage.pbenum.dart';
 
 export 'storage.pbenum.dart';
@@ -1088,7 +1088,7 @@ class StoragePreSignUrlRequest extends $pb.GeneratedMessage {
     $core.String? bucketName,
     $core.String? key,
     StoragePreSignUrlRequest_Operation? operation,
-    $11.Duration? expiry,
+    $12.Duration? expiry,
   }) {
     final $result = create();
     if (bucketName != null) {
@@ -1125,8 +1125,8 @@ class StoragePreSignUrlRequest extends $pb.GeneratedMessage {
         defaultOrMaker: StoragePreSignUrlRequest_Operation.READ,
         valueOf: StoragePreSignUrlRequest_Operation.valueOf,
         enumValues: StoragePreSignUrlRequest_Operation.values)
-    ..aOM<$11.Duration>(4, _omitFieldNames ? '' : 'expiry',
-        subBuilder: $11.Duration.create)
+    ..aOM<$12.Duration>(4, _omitFieldNames ? '' : 'expiry',
+        subBuilder: $12.Duration.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -1196,9 +1196,9 @@ class StoragePreSignUrlRequest extends $pb.GeneratedMessage {
 
   /// Expiry defined as as protobuf duration
   @$pb.TagNumber(4)
-  $11.Duration get expiry => $_getN(3);
+  $12.Duration get expiry => $_getN(3);
   @$pb.TagNumber(4)
-  set expiry($11.Duration v) {
+  set expiry($12.Duration v) {
     setField(4, v);
   }
 
@@ -1207,7 +1207,7 @@ class StoragePreSignUrlRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   void clearExpiry() => clearField(4);
   @$pb.TagNumber(4)
-  $11.Duration ensureExpiry() => $_ensure(3);
+  $12.Duration ensureExpiry() => $_ensure(3);
 }
 
 class StoragePreSignUrlResponse extends $pb.GeneratedMessage {

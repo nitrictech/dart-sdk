@@ -15,26 +15,26 @@ import 'dart:core' as $core;
 import 'package:grpc/service_api.dart' as $grpc;
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'topics.pb.dart' as $9;
+import 'topics.pb.dart' as $10;
 
 export 'topics.pb.dart';
 
 @$pb.GrpcServiceName('nitric.proto.topics.v1.Topics')
 class TopicsClient extends $grpc.Client {
   static final _$publish =
-      $grpc.ClientMethod<$9.TopicPublishRequest, $9.TopicPublishResponse>(
+      $grpc.ClientMethod<$10.TopicPublishRequest, $10.TopicPublishResponse>(
           '/nitric.proto.topics.v1.Topics/Publish',
-          ($9.TopicPublishRequest value) => value.writeToBuffer(),
+          ($10.TopicPublishRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) =>
-              $9.TopicPublishResponse.fromBuffer(value));
+              $10.TopicPublishResponse.fromBuffer(value));
 
   TopicsClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
       $core.Iterable<$grpc.ClientInterceptor>? interceptors})
       : super(channel, options: options, interceptors: interceptors);
 
-  $grpc.ResponseFuture<$9.TopicPublishResponse> publish(
-      $9.TopicPublishRequest request,
+  $grpc.ResponseFuture<$10.TopicPublishResponse> publish(
+      $10.TopicPublishRequest request,
       {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$publish, request, options: options);
   }
@@ -46,40 +46,40 @@ abstract class TopicsServiceBase extends $grpc.Service {
 
   TopicsServiceBase() {
     $addMethod(
-        $grpc.ServiceMethod<$9.TopicPublishRequest, $9.TopicPublishResponse>(
+        $grpc.ServiceMethod<$10.TopicPublishRequest, $10.TopicPublishResponse>(
             'Publish',
             publish_Pre,
             false,
             false,
             ($core.List<$core.int> value) =>
-                $9.TopicPublishRequest.fromBuffer(value),
-            ($9.TopicPublishResponse value) => value.writeToBuffer()));
+                $10.TopicPublishRequest.fromBuffer(value),
+            ($10.TopicPublishResponse value) => value.writeToBuffer()));
   }
 
-  $async.Future<$9.TopicPublishResponse> publish_Pre($grpc.ServiceCall call,
-      $async.Future<$9.TopicPublishRequest> request) async {
+  $async.Future<$10.TopicPublishResponse> publish_Pre($grpc.ServiceCall call,
+      $async.Future<$10.TopicPublishRequest> request) async {
     return publish(call, await request);
   }
 
-  $async.Future<$9.TopicPublishResponse> publish(
-      $grpc.ServiceCall call, $9.TopicPublishRequest request);
+  $async.Future<$10.TopicPublishResponse> publish(
+      $grpc.ServiceCall call, $10.TopicPublishRequest request);
 }
 
 @$pb.GrpcServiceName('nitric.proto.topics.v1.Subscriber')
 class SubscriberClient extends $grpc.Client {
   static final _$subscribe =
-      $grpc.ClientMethod<$9.ClientMessage, $9.ServerMessage>(
+      $grpc.ClientMethod<$10.ClientMessage, $10.ServerMessage>(
           '/nitric.proto.topics.v1.Subscriber/Subscribe',
-          ($9.ClientMessage value) => value.writeToBuffer(),
-          ($core.List<$core.int> value) => $9.ServerMessage.fromBuffer(value));
+          ($10.ClientMessage value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) => $10.ServerMessage.fromBuffer(value));
 
   SubscriberClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
       $core.Iterable<$grpc.ClientInterceptor>? interceptors})
       : super(channel, options: options, interceptors: interceptors);
 
-  $grpc.ResponseStream<$9.ServerMessage> subscribe(
-      $async.Stream<$9.ClientMessage> request,
+  $grpc.ResponseStream<$10.ServerMessage> subscribe(
+      $async.Stream<$10.ClientMessage> request,
       {$grpc.CallOptions? options}) {
     return $createStreamingCall(_$subscribe, request, options: options);
   }
@@ -90,15 +90,15 @@ abstract class SubscriberServiceBase extends $grpc.Service {
   $core.String get $name => 'nitric.proto.topics.v1.Subscriber';
 
   SubscriberServiceBase() {
-    $addMethod($grpc.ServiceMethod<$9.ClientMessage, $9.ServerMessage>(
+    $addMethod($grpc.ServiceMethod<$10.ClientMessage, $10.ServerMessage>(
         'Subscribe',
         subscribe,
         true,
         true,
-        ($core.List<$core.int> value) => $9.ClientMessage.fromBuffer(value),
-        ($9.ServerMessage value) => value.writeToBuffer()));
+        ($core.List<$core.int> value) => $10.ClientMessage.fromBuffer(value),
+        ($10.ServerMessage value) => value.writeToBuffer()));
   }
 
-  $async.Stream<$9.ServerMessage> subscribe(
-      $grpc.ServiceCall call, $async.Stream<$9.ClientMessage> request);
+  $async.Stream<$10.ServerMessage> subscribe(
+      $grpc.ServiceCall call, $async.Stream<$10.ClientMessage> request);
 }

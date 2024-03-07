@@ -15,25 +15,25 @@ import 'dart:core' as $core;
 import 'package:grpc/service_api.dart' as $grpc;
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'schedules.pb.dart' as $7;
+import 'schedules.pb.dart' as $8;
 
 export 'schedules.pb.dart';
 
 @$pb.GrpcServiceName('nitric.proto.schedules.v1.Schedules')
 class SchedulesClient extends $grpc.Client {
   static final _$schedule =
-      $grpc.ClientMethod<$7.ClientMessage, $7.ServerMessage>(
+      $grpc.ClientMethod<$8.ClientMessage, $8.ServerMessage>(
           '/nitric.proto.schedules.v1.Schedules/Schedule',
-          ($7.ClientMessage value) => value.writeToBuffer(),
-          ($core.List<$core.int> value) => $7.ServerMessage.fromBuffer(value));
+          ($8.ClientMessage value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) => $8.ServerMessage.fromBuffer(value));
 
   SchedulesClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
       $core.Iterable<$grpc.ClientInterceptor>? interceptors})
       : super(channel, options: options, interceptors: interceptors);
 
-  $grpc.ResponseStream<$7.ServerMessage> schedule(
-      $async.Stream<$7.ClientMessage> request,
+  $grpc.ResponseStream<$8.ServerMessage> schedule(
+      $async.Stream<$8.ClientMessage> request,
       {$grpc.CallOptions? options}) {
     return $createStreamingCall(_$schedule, request, options: options);
   }
@@ -44,15 +44,15 @@ abstract class SchedulesServiceBase extends $grpc.Service {
   $core.String get $name => 'nitric.proto.schedules.v1.Schedules';
 
   SchedulesServiceBase() {
-    $addMethod($grpc.ServiceMethod<$7.ClientMessage, $7.ServerMessage>(
+    $addMethod($grpc.ServiceMethod<$8.ClientMessage, $8.ServerMessage>(
         'Schedule',
         schedule,
         true,
         true,
-        ($core.List<$core.int> value) => $7.ClientMessage.fromBuffer(value),
-        ($7.ServerMessage value) => value.writeToBuffer()));
+        ($core.List<$core.int> value) => $8.ClientMessage.fromBuffer(value),
+        ($8.ServerMessage value) => value.writeToBuffer()));
   }
 
-  $async.Stream<$7.ServerMessage> schedule(
-      $grpc.ServiceCall call, $async.Stream<$7.ClientMessage> request);
+  $async.Stream<$8.ServerMessage> schedule(
+      $grpc.ServiceCall call, $async.Stream<$8.ClientMessage> request);
 }

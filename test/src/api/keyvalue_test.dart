@@ -1,12 +1,13 @@
+import 'package:grpc/grpc.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:nitric_sdk/src/api/api.dart';
 import 'package:nitric_sdk/src/google/protobuf/struct.pb.dart' as $p;
-import 'package:nitric_sdk/src/nitric/proto/keyvalue/v1/keyvalue.pbgrpc.dart';
+import 'package:nitric_sdk/src/nitric/proto/kvstore/v1/kvstore.pbgrpc.dart';
 import 'package:test/test.dart';
 
 import '../common.dart';
 
-class MockKeyValueClient extends Mock implements KeyValueClient {}
+class MockKeyValueClient extends Mock implements KvStoreClient {}
 
 void main() {
   late MockKeyValueClient keyValueClient;
@@ -25,61 +26,84 @@ void main() {
     var contents = $p.Struct();
     contents.fields["message"] = $p.Value(stringValue: "test");
 
-    var req = KeyValueSetRequest(
+    var req = KvStoreSetValueRequest(
         ref: ValueRef(store: "keyvalueName", key: "keyName"),
         content: contents);
 
-    var resp = KeyValueSetResponse();
+    var resp = KvStoreSetValueResponse();
 
-    when(() => keyValueClient.set(req))
+    when(() => keyValueClient.setValue(req))
         .thenAnswer((_) => MockResponseFuture.value(resp));
 
     var kvStore = KeyValueStore("keyvalueName", client: keyValueClient);
 
     await kvStore.set("keyName", {'message': 'test'});
 
-    verify(() => keyValueClient.set(req)).called(1);
+    verify(() => keyValueClient.setValue(req)).called(1);
   });
 
   test('Test get to key value store', () async {
     var contents = $p.Struct();
     contents.fields["message"] = $p.Value(stringValue: "test");
 
-    var req = KeyValueGetRequest(
+    var req = KvStoreGetValueRequest(
       ref: ValueRef(store: "keyvalueName", key: "keyName"),
     );
 
-    var resp = KeyValueGetResponse(
+    var resp = KvStoreGetValueResponse(
         value: Value(
             ref: ValueRef(store: "keyvalueName", key: "keyName"),
             content: contents));
 
-    when(() => keyValueClient.get(req))
+    when(() => keyValueClient.getValue(req))
         .thenAnswer((_) => MockResponseFuture.value(resp));
 
     var kvStore = KeyValueStore("keyvalueName", client: keyValueClient);
 
     var keyContents = await kvStore.get("keyName");
 
-    verify(() => keyValueClient.get(req)).called(1);
+    verify(() => keyValueClient.getValue(req)).called(1);
 
     expect(keyContents, Map.from({'message': 'test'}));
   });
 
   test('Test delete from key value store', () async {
-    var req = KeyValueDeleteRequest(
+    var req = KvStoreDeleteKeyRequest(
       ref: ValueRef(store: "keyvalueName", key: "keyName"),
     );
 
-    var resp = KeyValueDeleteResponse();
+    var resp = KvStoreDeleteKeyResponse();
 
-    when(() => keyValueClient.delete(req))
+    when(() => keyValueClient.deleteKey(req))
         .thenAnswer((_) => MockResponseFuture.value(resp));
 
     var kvStore = KeyValueStore("keyvalueName", client: keyValueClient);
 
     await kvStore.delete("keyName");
 
-    verify(() => keyValueClient.delete(req)).called(1);
+    verify(() => keyValueClient.deleteKey(req)).called(1);
   });
+
+  // test('Test get keys from key value store with empty prefix', () async {
+  //   var req = KvStoreScanKeysRequest(
+  //     store: Store(name: "keyvalueName"),
+  //     prefix: "",
+  //   );
+
+  //   var resp = ["first", "second", "third", "fourth", "fifth"]
+  //       .map((key) => KvStoreScanKeysResponse(key: key))
+  //       .toList();
+
+  //   when(() => keyValueClient.scanKeys(req))
+  //       .thenAnswer((_) => MockResponseStream.fromIterable(resp));
+
+  //   var kvStore = KeyValueStore("keyvalueName", client: keyValueClient);
+
+  //   var keys = kvStore.keys();
+
+  //   verify(() => keyValueClient.scanKeys(req)).called(1);
+
+  //   expect(keys.single, "fifth");
+  //   expect(keys.single, "fourth");
+  // });
 }
