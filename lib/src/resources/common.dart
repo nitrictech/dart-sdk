@@ -102,5 +102,7 @@ abstract class SecureResource<T extends Enum> extends Resource {
     var res = asRequest();
 
     await _client.declare(res);
+
+    _registrationCompletion.complete(res.id);
   }
 }
