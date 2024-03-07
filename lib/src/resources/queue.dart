@@ -7,16 +7,13 @@ class QueueResource extends SecureResource<QueuePermission> {
       : super(name, client);
 
   @override
-  Future<void> register() async {
+  ResourceDeclareRequest asRequest() {
     var resource = $p.ResourceIdentifier(
       type: $p.ResourceType.Queue,
       name: name,
     );
 
-    await client.declare(
-        $p.ResourceDeclareRequest(id: resource, queue: $p.QueueResource()));
-
-    registrationCompletion.complete(resource);
+    return $p.ResourceDeclareRequest(id: resource, queue: $p.QueueResource());
   }
 
   @override

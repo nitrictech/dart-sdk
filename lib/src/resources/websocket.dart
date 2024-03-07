@@ -10,15 +10,13 @@ class Websocket extends Resource {
   }
 
   @override
-  Future<void> register() async {
+  ResourceDeclareRequest asRequest() {
     var resource = $p.ResourceIdentifier(
       name: name,
       type: $p.ResourceType.Websocket,
     );
 
-    await client.declare($p.ResourceDeclareRequest(id: resource));
-
-    await channel.shutdown();
+    return $p.ResourceDeclareRequest(id: resource);
   }
 
   /// Send message [data] to a connection, referenced by its [connectionId].

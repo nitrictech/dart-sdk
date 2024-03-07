@@ -29,7 +29,7 @@ class Api extends Resource {
   }
 
   @override
-  Future<void> register() async {
+  ResourceDeclareRequest asRequest() {
     var resource = $p.ResourceIdentifier(
       name: name,
       type: $p.ResourceType.Api,
@@ -38,15 +38,12 @@ class Api extends Resource {
     var apiResource = $p.ApiResource();
 
     for (var opt in opts.security) {
-      await _attachOidc(name, opt);
+      _attachOidc(name, opt);
 
       apiResource.security[opt.name] = $p.ApiScopes(scopes: opt.scopes);
     }
 
-    await client
-        .declare($p.ResourceDeclareRequest(id: resource, api: apiResource));
-
-    await channel.shutdown();
+    return $p.ResourceDeclareRequest(id: resource, api: apiResource);
   }
 
   /// A GET request [handler] that [match]es a specific route.

@@ -7,16 +7,14 @@ class KeyValueStoreResource extends SecureResource<KeyValueStorePermission> {
       : super(name, client);
 
   @override
-  Future<void> register() async {
+  ResourceDeclareRequest asRequest() {
     var resource = $p.ResourceIdentifier(
       type: $p.ResourceType.KeyValueStore,
       name: name,
     );
 
-    await client.declare($p.ResourceDeclareRequest(
-        id: resource, keyValueStore: $p.KeyValueStoreResource()));
-
-    registrationCompletion.complete(resource);
+    return $p.ResourceDeclareRequest(
+        id: resource, keyValueStore: $p.KeyValueStoreResource());
   }
 
   @override

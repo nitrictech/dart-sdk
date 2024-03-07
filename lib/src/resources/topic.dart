@@ -9,18 +9,13 @@ class Topic extends SecureResource<TopicPermission> {
   Future<void> subscribe(MessageHandler handler) async {}
 
   @override
-  Future<void> register() async {
+  ResourceDeclareRequest asRequest() {
     var resource = $p.ResourceIdentifier(
       name: name,
       type: $p.ResourceType.Topic,
     );
 
-    await client.declare(
-        $p.ResourceDeclareRequest(id: resource, topic: $p.TopicResource()));
-
-    registrationCompletion.complete(resource);
-
-    await channel.shutdown();
+    return $p.ResourceDeclareRequest(id: resource, topic: $p.TopicResource());
   }
 
   @override

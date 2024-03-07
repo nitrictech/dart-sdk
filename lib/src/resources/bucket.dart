@@ -7,16 +7,13 @@ class BucketResource extends SecureResource<BucketPermission> {
       : super(name, client);
 
   @override
-  Future<void> register() async {
+  ResourceDeclareRequest asRequest() {
     var resource = $p.ResourceIdentifier(
       type: $p.ResourceType.Bucket,
       name: name,
     );
 
-    await client.declare(
-        $p.ResourceDeclareRequest(id: resource, bucket: $p.BucketResource()));
-
-    registrationCompletion.complete(resource);
+    return $p.ResourceDeclareRequest(id: resource, bucket: $p.BucketResource());
   }
 
   @override

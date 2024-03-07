@@ -4,8 +4,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:nitric_sdk/api.dart';
-import 'package:nitric_sdk/resources.dart';
-import 'package:nitric_sdk/src/api/queue.dart';
 import 'package:nitric_sdk/src/grpc_helper.dart';
 import 'package:nitric_sdk/src/nitric.dart';
 import 'package:nitric_sdk/src/nitric/proto/resources/v1/resources.pb.dart';
@@ -43,29 +41,35 @@ abstract class Resource {
   final String name;
 
   // Used to resolve the given resource for policy creation
-  @protected
-  final Completer<ResourceIdentifier> registrationCompletion =
+  final Completer<ResourceIdentifier> _registrationCompletion =
       Completer<ResourceIdentifier>();
 
   /// Internal resource client to declare the resource.
-  @protected
-  late final $p.ResourcesClient client;
+  late final $p.ResourcesClient _client;
 
-  late final ClientChannel channel;
+  final ClientChannel _channel = createClientChannelFromEnvVar();
 
   @protected
   Resource(this.name, $p.ResourcesClient? client) {
     if (client == null) {
-      channel = createClientChannelFromEnvVar();
-
-      this.client = $p.ResourcesClient(channel);
+      _client = $p.ResourcesClient(_channel);
     } else {
-      this.client = client;
+      _client = client;
     }
   }
 
-  /// Register the resource with the Nitric server.
-  Future<void> register();
+  ResourceDeclareRequest asRequest();
+
+  /// Register the resource with the Nitric server. Handles shutting down the channel.
+  Future<void> register() async {
+    var res = asRequest();
+
+    await _client.declare(res);
+
+    await _channel.shutdown();
+
+    _registrationCompletion.complete(res.id);
+  }
 }
 
 /// A resource that requires permissions to access it.
@@ -75,9 +79,9 @@ abstract class SecureResource<T extends Enum> extends Resource {
   /// Convert a list of permissions to gRPC actions.
   List<$p.Action> permissionsToActions(List<T> permissions);
 
-  /// Register a policy with the Nitric server to secure the resource with least-privilege.
+  /// Register a policy with the Nitric server to secure the resource with least-privilege. Handles shutting down the channel.
   Future<void> registerPolicy(List<T> permissions) async {
-    var resourceIdentifier = await registrationCompletion.future;
+    var resourceIdentifier = await _registrationCompletion.future;
 
     var policyResource = $p.ResourceIdentifier(type: $p.ResourceType.Policy);
 
@@ -86,9 +90,17 @@ abstract class SecureResource<T extends Enum> extends Resource {
         resources: [resourceIdentifier],
         actions: permissionsToActions(permissions));
 
-    await client
+    await _client
         .declare($p.ResourceDeclareRequest(policy: policy, id: policyResource));
 
-    await channel.shutdown();
+    await _channel.shutdown();
+  }
+
+  /// Register the resource with the Nitric server.
+  @override
+  Future<void> register() async {
+    var res = asRequest();
+
+    await _client.declare(res);
   }
 }

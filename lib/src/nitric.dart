@@ -22,7 +22,8 @@ class Nitric {
 
       var registerFuture = _cache[typename]![name]!.register();
 
-      registerFuture.onError((error, stackTrace) => print(error));
+      registerFuture.onError((error, stackTrace) =>
+          print("error occurred registering $typename $name: $error"));
     }
 
     return _cache[typename]![name] as T;

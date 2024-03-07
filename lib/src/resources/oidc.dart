@@ -33,7 +33,7 @@ class OidcSecurityDefinition extends Resource {
   }
 
   @override
-  Future<void> register() async {
+  ResourceDeclareRequest asRequest() {
     var resource = $p.ResourceIdentifier(
       name: ruleName,
       type: $p.ResourceType.ApiSecurityDefinition,
@@ -44,9 +44,7 @@ class OidcSecurityDefinition extends Resource {
     var securityDefinition =
         ApiSecurityDefinitionResource(apiName: apiName, oidc: oidc);
 
-    await client.declare($p.ResourceDeclareRequest(
-        id: resource, apiSecurityDefinition: securityDefinition));
-
-    await channel.shutdown();
+    return $p.ResourceDeclareRequest(
+        id: resource, apiSecurityDefinition: securityDefinition);
   }
 }

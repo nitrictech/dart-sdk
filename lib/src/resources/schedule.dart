@@ -4,12 +4,10 @@ class Schedule extends Resource {
   Schedule(String name, {$p.ResourcesClient? client}) : super(name, client);
 
   @override
-  Future<void> register() async {
+  ResourceDeclareRequest asRequest() {
     var res = $p.ResourceIdentifier(name: name, type: $p.ResourceType.Schedule);
 
-    await client.declare($p.ResourceDeclareRequest(id: res));
-
-    await channel.shutdown();
+    return $p.ResourceDeclareRequest(id: res);
   }
 
   /// Run [middleware] at a certain interval defined by the [rate]. E.g. '7 days', '3 hours', '30 minutes'.
