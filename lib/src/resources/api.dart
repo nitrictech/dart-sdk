@@ -12,7 +12,7 @@ class ApiOptions {
   List<OidcOptions> security;
   String basePath;
 
-  ApiOptions({this.security = const [], this.basePath = "/"});
+  ApiOptions({this.security = const [], this.basePath = ""});
 }
 
 /// An API resource.
@@ -21,11 +21,7 @@ class Api extends Resource {
 
   Api(String name, {ApiOptions? opts, $p.ResourcesClient? client})
       : super(name, client) {
-    if (opts == null) {
-      this.opts = ApiOptions();
-    } else {
-      this.opts = opts;
-    }
+    this.opts = opts ?? ApiOptions();
   }
 
   @override
@@ -48,43 +44,50 @@ class Api extends Resource {
 
   /// A GET request [handler] that [match]es a specific route.
   Future<void> get(String match, HttpHandler handler,
-      {List<OidcOptions> security = const []}) async {
-    Route(this, match, security: security).get(handler);
+      {List<OidcOptions>? security}) async {
+    Route(this, opts.basePath + match, security: security ?? opts.security)
+        .get(handler);
   }
 
   /// A POST request [handler] that [match]es a specific route.
   Future<void> post(String match, HttpHandler handler,
-      {List<OidcOptions> security = const []}) async {
-    Route(this, match, security: security).post(handler);
+      {List<OidcOptions>? security}) async {
+    Route(this, opts.basePath + match, security: security ?? opts.security)
+        .post(handler);
   }
 
   /// A PUT request [handler] that [match]es a specific route.
   Future<void> put(String match, HttpHandler handler,
-      {List<OidcOptions> security = const []}) async {
-    Route(this, match, security: security).put(handler);
+      {List<OidcOptions>? security}) async {
+    Route(this, opts.basePath + match, security: security ?? opts.security)
+        .put(handler);
   }
 
   /// A DELETE request [handler] that [match]es a specific route.
   Future<void> delete(String match, HttpHandler handler,
-      {List<OidcOptions> security = const []}) async {
-    Route(this, match, security: security).delete(handler);
+      {List<OidcOptions>? security}) async {
+    Route(this, opts.basePath + match, security: security ?? opts.security)
+        .delete(handler);
   }
 
   /// A OPTIONS request [handler] that [match]es a specific route.
   Future<void> options(String match, HttpHandler handler,
-      {List<OidcOptions> security = const []}) async {
-    Route(this, match, security: security).options(handler);
+      {List<OidcOptions>? security}) async {
+    Route(this, opts.basePath + match, security: security ?? opts.security)
+        .options(handler);
   }
 
   /// A request [handler] that [match]es a specific route on all HTTP methods.
   Future<void> all(String match, HttpHandler handler,
-      {List<OidcOptions> security = const []}) async {
-    Route(this, match, security: security).all(handler);
+      {List<OidcOptions>? security}) async {
+    Route(this, opts.basePath + match, security: security ?? opts.security)
+        .all(handler);
   }
 
   /// Create a route that [match]es on a specific path.
-  Route route(String match, {List<OidcOptions> security = const []}) {
-    return Route(this, match, security: security);
+  Route route(String match, {List<OidcOptions>? security}) {
+    return Route(this, opts.basePath + match,
+        security: security ?? opts.security);
   }
 }
 
@@ -103,42 +106,46 @@ class Route {
 
   /// A GET request [handler] for this route.
   Future<void> get(HttpHandler handler) async {
-    var worker = ApiWorker(this, handler, [HttpMethod.get]);
+    var worker = ApiWorker(this, handler, [HttpMethod.get], security: security);
 
     worker.start();
   }
 
   /// A POST request [handler] for this route.
   Future<void> post(HttpHandler handler) async {
-    var worker = ApiWorker(this, handler, [HttpMethod.post]);
+    var worker =
+        ApiWorker(this, handler, [HttpMethod.post], security: security);
 
     worker.start();
   }
 
   /// A PUT request [handler] for this route.
   Future<void> put(HttpHandler handler) async {
-    var worker = ApiWorker(this, handler, [HttpMethod.put]);
+    var worker = ApiWorker(this, handler, [HttpMethod.put], security: security);
 
     worker.start();
   }
 
   /// A DELETE request [handler] for this route.
   Future<void> delete(HttpHandler handler) async {
-    var worker = ApiWorker(this, handler, [HttpMethod.delete]);
+    var worker =
+        ApiWorker(this, handler, [HttpMethod.delete], security: security);
 
     worker.start();
   }
 
   /// An OPTIONS request [handler] for this route.
   Future<void> options(HttpHandler handler) async {
-    var worker = ApiWorker(this, handler, [HttpMethod.options]);
+    var worker =
+        ApiWorker(this, handler, [HttpMethod.options], security: security);
 
     worker.start();
   }
 
   /// A request [handler] for this route that matches all HTTP methods.
   Future<void> all(HttpHandler handler) async {
-    var worker = ApiWorker(this, handler, HttpMethod.values);
+    var worker =
+        ApiWorker(this, handler, HttpMethod.values, security: security);
 
     worker.start();
   }
@@ -167,15 +174,12 @@ class ApiWorker implements Worker {
     final channel = createClientChannelFromEnvVar();
     final client = $ap.ApiClient(channel);
 
-    var options = $ap.ApiWorkerOptions();
+    var options = $ap.ApiWorkerOptions(securityDisabled: security.isEmpty);
+
     for (var s in security) {
       await _attachOidc(route.api.name, s);
 
       options.security[s.name] = $ap.ApiWorkerScopes(scopes: s.scopes);
-    }
-
-    if (options.security.isEmpty) {
-      options.securityDisabled = true;
     }
 
     // Create the request to register the API with the membrane
@@ -188,8 +192,7 @@ class ApiWorker implements Worker {
     final initMsg = $ap.ClientMessage(registrationRequest: registrationRequest);
 
     // Create the request stream and send the initial message
-    final requestStream =
-        StreamController<$ap.ClientMessage>(onCancel: () => channel.shutdown());
+    final requestStream = StreamController<$ap.ClientMessage>();
     requestStream.add(initMsg);
 
     final response = client.serve(
