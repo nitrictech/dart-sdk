@@ -6,7 +6,13 @@ class Topic extends SecureResource<TopicPermission> {
   Topic(String name, {$p.ResourcesClient? client}) : super(name, client);
 
   /// Register a [handler] to subscribe to messages sent to the topic.
-  Future<void> subscribe(MessageHandler handler) async {}
+  Future<void> subscribe(MessageHandler middleware) async {
+    var registrationRequest = $tp.RegistrationRequest(topicName: name);
+
+    var worker = SubscriptionWorker(registrationRequest, middleware);
+
+    await worker.start();
+  }
 
   @override
   ResourceDeclareRequest asRequest() {
