@@ -33,6 +33,10 @@ class Nitric {
   static BucketResource bucket(String name) =>
       _makeResource(name, BucketResource.new) as BucketResource;
 
+  /// Create a [name]d queue for enqueuing and dequeuing messages.
+  static QueueResource queue(String name) =>
+      _makeResource(name, QueueResource.new) as QueueResource;
+
   /// Create a [name]d api for registering HTTP handlers.
   static Api api(String name, {ApiOptions? opts}) =>
       _makeResource(name, (name) => Api(name, opts: opts)) as Api;
