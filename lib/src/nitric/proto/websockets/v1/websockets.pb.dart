@@ -730,7 +730,7 @@ class WebsocketEventRequest extends $pb.GeneratedMessage {
       createEmptyInstance: create)
     ..oo(0, [10, 11, 12])
     ..aOS(1, _omitFieldNames ? '' : 'socketName')
-    ..aOS(2, _omitFieldNames ? '' : 'connectionId', protoName: 'connectionId')
+    ..aOS(2, _omitFieldNames ? '' : 'connectionId')
     ..aOM<WebsocketConnectionEvent>(10, _omitFieldNames ? '' : 'connection',
         subBuilder: WebsocketConnectionEvent.create)
     ..aOM<WebsocketDisconnectionEvent>(

@@ -2,7 +2,7 @@ library context;
 
 import 'dart:convert';
 
-import 'package:nitric_sdk/src/api/bucket.dart';
+import 'package:nitric_sdk/src/api/api.dart';
 import 'package:nitric_sdk/src/nitric/proto/apis/v1/apis.pb.dart' as $ap;
 import 'package:nitric_sdk/src/nitric/proto/schedules/v1/schedules.pb.dart'
     as $sp;

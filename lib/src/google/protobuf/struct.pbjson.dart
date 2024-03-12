@@ -1,6 +1,6 @@
 //
 //  Generated code. Do not modify.
-//  source: nitric/google/protobuf/struct.proto
+//  source: google/protobuf/struct.proto
 //
 // @dart = 2.12
 

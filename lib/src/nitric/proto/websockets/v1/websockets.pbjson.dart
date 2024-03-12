@@ -177,7 +177,7 @@ const WebsocketEventRequest$json = {
   '1': 'WebsocketEventRequest',
   '2': [
     {'1': 'socket_name', '3': 1, '4': 1, '5': 9, '10': 'socketName'},
-    {'1': 'connectionId', '3': 2, '4': 1, '5': 9, '10': 'connectionId'},
+    {'1': 'connection_id', '3': 2, '4': 1, '5': 9, '10': 'connectionId'},
     {
       '1': 'connection',
       '3': 10,
@@ -214,12 +214,12 @@ const WebsocketEventRequest$json = {
 /// Descriptor for `WebsocketEventRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List websocketEventRequestDescriptor = $convert.base64Decode(
     'ChVXZWJzb2NrZXRFdmVudFJlcXVlc3QSHwoLc29ja2V0X25hbWUYASABKAlSCnNvY2tldE5hbW'
-    'USIgoMY29ubmVjdGlvbklkGAIgASgJUgxjb25uZWN0aW9uSWQSVgoKY29ubmVjdGlvbhgKIAEo'
-    'CzI0Lm5pdHJpYy5wcm90by53ZWJzb2NrZXRzLnYxLldlYnNvY2tldENvbm5lY3Rpb25FdmVudE'
-    'gAUgpjb25uZWN0aW9uEl8KDWRpc2Nvbm5lY3Rpb24YCyABKAsyNy5uaXRyaWMucHJvdG8ud2Vi'
-    'c29ja2V0cy52MS5XZWJzb2NrZXREaXNjb25uZWN0aW9uRXZlbnRIAFINZGlzY29ubmVjdGlvbh'
-    'JNCgdtZXNzYWdlGAwgASgLMjEubml0cmljLnByb3RvLndlYnNvY2tldHMudjEuV2Vic29ja2V0'
-    'TWVzc2FnZUV2ZW50SABSB21lc3NhZ2VCEQoPd2Vic29ja2V0X2V2ZW50');
+    'USIwoNY29ubmVjdGlvbl9pZBgCIAEoCVIMY29ubmVjdGlvbklkElYKCmNvbm5lY3Rpb24YCiAB'
+    'KAsyNC5uaXRyaWMucHJvdG8ud2Vic29ja2V0cy52MS5XZWJzb2NrZXRDb25uZWN0aW9uRXZlbn'
+    'RIAFIKY29ubmVjdGlvbhJfCg1kaXNjb25uZWN0aW9uGAsgASgLMjcubml0cmljLnByb3RvLndl'
+    'YnNvY2tldHMudjEuV2Vic29ja2V0RGlzY29ubmVjdGlvbkV2ZW50SABSDWRpc2Nvbm5lY3Rpb2'
+    '4STQoHbWVzc2FnZRgMIAEoCzIxLm5pdHJpYy5wcm90by53ZWJzb2NrZXRzLnYxLldlYnNvY2tl'
+    'dE1lc3NhZ2VFdmVudEgAUgdtZXNzYWdlQhEKD3dlYnNvY2tldF9ldmVudA==');
 
 @$core.Deprecated('Use queryValueDescriptor instead')
 const QueryValue$json = {

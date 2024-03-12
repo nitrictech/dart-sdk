@@ -3,18 +3,17 @@ part of 'common.dart';
 enum BucketPermission { reading, writing, deleting }
 
 class BucketResource extends SecureResource<BucketPermission> {
-  BucketResource(String name) : super(name);
+  BucketResource(String name, {$p.ResourcesClient? client})
+      : super(name, client);
 
   @override
-  Future<void> register() async {
+  ResourceDeclareRequest asRequest() {
     var resource = $p.ResourceIdentifier(
       type: $p.ResourceType.Bucket,
       name: name,
     );
 
-    await client.declare($p.ResourceDeclareRequest(id: resource));
-
-    registrationCompletion.complete(resource);
+    return $p.ResourceDeclareRequest(id: resource, bucket: $p.BucketResource());
   }
 
   @override

@@ -2,19 +2,19 @@ part of 'common.dart';
 
 enum KeyValueStorePermission { getting, setting, deleting }
 
-class KeyValueStoreResource<T> extends SecureResource<KeyValueStorePermission> {
-  KeyValueStoreResource(String name) : super(name);
+class KeyValueStoreResource extends SecureResource<KeyValueStorePermission> {
+  KeyValueStoreResource(String name, {$p.ResourcesClient? client})
+      : super(name, client);
 
   @override
-  Future<void> register() async {
+  ResourceDeclareRequest asRequest() {
     var resource = $p.ResourceIdentifier(
       type: $p.ResourceType.KeyValueStore,
       name: name,
     );
 
-    await client.declare($p.ResourceDeclareRequest(id: resource));
-
-    registrationCompletion.complete(resource);
+    return $p.ResourceDeclareRequest(
+        id: resource, keyValueStore: $p.KeyValueStoreResource());
   }
 
   @override
@@ -40,13 +40,13 @@ class KeyValueStoreResource<T> extends SecureResource<KeyValueStorePermission> {
     return actions;
   }
 
-  KeyValueStore<T> requires(List<KeyValueStorePermission> permissions) {
+  KeyValueStore requires(List<KeyValueStorePermission> permissions) {
     if (permissions.isEmpty) {
       throw "Must supply at least one permission for key value store $name";
     }
 
     registerPolicy(permissions);
 
-    return KeyValueStore<T>(name);
+    return KeyValueStore(name);
   }
 }

@@ -1,27 +1,27 @@
 part of 'common.dart';
 
 class Schedule extends Resource {
-  Schedule(String name) : super(name);
+  Schedule(String name, {$p.ResourcesClient? client}) : super(name, client);
 
   @override
-  Future<void> register() async {
+  ResourceDeclareRequest asRequest() {
     var res = $p.ResourceIdentifier(name: name, type: $p.ResourceType.Schedule);
-    await client.declare($p.ResourceDeclareRequest(id: res));
+
+    return $p.ResourceDeclareRequest(id: res);
   }
 
   /// Run [middleware] at a certain interval defined by the [rate]. E.g. '7 days', '3 hours', '30 minutes'.
-  Future<void> every(String rate, IntervalMiddleware middleware) async {
+  Future<void> every(String rate, IntervalHandler middleware) async {
     var registrationRequest = $sp.RegistrationRequest(
         scheduleName: name, every: $s.ScheduleEvery(rate: rate));
 
     var worker = IntervalWorker(registrationRequest, middleware);
 
-    Nitric.registerWorker(worker);
+    await worker.start();
   }
 
   /// Run [middleware] at a certain interval defined by the [cronExpression].
-  Future<void> cron(
-      String cronExpression, IntervalMiddleware middleware) async {
+  Future<void> cron(String cronExpression, IntervalHandler middleware) async {
     var registrationRequest = $sp.RegistrationRequest(
       scheduleName: name,
       cron: $sp.ScheduleCron(expression: cronExpression),
@@ -29,13 +29,13 @@ class Schedule extends Resource {
 
     var worker = IntervalWorker(registrationRequest, middleware);
 
-    Nitric.registerWorker(worker);
+    await worker.start();
   }
 }
 
-class IntervalWorker extends Worker {
+class IntervalWorker implements Worker {
   $sp.RegistrationRequest registrationRequest;
-  IntervalMiddleware middleware;
+  IntervalHandler middleware;
 
   IntervalWorker(this.registrationRequest, this.middleware);
 
@@ -56,28 +56,26 @@ class IntervalWorker extends Worker {
       requestStream.stream,
     );
 
-    try {
-      await for (final msg in response) {
-        if (msg.hasRegistrationResponse()) {
-          print("Function connected with membrane");
-        } else if (msg.hasIntervalRequest()) {
-          var ctx = IntervalContext.fromRequest(msg);
+    await for (final msg in response) {
+      if (msg.hasRegistrationResponse()) {
+        // Schedule connected with Nitric server
+      } else if (msg.hasIntervalRequest()) {
+        var ctx = IntervalContext.fromRequest(msg);
 
+        try {
           ctx = await middleware(ctx);
+        } on GrpcError catch (e) {
+          print("caught a GrpcError: $e");
+        } catch (e) {
+          print("unhandled application error: $e");
 
-          var resp = ctx.toResponse();
-
-          requestStream.add(resp);
+          ctx.resp.success = false;
         }
+
+        requestStream.add(ctx.toResponse());
       }
-    } on GrpcError catch (e) {
-      print("caught a GrpcError: $e");
-    } on Error catch (e) {
-      print(e);
-
-      var resp = IntervalResponse(success: false);
-
-      requestStream.add($sp.ClientMessage(intervalResponse: resp.toWire()));
     }
+
+    await channel.shutdown();
   }
 }

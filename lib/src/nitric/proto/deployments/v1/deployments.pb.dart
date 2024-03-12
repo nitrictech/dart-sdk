@@ -13,7 +13,7 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import '../../../../google/protobuf/struct.pb.dart' as $12;
+import '../../../../google/protobuf/struct.pb.dart' as $13;
 import '../../resources/v1/resources.pb.dart' as $1;
 import '../../resources/v1/resources.pbenum.dart' as $1;
 import '../../storage/v1/storage.pb.dart' as $2;
@@ -24,7 +24,7 @@ export 'deployments.pbenum.dart';
 class DeploymentUpRequest extends $pb.GeneratedMessage {
   factory DeploymentUpRequest({
     Spec? spec,
-    $12.Struct? attributes,
+    $13.Struct? attributes,
     $core.bool? interactive,
   }) {
     final $result = create();
@@ -53,8 +53,8 @@ class DeploymentUpRequest extends $pb.GeneratedMessage {
           _omitMessageNames ? '' : 'nitric.proto.deployments.v1'),
       createEmptyInstance: create)
     ..aOM<Spec>(1, _omitFieldNames ? '' : 'spec', subBuilder: Spec.create)
-    ..aOM<$12.Struct>(2, _omitFieldNames ? '' : 'attributes',
-        subBuilder: $12.Struct.create)
+    ..aOM<$13.Struct>(2, _omitFieldNames ? '' : 'attributes',
+        subBuilder: $13.Struct.create)
     ..aOB(3, _omitFieldNames ? '' : 'interactive')
     ..hasRequiredFields = false;
 
@@ -99,9 +99,9 @@ class DeploymentUpRequest extends $pb.GeneratedMessage {
   /// A map of attributes related to the deploy request
   /// this allows for adding project identifiers etc.
   @$pb.TagNumber(2)
-  $12.Struct get attributes => $_getN(1);
+  $13.Struct get attributes => $_getN(1);
   @$pb.TagNumber(2)
-  set attributes($12.Struct v) {
+  set attributes($13.Struct v) {
     setField(2, v);
   }
 
@@ -110,7 +110,7 @@ class DeploymentUpRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   void clearAttributes() => clearField(2);
   @$pb.TagNumber(2)
-  $12.Struct ensureAttributes() => $_ensure(1);
+  $13.Struct ensureAttributes() => $_ensure(1);
 
   /// A hint to the provider of the kind of output that the client can accept
   /// This will allow provider developers to provider richer output back to clients.
@@ -428,7 +428,7 @@ class UpResult extends $pb.GeneratedMessage {
       createEmptyInstance: create)
     ..oo(0, [2])
     ..aOB(1, _omitFieldNames ? '' : 'success')
-    ..aOS(2, _omitFieldNames ? '' : 'Text', protoName: 'Text')
+    ..aOS(2, _omitFieldNames ? '' : 'text')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -484,7 +484,7 @@ class UpResult extends $pb.GeneratedMessage {
 
 class DeploymentDownRequest extends $pb.GeneratedMessage {
   factory DeploymentDownRequest({
-    $12.Struct? attributes,
+    $13.Struct? attributes,
     $core.bool? interactive,
   }) {
     final $result = create();
@@ -509,8 +509,8 @@ class DeploymentDownRequest extends $pb.GeneratedMessage {
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'nitric.proto.deployments.v1'),
       createEmptyInstance: create)
-    ..aOM<$12.Struct>(1, _omitFieldNames ? '' : 'attributes',
-        subBuilder: $12.Struct.create)
+    ..aOM<$13.Struct>(1, _omitFieldNames ? '' : 'attributes',
+        subBuilder: $13.Struct.create)
     ..aOB(2, _omitFieldNames ? '' : 'interactive')
     ..hasRequiredFields = false;
 
@@ -542,9 +542,9 @@ class DeploymentDownRequest extends $pb.GeneratedMessage {
   /// A map of attributes related to the deploy request
   /// this allows for adding project identifiers etc.
   @$pb.TagNumber(1)
-  $12.Struct get attributes => $_getN(0);
+  $13.Struct get attributes => $_getN(0);
   @$pb.TagNumber(1)
-  set attributes($12.Struct v) {
+  set attributes($13.Struct v) {
     setField(1, v);
   }
 
@@ -553,7 +553,7 @@ class DeploymentDownRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   void clearAttributes() => clearField(1);
   @$pb.TagNumber(1)
-  $12.Struct ensureAttributes() => $_ensure(0);
+  $13.Struct ensureAttributes() => $_ensure(0);
 
   /// A hint to the provider of the kind of output that the client can accept
   /// This will allow provider developers to provider richer output back to clients.

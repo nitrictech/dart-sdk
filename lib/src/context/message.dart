@@ -1,20 +1,22 @@
 part of './common.dart';
 
 /// The context for a topic message for a subscription.
-class MessageContext<T>
-    extends TriggerContext<MessageRequest<T>, MessageResponse> {
-  MessageContext(String id, MessageRequest<T> req, MessageResponse resp)
+class MessageContext extends TriggerContext<MessageRequest, MessageResponse> {
+  MessageContext(String id, MessageRequest req, MessageResponse resp)
       : super(id, req, resp);
 
   /// Create an Event context from a server message.
-  MessageContext.fromRequest($ep.ServerMessage msg)
-      : this(
-            msg.id,
-            MessageRequest(
-                msg.messageRequest.topicName,
-                json.decode(
-                    msg.messageRequest.message.structPayload.writeToJson())),
-            MessageResponse());
+  factory MessageContext.fromRequest($ep.ServerMessage msg) {
+    var payload = Proto.mapFromStruct(msg.messageRequest.message.structPayload);
+
+    return MessageContext(
+        msg.id,
+        MessageRequest(
+          msg.messageRequest.topicName,
+          payload,
+        ),
+        MessageResponse());
+  }
 
   /// Converts the context to a gRPC client response.
   $ep.ClientMessage toResponse() {
@@ -23,12 +25,12 @@ class MessageContext<T>
 }
 
 /// Represents a request received by a subscription to a topic.
-class MessageRequest<T> extends TriggerRequest {
+class MessageRequest extends TriggerRequest {
   /// The name of the topic that triggered this subscription.
   String topicName;
 
   /// The message payload that was sent.
-  T message;
+  Map<String, dynamic> message;
 
   MessageRequest(this.topicName, this.message);
 }

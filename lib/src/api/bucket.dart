@@ -1,11 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:nitric_sdk/nitric.dart';
 import 'package:nitric_sdk/src/context/common.dart';
 import 'package:nitric_sdk/src/grpc_helper.dart';
 import 'package:nitric_sdk/src/nitric/proto/storage/v1/storage.pbgrpc.dart'
     as $p;
-import '../google/protobuf/duration.pb.dart' as $d;
+import 'package:nitric_sdk/src/google/protobuf/duration.pb.dart' as $d;
 import 'package:fixnum/fixnum.dart';
 import 'package:grpc/grpc.dart';
 
@@ -14,63 +15,43 @@ class Bucket {
 
   String name;
 
-  Bucket(this.name) {
-    final channel = createClientChannelFromEnvVar();
+  Bucket(this.name, {$p.StorageClient? client}) {
+    if (client == null) {
+      final channel = createClientChannelFromEnvVar();
 
-    _storageClient = $p.StorageClient(channel);
+      _storageClient = $p.StorageClient(channel);
+    } else {
+      _storageClient = client;
+    }
   }
 
-  /// Get a reference to
+  /// Get a reference to a file by it's [key].
   File file(String key) {
     return File(this, key);
   }
 
-  /// Create a blob event subscription when
+  /// Create a blob event subscription triggered on the [blobEventType] filtered by files that match the [keyPrefixFilter].
   Future<void> on(BlobEventType blobEventType, String keyPrefixFilter,
-      BlobEventMiddleware handler) async {
-    // Create Storage listener client
-    final channel = createClientChannelFromEnvVar();
-    final client = $p.StorageListenerClient(channel);
-
+      BlobEventHandler handler) async {
     // Create the request to register the Storage listener with the membrane
+    final eventType = switch (blobEventType) {
+      BlobEventType.write => $p.BlobEventType.Created,
+      BlobEventType.delete => $p.BlobEventType.Deleted,
+    };
+
     final registrationRequest = $p.RegistrationRequest(
       bucketName: name,
-    );
-    final initMsg = $p.ClientMessage(registrationRequest: registrationRequest);
-
-    // Create the request stream and send the initial message
-    final requestStream = StreamController<$p.ClientMessage>();
-    requestStream.add(initMsg);
-
-    final response = client.listen(
-      requestStream.stream,
+      keyPrefixFilter: keyPrefixFilter,
+      blobEventType: eventType,
     );
 
-    try {
-      await for (final msg in response) {
-        if (msg.hasRegistrationResponse()) {
-          print("Function connected with membrane");
-        } else if (msg.hasBlobEventRequest()) {
-          var ctx = BlobEventContext.fromRequest(msg, this);
+    var worker = BlobEventWorker(registrationRequest, handler, this);
 
-          ctx = await handler(ctx);
-
-          var resp = ctx.toResponse();
-
-          requestStream.add(resp);
-        }
-      }
-    } on GrpcError catch (e) {
-      print("caught a GrpcError: $e");
-    } on Error {
-      var resp = BlobEventResponse(false);
-
-      requestStream.add($p.ClientMessage(blobEventResponse: resp.toWire()));
-    }
+    worker.start();
   }
 }
 
-/// A reference to a file in the bucket.
+/// A reference to a [File] in the bucket.
 class File {
   final Bucket _bucket;
 
@@ -126,12 +107,12 @@ class File {
     return resp.exists;
   }
 
-  /// Get a presigned download URL with an [expiry] time (in seconds). Defaults to 600.
+  /// Get a presigned download URL with an [expiry] time (in seconds). Defaults to 600 (10 minutes), max of 604800 (7 days).
   Future<String> getDownloadUrl([int expiry = 600]) async {
     return _getSignedUrl($p.StoragePreSignUrlRequest_Operation.READ, expiry);
   }
 
-  /// Get a presigned upload URL with an [expiry] time (in seconds). Defaults to 600.
+  /// Get a presigned upload URL with an [expiry] time (in seconds). Defaults to 600 (10 minutes), max of 604800 (7 days).
   Future<String> getUploadUrl([int expiry = 600]) async {
     return _getSignedUrl($p.StoragePreSignUrlRequest_Operation.WRITE, expiry);
   }
@@ -139,6 +120,11 @@ class File {
   /// Create a presigned URL with a determined [op] type and [expiry] time (in seconds).
   Future<String> _getSignedUrl(
       $p.StoragePreSignUrlRequest_Operation op, int expiry) async {
+    if (expiry < 0 || expiry > 604800) {
+      throw ArgumentError.value(expiry, "expiry",
+          "presigned url expiry must be between 0 and 604800");
+    }
+
     var exp = $d.Duration(seconds: Int64(expiry));
 
     var req = $p.StoragePreSignUrlRequest(
@@ -151,5 +137,52 @@ class File {
     var resp = await _bucket._storageClient.preSignUrl(req);
 
     return resp.url;
+  }
+}
+
+class BlobEventWorker implements Worker {
+  $p.RegistrationRequest registrationRequest;
+  BlobEventHandler middleware;
+  Bucket bucket;
+
+  BlobEventWorker(this.registrationRequest, this.middleware, this.bucket);
+
+  @override
+  Future<void> start() async {
+    // Create Storage listener client
+    final channel = createClientChannelFromEnvVar();
+    final client = $p.StorageListenerClient(channel);
+
+    final initMsg = $p.ClientMessage(registrationRequest: registrationRequest);
+
+    // Create the request stream and send the initial message
+    final requestStream = StreamController<$p.ClientMessage>();
+    requestStream.add(initMsg);
+
+    final response = client.listen(
+      requestStream.stream,
+    );
+
+    await for (final msg in response) {
+      if (msg.hasRegistrationResponse()) {
+        // Blob Notification has connected with Nitric server
+      } else if (msg.hasBlobEventRequest()) {
+        var ctx = BlobEventContext.fromRequest(msg, bucket);
+
+        try {
+          ctx = await middleware(ctx);
+        } on GrpcError catch (e) {
+          print("caught a GrpcError: $e");
+        } catch (e) {
+          print("unhandled application error: $e");
+
+          ctx.resp.success = false;
+        }
+
+        requestStream.add(ctx.toResponse());
+      }
+    }
+
+    await channel.shutdown();
   }
 }

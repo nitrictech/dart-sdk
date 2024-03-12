@@ -1,44 +1,59 @@
-import 'dart:convert';
-
+import 'package:nitric_sdk/src/api/api.dart';
 import 'package:nitric_sdk/src/grpc_helper.dart';
-import 'package:nitric_sdk/src/nitric/proto/keyvalue/v1/keyvalue.pbgrpc.dart';
-
-import '../google/protobuf/struct.pb.dart';
+import 'package:nitric_sdk/src/nitric/proto/kvstore/v1/kvstore.pbgrpc.dart'
+    as $p;
 
 /// A Key Value Store.
-class KeyValueStore<T> {
-  late KeyValueClient _keyValueClient;
+class KeyValueStore {
+  late $p.KvStoreClient _keyValueClient;
 
   final String name;
 
-  KeyValueStore(this.name) {
-    var channel = createClientChannelFromEnvVar();
+  KeyValueStore(this.name, {$p.KvStoreClient? client}) {
+    if (client == null) {
+      var channel = createClientChannelFromEnvVar();
 
-    _keyValueClient = KeyValueClient(channel);
+      _keyValueClient = $p.KvStoreClient(channel);
+    } else {
+      _keyValueClient = client;
+    }
   }
 
-  /// Get a reference to a key in the store.
-  Future<T> get(String key) async {
-    var req = KeyValueGetRequest(ref: ValueRef(key: key, store: name));
+  /// Get a reference to a [key] in the store.
+  Future<Map<String, dynamic>> get(String key) async {
+    var req =
+        $p.KvStoreGetValueRequest(ref: $p.ValueRef(key: key, store: name));
 
-    var resp = await _keyValueClient.get(req);
+    var resp = await _keyValueClient.getValue(req);
 
-    return json.decode(resp.writeToJson());
+    return Proto.mapFromStruct(resp.value.content);
   }
 
-  Future<void> set(String key, T value) async {
-    var content = Struct();
-    content.mergeFromJson(json.encode(value));
+  /// Set a new [value] to a [key] in the store.
+  Future<void> set(String key, Map<String, dynamic> value) async {
+    var content = Proto.structFromMap(value);
 
-    var req = KeyValueSetRequest(
-        ref: ValueRef(key: key, store: name), content: content);
+    var req = $p.KvStoreSetValueRequest(
+        ref: $p.ValueRef(key: key, store: name), content: content);
 
-    await _keyValueClient.set(req);
+    await _keyValueClient.setValue(req);
   }
 
+  /// Delete a [key] from the store.
   Future<void> delete(String key) async {
-    var req = KeyValueDeleteRequest(ref: ValueRef(key: key, store: name));
+    var req =
+        $p.KvStoreDeleteKeyRequest(ref: $p.ValueRef(key: key, store: name));
 
-    await _keyValueClient.delete(req);
+    await _keyValueClient.deleteKey(req);
+  }
+
+  /// Get a stream of key values that match the [prefix].
+  Stream<String> keys({String prefix = ""}) {
+    var req =
+        $p.KvStoreScanKeysRequest(store: $p.Store(name: name), prefix: prefix);
+
+    var resp = _keyValueClient.scanKeys(req);
+
+    return resp.map((event) => event.key);
   }
 }

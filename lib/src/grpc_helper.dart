@@ -9,7 +9,6 @@ ClientChannel createClientChannelFromEnvVar({int defaultPort = 50051}) {
   String? envVar = Platform.environment[envVarName];
 
   if (envVar == null) {
-    print('$envVarName is not set. Using default values.');
     return ClientChannel(
       '127.0.0.1',
       port: defaultPort,

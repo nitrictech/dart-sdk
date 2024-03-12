@@ -1,6 +1,6 @@
 //
 //  Generated code. Do not modify.
-//  source: nitric/google/protobuf/duration.proto
+//  source: google/protobuf/duration.proto
 //
 // @dart = 2.12
 
@@ -78,14 +78,14 @@ class Duration extends $pb.GeneratedMessage with $mixin.DurationMixin {
     $fixnum.Int64? seconds,
     $core.int? nanos,
   }) {
-    final $result = create();
+    final result = create();
     if (seconds != null) {
-      $result.seconds = seconds;
+      result.seconds = seconds;
     }
     if (nanos != null) {
-      $result.nanos = nanos;
+      result.nanos = nanos;
     }
-    return $result;
+    return result;
   }
   Duration._() : super();
   factory Duration.fromBuffer($core.List<$core.int> i,

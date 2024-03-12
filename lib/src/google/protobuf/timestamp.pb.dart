@@ -1,6 +1,6 @@
 //
 //  Generated code. Do not modify.
-//  source: nitric/google/protobuf/timestamp.proto
+//  source: google/protobuf/timestamp.proto
 //
 // @dart = 2.12
 
@@ -109,14 +109,14 @@ class Timestamp extends $pb.GeneratedMessage with $mixin.TimestampMixin {
     $fixnum.Int64? seconds,
     $core.int? nanos,
   }) {
-    final $result = create();
+    final result = create();
     if (seconds != null) {
-      $result.seconds = seconds;
+      result.seconds = seconds;
     }
     if (nanos != null) {
-      $result.nanos = nanos;
+      result.nanos = nanos;
     }
-    return $result;
+    return result;
   }
   Timestamp._() : super();
   factory Timestamp.fromBuffer($core.List<$core.int> i,

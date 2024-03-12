@@ -3,20 +3,20 @@ part of 'common.dart';
 class Websocket extends Resource {
   late $wp.WebsocketClient _websocketClient;
 
-  Websocket(String name) : super(name) {
+  Websocket(String name, {$p.ResourcesClient? client}) : super(name, client) {
     final channel = createClientChannelFromEnvVar();
 
     _websocketClient = $wp.WebsocketClient(channel);
   }
 
   @override
-  Future<void> register() async {
+  ResourceDeclareRequest asRequest() {
     var resource = $p.ResourceIdentifier(
       name: name,
-      type: $p.ResourceType.Api,
+      type: $p.ResourceType.Websocket,
     );
 
-    await client.declare($p.ResourceDeclareRequest(id: resource));
+    return $p.ResourceDeclareRequest(id: resource);
   }
 
   /// Send message [data] to a connection, referenced by its [connectionId].
@@ -34,42 +34,39 @@ class Websocket extends Resource {
   }
 
   /// Set a [handler] for connection requests to the socket.
-  Future<void> onConnect(WebsocketConnectMiddleware handler) async {
+  Future<void> onConnect(WebsocketHandler handler) async {
     var registrationRequest = $wp.RegistrationRequest(
         eventType: $wp.WebsocketEventType.Connect, socketName: name);
 
-    var worker =
-        WebsocketWorker(registrationRequest, handler as WebsocketMiddleware);
+    var worker = WebsocketWorker(registrationRequest, handler);
 
-    Nitric.registerWorker(worker);
+    worker.start();
   }
 
   /// Set a [handler] for disconnection requests to the socket.
-  Future<void> onDisconnect(WebsocketConnectMiddleware handler) async {
+  Future<void> onDisconnect(WebsocketHandler handler) async {
     var registrationRequest = $wp.RegistrationRequest(
         eventType: $wp.WebsocketEventType.Disconnect, socketName: name);
 
-    var worker =
-        WebsocketWorker(registrationRequest, handler as WebsocketMiddleware);
+    var worker = WebsocketWorker(registrationRequest, handler);
 
-    Nitric.registerWorker(worker);
+    worker.start();
   }
 
   /// Set a [handler] for messages to the socket.
-  Future<void> onMessage(WebsocketConnectMiddleware handler) async {
+  Future<void> onMessage(WebsocketHandler handler) async {
     var registrationRequest = $wp.RegistrationRequest(
         eventType: $wp.WebsocketEventType.Message, socketName: name);
 
-    var worker =
-        WebsocketWorker(registrationRequest, handler as WebsocketMiddleware);
+    var worker = WebsocketWorker(registrationRequest, handler);
 
-    Nitric.registerWorker(worker);
+    worker.start();
   }
 }
 
-class WebsocketWorker extends Worker {
+class WebsocketWorker implements Worker {
   $wp.RegistrationRequest registrationRequest;
-  WebsocketMiddleware middleware;
+  WebsocketHandler middleware;
 
   WebsocketWorker(this.registrationRequest, this.middleware);
 
@@ -89,37 +86,24 @@ class WebsocketWorker extends Worker {
       requestStream.stream,
     );
 
-    try {
-      await for (final msg in response) {
-        if (msg.hasRegistrationResponse()) {
-          print("Function connected with membrane");
-        } else if (msg.hasWebsocketEventRequest()) {
-          var ctx = switch (registrationRequest.eventType) {
-            $wp.WebsocketEventType.Connect =>
-              WebsocketConnectContext.fromRequest(msg),
-            $wp.WebsocketEventType.Disconnect =>
-              WebsocketDisconnectContext.fromRequest(msg),
-            $wp.WebsocketEventType.Message =>
-              WebsocketMessageContext.fromRequest(msg),
-            WebsocketEventType() => null,
-          };
+    await for (final msg in response) {
+      if (msg.hasRegistrationResponse()) {
+        // Websocket connected with Nitric server
+      } else if (msg.hasWebsocketEventRequest()) {
+        var ctx = WebsocketContext.fromRequest(msg);
 
-          ctx = await middleware(ctx!);
-
-          var resp = ctx.toResponse();
-
-          requestStream.add(resp);
+        try {
+          ctx = await middleware(ctx);
+        } on GrpcError catch (e) {
+          print("caught a GrpcError: $e");
+        } catch (e) {
+          print("unhandled application error: $e");
         }
+
+        requestStream.add(ctx.toResponse());
       }
-    } on GrpcError catch (e) {
-      print("caught a GrpcError: $e");
-    } on Error catch (e) {
-      print(e);
-
-      var resp = WebsocketResponse();
-
-      requestStream
-          .add($wp.ClientMessage(websocketEventResponse: resp.toWire()));
     }
+
+    await channel.shutdown();
   }
 }

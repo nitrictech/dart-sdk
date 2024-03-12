@@ -82,7 +82,7 @@ class HttpResponse extends TriggerResponse {
   }
 
   /// Creates a http response with an error for the body and 500 (internal server error) as the status.
-  HttpResponse.withError(Error e) {
+  void withError(Object e) {
     status = 500;
     body = e.toString();
     headers = {};

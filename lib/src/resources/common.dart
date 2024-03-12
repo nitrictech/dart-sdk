@@ -9,7 +9,6 @@ import 'package:nitric_sdk/src/nitric.dart';
 import 'package:nitric_sdk/src/nitric/proto/resources/v1/resources.pb.dart';
 import 'package:nitric_sdk/src/nitric/proto/schedules/v1/schedules.pb.dart'
     as $s;
-import 'package:nitric_sdk/src/nitric/proto/websockets/v1/websockets.pb.dart';
 import 'package:grpc/grpc.dart';
 import 'package:nitric_sdk/src/context/common.dart';
 import 'package:nitric_sdk/src/api/topic.dart' as $t;
@@ -33,6 +32,8 @@ part 'bucket.dart';
 part 'api.dart';
 part 'topic.dart';
 part 'websocket.dart';
+part 'queue.dart';
+part 'oidc.dart';
 
 /// A representation of a resource that can be registered with the Nitric server.
 abstract class Resource {
@@ -40,35 +41,47 @@ abstract class Resource {
   final String name;
 
   // Used to resolve the given resource for policy creation
-  @protected
-  final Completer<ResourceIdentifier> registrationCompletion =
+  final Completer<ResourceIdentifier> _registrationCompletion =
       Completer<ResourceIdentifier>();
 
   /// Internal resource client to declare the resource.
-  @protected
-  late final $p.ResourcesClient client;
+  late final $p.ResourcesClient _client;
+
+  final ClientChannel _channel = createClientChannelFromEnvVar();
 
   @protected
-  Resource(this.name) {
-    final channel = createClientChannelFromEnvVar();
-
-    client = $p.ResourcesClient(channel);
+  Resource(this.name, $p.ResourcesClient? client) {
+    if (client == null) {
+      _client = $p.ResourcesClient(_channel);
+    } else {
+      _client = client;
+    }
   }
 
-  /// Register the resource with the Nitric server.
-  Future<void> register();
+  ResourceDeclareRequest asRequest();
+
+  /// Register the resource with the Nitric server. Handles shutting down the channel.
+  Future<void> register() async {
+    var res = asRequest();
+
+    await _client.declare(res);
+
+    await _channel.shutdown();
+
+    _registrationCompletion.complete(res.id);
+  }
 }
 
 /// A resource that requires permissions to access it.
 abstract class SecureResource<T extends Enum> extends Resource {
-  SecureResource(String name) : super(name);
+  SecureResource(String name, $p.ResourcesClient? client) : super(name, client);
 
   /// Convert a list of permissions to gRPC actions.
   List<$p.Action> permissionsToActions(List<T> permissions);
 
-  /// Register a policy with the Nitric server to secure the resource with least-privilege.
+  /// Register a policy with the Nitric server to secure the resource with least-privilege. Handles shutting down the channel.
   Future<void> registerPolicy(List<T> permissions) async {
-    var resourceIdentifier = await registrationCompletion.future;
+    var resourceIdentifier = await _registrationCompletion.future;
 
     var policyResource = $p.ResourceIdentifier(type: $p.ResourceType.Policy);
 
@@ -77,7 +90,19 @@ abstract class SecureResource<T extends Enum> extends Resource {
         resources: [resourceIdentifier],
         actions: permissionsToActions(permissions));
 
-    await client
+    await _client
         .declare($p.ResourceDeclareRequest(policy: policy, id: policyResource));
+
+    await _channel.shutdown();
+  }
+
+  /// Register the resource with the Nitric server.
+  @override
+  Future<void> register() async {
+    var res = asRequest();
+
+    await _client.declare(res);
+
+    _registrationCompletion.complete(res.id);
   }
 }

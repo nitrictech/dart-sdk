@@ -1,33 +1,39 @@
 import 'package:nitric_sdk/nitric.dart';
 import 'package:nitric_sdk/resources.dart';
-import 'package:nitric_sdk/src/context/common.dart';
 import 'package:uuid/uuid.dart';
 
 class Profile {
-  String name;
-  int age;
-  String homeTown;
+  late String name;
+  late int age;
+  late String homeTown;
+  late List<String> contacts;
 
-  Profile(this.name, this.age, this.homeTown);
+  Profile({required this.name, required this.age, required this.homeTown});
 
   Profile.fromJson(Map<String, dynamic> contents)
       : name = contents["name"] as String,
         age = contents["age"] as int,
-        homeTown = contents["homeTown"] as String;
+        homeTown = contents["homeTown"] as String,
+        contacts = List<String>.from(contents["contacts"]);
 
-  Map<String, dynamic> toJson() => {
-        'name': name,
-        'age': age,
-        'homeTown': homeTown,
-      };
+  Map<String, dynamic> toJson() =>
+      {'name': name, 'age': age, 'homeTown': homeTown, 'contacts': contacts};
 }
 
 void main() {
+  var oidc = Nitric.oidcRule(
+      "profile security",
+      "https://dev-w7gm5ldb.us.auth0.com",
+      ["https://test-security-definition/"]);
+
   // Create an API named 'public'
-  final profileApi = Nitric.api("public");
+  final profileApi = Nitric.api("public",
+      opts: ApiOptions(security: [
+        oidc(["user:read"])
+      ]));
 
   // Define a collection named 'profiles', then request reading and writing permissions.
-  final profiles = Nitric.store<Profile>("profiles").requires([
+  final profiles = Nitric.store("profiles").requires([
     KeyValueStorePermission.getting,
     KeyValueStorePermission.deleting,
     KeyValueStorePermission.setting
@@ -36,22 +42,22 @@ void main() {
   final profilesImg = Nitric.bucket("profilesImg")
       .requires([BucketPermission.reading, BucketPermission.writing]);
 
-  profilesImg.on(BlobEventType.write, "*", (ctx) async {
-    return ctx;
-  });
-
   profileApi.post("/profiles", (ctx) async {
     final uuid = Uuid();
 
     final id = uuid.v4();
 
-    final profile = Profile.fromJson(ctx.req.json());
+    try {
+      var profile = Profile.fromJson(ctx.req.json());
+      // Store the new profile in the profiles collection
+      await profiles.set(id, profile.toJson());
 
-    // Store the new profile in the profiles collection
-    await profiles.set(id, profile);
-
-    // Send a success response.
-    ctx.resp.body = "Profile $id created.";
+      // Send a success response.
+      ctx.resp.body = "Profile $id created.";
+    } on Exception catch (e) {
+      ctx.resp.status = 400;
+      ctx.resp.body = "An error occurred: $e";
+    }
 
     return ctx;
   });
@@ -62,7 +68,7 @@ void main() {
     try {
       // Retrieve and return the profile data
       final profile = await profiles.get(id);
-      ctx.resp.json(profile.toJson());
+      ctx.resp.json(profile);
     } on Exception catch (e) {
       print(e);
       ctx.resp.status = 404;
@@ -123,6 +129,4 @@ void main() {
 
     return ctx;
   });
-
-  Nitric.run();
 }

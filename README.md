@@ -107,7 +107,7 @@ To create our Nitric project, we have to create a `nitric.yaml` file. The handle
 name: my_profile_api
 services:
   - match: bin/my_profile_api.dart
-    start: dart run bin/my_profile_api.dart
+    start: dart run $SERVICE_PATH
 ```
 
 ## Create a Profile class
@@ -141,34 +141,34 @@ class Profile {
 Applications built with Nitric can contain many APIs, let's start by adding one to this project to serve as the public endpoint. Rename `bin/my_profile_api.dart` to `bin/profiles.dart`
 
 ```dart
-import 'package:uuid/uuid.dart';
+import 'package:nitric_sdk/nitric.dart';
+import 'package:nitric_sdk/resources.dart';
+import 'package:nitric_sdk/src/context/common.dart';
 
-import 'package:nitric_sdk/src/api/collection.dart';
-import 'package:nitric_sdk/src/nitric.dart';
-import 'package:nitric_sdk/src/resources/common.dart';
+import 'package:uuid/uuid.dart';
 
 void main() {
   // Create an API named 'public'
   final profileApi = api("public");
 
-  // Define a collection named 'profiles', then request reading and writing permissions.
-  final profiles = collection<Profile>("profiles").requires([
-    CollectionPermission.writing,
-    CollectionPermission.deleting,
-    CollectionPermission.reading
+  // Define a key value store named 'profiles', then request getting, setting and deleting permissions.
+  final profiles = store("profiles").requires([
+    KeyValuePermission.getting,
+    KeyValuePermission.setting,
+    KeyValuePermission.deleting
   ]);
 }
 ```
 
-Here we're creating an API named `public` and a collection named `profiles`, then requesting read, write, and delete permissions which allows our function to access the collection.
+Here we're creating an API named `public` and a key value store named `profiles`, then requesting get, set, and delete permissions which allows our function to access the key value store.
 
 <Note>
-  Resources in Nitric like `api` and `collection` represent high-level cloud
+  Resources in Nitric like `api` and `key value store` represent high-level cloud
   resources. When your app is deployed Nitric automatically converts these
   requests into appropriate resources for the specific
   [provider](https://nitric.io/docs/reference/providers). Nitric also takes care of adding the IAM
   roles, policies, etc. that grant the requested access. For example the
-  `collection` resource uses DynamoDB in AWS or FireStore on Google Cloud.
+  `key value stores` resource uses DynamoDB in AWS or FireStore on Google Cloud.
 </Note>
 
 ### Create profiles with POST
@@ -189,7 +189,7 @@ profileApi.post("/profiles", (ctx) async {
   final profile = Profile.fromJson(ctx.req.json());
 
   // Store the new profile in the profiles collection
-  await profiles.key(id).put(profile);
+  await profiles.set(id, profile);
 
   // Send a success response.
   ctx.resp.body = "Profile $id created.";
@@ -206,26 +206,13 @@ profileApi.get("/profiles/:id", (ctx) async {
 
   try {
     // Retrieve and return the profile data
-    final profile = await profiles.key(id).access();
+    final profile = await profiles.get(id);
     ctx.resp.json(profile.toJson());
-  } on KeyNotFoundException catch (e) {
+  } on Exception catch (e) {
     print(e);
     ctx.resp.status = 404;
     ctx.resp.body = "Profile $id not found.";
   }
-
-  return ctx;
-});
-```
-
-### List all profiles with GET
-
-```dart
-profileApi.get("/profiles", (ctx) async {
-  // Return all profiles
-  final allProfiles = await profiles.list();
-
-  ctx.resp.json({'profiles': allProfiles});
 
   return ctx;
 });
@@ -239,11 +226,11 @@ profileApi.delete("/profiles/:id", (ctx) async {
 
   // Delete the profile
   try {
-    await profiles.key(id).unset();
+    await profiles.delete(id);
     ctx.resp.body = "Profile $id removed.";
-  } on KeyNotFoundException catch (e) {
+  } on Exception catch (e) {
     ctx.resp.status = 404;
-    ctx.resp.body = "Profile $id not found.";
+    ctx.resp.body = "Profile $id not found. $e";
   }
 
   return ctx;
@@ -255,14 +242,8 @@ profileApi.delete("/profiles/:id", (ctx) async {
 Now that you have an API defined with handlers for each of its methods, it's time to test it locally.
 
 ```bash
-npm run dev
+nitric start
 ```
-
-<Note>
-  the `dev` script starts the Nitric Server using `nitric start`, which provides
-  local interfaces to emulate cloud resources, then runs your functions and
-  allows them to connect.
-</Note>
 
 Once it starts, the application will receive requests via the API port. You can use the Local Dashboard or any HTTP client to test the API. We'll keep it running for our tests. If you want to update your functions, just save them, they'll be reloaded automatically.
 
@@ -354,7 +335,7 @@ If you want to go a bit deeper and create some other resources with Nitric, why 
 Define a bucket named `profilesImg` with reading/writing permissions.
 
 ```dart
-final profilesImg = bucket("profilesImg").requires([BucketPermission.reading, BucketPermission.writing]);
+final profilesImg = Nitric.bucket("profilesImg").requires([BucketPermission.reading, BucketPermission.writing]);
 ```
 
 ### Get a URL to upload a profile image
