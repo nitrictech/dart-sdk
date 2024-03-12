@@ -30,6 +30,16 @@ class Bucket {
     return File(this, key);
   }
 
+  /// Get a list of references to the files in the bucket. Optionally supply a [prefix] to filter by.
+  Future<List<File>> files({String prefix = ""}) async {
+    final request =
+        $p.StorageListBlobsRequest(bucketName: name, prefix: prefix);
+
+    var resp = await _storageClient.listBlobs(request);
+
+    return resp.blobs.map((blob) => File(this, blob.key)).toList();
+  }
+
   /// Create a blob event subscription triggered on the [blobEventType] filtered by files that match the [keyPrefixFilter].
   Future<void> on(BlobEventType blobEventType, String keyPrefixFilter,
       BlobEventHandler handler) async {
