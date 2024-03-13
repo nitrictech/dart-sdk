@@ -32,6 +32,49 @@ void main() {
     expect(file.key, "fileName");
   });
 
+  test('Test get list of files with no prefix filter', () async {
+    var req = StorageListBlobsRequest(bucketName: "bucketName", prefix: "");
+
+    var resp = StorageListBlobsResponse(
+        blobs: [Blob(key: "blob-a"), Blob(key: "blob-b"), Blob(key: "blob-c")]);
+
+    when(() => storageClient.listBlobs(req))
+        .thenAnswer((_) => MockResponseFuture.value(resp));
+
+    var bucket = Bucket("bucketName", client: storageClient);
+
+    var blobs = await bucket.files();
+
+    verify(() => storageClient.listBlobs(req)).called(1);
+
+    expect(blobs.length, 3);
+    expect(blobs[0].key, "blob-a");
+    expect(blobs[1].key, "blob-b");
+    expect(blobs[2].key, "blob-c");
+  });
+
+  test('Test get list of files with prefix filter', () async {
+    var req =
+        StorageListBlobsRequest(bucketName: "bucketName", prefix: "blob-");
+
+    var resp = StorageListBlobsResponse(
+        blobs: [Blob(key: "blob-a"), Blob(key: "blob-b"), Blob(key: "blob-c")]);
+
+    when(() => storageClient.listBlobs(req))
+        .thenAnswer((_) => MockResponseFuture.value(resp));
+
+    var bucket = Bucket("bucketName", client: storageClient);
+
+    var blobs = await bucket.files(prefix: "blob-");
+
+    verify(() => storageClient.listBlobs(req)).called(1);
+
+    expect(blobs.length, 3);
+    expect(blobs[0].key, "blob-a");
+    expect(blobs[1].key, "blob-b");
+    expect(blobs[2].key, "blob-c");
+  });
+
   test('Test write to file', () async {
     var req = StorageWriteRequest(
         bucketName: "bucketName",
