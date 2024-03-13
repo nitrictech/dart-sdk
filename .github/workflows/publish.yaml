@@ -15,9 +15,8 @@ jobs:
       - name: Install dependencies
         run: dart pub get
       - name: Add version
-        env:
-          TAG_VERSION: ${{ github.event.release.tag_name }}
-        run: echo "\n\nversion: ${TAG_VERSION##v}" >> pubspec.yaml
+        run: |
+          echo "\n\nversion: ${GITHUB_REF_NAME##v}" >> pubspec.yaml
       - name: Check Publish Warnings
         run: dart pub publish --dry-run
       - name: Publish
