@@ -16,7 +16,7 @@ jobs:
         run: dart pub get
       - name: Add version
         run: |
-          echo "\n\nversion: ${GITHUB_REF_NAME##v}" >> pubspec.yaml
+          echo -e "\n\nversion: ${GITHUB_REF_NAME##v}" >> pubspec.yaml
       - name: Check Publish Warnings
         run: dart pub publish --dry-run
       - name: Publish

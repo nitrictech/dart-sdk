@@ -1,6 +1,6 @@
 name: nitric_sdk
-description: A Dart SDK for creating Nitric applications
-repository: https://github.com/nitrictech/dart_sdk
+description: The Dart SDK supports the use of the Nitric framework with Dart and Flutter.
+repository: https://github.com/nitrictech/dart-sdk
 
 environment:
   sdk: ^3.2.4
