@@ -17,6 +17,13 @@ jobs:
       - name: Add version
         run: |
           echo -e "\n\nversion: ${GITHUB_REF_NAME##v}" >> pubspec.yaml
+      - name: Update CHANGELOG
+        uses: requarks/changelog-action@v1
+        with:
+          token: ${{ secrets.NITRIC_BOT_TOKEN }}
+          fromTag: ${{ github.ref_name }}
+          toTag: v1.0.0
+          writeToFile: true
       - name: Check Publish Warnings
         run: dart pub publish --dry-run
       - name: Publish
