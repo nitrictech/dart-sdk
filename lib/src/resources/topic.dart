@@ -3,13 +3,20 @@ part of 'common.dart';
 enum TopicPermission { publishing }
 
 class Topic extends SecureResource<TopicPermission> {
-  Topic(String name, {$p.ResourcesClient? client}) : super(name, client);
+  $tp.SubscriberClient? _subscriberClient;
+
+  Topic(String name,
+      {$p.ResourcesClient? client, $tp.SubscriberClient? subscriberClient})
+      : super(name, client) {
+    _subscriberClient = subscriberClient;
+  }
 
   /// Register a [handler] to subscribe to messages sent to the topic.
   Future<void> subscribe(MessageHandler middleware) async {
     var registrationRequest = $tp.RegistrationRequest(topicName: name);
 
-    var worker = SubscriptionWorker(registrationRequest, middleware);
+    var worker = SubscriptionWorker(registrationRequest, middleware,
+        client: _subscriberClient);
 
     await worker.start();
   }
@@ -47,52 +54,5 @@ class Topic extends SecureResource<TopicPermission> {
     registerPolicy(permissions);
 
     return $t.Topic(name);
-  }
-}
-
-class SubscriptionWorker implements Worker {
-  $tp.RegistrationRequest registrationRequest;
-  MessageHandler middleware;
-
-  SubscriptionWorker(this.registrationRequest, this.middleware);
-
-  @override
-  Future<void> start() async {
-    // Create Subscriber client
-    final channel = createClientChannelFromEnvVar();
-    final client = $tp.SubscriberClient(channel);
-
-    // Create the request to register the subscription with the membrane
-    final initMsg = $tp.ClientMessage(registrationRequest: registrationRequest);
-
-    // Create the request stream and send the initial message
-    final requestStream = StreamController<$tp.ClientMessage>();
-    requestStream.add(initMsg);
-
-    final response = client.subscribe(
-      requestStream.stream,
-    );
-
-    await for (final msg in response) {
-      if (msg.hasRegistrationResponse()) {
-        // Topic connected with Nitric server
-      } else if (msg.hasMessageRequest()) {
-        var ctx = MessageContext.fromRequest(msg);
-
-        try {
-          ctx = await middleware(ctx);
-        } on GrpcError catch (e) {
-          print("caught a GrpcError: $e");
-        } catch (e) {
-          print("unhandled application error: $e");
-
-          ctx.resp.success = false;
-        }
-
-        requestStream.add(ctx.toResponse());
-      }
-    }
-
-    await channel.shutdown();
   }
 }

@@ -1,18 +1,35 @@
 import 'package:mocktail/mocktail.dart';
+import 'package:nitric_sdk/nitric.dart';
 import 'package:nitric_sdk/resources.dart';
 import 'package:nitric_sdk/src/nitric/proto/resources/v1/resources.pb.dart'
     as $p;
+import 'package:nitric_sdk/src/nitric/proto/storage/v1/storage.pbgrpc.dart'
+    as $sp;
 import 'package:nitric_sdk/src/resources/common.dart';
 import 'package:test/test.dart';
 
 import '../common.dart';
 
+class MockStorageListenerClient extends Mock
+    implements $sp.StorageListenerClient {}
+
 void main() {
   late MockResourceClient resourceClient;
+  late MockStorageListenerClient storageListenerClient;
 
-  setUp(() => resourceClient = MockResourceClient());
+  setUp(() {
+    resourceClient = MockResourceClient();
+    storageListenerClient = MockStorageListenerClient();
+  });
 
-  tearDown(() => reset(resourceClient));
+  setUpAll(() {
+    registerFallbackValue(Stream<$sp.ClientMessage>.empty());
+  });
+
+  tearDown(() {
+    reset(resourceClient);
+    reset(storageListenerClient);
+  });
 
   test("Test build bucket resource", () async {
     var bucket = BucketResource("bucketName", client: resourceClient);
@@ -62,5 +79,69 @@ void main() {
       $p.Action.BucketFilePut,
       $p.Action.BucketFileDelete,
     ]);
+  });
+
+  test('Test bucket on write event', () async {
+    var bucket = BucketResource("bucketName",
+        client: resourceClient, storageListenerClient: storageListenerClient);
+
+    when(() => storageListenerClient.listen(any()))
+        .thenAnswer((_) => MockResponseStream.fromIterable([
+              $sp.ServerMessage(
+                  id: "id-1", registrationResponse: $sp.RegistrationResponse()),
+              $sp.ServerMessage(
+                  id: "id-2",
+                  blobEventRequest: $sp.BlobEventRequest(
+                      bucketName: "bucketName",
+                      blobEvent: $sp.BlobEvent(
+                          key: "test.png", type: $sp.BlobEventType.Created)))
+            ]));
+
+    await bucket.on(BlobEventType.write, "*", (ctx) async => ctx);
+
+    verify(() => storageListenerClient.listen(any())).called(1);
+  });
+
+  test('Test bucket on delete event', () async {
+    var bucket = BucketResource("bucketName",
+        client: resourceClient, storageListenerClient: storageListenerClient);
+
+    when(() => storageListenerClient.listen(any()))
+        .thenAnswer((_) => MockResponseStream.fromIterable([
+              $sp.ServerMessage(
+                  id: "id-1", registrationResponse: $sp.RegistrationResponse()),
+              $sp.ServerMessage(
+                  id: "id-2",
+                  blobEventRequest: $sp.BlobEventRequest(
+                      bucketName: "bucketName",
+                      blobEvent: $sp.BlobEvent(
+                          key: "test.png", type: $sp.BlobEventType.Deleted)))
+            ]));
+
+    await bucket.on(BlobEventType.delete, "*", (ctx) async => ctx);
+
+    verify(() => storageListenerClient.listen(any())).called(1);
+  });
+
+  test('Test bucket event error', () async {
+    var bucket = BucketResource("bucketName",
+        client: resourceClient, storageListenerClient: storageListenerClient);
+
+    when(() => storageListenerClient.listen(any()))
+        .thenAnswer((_) => MockResponseStream.fromIterable([
+              $sp.ServerMessage(
+                  id: "id-1", registrationResponse: $sp.RegistrationResponse()),
+              $sp.ServerMessage(
+                  id: "id-2",
+                  blobEventRequest: $sp.BlobEventRequest(
+                      bucketName: "bucketName",
+                      blobEvent: $sp.BlobEvent(
+                          key: "test.png", type: $sp.BlobEventType.Deleted)))
+            ]));
+
+    await bucket.on(BlobEventType.delete, "*",
+        (ctx) async => throw Exception("test application error"));
+
+    verify(() => storageListenerClient.listen(any())).called(1);
   });
 }

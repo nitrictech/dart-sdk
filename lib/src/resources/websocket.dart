@@ -40,7 +40,7 @@ class Websocket extends Resource {
 
     var worker = WebsocketWorker(registrationRequest, handler);
 
-    worker.start();
+    await worker.start();
   }
 
   /// Set a [handler] for disconnection requests to the socket.
@@ -50,7 +50,7 @@ class Websocket extends Resource {
 
     var worker = WebsocketWorker(registrationRequest, handler);
 
-    worker.start();
+    await worker.start();
   }
 
   /// Set a [handler] for messages to the socket.
@@ -60,50 +60,6 @@ class Websocket extends Resource {
 
     var worker = WebsocketWorker(registrationRequest, handler);
 
-    worker.start();
-  }
-}
-
-class WebsocketWorker implements Worker {
-  $wp.RegistrationRequest registrationRequest;
-  WebsocketHandler middleware;
-
-  WebsocketWorker(this.registrationRequest, this.middleware);
-
-  @override
-  Future<void> start() async {
-    // Create Websocket handler client
-    final channel = createClientChannelFromEnvVar();
-    final client = $wp.WebsocketHandlerClient(channel);
-
-    final initMsg = $wp.ClientMessage(registrationRequest: registrationRequest);
-
-    // Create the request stream and send the initial message
-    final requestStream = StreamController<$wp.ClientMessage>();
-    requestStream.add(initMsg);
-
-    final response = client.handleEvents(
-      requestStream.stream,
-    );
-
-    await for (final msg in response) {
-      if (msg.hasRegistrationResponse()) {
-        // Websocket connected with Nitric server
-      } else if (msg.hasWebsocketEventRequest()) {
-        var ctx = WebsocketContext.fromRequest(msg);
-
-        try {
-          ctx = await middleware(ctx);
-        } on GrpcError catch (e) {
-          print("caught a GrpcError: $e");
-        } catch (e) {
-          print("unhandled application error: $e");
-        }
-
-        requestStream.add(ctx.toResponse());
-      }
-    }
-
-    await channel.shutdown();
+    await worker.start();
   }
 }

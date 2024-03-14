@@ -3,9 +3,9 @@ library resources;
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:nitric_sdk/api.dart';
+import 'package:nitric_sdk/src/api/api.dart';
 import 'package:nitric_sdk/src/grpc_helper.dart';
-import 'package:nitric_sdk/src/nitric.dart';
+import 'package:nitric_sdk/src/nitric/proto/apis/v1/apis.pbgrpc.dart';
 import 'package:nitric_sdk/src/nitric/proto/resources/v1/resources.pb.dart';
 import 'package:nitric_sdk/src/nitric/proto/schedules/v1/schedules.pb.dart'
     as $s;
@@ -16,14 +16,16 @@ import 'package:nitric_sdk/src/api/secret.dart' as $s;
 
 import 'package:nitric_sdk/src/nitric/proto/resources/v1/resources.pbgrpc.dart'
     as $p;
-import 'package:nitric_sdk/src/nitric/proto/apis/v1/apis.pbgrpc.dart' as $ap;
 import 'package:nitric_sdk/src/nitric/proto/schedules/v1/schedules.pbgrpc.dart'
     as $sp;
 import 'package:nitric_sdk/src/nitric/proto/topics/v1/topics.pbgrpc.dart'
     as $tp;
 import 'package:nitric_sdk/src/nitric/proto/websockets/v1/websockets.pbgrpc.dart'
     as $wp;
+import 'package:nitric_sdk/src/nitric/proto/storage/v1/storage.pbgrpc.dart'
+    as $bp;
 import 'package:meta/meta.dart' hide ResourceIdentifier;
+import 'package:nitric_sdk/src/workers/common.dart';
 
 part 'schedule.dart';
 part 'secret.dart';

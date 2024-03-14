@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:nitric_sdk/api.dart';
+import 'package:nitric_sdk/src/api/api.dart';
 import 'package:nitric_sdk/src/grpc_helper.dart';
 import 'package:nitric_sdk/src/nitric/proto/queues/v1/queues.pbgrpc.dart' as $p;
 

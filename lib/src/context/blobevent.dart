@@ -9,24 +9,48 @@ class BlobEventContext
       : super(id, req, resp);
 
   /// Create a Blob Event context from a server message.
-  BlobEventContext.fromRequest($bp.ServerMessage msg, Bucket bucket)
-      : this(
-            msg.id,
-            BlobEventRequest(bucket.file(msg.blobEventRequest.blobEvent.key)),
+  BlobEventContext.fromRequest($bp.ServerMessage msg)
+      : this(msg.id, BlobEventRequest(msg.blobEventRequest.blobEvent.key),
             BlobEventResponse());
 
   /// Converts the context to a gRPC client response.
   $bp.ClientMessage toResponse() {
-    return $bp.ClientMessage(id: id, blobEventResponse: resp.toWire());
+    return $bp.ClientMessage(id: id, blobEventResponse: res.toWire());
+  }
+}
+
+/// The context of a Blob event request/response.
+class FileEventContext
+    extends TriggerContext<FileEventRequest, BlobEventResponse> {
+  FileEventContext(String id, FileEventRequest req, BlobEventResponse resp)
+      : super(id, req, resp);
+
+  /// Create a Blob Event context from a server message.
+  FileEventContext.fromRequest($bp.ServerMessage msg, Bucket bucket)
+      : this(
+            msg.id,
+            FileEventRequest(bucket.file(msg.blobEventRequest.blobEvent.key)),
+            BlobEventResponse());
+
+  /// Converts the context to a gRPC client response.
+  $bp.ClientMessage toResponse() {
+    return $bp.ClientMessage(id: id, blobEventResponse: res.toWire());
   }
 }
 
 /// Represents the blob event request.
-class BlobEventRequest extends TriggerRequest {
+class FileEventRequest extends TriggerRequest {
   /// The file that triggered the blob event, either through creating or deleting.
   final File file;
 
-  BlobEventRequest(this.file);
+  FileEventRequest(this.file);
+}
+
+/// Represents the blob event request
+class BlobEventRequest extends TriggerRequest {
+  final String key;
+
+  BlobEventRequest(this.key);
 }
 
 /// Represents the blob event response.

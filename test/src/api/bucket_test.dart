@@ -2,21 +2,37 @@ import 'dart:convert';
 
 import 'package:fixnum/fixnum.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:nitric_sdk/api.dart';
+import 'package:nitric_sdk/nitric.dart';
+import 'package:nitric_sdk/src/api/api.dart';
 import 'package:nitric_sdk/src/google/protobuf/duration.pb.dart';
-import 'package:nitric_sdk/src/nitric/proto/storage/v1/storage.pbgrpc.dart';
+import 'package:nitric_sdk/src/nitric/proto/storage/v1/storage.pbgrpc.dart'
+    as $sp;
 import 'package:test/test.dart';
 
 import '../common.dart';
 
-class MockStorageClient extends Mock implements StorageClient {}
+class MockStorageClient extends Mock implements $sp.StorageClient {}
+
+class MockStorageListenerClient extends Mock
+    implements $sp.StorageListenerClient {}
 
 void main() {
   late MockStorageClient storageClient;
+  late MockStorageListenerClient storageListenerClient;
 
-  setUp(() => storageClient = MockStorageClient());
+  setUp(() {
+    storageClient = MockStorageClient();
+    storageListenerClient = MockStorageListenerClient();
+  });
 
-  tearDown(() => reset(storageClient));
+  setUpAll(() {
+    registerFallbackValue(Stream<$sp.ClientMessage>.empty());
+  });
+
+  tearDown(() {
+    reset(storageClient);
+    reset(storageListenerClient);
+  });
 
   test('Test build bucket', () {
     var bucket = Bucket("bucketName", client: storageClient);
@@ -33,10 +49,13 @@ void main() {
   });
 
   test('Test get list of files with no prefix filter', () async {
-    var req = StorageListBlobsRequest(bucketName: "bucketName", prefix: "");
+    var req = $sp.StorageListBlobsRequest(bucketName: "bucketName", prefix: "");
 
-    var resp = StorageListBlobsResponse(
-        blobs: [Blob(key: "blob-a"), Blob(key: "blob-b"), Blob(key: "blob-c")]);
+    var resp = $sp.StorageListBlobsResponse(blobs: [
+      $sp.Blob(key: "blob-a"),
+      $sp.Blob(key: "blob-b"),
+      $sp.Blob(key: "blob-c")
+    ]);
 
     when(() => storageClient.listBlobs(req))
         .thenAnswer((_) => MockResponseFuture.value(resp));
@@ -55,10 +74,13 @@ void main() {
 
   test('Test get list of files with prefix filter', () async {
     var req =
-        StorageListBlobsRequest(bucketName: "bucketName", prefix: "blob-");
+        $sp.StorageListBlobsRequest(bucketName: "bucketName", prefix: "blob-");
 
-    var resp = StorageListBlobsResponse(
-        blobs: [Blob(key: "blob-a"), Blob(key: "blob-b"), Blob(key: "blob-c")]);
+    var resp = $sp.StorageListBlobsResponse(blobs: [
+      $sp.Blob(key: "blob-a"),
+      $sp.Blob(key: "blob-b"),
+      $sp.Blob(key: "blob-c")
+    ]);
 
     when(() => storageClient.listBlobs(req))
         .thenAnswer((_) => MockResponseFuture.value(resp));
@@ -76,12 +98,12 @@ void main() {
   });
 
   test('Test write to file', () async {
-    var req = StorageWriteRequest(
+    var req = $sp.StorageWriteRequest(
         bucketName: "bucketName",
         key: "fileName",
         body: utf8.encode("contents"));
 
-    var resp = StorageWriteResponse();
+    var resp = $sp.StorageWriteResponse();
 
     when(() => storageClient.write(req))
         .thenAnswer((_) => MockResponseFuture.value(resp));
@@ -94,12 +116,12 @@ void main() {
   });
 
   test('Test read from file', () async {
-    var req = StorageReadRequest(
+    var req = $sp.StorageReadRequest(
       bucketName: "bucketName",
       key: "fileName",
     );
 
-    var resp = StorageReadResponse(
+    var resp = $sp.StorageReadResponse(
       body: utf8.encode("bucket contents"),
     );
 
@@ -116,12 +138,12 @@ void main() {
   });
 
   test('Test delete file', () async {
-    var req = StorageDeleteRequest(
+    var req = $sp.StorageDeleteRequest(
       bucketName: "bucketName",
       key: "fileName",
     );
 
-    var resp = StorageDeleteResponse();
+    var resp = $sp.StorageDeleteResponse();
 
     when(() => storageClient.delete(req))
         .thenAnswer((_) => MockResponseFuture.value(resp));
@@ -134,13 +156,13 @@ void main() {
   });
 
   test('Test get download url with default expiry', () async {
-    var req = StoragePreSignUrlRequest(
+    var req = $sp.StoragePreSignUrlRequest(
         bucketName: "bucketName",
         key: "fileName",
-        operation: StoragePreSignUrlRequest_Operation.READ,
+        operation: $sp.StoragePreSignUrlRequest_Operation.READ,
         expiry: Duration(seconds: Int64(600)));
 
-    var resp = StoragePreSignUrlResponse(url: "https://test.com/image");
+    var resp = $sp.StoragePreSignUrlResponse(url: "https://test.com/image");
 
     when(() => storageClient.preSignUrl(req))
         .thenAnswer((_) => MockResponseFuture.value(resp));
@@ -155,13 +177,13 @@ void main() {
   });
 
   test('Test get download url with valid expiry', () async {
-    var req = StoragePreSignUrlRequest(
+    var req = $sp.StoragePreSignUrlRequest(
         bucketName: "bucketName",
         key: "fileName",
-        operation: StoragePreSignUrlRequest_Operation.READ,
+        operation: $sp.StoragePreSignUrlRequest_Operation.READ,
         expiry: Duration(seconds: Int64(3600)));
 
-    var resp = StoragePreSignUrlResponse(url: "https://test.com/image");
+    var resp = $sp.StoragePreSignUrlResponse(url: "https://test.com/image");
 
     when(() => storageClient.preSignUrl(req))
         .thenAnswer((_) => MockResponseFuture.value(resp));
@@ -189,13 +211,13 @@ void main() {
   });
 
   test('Test get upload url with default expiry', () async {
-    var req = StoragePreSignUrlRequest(
+    var req = $sp.StoragePreSignUrlRequest(
         bucketName: "bucketName",
         key: "fileName",
-        operation: StoragePreSignUrlRequest_Operation.WRITE,
+        operation: $sp.StoragePreSignUrlRequest_Operation.WRITE,
         expiry: Duration(seconds: Int64(600)));
 
-    var resp = StoragePreSignUrlResponse(url: "https://test.com/image");
+    var resp = $sp.StoragePreSignUrlResponse(url: "https://test.com/image");
 
     when(() => storageClient.preSignUrl(req))
         .thenAnswer((_) => MockResponseFuture.value(resp));
@@ -210,13 +232,13 @@ void main() {
   });
 
   test('Test get upload url with valid expiry', () async {
-    var req = StoragePreSignUrlRequest(
+    var req = $sp.StoragePreSignUrlRequest(
         bucketName: "bucketName",
         key: "fileName",
-        operation: StoragePreSignUrlRequest_Operation.WRITE,
+        operation: $sp.StoragePreSignUrlRequest_Operation.WRITE,
         expiry: Duration(seconds: Int64(3600)));
 
-    var resp = StoragePreSignUrlResponse(url: "https://test.com/image");
+    var resp = $sp.StoragePreSignUrlResponse(url: "https://test.com/image");
 
     when(() => storageClient.preSignUrl(req))
         .thenAnswer((_) => MockResponseFuture.value(resp));
@@ -241,5 +263,105 @@ void main() {
       expect(e.toString(),
           "Invalid argument (expiry): presigned url expiry must be between 0 and 604800: 604801");
     }
+  });
+
+  test('Test file exists', () async {
+    var req =
+        $sp.StorageExistsRequest(bucketName: "bucketName", key: "fileName");
+
+    var resp = $sp.StorageExistsResponse(exists: true);
+
+    when(() => storageClient.exists(req))
+        .thenAnswer((_) => MockResponseFuture.value(resp));
+
+    var bucket = Bucket("bucketName", client: storageClient);
+
+    var exists = await bucket.file("fileName").exists();
+
+    verify(() => storageClient.exists(req)).called(1);
+
+    expect(exists, true);
+  });
+
+  test('Test file does not exist', () async {
+    var req =
+        $sp.StorageExistsRequest(bucketName: "bucketName", key: "fileName");
+
+    var resp = $sp.StorageExistsResponse(exists: false);
+
+    when(() => storageClient.exists(req))
+        .thenAnswer((_) => MockResponseFuture.value(resp));
+
+    var bucket = Bucket("bucketName", client: storageClient);
+
+    var exists = await bucket.file("fileName").exists();
+
+    verify(() => storageClient.exists(req)).called(1);
+
+    expect(exists, false);
+  });
+
+  test('Test bucket on write event', () async {
+    var bucket = Bucket("bucketName",
+        client: storageClient, storageListenerClient: storageListenerClient);
+
+    when(() => storageListenerClient.listen(any()))
+        .thenAnswer((_) => MockResponseStream.fromIterable([
+              $sp.ServerMessage(
+                  id: "id-1", registrationResponse: $sp.RegistrationResponse()),
+              $sp.ServerMessage(
+                  id: "id-2",
+                  blobEventRequest: $sp.BlobEventRequest(
+                      bucketName: "bucketName",
+                      blobEvent: $sp.BlobEvent(
+                          key: "test.png", type: $sp.BlobEventType.Created)))
+            ]));
+
+    await bucket.on(BlobEventType.write, "*", (ctx) async => ctx);
+
+    verify(() => storageListenerClient.listen(any())).called(1);
+  });
+
+  test('Test bucket on delete event', () async {
+    var bucket = Bucket("bucketName",
+        client: storageClient, storageListenerClient: storageListenerClient);
+
+    when(() => storageListenerClient.listen(any()))
+        .thenAnswer((_) => MockResponseStream.fromIterable([
+              $sp.ServerMessage(
+                  id: "id-1", registrationResponse: $sp.RegistrationResponse()),
+              $sp.ServerMessage(
+                  id: "id-2",
+                  blobEventRequest: $sp.BlobEventRequest(
+                      bucketName: "bucketName",
+                      blobEvent: $sp.BlobEvent(
+                          key: "test.png", type: $sp.BlobEventType.Deleted)))
+            ]));
+
+    await bucket.on(BlobEventType.delete, "*", (ctx) async => ctx);
+
+    verify(() => storageListenerClient.listen(any())).called(1);
+  });
+
+  test('Test bucket event error', () async {
+    var bucket = Bucket("bucketName",
+        client: storageClient, storageListenerClient: storageListenerClient);
+
+    when(() => storageListenerClient.listen(any()))
+        .thenAnswer((_) => MockResponseStream.fromIterable([
+              $sp.ServerMessage(
+                  id: "id-1", registrationResponse: $sp.RegistrationResponse()),
+              $sp.ServerMessage(
+                  id: "id-2",
+                  blobEventRequest: $sp.BlobEventRequest(
+                      bucketName: "bucketName",
+                      blobEvent: $sp.BlobEvent(
+                          key: "test.png", type: $sp.BlobEventType.Deleted)))
+            ]));
+
+    await bucket.on(BlobEventType.delete, "*",
+        (ctx) async => throw Exception("test application error"));
+
+    verify(() => storageListenerClient.listen(any())).called(1);
   });
 }

@@ -1,16 +1,36 @@
 import 'package:mocktail/mocktail.dart';
+import 'package:nitric_sdk/nitric.dart';
+import 'package:nitric_sdk/src/nitric/proto/apis/v1/apis.pbgrpc.dart' as $p;
 import 'package:nitric_sdk/src/nitric/proto/resources/v1/resources.pb.dart';
 import 'package:nitric_sdk/src/resources/common.dart';
 import 'package:test/test.dart';
 
 import '../common.dart';
 
+class MockApiClient extends Mock implements $p.ApiClient {}
+
+Future<HttpContext> defaultHandler(ctx) async {
+  return ctx;
+}
+
 void main() {
+  late MockApiClient apiClient;
   late MockResourceClient resourceClient;
 
-  setUp(() => resourceClient = MockResourceClient());
+  setUp(() {
+    apiClient = MockApiClient();
+    resourceClient = MockResourceClient();
+  });
 
-  tearDown(() => reset(resourceClient));
+  setUpAll(() {
+    registerFallbackValue(Stream<$p.ClientMessage>.empty());
+    registerFallbackValue(ResourceDeclareRequest());
+  });
+
+  tearDown(() {
+    reset(apiClient);
+    reset(resourceClient);
+  });
 
   test("Test build api", () async {
     var api = Api("apiName", client: resourceClient);
@@ -33,5 +53,427 @@ void main() {
     await api.register();
 
     verify(() => resourceClient.declare(req)).called(1);
+  });
+
+  group("test building API worker with no security", () {
+    test('HTTP GET Worker build', () async {
+      var api = Api("apiName", apiClient: apiClient);
+
+      when(() => apiClient.serve(any()))
+          .thenAnswer((_) => MockResponseStream.fromIterable([
+                $p.ServerMessage(
+                    id: "id-1",
+                    registrationResponse: $p.RegistrationResponse()),
+                $p.ServerMessage(id: "id-2", httpRequest: $p.HttpRequest())
+              ]));
+
+      api.get("/routename", defaultHandler);
+
+      verify(() => apiClient.serve(any())).called(1);
+    });
+
+    test('HTTP POST Worker build', () async {
+      var api = Api("apiName", apiClient: apiClient);
+
+      when(() => apiClient.serve(any()))
+          .thenAnswer((_) => MockResponseStream.fromIterable([
+                $p.ServerMessage(
+                    id: "id-1",
+                    registrationResponse: $p.RegistrationResponse()),
+                $p.ServerMessage(id: "id-2", httpRequest: $p.HttpRequest())
+              ]));
+
+      api.post("/routename", defaultHandler);
+
+      verify(() => apiClient.serve(any())).called(1);
+    });
+
+    test('HTTP PATCH Worker build ', () async {
+      var api = Api("apiName", apiClient: apiClient);
+
+      when(() => apiClient.serve(any()))
+          .thenAnswer((_) => MockResponseStream.fromIterable([
+                $p.ServerMessage(
+                    id: "id-1",
+                    registrationResponse: $p.RegistrationResponse()),
+                $p.ServerMessage(id: "id-2", httpRequest: $p.HttpRequest())
+              ]));
+
+      api.patch("/routename", defaultHandler);
+
+      verify(() => apiClient.serve(any())).called(1);
+    });
+
+    test('HTTP OPTIONS Worker build ', () async {
+      var api = Api("apiName", apiClient: apiClient);
+
+      when(() => apiClient.serve(any()))
+          .thenAnswer((_) => MockResponseStream.fromIterable([
+                $p.ServerMessage(
+                    id: "id-1",
+                    registrationResponse: $p.RegistrationResponse()),
+                $p.ServerMessage(id: "id-2", httpRequest: $p.HttpRequest())
+              ]));
+
+      api.options("/routename", defaultHandler);
+
+      verify(() => apiClient.serve(any())).called(1);
+    });
+
+    test('HTTP DELETE Worker build ', () async {
+      var api = Api("apiName", apiClient: apiClient);
+
+      when(() => apiClient.serve(any()))
+          .thenAnswer((_) => MockResponseStream.fromIterable([
+                $p.ServerMessage(
+                    id: "id-1",
+                    registrationResponse: $p.RegistrationResponse()),
+                $p.ServerMessage(id: "id-2", httpRequest: $p.HttpRequest())
+              ]));
+
+      api.delete("/routename", defaultHandler);
+
+      verify(() => apiClient.serve(any())).called(1);
+    });
+
+    test('HTTP PUT Worker build ', () async {
+      var api = Api("apiName", apiClient: apiClient);
+
+      when(() => apiClient.serve(any()))
+          .thenAnswer((_) => MockResponseStream.fromIterable([
+                $p.ServerMessage(
+                    id: "id-1",
+                    registrationResponse: $p.RegistrationResponse()),
+                $p.ServerMessage(id: "id-2", httpRequest: $p.HttpRequest())
+              ]));
+
+      api.put("/routename", defaultHandler);
+
+      verify(() => apiClient.serve(any())).called(1);
+    });
+
+    test('HTTP ALL Worker build ', () async {
+      var api = Api("apiName", apiClient: apiClient);
+
+      when(() => apiClient.serve(any()))
+          .thenAnswer((_) => MockResponseStream.fromIterable([
+                $p.ServerMessage(
+                    id: "id-1",
+                    registrationResponse: $p.RegistrationResponse()),
+                $p.ServerMessage(id: "id-2", httpRequest: $p.HttpRequest())
+              ]));
+
+      api.all("/routename", defaultHandler);
+
+      verify(() => apiClient.serve(any())).called(1);
+    });
+  });
+
+  group("test building API with route", () {
+    test('HTTP GET Worker build', () async {
+      var api = Api("apiName", apiClient: apiClient);
+
+      when(() => apiClient.serve(any()))
+          .thenAnswer((_) => MockResponseStream.fromIterable([
+                $p.ServerMessage(
+                    id: "id-1",
+                    registrationResponse: $p.RegistrationResponse()),
+                $p.ServerMessage(id: "id-2", httpRequest: $p.HttpRequest())
+              ]));
+
+      api.route("routeName").get(defaultHandler);
+
+      verify(() => apiClient.serve(any())).called(1);
+    });
+
+    test('HTTP POST Worker build', () async {
+      var api = Api("apiName", apiClient: apiClient);
+
+      when(() => apiClient.serve(any()))
+          .thenAnswer((_) => MockResponseStream.fromIterable([
+                $p.ServerMessage(
+                    id: "id-1",
+                    registrationResponse: $p.RegistrationResponse()),
+                $p.ServerMessage(id: "id-2", httpRequest: $p.HttpRequest())
+              ]));
+
+      api.route("routeName").post(defaultHandler);
+
+      verify(() => apiClient.serve(any())).called(1);
+    });
+
+    test('HTTP PATCH Worker build', () async {
+      var api = Api("apiName", apiClient: apiClient);
+
+      when(() => apiClient.serve(any()))
+          .thenAnswer((_) => MockResponseStream.fromIterable([
+                $p.ServerMessage(
+                    id: "id-1",
+                    registrationResponse: $p.RegistrationResponse()),
+                $p.ServerMessage(id: "id-2", httpRequest: $p.HttpRequest())
+              ]));
+
+      api.route("routeName").patch(defaultHandler);
+
+      verify(() => apiClient.serve(any())).called(1);
+    });
+
+    test('HTTP OPTIONS Worker build', () async {
+      var api = Api("apiName", apiClient: apiClient);
+
+      when(() => apiClient.serve(any()))
+          .thenAnswer((_) => MockResponseStream.fromIterable([
+                $p.ServerMessage(
+                    id: "id-1",
+                    registrationResponse: $p.RegistrationResponse()),
+                $p.ServerMessage(id: "id-2", httpRequest: $p.HttpRequest())
+              ]));
+
+      api.route("routeName").options(defaultHandler);
+
+      verify(() => apiClient.serve(any())).called(1);
+    });
+
+    test('HTTP DELETE Worker build', () async {
+      var api = Api("apiName", apiClient: apiClient);
+
+      when(() => apiClient.serve(any()))
+          .thenAnswer((_) => MockResponseStream.fromIterable([
+                $p.ServerMessage(
+                    id: "id-1",
+                    registrationResponse: $p.RegistrationResponse()),
+                $p.ServerMessage(id: "id-2", httpRequest: $p.HttpRequest())
+              ]));
+
+      api.route("routeName").delete(defaultHandler);
+
+      verify(() => apiClient.serve(any())).called(1);
+    });
+
+    test('HTTP PUT Worker build', () async {
+      var api = Api("apiName", apiClient: apiClient);
+
+      when(() => apiClient.serve(any()))
+          .thenAnswer((_) => MockResponseStream.fromIterable([
+                $p.ServerMessage(
+                    id: "id-1",
+                    registrationResponse: $p.RegistrationResponse()),
+                $p.ServerMessage(id: "id-2", httpRequest: $p.HttpRequest())
+              ]));
+
+      api.route("routeName").put(defaultHandler);
+
+      verify(() => apiClient.serve(any())).called(1);
+    });
+
+    test('HTTP ALL Worker build', () async {
+      var api = Api("apiName", apiClient: apiClient);
+
+      when(() => apiClient.serve(any()))
+          .thenAnswer((_) => MockResponseStream.fromIterable([
+                $p.ServerMessage(
+                    id: "id-1",
+                    registrationResponse: $p.RegistrationResponse()),
+                $p.ServerMessage(id: "id-2", httpRequest: $p.HttpRequest())
+              ]));
+
+      api.route("routeName").all(defaultHandler);
+
+      verify(() => apiClient.serve(any())).called(1);
+    });
+  });
+
+  group("test building with security", () {
+    test('HTTP GET Worker build', () async {
+      var oidc = OidcOptions(
+          "oidcName", "oidcIssuer", ["oidcAudience"], ["oidcScopes"],
+          client: resourceClient);
+
+      var api = Api("apiName",
+          opts: ApiOptions(security: [oidc]), apiClient: apiClient);
+
+      when(() => apiClient.serve(any()))
+          .thenAnswer((_) => MockResponseStream.fromIterable([
+                $p.ServerMessage(
+                    id: "id-1",
+                    registrationResponse: $p.RegistrationResponse()),
+                $p.ServerMessage(id: "id-2", httpRequest: $p.HttpRequest())
+              ]));
+
+      when(() => resourceClient.declare(any())).thenAnswer(
+          (_) => MockResponseFuture.value(ResourceDeclareResponse()));
+
+      await api.route("routeName").get(defaultHandler);
+
+      verify(() => apiClient.serve(any())).called(1);
+      verify(() => resourceClient.declare(any())).called(1);
+    });
+
+    test('HTTP POST Worker build', () async {
+      var oidc = OidcOptions(
+          "oidcName", "oidcIssuer", ["oidcAudience"], ["oidcScopes"],
+          client: resourceClient);
+
+      var api = Api("apiName",
+          opts: ApiOptions(security: [oidc]), apiClient: apiClient);
+
+      when(() => apiClient.serve(any()))
+          .thenAnswer((_) => MockResponseStream.fromIterable([
+                $p.ServerMessage(
+                    id: "id-1",
+                    registrationResponse: $p.RegistrationResponse()),
+                $p.ServerMessage(id: "id-2", httpRequest: $p.HttpRequest())
+              ]));
+
+      when(() => resourceClient.declare(any())).thenAnswer(
+          (_) => MockResponseFuture.value(ResourceDeclareResponse()));
+
+      await api.route("routeName").post(defaultHandler);
+
+      verify(() => apiClient.serve(any())).called(1);
+      verify(() => resourceClient.declare(any())).called(1);
+    });
+
+    test('HTTP PUT Worker build', () async {
+      var oidc = OidcOptions(
+          "oidcName", "oidcIssuer", ["oidcAudience"], ["oidcScopes"],
+          client: resourceClient);
+
+      var api = Api("apiName",
+          opts: ApiOptions(security: [oidc]), apiClient: apiClient);
+
+      when(() => apiClient.serve(any()))
+          .thenAnswer((_) => MockResponseStream.fromIterable([
+                $p.ServerMessage(
+                    id: "id-1",
+                    registrationResponse: $p.RegistrationResponse()),
+                $p.ServerMessage(id: "id-2", httpRequest: $p.HttpRequest())
+              ]));
+
+      when(() => resourceClient.declare(any())).thenAnswer(
+          (_) => MockResponseFuture.value(ResourceDeclareResponse()));
+
+      await api.route("routeName").put(defaultHandler);
+
+      verify(() => apiClient.serve(any())).called(1);
+      verify(() => resourceClient.declare(any())).called(1);
+    });
+
+    test('HTTP PATCH Worker build', () async {
+      var oidc = OidcOptions(
+          "oidcName", "oidcIssuer", ["oidcAudience"], ["oidcScopes"],
+          client: resourceClient);
+
+      var api = Api("apiName",
+          opts: ApiOptions(security: [oidc]), apiClient: apiClient);
+
+      when(() => apiClient.serve(any()))
+          .thenAnswer((_) => MockResponseStream.fromIterable([
+                $p.ServerMessage(
+                    id: "id-1",
+                    registrationResponse: $p.RegistrationResponse()),
+                $p.ServerMessage(id: "id-2", httpRequest: $p.HttpRequest())
+              ]));
+
+      when(() => resourceClient.declare(any())).thenAnswer(
+          (_) => MockResponseFuture.value(ResourceDeclareResponse()));
+
+      await api.route("routeName").patch(defaultHandler);
+
+      verify(() => apiClient.serve(any())).called(1);
+      verify(() => resourceClient.declare(any())).called(1);
+    });
+
+    test('HTTP OPTIONS Worker build', () async {
+      var oidc = OidcOptions(
+          "oidcName", "oidcIssuer", ["oidcAudience"], ["oidcScopes"],
+          client: resourceClient);
+
+      var api = Api("apiName",
+          opts: ApiOptions(security: [oidc]), apiClient: apiClient);
+
+      when(() => apiClient.serve(any()))
+          .thenAnswer((_) => MockResponseStream.fromIterable([
+                $p.ServerMessage(
+                    id: "id-1",
+                    registrationResponse: $p.RegistrationResponse()),
+                $p.ServerMessage(id: "id-2", httpRequest: $p.HttpRequest())
+              ]));
+
+      when(() => resourceClient.declare(any())).thenAnswer(
+          (_) => MockResponseFuture.value(ResourceDeclareResponse()));
+
+      await api.route("routeName").options(defaultHandler);
+
+      verify(() => apiClient.serve(any())).called(1);
+      verify(() => resourceClient.declare(any())).called(1);
+    });
+
+    test('HTTP DELETE Worker build', () async {
+      var oidc = OidcOptions(
+          "oidcName", "oidcIssuer", ["oidcAudience"], ["oidcScopes"],
+          client: resourceClient);
+
+      var api = Api("apiName",
+          opts: ApiOptions(security: [oidc]), apiClient: apiClient);
+
+      when(() => apiClient.serve(any()))
+          .thenAnswer((_) => MockResponseStream.fromIterable([
+                $p.ServerMessage(
+                    id: "id-1",
+                    registrationResponse: $p.RegistrationResponse()),
+                $p.ServerMessage(id: "id-2", httpRequest: $p.HttpRequest())
+              ]));
+
+      when(() => resourceClient.declare(any())).thenAnswer(
+          (_) => MockResponseFuture.value(ResourceDeclareResponse()));
+
+      await api.route("routeName").delete(defaultHandler);
+
+      verify(() => apiClient.serve(any())).called(1);
+      verify(() => resourceClient.declare(any())).called(1);
+    });
+
+    test('HTTP ALL Worker build', () async {
+      var oidc = OidcOptions(
+          "oidcName", "oidcIssuer", ["oidcAudience"], ["oidcScopes"],
+          client: resourceClient);
+
+      var api = Api("apiName",
+          opts: ApiOptions(security: [oidc]), apiClient: apiClient);
+
+      when(() => apiClient.serve(any()))
+          .thenAnswer((_) => MockResponseStream.fromIterable([
+                $p.ServerMessage(
+                    id: "id-1",
+                    registrationResponse: $p.RegistrationResponse()),
+                $p.ServerMessage(id: "id-2", httpRequest: $p.HttpRequest())
+              ]));
+
+      when(() => resourceClient.declare(any())).thenAnswer(
+          (_) => MockResponseFuture.value(ResourceDeclareResponse()));
+
+      await api.route("routeName").all(defaultHandler);
+
+      verify(() => apiClient.serve(any())).called(1);
+      verify(() => resourceClient.declare(any())).called(1);
+    });
+  });
+
+  test('HTTP worker error', () async {
+    var api = Api("apiName", apiClient: apiClient);
+
+    when(() => apiClient.serve(any()))
+        .thenAnswer((_) => MockResponseStream.fromIterable([
+              $p.ServerMessage(
+                  id: "id-1", registrationResponse: $p.RegistrationResponse()),
+              $p.ServerMessage(id: "id-2", httpRequest: $p.HttpRequest())
+            ]));
+
+    api
+        .route("routeName")
+        .get((ctx) async => throw Exception("test application error"));
+
+    verify(() => apiClient.serve(any())).called(1);
   });
 }

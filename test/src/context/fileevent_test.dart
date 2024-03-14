@@ -1,4 +1,5 @@
 import 'package:mocktail/mocktail.dart';
+import 'package:nitric_sdk/src/api/api.dart';
 import 'package:nitric_sdk/src/context/common.dart';
 import 'package:nitric_sdk/src/nitric/proto/storage/v1/storage.pbgrpc.dart'
     as $pb;
@@ -7,7 +8,7 @@ import 'package:test/test.dart';
 class MockStorageClient extends Mock implements $pb.StorageClient {}
 
 void main() {
-  test('Blob Event Context from ServerMessage', () {
+  test('File Event Context from ServerMessage', () {
     var msg = $pb.ServerMessage(
       id: 'id',
       blobEventRequest: $pb.BlobEventRequest(
@@ -16,14 +17,19 @@ void main() {
               $pb.BlobEvent(key: "key", type: $pb.BlobEventType.Created)),
     );
 
-    final ctx = BlobEventContext.fromRequest(msg);
+    final bucket = Bucket("bucket", client: MockStorageClient());
 
-    expect(ctx.req.key, msg.blobEventRequest.blobEvent.key);
+    final ctx = FileEventContext.fromRequest(msg, bucket);
+
+    expect(ctx.req.file.key, msg.blobEventRequest.blobEvent.key);
   });
 
   test('ClientMessage from Blob Event Context', () {
-    final ctx = BlobEventContext(
-        "id", BlobEventRequest("key"), BlobEventResponse(true));
+    final ctx = FileEventContext(
+        "id",
+        FileEventRequest(
+            File(Bucket("bucket", client: MockStorageClient()), "key")),
+        BlobEventResponse(true));
 
     final clientMessage = ctx.toResponse();
 
