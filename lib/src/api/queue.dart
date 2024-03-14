@@ -61,7 +61,7 @@ class DequeuedMessage {
   }
 
   /// Inform the queue that the message was handled successfully.
-  void complete() async {
+  Future<void> complete() async {
     var req =
         $p.QueueCompleteRequest(leaseId: _leaseId, queueName: _queue.name);
 
