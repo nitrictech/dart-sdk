@@ -1,6 +1,6 @@
 part of 'common.dart';
 
-enum TopicPermission { publishing }
+enum TopicPermission { publish }
 
 class Topic extends SecureResource<TopicPermission> {
   $tp.SubscriberClient? _subscriberClient;
@@ -36,7 +36,7 @@ class Topic extends SecureResource<TopicPermission> {
     List<$p.Action> actions = permissions.fold(
         [],
         (actions, permission) => switch (permission) {
-              TopicPermission.publishing => [
+              TopicPermission.publish => [
                   ...actions,
                   $p.Action.TopicPublish,
                 ],
@@ -46,12 +46,14 @@ class Topic extends SecureResource<TopicPermission> {
   }
 
   /// Set the function's required [permissions] for the topic.
-  $t.Topic requires(List<TopicPermission> permissions) {
+  $t.Topic allow(List<TopicPermission> permissions) {
     if (permissions.isEmpty) {
       throw "Must supply at least one permission for topic $name";
     }
 
-    registerPolicy(permissions);
+    unawaited(registerPolicy((permissions)).onError((error, stackTrace) {
+      print(error);
+    }));
 
     return $t.Topic(name);
   }

@@ -15,11 +15,10 @@ class OidcOptions {
 
 typedef SecurityOption = OidcOptions Function(List<String> scopes);
 
-Future<OidcSecurityDefinition> attachOidc(
-    String apiName, OidcOptions options) async {
+Future<void> attachOidc(String apiName, OidcOptions options) async {
   var secDef = OidcSecurityDefinition(apiName, options);
+
   await secDef.register();
-  return secDef;
 }
 
 class OidcSecurityDefinition extends Resource {

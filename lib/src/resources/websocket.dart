@@ -2,11 +2,22 @@ part of 'common.dart';
 
 class Websocket extends Resource {
   late $wp.WebsocketClient _websocketClient;
+  late $wp.WebsocketHandlerClient? _websocketHandlerClient;
 
-  Websocket(String name, {$p.ResourcesClient? client}) : super(name, client) {
-    final channel = createClientChannelFromEnvVar();
+  Websocket(String name,
+      {$p.ResourcesClient? client,
+      $wp.WebsocketClient? websocketClient,
+      $wp.WebsocketHandlerClient? websocketHandlerClient})
+      : super(name, client) {
+    if (websocketClient == null) {
+      final channel = createClientChannelFromEnvVar();
 
-    _websocketClient = $wp.WebsocketClient(channel);
+      _websocketClient = $wp.WebsocketClient(channel);
+    } else {
+      _websocketClient = websocketClient;
+    }
+
+    _websocketHandlerClient = websocketHandlerClient;
   }
 
   @override
@@ -20,14 +31,14 @@ class Websocket extends Resource {
   }
 
   /// Send message [data] to a connection, referenced by its [connectionId].
-  Future<void> send(String connectionId, String data) async {
+  Future<void> sendMessage(String connectionId, String data) async {
     var req = $wp.WebsocketSendRequest(
         socketName: name, connectionId: connectionId, data: utf8.encode(data));
     await _websocketClient.sendMessage(req);
   }
 
   /// Close a connection to the socket, referenced by its [connectionId].
-  Future<void> close(String connectionId) async {
+  Future<void> closeConnection(String connectionId) async {
     var req = $wp.WebsocketCloseConnectionRequest(
         socketName: name, connectionId: connectionId);
     await _websocketClient.closeConnection(req);
@@ -38,7 +49,8 @@ class Websocket extends Resource {
     var registrationRequest = $wp.RegistrationRequest(
         eventType: $wp.WebsocketEventType.Connect, socketName: name);
 
-    var worker = WebsocketWorker(registrationRequest, handler);
+    var worker = WebsocketWorker(registrationRequest, handler,
+        client: _websocketHandlerClient);
 
     await worker.start();
   }
@@ -48,7 +60,8 @@ class Websocket extends Resource {
     var registrationRequest = $wp.RegistrationRequest(
         eventType: $wp.WebsocketEventType.Disconnect, socketName: name);
 
-    var worker = WebsocketWorker(registrationRequest, handler);
+    var worker = WebsocketWorker(registrationRequest, handler,
+        client: _websocketHandlerClient);
 
     await worker.start();
   }
@@ -58,7 +71,8 @@ class Websocket extends Resource {
     var registrationRequest = $wp.RegistrationRequest(
         eventType: $wp.WebsocketEventType.Message, socketName: name);
 
-    var worker = WebsocketWorker(registrationRequest, handler);
+    var worker = WebsocketWorker(registrationRequest, handler,
+        client: _websocketHandlerClient);
 
     await worker.start();
   }

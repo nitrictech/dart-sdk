@@ -39,7 +39,9 @@ class Api extends Resource {
     var apiResource = $p.ApiResource();
 
     for (var opt in opts.security) {
-      attachOidc(name, opt);
+      unawaited(attachOidc(name, opt).onError((error, stackTrace) {
+        print(error);
+      }));
 
       apiResource.security[opt.name] = $p.ApiScopes(scopes: opt.scopes);
     }

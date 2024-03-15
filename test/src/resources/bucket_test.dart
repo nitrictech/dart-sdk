@@ -58,20 +58,19 @@ void main() {
   test("Test converting bucket permissions to actions", () async {
     var bucket = BucketResource("bucketName", client: resourceClient);
 
-    var readActions = bucket.permissionsToActions([BucketPermission.reading]);
+    var readActions = bucket.permissionsToActions([BucketPermission.read]);
     expect(readActions, [$p.Action.BucketFileGet, $p.Action.BucketFileList]);
 
-    var writeActions = bucket.permissionsToActions([BucketPermission.writing]);
+    var writeActions = bucket.permissionsToActions([BucketPermission.write]);
     expect(writeActions, [$p.Action.BucketFilePut]);
 
-    var deleteActions =
-        bucket.permissionsToActions([BucketPermission.deleting]);
+    var deleteActions = bucket.permissionsToActions([BucketPermission.delete]);
     expect(deleteActions, [$p.Action.BucketFileDelete]);
 
     var allActions = bucket.permissionsToActions([
-      BucketPermission.reading,
-      BucketPermission.writing,
-      BucketPermission.deleting
+      BucketPermission.read,
+      BucketPermission.write,
+      BucketPermission.delete
     ]);
     expect(allActions, [
       $p.Action.BucketFileGet,
@@ -143,5 +142,39 @@ void main() {
         (ctx) async => throw Exception("test application error"));
 
     verify(() => storageListenerClient.listen(any())).called(1);
+  });
+
+  test("Test register bucket policies", () async {
+    var bucketResource = BucketResource("bucketName", client: resourceClient);
+
+    var resourceIdentifier =
+        $p.ResourceIdentifier(type: $p.ResourceType.Bucket, name: "bucketName");
+    var policyResource = $p.ResourceIdentifier(type: $p.ResourceType.Policy);
+
+    var policy = $p.PolicyResource(principals: [
+      $p.ResourceIdentifier(type: $p.ResourceType.Service)
+    ], resources: [
+      resourceIdentifier
+    ], actions: [
+      $p.Action.BucketFileGet,
+      $p.Action.BucketFileDelete,
+      $p.Action.BucketFileList,
+      $p.Action.BucketFilePut
+    ]);
+
+    var req = $p.ResourceDeclareRequest(policy: policy, id: policyResource);
+
+    var resp = $p.ResourceDeclareResponse();
+
+    when(() => resourceClient.declare(req))
+        .thenAnswer((_) => MockResponseFuture.value(resp));
+
+    var bucket = bucketResource.allow([
+      BucketPermission.delete,
+      BucketPermission.read,
+      BucketPermission.write
+    ]);
+
+    expect(bucket.name, "bucketName");
   });
 }

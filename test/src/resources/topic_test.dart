@@ -50,10 +50,34 @@ void main() {
     verify(() => resourceClient.declare(req)).called(1);
   });
 
+  test("Test register topic policies", () async {
+    var topicResource = Topic("topicName", client: resourceClient);
+
+    var resourceIdentifier =
+        ResourceIdentifier(type: ResourceType.Topic, name: "topicName");
+    var policyResource = ResourceIdentifier(type: ResourceType.Policy);
+
+    var policy = PolicyResource(
+        principals: [ResourceIdentifier(type: ResourceType.Service)],
+        resources: [resourceIdentifier],
+        actions: [Action.TopicPublish]);
+
+    var req = ResourceDeclareRequest(policy: policy, id: policyResource);
+
+    var resp = ResourceDeclareResponse();
+
+    when(() => resourceClient.declare(req))
+        .thenAnswer((_) => MockResponseFuture.value(resp));
+
+    var topic = topicResource.allow([TopicPermission.publish]);
+
+    expect(topic.name, "topicName");
+  });
+
   test("Test converting topic permissions to actions", () async {
     var topic = Topic("topicName", client: resourceClient);
 
-    var actions = topic.permissionsToActions([TopicPermission.publishing]);
+    var actions = topic.permissionsToActions([TopicPermission.publish]);
     expect(actions, [Action.TopicPublish]);
   });
 

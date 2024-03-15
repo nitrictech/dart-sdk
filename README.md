@@ -152,10 +152,10 @@ void main() {
   final profileApi = api("public");
 
   // Define a key value store named 'profiles', then request getting, setting and deleting permissions.
-  final profiles = store("profiles").requires([
-    KeyValuePermission.getting,
-    KeyValuePermission.setting,
-    KeyValuePermission.deleting
+  final profiles = store("profiles").allow([
+    KeyValuePermission.get,
+    KeyValuePermission.set,
+    KeyValuePermission.delete
   ]);
 }
 ```
@@ -335,7 +335,7 @@ If you want to go a bit deeper and create some other resources with Nitric, why 
 Define a bucket named `profilesImg` with reading/writing permissions.
 
 ```dart
-final profilesImg = Nitric.bucket("profilesImg").requires([BucketPermission.reading, BucketPermission.writing]);
+final profilesImg = Nitric.bucket("profilesImg").allow([BucketPermission.read, BucketPermission.write]);
 ```
 
 ### Get a URL to upload a profile image

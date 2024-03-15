@@ -15,9 +15,10 @@ include: package:lints/recommended.yaml
 
 # Uncomment the following section to specify additional rules.
 
-# linter:
-#   rules:
-#     - camel_case_types
+linter:
+  rules:
+    - camel_case_types
+    - unawaited_futures
 
 analyzer:
   exclude:
@@ -25,7 +26,6 @@ analyzer:
     - lib/**/*.pbenum.dart
     - lib/**/*.pbgrpb.dart
     - lib/**/*.pbjson.dart
-
 # For more information about the core and recommended set of lints, see
 # https://dart.dev/go/core-lints
 

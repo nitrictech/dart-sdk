@@ -33,14 +33,14 @@ void main() {
       ]));
 
   // Define a collection named 'profiles', then request reading and writing permissions.
-  final profiles = Nitric.store("profiles").requires([
-    KeyValueStorePermission.getting,
-    KeyValueStorePermission.deleting,
-    KeyValueStorePermission.setting
+  final profiles = Nitric.store("profiles").allow([
+    KeyValueStorePermission.get,
+    KeyValueStorePermission.delete,
+    KeyValueStorePermission.set
   ]);
 
   final profilesImg = Nitric.bucket("profilesImg")
-      .requires([BucketPermission.reading, BucketPermission.writing]);
+      .allow([BucketPermission.read, BucketPermission.write]);
 
   profileApi.post("/profiles", (ctx) async {
     final uuid = Uuid();

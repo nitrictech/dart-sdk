@@ -1,6 +1,6 @@
 part of 'common.dart';
 
-enum BucketPermission { reading, writing, deleting }
+enum BucketPermission { read, write, delete }
 
 class BucketResource extends SecureResource<BucketPermission> {
   $bp.StorageListenerClient? _storageListenerClient;
@@ -27,13 +27,13 @@ class BucketResource extends SecureResource<BucketPermission> {
     List<$p.Action> actions = permissions.fold(
         [],
         (actions, permission) => switch (permission) {
-              BucketPermission.reading => [
+              BucketPermission.read => [
                   ...actions,
                   $p.Action.BucketFileGet,
                   $p.Action.BucketFileList
                 ],
-              BucketPermission.writing => [...actions, $p.Action.BucketFilePut],
-              BucketPermission.deleting => [
+              BucketPermission.write => [...actions, $p.Action.BucketFilePut],
+              BucketPermission.delete => [
                   ...actions,
                   $p.Action.BucketFileDelete
                 ],
@@ -64,12 +64,14 @@ class BucketResource extends SecureResource<BucketPermission> {
   }
 
   /// Set the function's required [permissions] to the bucket.
-  Bucket requires(List<BucketPermission> permissions) {
+  Bucket allow(List<BucketPermission> permissions) {
     if (permissions.isEmpty) {
       throw "Must supply at least one permission for bucket $name";
     }
 
-    registerPolicy(permissions);
+    unawaited(registerPolicy((permissions)).onError((error, stackTrace) {
+      print(error);
+    }));
 
     return Bucket(name);
   }
