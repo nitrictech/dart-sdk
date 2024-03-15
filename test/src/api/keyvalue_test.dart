@@ -83,26 +83,45 @@ void main() {
     verify(() => keyValueClient.deleteKey(req)).called(1);
   });
 
-  // test('Test get keys from key value store with empty prefix', () async {
-  //   var req = KvStoreScanKeysRequest(
-  //     store: Store(name: "keyvalueName"),
-  //     prefix: "",
-  //   );
+  test('Test get keys from key value store with empty prefix', () async {
+    var req =
+        KvStoreScanKeysRequest(store: Store(name: "keyvalueName"), prefix: "");
 
-  //   var resp = ["first", "second", "third", "fourth", "fifth"]
-  //       .map((key) => KvStoreScanKeysResponse(key: key))
-  //       .toList();
+    var resp = ["first", "second", "third", "fourth", "fifth"]
+        .map((key) => KvStoreScanKeysResponse(key: key))
+        .toList();
 
-  //   when(() => keyValueClient.scanKeys(req))
-  //       .thenAnswer((_) => MockResponseStream.fromIterable(resp));
+    when(() => keyValueClient.scanKeys(req))
+        .thenAnswer((_) => MockResponseStream.fromIterable(resp));
 
-  //   var kvStore = KeyValueStore("keyvalueName", client: keyValueClient);
+    var kvStore = KeyValueStore("keyvalueName", client: keyValueClient);
 
-  //   var keys = kvStore.keys();
+    var keys = kvStore.keys();
 
-  //   verify(() => keyValueClient.scanKeys(req)).called(1);
+    verify(() => keyValueClient.scanKeys(req)).called(1);
 
-  //   expect(keys.single, "fifth");
-  //   expect(keys.single, "fourth");
-  // });
+    expect(await keys.first, "first");
+    expect(await keys.last, "fifth");
+  });
+
+  test('Test get keys from key value store with prefix', () async {
+    var req =
+        KvStoreScanKeysRequest(store: Store(name: "keyvalueName"), prefix: "f");
+
+    var resp = ["first", "fourth", "fifth"]
+        .map((key) => KvStoreScanKeysResponse(key: key))
+        .toList();
+
+    when(() => keyValueClient.scanKeys(req))
+        .thenAnswer((_) => MockResponseStream.fromIterable(resp));
+
+    var kvStore = KeyValueStore("keyvalueName", client: keyValueClient);
+
+    var keys = kvStore.keys(prefix: "f");
+
+    verify(() => keyValueClient.scanKeys(req)).called(1);
+
+    expect(await keys.first, "first");
+    expect(await keys.last, "fifth");
+  });
 }

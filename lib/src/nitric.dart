@@ -1,10 +1,4 @@
-import 'package:nitric_sdk/resources.dart';
-
 import 'resources/common.dart';
-
-abstract class Worker {
-  Future<void> start();
-}
 
 class Nitric {
   static final Map<String, Map<String, Resource>> _cache = {};
@@ -42,7 +36,7 @@ class Nitric {
       _makeResource(name, (name) => Api(name, opts: opts)) as Api;
 
   /// Create a [name]d collection for storing documents.
-  static KeyValueStoreResource store(String name) =>
+  static KeyValueStoreResource kv(String name) =>
       _makeResource(name, KeyValueStoreResource.new) as KeyValueStoreResource;
 
   /// Create a [name]d schedule for running handlers on a set interval.

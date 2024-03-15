@@ -1,6 +1,6 @@
 part of 'common.dart';
 
-enum SecretPermission { accessing, putting }
+enum SecretPermission { access, put }
 
 class SecretResource extends SecureResource<SecretPermission> {
   SecretResource(String name, {$p.ResourcesClient? client})
@@ -21,23 +21,22 @@ class SecretResource extends SecureResource<SecretPermission> {
     List<$p.Action> actions = permissions.fold(
         [],
         (actions, permission) => switch (permission) {
-              SecretPermission.accessing => [
-                  ...actions,
-                  $p.Action.SecretAccess
-                ],
-              SecretPermission.putting => [...actions, $p.Action.SecretPut],
+              SecretPermission.access => [...actions, $p.Action.SecretAccess],
+              SecretPermission.put => [...actions, $p.Action.SecretPut],
             });
 
     return actions;
   }
 
   /// Set the function's required [permissions] for the secret.
-  $s.Secret requires(List<SecretPermission> permissions) {
+  $s.Secret allow(List<SecretPermission> permissions) {
     if (permissions.isEmpty) {
       throw "Must supply at least one permission for secret $name";
     }
 
-    registerPolicy(permissions);
+    unawaited(registerPolicy((permissions)).onError((error, stackTrace) {
+      print(error);
+    }));
 
     return $s.Secret(name);
   }

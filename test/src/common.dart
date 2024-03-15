@@ -4,7 +4,7 @@ import 'package:grpc/grpc.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:nitric_sdk/src/nitric/proto/resources/v1/resources.pbgrpc.dart';
 
-class MockResponseFuture<T> extends Mock implements ResponseFuture<T> {
+class MockResponseFuture<T> extends Fake implements ResponseFuture<T> {
   final Future<T> future;
 
   MockResponseFuture.value(T value) : future = Future.value(value);
@@ -19,12 +19,19 @@ class MockResponseFuture<T> extends Mock implements ResponseFuture<T> {
 }
 
 /// A gRPC response producing a stream of values.
-class MockResponseStream<T> extends Mock
+class MockResponseStream<T> extends Fake
     with Stream<T>
     implements ResponseStream<T> {
   List<T> contents;
 
   MockResponseStream.fromIterable(this.contents);
+
+  @override
+  StreamSubscription<T> listen(void Function(T event)? onData,
+      {Function? onError, void Function()? onDone, bool? cancelOnError}) {
+    return Stream.fromIterable(contents).listen(onData,
+        onError: onError, onDone: onDone, cancelOnError: cancelOnError);
+  }
 
   @override
   MockResponseFuture<T> get single {

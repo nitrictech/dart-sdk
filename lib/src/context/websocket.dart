@@ -39,7 +39,7 @@ class WebsocketContext
   }
 
   $wp.ClientMessage toResponse() {
-    return $wp.ClientMessage(websocketEventResponse: resp.toWire());
+    return $wp.ClientMessage(id: id, websocketEventResponse: res.toWire());
   }
 }
 
@@ -72,6 +72,7 @@ class WebsocketResponse extends TriggerResponse {
   WebsocketResponse([this.reject = false]);
 
   $wp.WebsocketEventResponse toWire() {
-    return $wp.WebsocketEventResponse();
+    return $wp.WebsocketEventResponse(
+        connectionResponse: WebsocketConnectionResponse(reject: reject));
   }
 }

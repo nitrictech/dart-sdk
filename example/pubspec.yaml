@@ -7,7 +7,8 @@ environment:
   sdk: ^3.2.5
 
 dependencies:
-  nitric_sdk: ^1.0.0
+  nitric_sdk:
+    path: ../
   uuid: ^4.3.3
 
 dev_dependencies:

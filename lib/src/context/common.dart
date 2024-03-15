@@ -11,6 +11,7 @@ import 'package:nitric_sdk/src/nitric/proto/storage/v1/storage.pb.dart' as $bp;
 import 'package:nitric_sdk/src/nitric/proto/websockets/v1/websockets.pb.dart'
     as $wp;
 import 'package:meta/meta.dart';
+import 'package:nitric_sdk/src/nitric/proto/websockets/v1/websockets.pbgrpc.dart';
 
 part 'http.dart';
 part 'interval.dart';
@@ -29,9 +30,9 @@ class TriggerContext<Req extends TriggerRequest, Resp extends TriggerResponse> {
   final Req req;
 
   /// The response object.
-  final Resp resp;
+  final Resp res;
 
-  TriggerContext(this.id, this.req, this.resp);
+  TriggerContext(this.id, this.req, this.res);
 }
 
 /// The trigger request.

@@ -1,6 +1,6 @@
 part of 'common.dart';
 
-enum QueuePermission { enqueueing, dequeueing }
+enum QueuePermission { enqueue, dequeue }
 
 class QueueResource extends SecureResource<QueuePermission> {
   QueueResource(String name, {$p.ResourcesClient? client})
@@ -21,26 +21,25 @@ class QueueResource extends SecureResource<QueuePermission> {
     List<$p.Action> actions = permissions.fold(
         [],
         (actions, permission) => switch (permission) {
-              QueuePermission.enqueueing => [
+              QueuePermission.enqueue => [
                   ...actions,
                   $p.Action.QueueEnqueue,
                 ],
-              QueuePermission.dequeueing => [
-                  ...actions,
-                  $p.Action.QueueDequeue
-                ],
+              QueuePermission.dequeue => [...actions, $p.Action.QueueDequeue],
             });
 
     return actions;
   }
 
   /// Set the function's required [permissions] to the queue.
-  Queue requires(List<QueuePermission> permissions) {
+  Queue allow(List<QueuePermission> permissions) {
     if (permissions.isEmpty) {
       throw "Must supply at least one permission for queue $name";
     }
 
-    registerPolicy(permissions);
+    unawaited(registerPolicy((permissions)).onError((error, stackTrace) {
+      print(error);
+    }));
 
     return Queue(name);
   }

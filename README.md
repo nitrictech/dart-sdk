@@ -34,9 +34,9 @@ The SDK is in early stage development and APIs and interfaces are still subject 
 
 # Building a REST API with Nitric
 
-This guide will show you how to build a serverless REST API with the Nitric framework using Dart. The example API enables reading, writing and editing basic user profile information using a Nitric [collection](https://nitric.io/docs/collections) to store user data. Once the API is created we'll test it locally, then optionally deploy it to a cloud of your choice.
+This guide will show you how to build a serverless REST API with the Nitric framework using Dart. The example API enables reading, writing and editing basic user profile information using a Nitric [key value store](https://nitric.io/docs/keyvalue) to store user data. Once the API is created we'll test it locally, then optionally deploy it to a cloud of your choice.
 
-The example API enables reading, writing, and deleting profile information from a Nitric [collection](https://nitric.io/docs/collection).
+The example API enables reading, writing, and deleting profile information from a Nitric [key value store](https://nitric.io/docs/keyvalue).
 
 The API will provide the following routes:
 
@@ -72,10 +72,8 @@ dart create -t console my-profile-api
 Add the Nitric SDK by adding the repository URL to your `pubspec.yaml`.
 
 ```yaml
-nitric_sdk:
-  git:
-    url: https://github.com/nitrictech/dart-sdk.git
-    ref: main
+dependencies:
+  nitric_sdk: ^1.2.0
 ```
 
 Next, open the project in your editor of choice.
@@ -112,7 +110,7 @@ services:
 
 ## Create a Profile class
 
-We will create a class to represent the profiles that we will store in the collection. We will add `toJson` and `fromJson` functions to assist.
+We will create a class to represent the profiles that we will store in the key value store. We will add `toJson` and `fromJson` functions to assist.
 
 ```dart
 class Profile {
@@ -143,19 +141,18 @@ Applications built with Nitric can contain many APIs, let's start by adding one 
 ```dart
 import 'package:nitric_sdk/nitric.dart';
 import 'package:nitric_sdk/resources.dart';
-import 'package:nitric_sdk/src/context/common.dart';
 
 import 'package:uuid/uuid.dart';
 
 void main() {
   // Create an API named 'public'
-  final profileApi = api("public");
+  final profileApi = Nitric.api("public");
 
-  // Define a key value store named 'profiles', then request getting, setting and deleting permissions.
-  final profiles = store("profiles").requires([
-    KeyValuePermission.getting,
-    KeyValuePermission.setting,
-    KeyValuePermission.deleting
+  // Define a key value store named 'profiles', then request get, set and delete permissions.
+  final profiles = Nitric.kv("profiles").allow([
+    KeyValuePermission.get,
+    KeyValuePermission.set,
+    KeyValuePermission.delete
   ]);
 }
 ```
@@ -188,7 +185,7 @@ profileApi.post("/profiles", (ctx) async {
 
   final profile = Profile.fromJson(ctx.req.json());
 
-  // Store the new profile in the profiles collection
+  // Store the new profile in the profiles kv store
   await profiles.set(id, profile);
 
   // Send a success response.
@@ -335,7 +332,7 @@ If you want to go a bit deeper and create some other resources with Nitric, why 
 Define a bucket named `profilesImg` with reading/writing permissions.
 
 ```dart
-final profilesImg = Nitric.bucket("profilesImg").requires([BucketPermission.reading, BucketPermission.writing]);
+final profilesImg = Nitric.bucket("profilesImg").allow([BucketPermission.read, BucketPermission.write]);
 ```
 
 ### Get a URL to upload a profile image

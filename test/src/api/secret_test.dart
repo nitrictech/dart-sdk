@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:mocktail/mocktail.dart';
-import 'package:nitric_sdk/api.dart';
+import 'package:nitric_sdk/src/api/api.dart';
 import 'package:nitric_sdk/src/nitric/proto/secrets/v1/secrets.pbgrpc.dart'
     as $p;
 import 'package:test/test.dart';

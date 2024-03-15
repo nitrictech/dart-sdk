@@ -17,7 +17,7 @@ class IntervalContext
   $sp.ClientMessage toResponse() {
     return $sp.ClientMessage(
       id: id,
-      intervalResponse: resp.toWire(),
+      intervalResponse: res.toWire(),
     );
   }
 }

@@ -1,16 +1,30 @@
 import 'package:mocktail/mocktail.dart';
 import 'package:nitric_sdk/src/nitric/proto/resources/v1/resources.pb.dart';
+import 'package:nitric_sdk/src/nitric/proto/schedules/v1/schedules.pbgrpc.dart';
 import 'package:nitric_sdk/src/resources/common.dart';
 import 'package:test/test.dart';
 
 import '../common.dart';
 
+class MockSchedulesClient extends Mock implements SchedulesClient {}
+
 void main() {
   late MockResourceClient resourceClient;
+  late MockSchedulesClient schedulesClient;
 
-  setUp(() => resourceClient = MockResourceClient());
+  setUp(() {
+    schedulesClient = MockSchedulesClient();
+    resourceClient = MockResourceClient();
+  });
 
-  tearDown(() => reset(resourceClient));
+  setUpAll(() {
+    registerFallbackValue(Stream<ClientMessage>.empty());
+  });
+
+  tearDown(() {
+    reset(schedulesClient);
+    reset(resourceClient);
+  });
 
   test("Test build schedule", () async {
     var schedule = Schedule("scheduleName", client: resourceClient);
@@ -33,5 +47,63 @@ void main() {
     await api.register();
 
     verify(() => resourceClient.declare(req)).called(1);
+  });
+
+  test('Test schedule every worker', () async {
+    var schedule = Schedule("scheduleName",
+        client: resourceClient, schedulesClient: schedulesClient);
+
+    when(() => schedulesClient.schedule(any()))
+        .thenAnswer((_) => MockResponseStream.fromIterable([
+              ServerMessage(
+                  id: "id-1", registrationResponse: RegistrationResponse()),
+              ServerMessage(
+                  id: "id-2",
+                  intervalRequest:
+                      IntervalRequest(scheduleName: "scheduleName"))
+            ]));
+
+    await schedule.every("7 days", (ctx) async => ctx);
+
+    verify(() => schedulesClient.schedule(any())).called(1);
+  });
+
+  test('Test schedule cron worker', () async {
+    var schedule = Schedule("scheduleName",
+        client: resourceClient, schedulesClient: schedulesClient);
+
+    when(() => schedulesClient.schedule(any()))
+        .thenAnswer((_) => MockResponseStream.fromIterable([
+              ServerMessage(
+                  id: "id-1", registrationResponse: RegistrationResponse()),
+              ServerMessage(
+                  id: "id-2",
+                  intervalRequest:
+                      IntervalRequest(scheduleName: "scheduleName"))
+            ]));
+
+    await schedule.cron("* * * * *", (ctx) async => ctx);
+
+    verify(() => schedulesClient.schedule(any())).called(1);
+  });
+
+  test('Test schedule worker error', () async {
+    var schedule = Schedule("scheduleName",
+        client: resourceClient, schedulesClient: schedulesClient);
+
+    when(() => schedulesClient.schedule(any()))
+        .thenAnswer((_) => MockResponseStream.fromIterable([
+              ServerMessage(
+                  id: "id-1", registrationResponse: RegistrationResponse()),
+              ServerMessage(
+                  id: "id-2",
+                  intervalRequest:
+                      IntervalRequest(scheduleName: "scheduleName"))
+            ]));
+
+    await schedule.cron(
+        "7 days", (ctx) async => throw Exception("test application error"));
+
+    verify(() => schedulesClient.schedule(any())).called(1);
   });
 }

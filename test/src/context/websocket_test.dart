@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:nitric_sdk/nitric.dart';
 import 'package:nitric_sdk/src/context/common.dart';
 import 'package:nitric_sdk/src/nitric/proto/websockets/v1/websockets.pbgrpc.dart'
     as $pb;
@@ -24,16 +25,55 @@ void main() {
     expect(ctx.req.eventType, WebsocketEvent.message);
   });
 
+  test('Websocket Connection Context from ServerMessage', () {
+    var msg = $pb.ServerMessage(
+        id: 'id',
+        websocketEventRequest: $pb.WebsocketEventRequest(
+          socketName: 'socketName',
+          connectionId: "connectionId",
+          connection: $pb.WebsocketConnectionEvent(queryParams: {
+            "message": $pb.QueryValue(value: ["connection"])
+          }),
+        ));
+
+    final ctx = WebsocketContext.fromRequest(msg);
+
+    expect(ctx.req.socketName, "socketName");
+    expect(ctx.req.connectionId, "connectionId");
+    expect(ctx.req.eventType, WebsocketEvent.connect);
+    expect(ctx.req.queryParams, {
+      "message": ["connection"]
+    });
+  });
+
+  test('Websocket Disconnection Context from ServerMessage', () {
+    var msg = $pb.ServerMessage(
+        id: 'id',
+        websocketEventRequest: $pb.WebsocketEventRequest(
+          socketName: 'socketName',
+          connectionId: "connectionId",
+          disconnection: $pb.WebsocketDisconnectionEvent(),
+        ));
+
+    final ctx = WebsocketContext.fromRequest(msg);
+
+    expect(ctx.req.socketName, "socketName");
+    expect(ctx.req.connectionId, "connectionId");
+    expect(ctx.req.eventType, WebsocketEvent.disconnect);
+  });
+
   test('ClientMessage from Websocket Context', () {
-    final ctx = MessageContext(
+    final ctx = WebsocketContext(
         "id",
-        MessageRequest("topicName", <String, String>{"message": "test"}),
-        MessageResponse(true));
+        WebsocketRequest(
+            "socketName", "connectionId", WebsocketEvent.connect, {}, ""),
+        WebsocketResponse(true));
 
     final clientMessage = ctx.toResponse();
 
     expect(clientMessage.id, "id");
-    expect(clientMessage.hasMessageResponse(), true);
-    expect(clientMessage.messageResponse.success, true);
+    expect(clientMessage.hasWebsocketEventResponse(), true);
+    expect(
+        clientMessage.websocketEventResponse.connectionResponse.reject, true);
   });
 }

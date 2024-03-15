@@ -3,9 +3,9 @@ library resources;
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:nitric_sdk/api.dart';
+import 'package:nitric_sdk/src/api/api.dart';
 import 'package:nitric_sdk/src/grpc_helper.dart';
-import 'package:nitric_sdk/src/nitric.dart';
+import 'package:nitric_sdk/src/nitric/proto/apis/v1/apis.pbgrpc.dart';
 import 'package:nitric_sdk/src/nitric/proto/resources/v1/resources.pb.dart';
 import 'package:nitric_sdk/src/nitric/proto/schedules/v1/schedules.pb.dart'
     as $s;
@@ -16,14 +16,16 @@ import 'package:nitric_sdk/src/api/secret.dart' as $s;
 
 import 'package:nitric_sdk/src/nitric/proto/resources/v1/resources.pbgrpc.dart'
     as $p;
-import 'package:nitric_sdk/src/nitric/proto/apis/v1/apis.pbgrpc.dart' as $ap;
 import 'package:nitric_sdk/src/nitric/proto/schedules/v1/schedules.pbgrpc.dart'
     as $sp;
 import 'package:nitric_sdk/src/nitric/proto/topics/v1/topics.pbgrpc.dart'
     as $tp;
 import 'package:nitric_sdk/src/nitric/proto/websockets/v1/websockets.pbgrpc.dart'
     as $wp;
+import 'package:nitric_sdk/src/nitric/proto/storage/v1/storage.pbgrpc.dart'
+    as $bp;
 import 'package:meta/meta.dart' hide ResourceIdentifier;
+import 'package:nitric_sdk/src/workers/common.dart';
 
 part 'schedule.dart';
 part 'secret.dart';
@@ -47,18 +49,27 @@ abstract class Resource {
   /// Internal resource client to declare the resource.
   late final $p.ResourcesClient _client;
 
-  final ClientChannel _channel = createClientChannelFromEnvVar();
+  late final ClientChannel? _channel;
 
   @protected
   Resource(this.name, $p.ResourcesClient? client) {
     if (client == null) {
-      _client = $p.ResourcesClient(_channel);
+      final channel = createClientChannelFromEnvVar();
+      _client = $p.ResourcesClient(channel);
+      _channel = channel;
     } else {
       _client = client;
+      _channel = null;
     }
   }
 
   ResourceDeclareRequest asRequest();
+
+  Future<void> _shutdownChannel() async {
+    if (_channel != null) {
+      await _channel.shutdown();
+    }
+  }
 
   /// Register the resource with the Nitric server. Handles shutting down the channel.
   Future<void> register() async {
@@ -66,7 +77,7 @@ abstract class Resource {
 
     await _client.declare(res);
 
-    await _channel.shutdown();
+    await _shutdownChannel();
 
     _registrationCompletion.complete(res.id);
   }
@@ -93,7 +104,7 @@ abstract class SecureResource<T extends Enum> extends Resource {
     await _client
         .declare($p.ResourceDeclareRequest(policy: policy, id: policyResource));
 
-    await _channel.shutdown();
+    await _shutdownChannel();
   }
 
   /// Register the resource with the Nitric server.
