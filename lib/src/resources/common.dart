@@ -3,7 +3,6 @@ library resources;
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:nitric_sdk/resources.dart';
 import 'package:nitric_sdk/src/api/api.dart';
 import 'package:nitric_sdk/src/grpc_helper.dart';
 import 'package:nitric_sdk/src/nitric/proto/apis/v1/apis.pbgrpc.dart';

@@ -67,7 +67,7 @@ void main() {
                 $p.ServerMessage(id: "id-2", httpRequest: $p.HttpRequest())
               ]));
 
-      api.get("/routename", defaultHandler);
+      await api.get("/routename", defaultHandler);
 
       verify(() => apiClient.serve(any())).called(1);
     });
@@ -83,7 +83,7 @@ void main() {
                 $p.ServerMessage(id: "id-2", httpRequest: $p.HttpRequest())
               ]));
 
-      api.post("/routename", defaultHandler);
+      await api.post("/routename", defaultHandler);
 
       verify(() => apiClient.serve(any())).called(1);
     });
@@ -99,7 +99,7 @@ void main() {
                 $p.ServerMessage(id: "id-2", httpRequest: $p.HttpRequest())
               ]));
 
-      api.patch("/routename", defaultHandler);
+      await api.patch("/routename", defaultHandler);
 
       verify(() => apiClient.serve(any())).called(1);
     });
@@ -115,7 +115,7 @@ void main() {
                 $p.ServerMessage(id: "id-2", httpRequest: $p.HttpRequest())
               ]));
 
-      api.options("/routename", defaultHandler);
+      await api.options("/routename", defaultHandler);
 
       verify(() => apiClient.serve(any())).called(1);
     });
@@ -131,7 +131,7 @@ void main() {
                 $p.ServerMessage(id: "id-2", httpRequest: $p.HttpRequest())
               ]));
 
-      api.delete("/routename", defaultHandler);
+      await api.delete("/routename", defaultHandler);
 
       verify(() => apiClient.serve(any())).called(1);
     });
@@ -147,7 +147,7 @@ void main() {
                 $p.ServerMessage(id: "id-2", httpRequest: $p.HttpRequest())
               ]));
 
-      api.put("/routename", defaultHandler);
+      await api.put("/routename", defaultHandler);
 
       verify(() => apiClient.serve(any())).called(1);
     });
@@ -163,7 +163,7 @@ void main() {
                 $p.ServerMessage(id: "id-2", httpRequest: $p.HttpRequest())
               ]));
 
-      api.all("/routename", defaultHandler);
+      await api.all("/routename", defaultHandler);
 
       verify(() => apiClient.serve(any())).called(1);
     });
@@ -181,7 +181,7 @@ void main() {
                 $p.ServerMessage(id: "id-2", httpRequest: $p.HttpRequest())
               ]));
 
-      api.route("routeName").get(defaultHandler);
+      await api.route("routeName").get(defaultHandler);
 
       verify(() => apiClient.serve(any())).called(1);
     });
@@ -197,7 +197,7 @@ void main() {
                 $p.ServerMessage(id: "id-2", httpRequest: $p.HttpRequest())
               ]));
 
-      api.route("routeName").post(defaultHandler);
+      await api.route("routeName").post(defaultHandler);
 
       verify(() => apiClient.serve(any())).called(1);
     });
@@ -213,7 +213,7 @@ void main() {
                 $p.ServerMessage(id: "id-2", httpRequest: $p.HttpRequest())
               ]));
 
-      api.route("routeName").patch(defaultHandler);
+      await api.route("routeName").patch(defaultHandler);
 
       verify(() => apiClient.serve(any())).called(1);
     });
@@ -229,7 +229,7 @@ void main() {
                 $p.ServerMessage(id: "id-2", httpRequest: $p.HttpRequest())
               ]));
 
-      api.route("routeName").options(defaultHandler);
+      await api.route("routeName").options(defaultHandler);
 
       verify(() => apiClient.serve(any())).called(1);
     });
@@ -245,7 +245,7 @@ void main() {
                 $p.ServerMessage(id: "id-2", httpRequest: $p.HttpRequest())
               ]));
 
-      api.route("routeName").delete(defaultHandler);
+      await api.route("routeName").delete(defaultHandler);
 
       verify(() => apiClient.serve(any())).called(1);
     });
@@ -261,7 +261,7 @@ void main() {
                 $p.ServerMessage(id: "id-2", httpRequest: $p.HttpRequest())
               ]));
 
-      api.route("routeName").put(defaultHandler);
+      await api.route("routeName").put(defaultHandler);
 
       verify(() => apiClient.serve(any())).called(1);
     });
@@ -277,7 +277,7 @@ void main() {
                 $p.ServerMessage(id: "id-2", httpRequest: $p.HttpRequest())
               ]));
 
-      api.route("routeName").all(defaultHandler);
+      await api.route("routeName").all(defaultHandler);
 
       verify(() => apiClient.serve(any())).called(1);
     });
@@ -470,7 +470,7 @@ void main() {
               $p.ServerMessage(id: "id-2", httpRequest: $p.HttpRequest())
             ]));
 
-    api
+    await api
         .route("routeName")
         .get((ctx) async => throw Exception("test application error"));
 
