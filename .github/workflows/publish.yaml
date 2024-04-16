@@ -29,7 +29,7 @@ jobs:
       - name: Check Publish Warnings
         run: dart pub publish --dry-run
       - name: Publish
-        uses: k-paxian/dart-package-publisher@v1.5.1
+        uses: k-paxian/dart-package-publisher@v1.6
         with:
           credentialJson: ${{ secrets.CREDENTIAL_JSON }}
           skipTests: true
