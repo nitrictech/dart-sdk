@@ -32,7 +32,7 @@ abstract class Worker<T extends Client> {
     if (client == null) {
       final channel = createClientChannelFromEnvVar();
 
-      client = $ap.ApiClient(channel) as T;
+      _client = $ap.ApiClient(channel) as T;
       _channel = channel;
     } else {
       _channel = null;
