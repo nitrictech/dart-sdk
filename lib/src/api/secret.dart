@@ -12,9 +12,8 @@ class Secret {
 
   Secret(this.name, {$p.SecretManagerClient? client}) {
     if (client == null) {
-      final channel = createClientChannelFromEnvVar();
-
-      _secretClient = $p.SecretManagerClient(channel);
+      _secretClient =
+          $p.SecretManagerClient(ClientChannelSingleton.instance.clientChannel);
     } else {
       _secretClient = client;
     }

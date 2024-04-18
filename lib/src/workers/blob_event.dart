@@ -40,6 +40,6 @@ class BlobEventWorker extends Worker<$bp.StorageListenerClient> {
       }
     }
 
-    await _shutdownChannel();
+    await ClientChannelSingleton.instance.release();
   }
 }

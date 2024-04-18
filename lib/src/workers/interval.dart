@@ -41,6 +41,6 @@ class IntervalWorker extends Worker<$sp.SchedulesClient> {
       }
     }
 
-    await _shutdownChannel();
+    await ClientChannelSingleton.instance.release();
   }
 }

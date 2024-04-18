@@ -41,6 +41,6 @@ class FileEventWorker extends Worker<$bp.StorageListenerClient> {
       }
     }
 
-    await _shutdownChannel();
+    await ClientChannelSingleton.instance.release();
   }
 }

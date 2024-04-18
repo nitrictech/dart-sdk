@@ -41,6 +41,6 @@ class SubscriptionWorker extends Worker<$tp.SubscriberClient> {
       }
     }
 
-    await _shutdownChannel();
+    await ClientChannelSingleton.instance.release();
   }
 }

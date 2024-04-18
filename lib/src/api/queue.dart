@@ -13,9 +13,8 @@ class Queue {
   /// Construct a new queue.
   Queue(this.name, {$p.QueuesClient? client}) {
     if (client == null) {
-      final channel = createClientChannelFromEnvVar();
-
-      _queuesClient = $p.QueuesClient(channel);
+      _queuesClient =
+          $p.QueuesClient(ClientChannelSingleton.instance.clientChannel);
     } else {
       _queuesClient = client;
     }

@@ -49,27 +49,17 @@ abstract class Resource {
   /// Internal resource client to declare the resource.
   late final $p.ResourcesClient _client;
 
-  late final ClientChannel? _channel;
-
   @protected
   Resource(this.name, $p.ResourcesClient? client) {
     if (client == null) {
-      final channel = createClientChannelFromEnvVar();
-      _client = $p.ResourcesClient(channel);
-      _channel = channel;
+      _client =
+          $p.ResourcesClient(ClientChannelSingleton.instance.clientChannel);
     } else {
       _client = client;
-      _channel = null;
     }
   }
 
   ResourceDeclareRequest asRequest();
-
-  Future<void> _shutdownChannel() async {
-    if (_channel != null) {
-      await _channel.shutdown();
-    }
-  }
 
   /// Register the resource with the Nitric server. Handles shutting down the channel.
   Future<void> register() async {
@@ -77,7 +67,7 @@ abstract class Resource {
 
     await _client.declare(res);
 
-    await _shutdownChannel();
+    await ClientChannelSingleton.instance.release();
 
     _registrationCompletion.complete(res.id);
   }
@@ -104,7 +94,7 @@ abstract class SecureResource<T extends Enum> extends Resource {
     await _client
         .declare($p.ResourceDeclareRequest(policy: policy, id: policyResource));
 
-    await _shutdownChannel();
+    await ClientChannelSingleton.instance.release();
   }
 
   /// Register the resource with the Nitric server.

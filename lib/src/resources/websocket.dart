@@ -10,9 +10,8 @@ class Websocket extends Resource {
       $wp.WebsocketHandlerClient? websocketHandlerClient})
       : super(name, client) {
     if (websocketClient == null) {
-      final channel = createClientChannelFromEnvVar();
-
-      _websocketClient = $wp.WebsocketClient(channel);
+      _websocketClient =
+          $wp.WebsocketClient(ClientChannelSingleton.instance.clientChannel);
     } else {
       _websocketClient = websocketClient;
     }

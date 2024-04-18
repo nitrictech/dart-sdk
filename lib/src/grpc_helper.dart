@@ -1,10 +1,11 @@
 import 'dart:io';
 
 import 'package:grpc/grpc.dart';
+import 'package:synchronized/synchronized.dart';
 
 const String envVarName = 'SERVICE_ADDRESS';
 
-ClientChannel createClientChannelFromEnvVar({int defaultPort = 50051}) {
+ClientChannel _createClientChannelFromEnvVar({int defaultPort = 50051}) {
   // Get the value of an environment variable or use a default value
   String? envVar = Platform.environment[envVarName];
 
@@ -38,5 +39,40 @@ ClientChannel createClientChannelFromEnvVar({int defaultPort = 50051}) {
       port: defaultPort,
       options: const ChannelOptions(credentials: ChannelCredentials.insecure()),
     );
+  }
+}
+
+class ClientChannelSingleton {
+  ClientChannel? _clientChannel;
+
+  int _consumerCount = 0;
+  final _lock = Lock();
+
+  ClientChannelSingleton._privateConstructor() {
+    _clientChannel = _createClientChannelFromEnvVar();
+  }
+
+  static final ClientChannelSingleton _instance =
+      ClientChannelSingleton._privateConstructor();
+
+  static ClientChannelSingleton get instance => _instance;
+
+  ClientChannel get clientChannel {
+    _lock.synchronized(() {
+      _clientChannel ??= _createClientChannelFromEnvVar();
+      _consumerCount++;
+    });
+
+    return _clientChannel as ClientChannel;
+  }
+
+  Future<void> release() async {
+    await _lock.synchronized(() async {
+      _consumerCount--;
+      if (_consumerCount <= 0) {
+        await _clientChannel?.shutdown();
+        _clientChannel = null;
+      }
+    });
   }
 }

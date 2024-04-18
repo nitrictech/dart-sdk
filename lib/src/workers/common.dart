@@ -26,24 +26,13 @@ part 'websocket.dart';
 
 abstract class Worker<T extends Client> {
   late T _client;
-  late ClientChannel? _channel;
 
   Worker(T? client) {
     if (client == null) {
-      final channel = createClientChannelFromEnvVar();
-
-      _client = $ap.ApiClient(channel) as T;
-      _channel = channel;
+      _client =
+          $ap.ApiClient(ClientChannelSingleton.instance.clientChannel) as T;
     } else {
-      _channel = null;
       _client = client;
-    }
-  }
-
-  /// Shuts down the client channel
-  Future<void> _shutdownChannel() async {
-    if (_channel != null) {
-      await _channel!.shutdown();
     }
   }
 

@@ -38,6 +38,6 @@ class WebsocketWorker extends Worker<$wp.WebsocketHandlerClient> {
       }
     }
 
-    await _shutdownChannel();
+    await ClientChannelSingleton.instance.release();
   }
 }

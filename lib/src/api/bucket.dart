@@ -19,9 +19,8 @@ class Bucket {
       {$p.StorageClient? client,
       $p.StorageListenerClient? storageListenerClient}) {
     if (client == null) {
-      final channel = createClientChannelFromEnvVar();
-
-      _storageClient = $p.StorageClient(channel);
+      _storageClient =
+          $p.StorageClient(ClientChannelSingleton.instance.clientChannel);
     } else {
       _storageClient = client;
     }
