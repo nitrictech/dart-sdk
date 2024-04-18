@@ -9,7 +9,6 @@ import 'package:nitric_sdk/src/nitric/proto/apis/v1/apis.pbgrpc.dart';
 import 'package:nitric_sdk/src/nitric/proto/resources/v1/resources.pb.dart';
 import 'package:nitric_sdk/src/nitric/proto/schedules/v1/schedules.pb.dart'
     as $s;
-import 'package:grpc/grpc.dart';
 import 'package:nitric_sdk/src/context/common.dart';
 import 'package:nitric_sdk/src/api/topic.dart' as $t;
 import 'package:nitric_sdk/src/api/secret.dart' as $s;
