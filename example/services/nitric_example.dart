@@ -21,16 +21,8 @@ class Profile {
 }
 
 void main() {
-  var oidc = Nitric.oidcRule(
-      "profile security",
-      "https://dev-w7gm5ldb.us.auth0.com",
-      ["https://test-security-definition/"]);
-
   // Create an API named 'public'
-  final profileApi = Nitric.api("public",
-      opts: ApiOptions(security: [
-        oidc(["user:read"])
-      ]));
+  final profileApi = Nitric.api("public");
 
   // Define a collection named 'profiles', then request reading and writing permissions.
   final profiles = Nitric.kv("profiles").allow([
