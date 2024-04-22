@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:nitric_sdk/api.dart';
+import 'package:nitric_sdk/src/api/api.dart';
 import 'package:nitric_sdk/src/grpc_helper.dart';
 import 'package:nitric_sdk/src/nitric/proto/queues/v1/queues.pbgrpc.dart' as $p;
 
@@ -13,9 +13,8 @@ class Queue {
   /// Construct a new queue.
   Queue(this.name, {$p.QueuesClient? client}) {
     if (client == null) {
-      final channel = createClientChannelFromEnvVar();
-
-      _queuesClient = $p.QueuesClient(channel);
+      _queuesClient =
+          $p.QueuesClient(ClientChannelSingleton.instance.clientChannel);
     } else {
       _queuesClient = client;
     }
@@ -61,7 +60,7 @@ class DequeuedMessage {
   }
 
   /// Inform the queue that the message was handled successfully.
-  void complete() async {
+  Future<void> complete() async {
     var req =
         $p.QueueCompleteRequest(leaseId: _leaseId, queueName: _queue.name);
 

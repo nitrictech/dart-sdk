@@ -1,3 +1,5 @@
+.PHONY: coverage
+
 clean:
 	rm -rf lib/src/nitric
 	rm -rf lib/src/google
@@ -25,3 +27,11 @@ build: download-nitric download-google_well_known
 # relocate well known types as their relative location is not generated correctly on first build
 	mv lib/src/nitric/google lib/src/google
 	dart format lib/src/nitric lib/src/google
+
+coverage:
+	dart pub global run coverage:test_with_coverage
+	lcov -r coverage/lcov.info -o coverage/lcov.info --ignore-errors unused \
+		"**/*.pb*.dart" \
+		"**/mixins"
+	genhtml coverage/lcov.info -o coverage/html
+	open coverage/html/index.html

@@ -21,26 +21,18 @@ class Profile {
 }
 
 void main() {
-  var oidc = Nitric.oidcRule(
-      "profile security",
-      "https://dev-w7gm5ldb.us.auth0.com",
-      ["https://test-security-definition/"]);
-
   // Create an API named 'public'
-  final profileApi = Nitric.api("public",
-      opts: ApiOptions(security: [
-        oidc(["user:read"])
-      ]));
+  final profileApi = Nitric.api("public");
 
   // Define a collection named 'profiles', then request reading and writing permissions.
-  final profiles = Nitric.store("profiles").requires([
-    KeyValueStorePermission.getting,
-    KeyValueStorePermission.deleting,
-    KeyValueStorePermission.setting
+  final profiles = Nitric.kv("profiles").allow([
+    KeyValueStorePermission.get,
+    KeyValueStorePermission.delete,
+    KeyValueStorePermission.set
   ]);
 
   final profilesImg = Nitric.bucket("profilesImg")
-      .requires([BucketPermission.reading, BucketPermission.writing]);
+      .allow([BucketPermission.read, BucketPermission.write]);
 
   profileApi.post("/profiles", (ctx) async {
     final uuid = Uuid();
@@ -53,10 +45,10 @@ void main() {
       await profiles.set(id, profile.toJson());
 
       // Send a success response.
-      ctx.resp.body = "Profile $id created.";
+      ctx.res.body = "Profile $id created.";
     } on Exception catch (e) {
-      ctx.resp.status = 400;
-      ctx.resp.body = "An error occurred: $e";
+      ctx.res.status = 400;
+      ctx.res.body = "An error occurred: $e";
     }
 
     return ctx;
@@ -68,11 +60,11 @@ void main() {
     try {
       // Retrieve and return the profile data
       final profile = await profiles.get(id);
-      ctx.resp.json(profile);
+      ctx.res.json(profile);
     } on Exception catch (e) {
       print(e);
-      ctx.resp.status = 404;
-      ctx.resp.body = "Profile $id not found.";
+      ctx.res.status = 404;
+      ctx.res.body = "Profile $id not found.";
     }
 
     return ctx;
@@ -84,10 +76,10 @@ void main() {
     // Delete the profile
     try {
       await profiles.delete(id);
-      ctx.resp.body = "Profile $id removed.";
+      ctx.res.body = "Profile $id removed.";
     } on Exception catch (e) {
-      ctx.resp.status = 404;
-      ctx.resp.body = "Profile $id not found. $e";
+      ctx.res.status = 404;
+      ctx.res.body = "Profile $id not found. $e";
     }
 
     return ctx;
@@ -124,8 +116,8 @@ void main() {
     final photoUrl =
         await profilesImg.file("images/$id/photo.png").getDownloadUrl();
 
-    ctx.resp.status = 303;
-    ctx.resp.headers["Location"] = [photoUrl];
+    ctx.res.status = 303;
+    ctx.res.headers["Location"] = [photoUrl];
 
     return ctx;
   });

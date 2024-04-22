@@ -20,7 +20,7 @@ class MessageContext extends TriggerContext<MessageRequest, MessageResponse> {
 
   /// Converts the context to a gRPC client response.
   $ep.ClientMessage toResponse() {
-    return $ep.ClientMessage(id: id, messageResponse: resp.toWire());
+    return $ep.ClientMessage(id: id, messageResponse: res.toWire());
   }
 }
 

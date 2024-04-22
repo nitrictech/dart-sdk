@@ -23,10 +23,11 @@ void main() {
   });
 
   test("Test register oidc", () async {
-    var opts =
-        OidcOptions("oidcName", "http://test-issuer", ["users"], ["user:read"]);
+    var opts = OidcOptions(
+        "oidcName", "http://test-issuer", ["users"], ["user:read"],
+        client: resourceClient);
 
-    var oidc = OidcSecurityDefinition("apiName", opts, client: resourceClient);
+    var oidc = OidcSecurityDefinition("apiName", opts);
 
     var req = ResourceDeclareRequest(
         id: ResourceIdentifier(

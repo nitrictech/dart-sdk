@@ -11,9 +11,8 @@ class KeyValueStore {
 
   KeyValueStore(this.name, {$p.KvStoreClient? client}) {
     if (client == null) {
-      var channel = createClientChannelFromEnvVar();
-
-      _keyValueClient = $p.KvStoreClient(channel);
+      _keyValueClient =
+          $p.KvStoreClient(ClientChannelSingleton.instance.clientChannel);
     } else {
       _keyValueClient = client;
     }

@@ -1,6 +1,6 @@
 import 'package:fixnum/fixnum.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:nitric_sdk/api.dart';
+import 'package:nitric_sdk/src/api/api.dart';
 import 'package:nitric_sdk/src/google/protobuf/duration.pb.dart';
 import 'package:nitric_sdk/src/google/protobuf/struct.pb.dart';
 import 'package:nitric_sdk/src/nitric/proto/topics/v1/topics.pbgrpc.dart' as $p;

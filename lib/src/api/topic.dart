@@ -13,9 +13,8 @@ class Topic {
 
   Topic(this.name, {$p.TopicsClient? client}) {
     if (client == null) {
-      final channel = createClientChannelFromEnvVar();
-
-      _topicsClient = $p.TopicsClient(channel);
+      _topicsClient =
+          $p.TopicsClient(ClientChannelSingleton.instance.clientChannel);
     } else {
       _topicsClient = client;
     }

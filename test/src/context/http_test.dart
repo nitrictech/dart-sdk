@@ -48,4 +48,69 @@ void main() {
     expect(clientMessage.httpResponse.status, 400);
     expect(clientMessage.httpResponse.headers, <String, $pb.HeaderValue>{});
   });
+
+  test('HttpResponse setting JSON body', () {
+    final ctx = HttpContext("id", HttpRequest(), HttpResponse());
+
+    ctx.res.json({
+      "message": "Hello World",
+      "count": 15,
+      "sub-json": {"message": "Hello Nested World"}
+    });
+
+    expect(ctx.res.body,
+        '{"message":"Hello World","count":15,"sub-json":{"message":"Hello Nested World"}}');
+    expect(ctx.res.headers.length, 1);
+    expect(ctx.res.headers["Content-Type"], ["application/json"]);
+  });
+
+  test('HttpRequest setting JSON body', () {
+    final jsonString =
+        '{"message":"Hello World","count":15,"sub-json":{"message":"Hello Nested World"}}';
+
+    final ctx = HttpContext(
+        "id",
+        HttpRequest(body: jsonString, headers: {
+          "Content-Type": ["application/json"]
+        }),
+        HttpResponse());
+
+    expect(ctx.req.json(), {
+      "message": "Hello World",
+      "count": 15,
+      "sub-json": {"message": "Hello Nested World"}
+    });
+    expect(ctx.req.headers.length, 1);
+    expect(ctx.req.headers["Content-Type"], ["application/json"]);
+  });
+
+  test('HttpRequest setting invalid JSON body', () {
+    final jsonString = '{"message":"Hello World}';
+
+    final ctx = HttpContext(
+        "id",
+        HttpRequest(body: jsonString, headers: {
+          "Content-Type": ["application/json"]
+        }),
+        HttpResponse());
+
+    try {
+      ctx.req.json();
+      expect(false, true);
+    } on FormatException catch (err) {
+      expect(err.toString(),
+          "FormatException: Body contents must be json serializable");
+    }
+  });
+
+  test('HttpResponse with error', () {
+    final err = Exception("error occurred in user application");
+
+    final resp = HttpResponse();
+    resp.withError(err);
+
+    expect(resp.body, "Exception: error occurred in user application");
+    expect(resp.headers, {});
+    expect(resp.status, 500);
+  });
 }

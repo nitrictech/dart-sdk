@@ -24,7 +24,7 @@ class HttpContext extends TriggerContext<HttpRequest, HttpResponse> {
 
   /// Converts the context to a gRPC client response.
   $ap.ClientMessage toResponse() {
-    return $ap.ClientMessage(id: id, httpResponse: resp.toWire());
+    return $ap.ClientMessage(id: id, httpResponse: res.toWire());
   }
 }
 

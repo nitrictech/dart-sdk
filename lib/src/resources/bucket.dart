@@ -1,10 +1,16 @@
 part of 'common.dart';
 
-enum BucketPermission { reading, writing, deleting }
+enum BucketPermission { read, write, delete }
 
 class BucketResource extends SecureResource<BucketPermission> {
-  BucketResource(String name, {$p.ResourcesClient? client})
-      : super(name, client);
+  $bp.StorageListenerClient? _storageListenerClient;
+
+  BucketResource(String name,
+      {$p.ResourcesClient? client,
+      $bp.StorageListenerClient? storageListenerClient})
+      : super(name, client) {
+    _storageListenerClient = storageListenerClient;
+  }
 
   @override
   ResourceDeclareRequest asRequest() {
@@ -21,13 +27,13 @@ class BucketResource extends SecureResource<BucketPermission> {
     List<$p.Action> actions = permissions.fold(
         [],
         (actions, permission) => switch (permission) {
-              BucketPermission.reading => [
+              BucketPermission.read => [
                   ...actions,
                   $p.Action.BucketFileGet,
                   $p.Action.BucketFileList
                 ],
-              BucketPermission.writing => [...actions, $p.Action.BucketFilePut],
-              BucketPermission.deleting => [
+              BucketPermission.write => [...actions, $p.Action.BucketFilePut],
+              BucketPermission.delete => [
                   ...actions,
                   $p.Action.BucketFileDelete
                 ],
@@ -36,13 +42,36 @@ class BucketResource extends SecureResource<BucketPermission> {
     return actions;
   }
 
+  /// Create a blob event subscription triggered on the [blobEventType] filtered by files that match the [keyPrefixFilter].
+  Future<void> on(BlobEventType blobEventType, String keyPrefixFilter,
+      BlobEventHandler handler) async {
+    // Create the request to register the Storage listener with the membrane
+    final eventType = switch (blobEventType) {
+      BlobEventType.write => $bp.BlobEventType.Created,
+      BlobEventType.delete => $bp.BlobEventType.Deleted,
+    };
+
+    final registrationRequest = $bp.RegistrationRequest(
+      bucketName: name,
+      keyPrefixFilter: keyPrefixFilter,
+      blobEventType: eventType,
+    );
+
+    var worker = BlobEventWorker(registrationRequest, handler,
+        client: _storageListenerClient);
+
+    await worker.start();
+  }
+
   /// Set the function's required [permissions] to the bucket.
-  Bucket requires(List<BucketPermission> permissions) {
+  Bucket allow(List<BucketPermission> permissions) {
     if (permissions.isEmpty) {
       throw "Must supply at least one permission for bucket $name";
     }
 
-    registerPolicy(permissions);
+    unawaited(registerPolicy((permissions)).onError((error, stackTrace) {
+      print(error);
+    }));
 
     return Bucket(name);
   }
