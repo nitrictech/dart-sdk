@@ -71,7 +71,7 @@ void main() {
     var websocket = Websocket("socketName",
         client: resourceClient, websocketClient: websocketClient);
 
-    await websocket.sendMessage("connectionId", "hello world");
+    await websocket.send("connectionId", "hello world");
 
     verify(() => websocketClient.sendMessage(req)).called(1);
   });
@@ -90,7 +90,7 @@ void main() {
     var websocket = Websocket("socketName",
         client: resourceClient, websocketClient: websocketClient);
 
-    await websocket.closeConnection("connectionId");
+    await websocket.close("connectionId");
 
     verify(() => websocketClient.closeConnection(req)).called(1);
   });

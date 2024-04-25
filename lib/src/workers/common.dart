@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:grpc/grpc.dart';
 
 import 'package:nitric_sdk/nitric.dart';
-import 'package:nitric_sdk/resources.dart';
 import 'package:nitric_sdk/src/api/api.dart';
 import 'package:nitric_sdk/src/grpc_helper.dart';
 

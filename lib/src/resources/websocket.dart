@@ -16,7 +16,12 @@ class Websocket extends Resource {
       _websocketClient = websocketClient;
     }
 
-    _websocketHandlerClient = websocketHandlerClient;
+    if (websocketHandlerClient == null) {
+      _websocketHandlerClient = $wp.WebsocketHandlerClient(
+          ClientChannelSingleton.instance.clientChannel);
+    } else {
+      _websocketHandlerClient = websocketHandlerClient;
+    }
   }
 
   @override
@@ -30,14 +35,14 @@ class Websocket extends Resource {
   }
 
   /// Send message [data] to a connection, referenced by its [connectionId].
-  Future<void> sendMessage(String connectionId, String data) async {
+  Future<void> send(String connectionId, String data) async {
     var req = $wp.WebsocketSendRequest(
         socketName: name, connectionId: connectionId, data: utf8.encode(data));
     await _websocketClient.sendMessage(req);
   }
 
   /// Close a connection to the socket, referenced by its [connectionId].
-  Future<void> closeConnection(String connectionId) async {
+  Future<void> close(String connectionId) async {
     var req = $wp.WebsocketCloseConnectionRequest(
         socketName: name, connectionId: connectionId);
     await _websocketClient.closeConnection(req);

@@ -1,11 +1,9 @@
 import 'package:mocktail/mocktail.dart';
 import 'package:nitric_sdk/nitric.dart';
-import 'package:nitric_sdk/resources.dart';
 import 'package:nitric_sdk/src/nitric/proto/resources/v1/resources.pb.dart'
     as $p;
 import 'package:nitric_sdk/src/nitric/proto/storage/v1/storage.pbgrpc.dart'
     as $sp;
-import 'package:nitric_sdk/src/resources/common.dart';
 import 'package:test/test.dart';
 
 import '../common.dart';
