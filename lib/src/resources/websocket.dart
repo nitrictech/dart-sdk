@@ -16,7 +16,12 @@ class Websocket extends Resource {
       _websocketClient = websocketClient;
     }
 
-    _websocketHandlerClient = websocketHandlerClient;
+    if (websocketHandlerClient == null) {
+      _websocketHandlerClient = $wp.WebsocketHandlerClient(
+          ClientChannelSingleton.instance.clientChannel);
+    } else {
+      _websocketHandlerClient = websocketHandlerClient;
+    }
   }
 
   @override
