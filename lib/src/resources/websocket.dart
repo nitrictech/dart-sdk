@@ -30,7 +30,7 @@ class Websocket extends Resource {
   }
 
   /// Send message [data] to a connection, referenced by its [connectionId].
-  Future<void> sendMessage(String connectionId, String data) async {
+  Future<void> send(String connectionId, String data) async {
     var req = $wp.WebsocketSendRequest(
         socketName: name, connectionId: connectionId, data: utf8.encode(data));
     await _websocketClient.sendMessage(req);

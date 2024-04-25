@@ -71,7 +71,7 @@ void main() {
     var websocket = Websocket("socketName",
         client: resourceClient, websocketClient: websocketClient);
 
-    await websocket.sendMessage("connectionId", "hello world");
+    await websocket.send("connectionId", "hello world");
 
     verify(() => websocketClient.sendMessage(req)).called(1);
   });
