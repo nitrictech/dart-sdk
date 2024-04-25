@@ -37,7 +37,7 @@ class Websocket extends Resource {
   }
 
   /// Close a connection to the socket, referenced by its [connectionId].
-  Future<void> closeConnection(String connectionId) async {
+  Future<void> close(String connectionId) async {
     var req = $wp.WebsocketCloseConnectionRequest(
         socketName: name, connectionId: connectionId);
     await _websocketClient.closeConnection(req);
