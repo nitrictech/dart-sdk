@@ -31,6 +31,7 @@ const ResourceType$json = {
     {'1': 'Http', '2': 11},
     {'1': 'ApiSecurityDefinition', '2': 12},
     {'1': 'Queue', '2': 13},
+    {'1': 'SqlDatabase', '2': 14},
   ],
 };
 
@@ -39,7 +40,8 @@ final $typed_data.Uint8List resourceTypeDescriptor = $convert.base64Decode(
     'CgxSZXNvdXJjZVR5cGUSBwoDQXBpEAASCwoHU2VydmljZRABEgoKBkJ1Y2tldBACEgkKBVRvcG'
     'ljEAMSDAoIU2NoZWR1bGUQBBIQCgxTdWJzY3JpcHRpb24QBRIRCg1LZXlWYWx1ZVN0b3JlEAYS'
     'CgoGUG9saWN5EAcSCgoGU2VjcmV0EAgSEgoOQnVja2V0TGlzdGVuZXIQCRINCglXZWJzb2NrZX'
-    'QQChIICgRIdHRwEAsSGQoVQXBpU2VjdXJpdHlEZWZpbml0aW9uEAwSCQoFUXVldWUQDQ==');
+    'QQChIICgRIdHRwEAsSGQoVQXBpU2VjdXJpdHlEZWZpbml0aW9uEAwSCQoFUXVldWUQDRIPCgtT'
+    'cWxEYXRhYmFzZRAO');
 
 @$core.Deprecated('Use actionDescriptor instead')
 const Action$json = {
@@ -214,6 +216,15 @@ const ResourceDeclareRequest$json = {
       '9': 0,
       '10': 'queue'
     },
+    {
+      '1': 'sql_database',
+      '3': 18,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.resources.v1.SqlDatabaseResource',
+      '9': 0,
+      '10': 'sqlDatabase'
+    },
   ],
   '8': [
     {'1': 'config'},
@@ -234,7 +245,9 @@ final $typed_data.Uint8List resourceDeclareRequestDescriptor = $convert.base64De
     'NvdXJjZUgAUgNhcGkScgoXYXBpX3NlY3VyaXR5X2RlZmluaXRpb24YECABKAsyOC5uaXRyaWMu'
     'cHJvdG8ucmVzb3VyY2VzLnYxLkFwaVNlY3VyaXR5RGVmaW5pdGlvblJlc291cmNlSABSFWFwaV'
     'NlY3VyaXR5RGVmaW5pdGlvbhJACgVxdWV1ZRgRIAEoCzIoLm5pdHJpYy5wcm90by5yZXNvdXJj'
-    'ZXMudjEuUXVldWVSZXNvdXJjZUgAUgVxdWV1ZUIICgZjb25maWc=');
+    'ZXMudjEuUXVldWVSZXNvdXJjZUgAUgVxdWV1ZRJTCgxzcWxfZGF0YWJhc2UYEiABKAsyLi5uaX'
+    'RyaWMucHJvdG8ucmVzb3VyY2VzLnYxLlNxbERhdGFiYXNlUmVzb3VyY2VIAFILc3FsRGF0YWJh'
+    'c2VCCAoGY29uZmln');
 
 @$core.Deprecated('Use bucketResourceDescriptor instead')
 const BucketResource$json = {
@@ -280,6 +293,49 @@ const SecretResource$json = {
 /// Descriptor for `SecretResource`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List secretResourceDescriptor =
     $convert.base64Decode('Cg5TZWNyZXRSZXNvdXJjZQ==');
+
+@$core.Deprecated('Use sqlDatabaseMigrationsDescriptor instead')
+const SqlDatabaseMigrations$json = {
+  '1': 'SqlDatabaseMigrations',
+  '2': [
+    {
+      '1': 'migrations_path',
+      '3': 1,
+      '4': 1,
+      '5': 9,
+      '9': 0,
+      '10': 'migrationsPath'
+    },
+  ],
+  '8': [
+    {'1': 'migrations'},
+  ],
+};
+
+/// Descriptor for `SqlDatabaseMigrations`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List sqlDatabaseMigrationsDescriptor = $convert.base64Decode(
+    'ChVTcWxEYXRhYmFzZU1pZ3JhdGlvbnMSKQoPbWlncmF0aW9uc19wYXRoGAEgASgJSABSDm1pZ3'
+    'JhdGlvbnNQYXRoQgwKCm1pZ3JhdGlvbnM=');
+
+@$core.Deprecated('Use sqlDatabaseResourceDescriptor instead')
+const SqlDatabaseResource$json = {
+  '1': 'SqlDatabaseResource',
+  '2': [
+    {
+      '1': 'migrations',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.resources.v1.SqlDatabaseMigrations',
+      '10': 'migrations'
+    },
+  ],
+};
+
+/// Descriptor for `SqlDatabaseResource`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List sqlDatabaseResourceDescriptor = $convert.base64Decode(
+    'ChNTcWxEYXRhYmFzZVJlc291cmNlElAKCm1pZ3JhdGlvbnMYASABKAsyMC5uaXRyaWMucHJvdG'
+    '8ucmVzb3VyY2VzLnYxLlNxbERhdGFiYXNlTWlncmF0aW9uc1IKbWlncmF0aW9ucw==');
 
 @$core.Deprecated('Use apiOpenIdConnectionDefinitionDescriptor instead')
 const ApiOpenIdConnectionDefinition$json = {

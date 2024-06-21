@@ -185,6 +185,7 @@ enum ResourceDeclareRequest_Config {
   api,
   apiSecurityDefinition,
   queue,
+  sqlDatabase,
   notSet
 }
 
@@ -199,6 +200,7 @@ class ResourceDeclareRequest extends $pb.GeneratedMessage {
     ApiResource? api,
     ApiSecurityDefinitionResource? apiSecurityDefinition,
     QueueResource? queue,
+    SqlDatabaseResource? sqlDatabase,
   }) {
     final $result = create();
     if (id != null) {
@@ -228,6 +230,9 @@ class ResourceDeclareRequest extends $pb.GeneratedMessage {
     if (queue != null) {
       $result.queue = queue;
     }
+    if (sqlDatabase != null) {
+      $result.sqlDatabase = sqlDatabase;
+    }
     return $result;
   }
   ResourceDeclareRequest._() : super();
@@ -248,6 +253,7 @@ class ResourceDeclareRequest extends $pb.GeneratedMessage {
     15: ResourceDeclareRequest_Config.api,
     16: ResourceDeclareRequest_Config.apiSecurityDefinition,
     17: ResourceDeclareRequest_Config.queue,
+    18: ResourceDeclareRequest_Config.sqlDatabase,
     0: ResourceDeclareRequest_Config.notSet
   };
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
@@ -255,7 +261,7 @@ class ResourceDeclareRequest extends $pb.GeneratedMessage {
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'nitric.proto.resources.v1'),
       createEmptyInstance: create)
-    ..oo(0, [10, 11, 12, 13, 14, 15, 16, 17])
+    ..oo(0, [10, 11, 12, 13, 14, 15, 16, 17, 18])
     ..aOM<ResourceIdentifier>(1, _omitFieldNames ? '' : 'id',
         subBuilder: ResourceIdentifier.create)
     ..aOM<PolicyResource>(10, _omitFieldNames ? '' : 'policy',
@@ -275,6 +281,8 @@ class ResourceDeclareRequest extends $pb.GeneratedMessage {
         subBuilder: ApiSecurityDefinitionResource.create)
     ..aOM<QueueResource>(17, _omitFieldNames ? '' : 'queue',
         subBuilder: QueueResource.create)
+    ..aOM<SqlDatabaseResource>(18, _omitFieldNames ? '' : 'sqlDatabase',
+        subBuilder: SqlDatabaseResource.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -431,6 +439,20 @@ class ResourceDeclareRequest extends $pb.GeneratedMessage {
   void clearQueue() => clearField(17);
   @$pb.TagNumber(17)
   QueueResource ensureQueue() => $_ensure(8);
+
+  @$pb.TagNumber(18)
+  SqlDatabaseResource get sqlDatabase => $_getN(9);
+  @$pb.TagNumber(18)
+  set sqlDatabase(SqlDatabaseResource v) {
+    setField(18, v);
+  }
+
+  @$pb.TagNumber(18)
+  $core.bool hasSqlDatabase() => $_has(9);
+  @$pb.TagNumber(18)
+  void clearSqlDatabase() => clearField(18);
+  @$pb.TagNumber(18)
+  SqlDatabaseResource ensureSqlDatabase() => $_ensure(9);
 }
 
 class BucketResource extends $pb.GeneratedMessage {
@@ -638,6 +660,150 @@ class SecretResource extends $pb.GeneratedMessage {
   static SecretResource getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<SecretResource>(create);
   static SecretResource? _defaultInstance;
+}
+
+enum SqlDatabaseMigrations_Migrations { migrationsPath, notSet }
+
+class SqlDatabaseMigrations extends $pb.GeneratedMessage {
+  factory SqlDatabaseMigrations({
+    $core.String? migrationsPath,
+  }) {
+    final $result = create();
+    if (migrationsPath != null) {
+      $result.migrationsPath = migrationsPath;
+    }
+    return $result;
+  }
+  SqlDatabaseMigrations._() : super();
+  factory SqlDatabaseMigrations.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory SqlDatabaseMigrations.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
+  static const $core.Map<$core.int, SqlDatabaseMigrations_Migrations>
+      _SqlDatabaseMigrations_MigrationsByTag = {
+    1: SqlDatabaseMigrations_Migrations.migrationsPath,
+    0: SqlDatabaseMigrations_Migrations.notSet
+  };
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'SqlDatabaseMigrations',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'nitric.proto.resources.v1'),
+      createEmptyInstance: create)
+    ..oo(0, [1])
+    ..aOS(1, _omitFieldNames ? '' : 'migrationsPath')
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  SqlDatabaseMigrations clone() =>
+      SqlDatabaseMigrations()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  SqlDatabaseMigrations copyWith(
+          void Function(SqlDatabaseMigrations) updates) =>
+      super.copyWith((message) => updates(message as SqlDatabaseMigrations))
+          as SqlDatabaseMigrations;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static SqlDatabaseMigrations create() => SqlDatabaseMigrations._();
+  SqlDatabaseMigrations createEmptyInstance() => create();
+  static $pb.PbList<SqlDatabaseMigrations> createRepeated() =>
+      $pb.PbList<SqlDatabaseMigrations>();
+  @$core.pragma('dart2js:noInline')
+  static SqlDatabaseMigrations getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<SqlDatabaseMigrations>(create);
+  static SqlDatabaseMigrations? _defaultInstance;
+
+  SqlDatabaseMigrations_Migrations whichMigrations() =>
+      _SqlDatabaseMigrations_MigrationsByTag[$_whichOneof(0)]!;
+  void clearMigrations() => clearField($_whichOneof(0));
+
+  /// The path to this databases SQL migrations
+  /// Valid values are file://relative/path/to/migrations as a directory or dockerfile://path/to/migrations.dockerfile to hint at a docker image build
+  /// Paths should be relative to the root of the application (nitric.yaml file location)
+  @$pb.TagNumber(1)
+  $core.String get migrationsPath => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set migrationsPath($core.String v) {
+    $_setString(0, v);
+  }
+
+  @$pb.TagNumber(1)
+  $core.bool hasMigrationsPath() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearMigrationsPath() => clearField(1);
+}
+
+class SqlDatabaseResource extends $pb.GeneratedMessage {
+  factory SqlDatabaseResource({
+    SqlDatabaseMigrations? migrations,
+  }) {
+    final $result = create();
+    if (migrations != null) {
+      $result.migrations = migrations;
+    }
+    return $result;
+  }
+  SqlDatabaseResource._() : super();
+  factory SqlDatabaseResource.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory SqlDatabaseResource.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'SqlDatabaseResource',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'nitric.proto.resources.v1'),
+      createEmptyInstance: create)
+    ..aOM<SqlDatabaseMigrations>(1, _omitFieldNames ? '' : 'migrations',
+        subBuilder: SqlDatabaseMigrations.create)
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  SqlDatabaseResource clone() => SqlDatabaseResource()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  SqlDatabaseResource copyWith(void Function(SqlDatabaseResource) updates) =>
+      super.copyWith((message) => updates(message as SqlDatabaseResource))
+          as SqlDatabaseResource;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static SqlDatabaseResource create() => SqlDatabaseResource._();
+  SqlDatabaseResource createEmptyInstance() => create();
+  static $pb.PbList<SqlDatabaseResource> createRepeated() =>
+      $pb.PbList<SqlDatabaseResource>();
+  @$core.pragma('dart2js:noInline')
+  static SqlDatabaseResource getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<SqlDatabaseResource>(create);
+  static SqlDatabaseResource? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  SqlDatabaseMigrations get migrations => $_getN(0);
+  @$pb.TagNumber(1)
+  set migrations(SqlDatabaseMigrations v) {
+    setField(1, v);
+  }
+
+  @$pb.TagNumber(1)
+  $core.bool hasMigrations() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearMigrations() => clearField(1);
+  @$pb.TagNumber(1)
+  SqlDatabaseMigrations ensureMigrations() => $_ensure(0);
 }
 
 class ApiOpenIdConnectionDefinition extends $pb.GeneratedMessage {
