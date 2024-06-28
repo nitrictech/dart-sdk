@@ -10,6 +10,13 @@ class BucketResource extends SecureResource<BucketPermission> {
       $bp.StorageListenerClient? storageListenerClient})
       : super(name, client) {
     _storageListenerClient = storageListenerClient;
+
+    if (storageListenerClient == null) {
+      _storageListenerClient = $bp.StorageListenerClient(
+          ClientChannelSingleton.instance.clientChannel);
+    } else {
+      _storageListenerClient = storageListenerClient;
+    }
   }
 
   @override

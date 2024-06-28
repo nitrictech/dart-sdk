@@ -7,6 +7,13 @@ class Schedule extends Resource {
       {$p.ResourcesClient? client, $sp.SchedulesClient? schedulesClient})
       : super(name, client) {
     _schedulesClient = schedulesClient;
+
+    if (schedulesClient == null) {
+      _schedulesClient =
+          $sp.SchedulesClient(ClientChannelSingleton.instance.clientChannel);
+    } else {
+      _schedulesClient = schedulesClient;
+    }
   }
 
   @override
