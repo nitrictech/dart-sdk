@@ -9,6 +9,13 @@ class Topic extends SecureResource<TopicPermission> {
       {$p.ResourcesClient? client, $tp.SubscriberClient? subscriberClient})
       : super(name, client) {
     _subscriberClient = subscriberClient;
+
+    if (subscriberClient == null) {
+      _subscriberClient =
+          $tp.SubscriberClient(ClientChannelSingleton.instance.clientChannel);
+    } else {
+      _subscriberClient = subscriberClient;
+    }
   }
 
   /// Register a [handler] to subscribe to messages sent to the topic.
