@@ -8,15 +8,19 @@ import 'package:nitric_sdk/src/nitric/proto/secrets/v1/secrets.pbgrpc.dart'
 class Secret {
   /// The name of the secret
   final String name;
-  late final $p.SecretManagerClient _secretClient;
+  late final $p.SecretManagerClient? _secretClient;
 
   Secret(this.name, {$p.SecretManagerClient? client}) {
-    if (client == null) {
-      _secretClient =
-          $p.SecretManagerClient(ClientChannelSingleton.instance.clientChannel);
-    } else {
-      _secretClient = client;
+    _secretClient = client;
+  }
+
+  $p.SecretManagerClient _getClient() {
+    if (_secretClient != null) {
+      return _secretClient;
     }
+
+    return $p.SecretManagerClient(
+        ClientChannelSingleton.instance.clientChannel);
   }
 
   /// Get a reference to a specific [version] of this secret.
@@ -32,7 +36,9 @@ class Secret {
   /// Put a new [value] to the secret, creating a new secret version and returning it.
   Future<SecretVersion> put(String value) async {
     var req = $p.SecretPutRequest(secret: _toWire(), value: utf8.encode(value));
-    var resp = await _secretClient.put(req);
+    var resp = await _getClient().put(req);
+
+    await ClientChannelSingleton.instance.release();
 
     return SecretVersion._fromWire(this, resp.secretVersion);
   }
@@ -60,7 +66,9 @@ class SecretVersion {
   /// Access the value of this secret version.
   Future<SecretValue> access() async {
     var req = $p.SecretAccessRequest(secretVersion: _toWire());
-    var resp = await _secret._secretClient.access(req);
+    var resp = await _secret._getClient().access(req);
+
+    await ClientChannelSingleton.instance.release();
 
     return SecretValue(version, utf8.decode(resp.value));
   }

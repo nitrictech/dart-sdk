@@ -26,13 +26,8 @@ part 'websocket.dart';
 abstract class Worker<T extends Client> {
   late T _client;
 
-  Worker(T? client) {
-    if (client == null) {
-      _client =
-          $ap.ApiClient(ClientChannelSingleton.instance.clientChannel) as T;
-    } else {
-      _client = client;
-    }
+  Worker(T client) {
+    _client = client;
   }
 
   Future<void> start();

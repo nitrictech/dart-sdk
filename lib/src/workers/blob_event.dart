@@ -6,7 +6,9 @@ class BlobEventWorker extends Worker<$bp.StorageListenerClient> {
 
   BlobEventWorker(this.registrationRequest, this.middleware,
       {$bp.StorageListenerClient? client})
-      : super(client);
+      : super(client ??
+            $bp.StorageListenerClient(
+                ClientChannelSingleton.instance.clientChannel));
 
   @override
   Future<void> start() async {
@@ -40,6 +42,6 @@ class BlobEventWorker extends Worker<$bp.StorageListenerClient> {
       }
     }
 
-    await ClientChannelSingleton.instance.shutdown();
+    await ClientChannelSingleton.instance.release();
   }
 }

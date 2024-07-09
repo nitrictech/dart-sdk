@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:nitric_sdk/src/api/api.dart';
 import 'package:nitric_sdk/src/grpc_helper.dart';
 import 'package:nitric_sdk/src/nitric/proto/kvstore/v1/kvstore.pbgrpc.dart'
@@ -5,17 +7,20 @@ import 'package:nitric_sdk/src/nitric/proto/kvstore/v1/kvstore.pbgrpc.dart'
 
 /// A Key Value Store.
 class KeyValueStore {
-  late $p.KvStoreClient _keyValueClient;
+  late final $p.KvStoreClient? _keyValueClient;
 
   final String name;
 
   KeyValueStore(this.name, {$p.KvStoreClient? client}) {
-    if (client == null) {
-      _keyValueClient =
-          $p.KvStoreClient(ClientChannelSingleton.instance.clientChannel);
-    } else {
-      _keyValueClient = client;
+    _keyValueClient = client;
+  }
+
+  $p.KvStoreClient _getClient() {
+    if (_keyValueClient != null) {
+      return _keyValueClient;
     }
+
+    return $p.KvStoreClient(ClientChannelSingleton.instance.clientChannel);
   }
 
   /// Get a reference to a [key] in the store.
@@ -23,7 +28,9 @@ class KeyValueStore {
     var req =
         $p.KvStoreGetValueRequest(ref: $p.ValueRef(key: key, store: name));
 
-    var resp = await _keyValueClient.getValue(req);
+    var resp = await _getClient().getValue(req);
+
+    await ClientChannelSingleton.instance.release();
 
     return Proto.mapFromStruct(resp.value.content);
   }
@@ -35,7 +42,9 @@ class KeyValueStore {
     var req = $p.KvStoreSetValueRequest(
         ref: $p.ValueRef(key: key, store: name), content: content);
 
-    await _keyValueClient.setValue(req);
+    await _getClient().setValue(req);
+
+    await ClientChannelSingleton.instance.release();
   }
 
   /// Delete a [key] from the store.
@@ -43,7 +52,9 @@ class KeyValueStore {
     var req =
         $p.KvStoreDeleteKeyRequest(ref: $p.ValueRef(key: key, store: name));
 
-    await _keyValueClient.deleteKey(req);
+    await _getClient().deleteKey(req);
+
+    await ClientChannelSingleton.instance.release();
   }
 
   /// Get a stream of key values that match the [prefix].
@@ -51,7 +62,9 @@ class KeyValueStore {
     var req =
         $p.KvStoreScanKeysRequest(store: $p.Store(name: name), prefix: prefix);
 
-    var resp = _keyValueClient.scanKeys(req);
+    var resp = _getClient().scanKeys(req);
+
+    unawaited(ClientChannelSingleton.instance.release());
 
     return resp.map((event) => event.key);
   }

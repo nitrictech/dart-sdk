@@ -1,3 +1,4 @@
+import 'package:grpc/grpc.dart';
 import 'package:nitric_sdk/src/api/api.dart';
 import 'package:nitric_sdk/src/grpc_helper.dart';
 
@@ -9,15 +10,18 @@ import 'package:fixnum/fixnum.dart';
 class Topic {
   /// The name of the topic
   final String name;
-  late final $p.TopicsClient _topicsClient;
+  late final $p.TopicsClient? _topicsClient;
 
   Topic(this.name, {$p.TopicsClient? client}) {
-    if (client == null) {
-      _topicsClient =
-          $p.TopicsClient(ClientChannelSingleton.instance.clientChannel);
-    } else {
-      _topicsClient = client;
+    _topicsClient = client;
+  }
+
+  $p.TopicsClient _getClient() {
+    if (_topicsClient != null) {
+      return _topicsClient;
     }
+
+    return $p.TopicsClient(ClientChannelSingleton.instance.clientChannel);
   }
 
   /// Publish a [message] to the topic. Optional [delay] (in seconds) can be set to delay the message publish time.
@@ -31,6 +35,8 @@ class Topic {
       delay: $d.Duration(seconds: Int64(delay)),
     );
 
-    await _topicsClient.publish(req);
+    await _getClient().publish(req);
+
+    await ClientChannelSingleton.instance.release();
   }
 }

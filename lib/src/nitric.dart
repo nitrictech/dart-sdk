@@ -51,7 +51,7 @@ class Nitric {
 
   /// Create a [name]d sql database.
   static SqlDatabase sql(String name, {String? migrations}) =>
-      _makeResource(name, (name) => SqlDatabase(name, migrations))
+      _makeResource(name, (name) => SqlDatabase(name, migrations: migrations))
           as SqlDatabase;
 
   /// Create a [name]d topic for registering push-based event handlers.

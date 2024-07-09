@@ -9,22 +9,30 @@ import 'package:nitric_sdk/src/nitric/proto/sql/v1/sql.pbgrpc.dart' as $p;
 class SqlDatabase extends Resource {
   /// The name of the topic
   late final String? migrations;
-  late final $p.SqlClient _sqlClient;
+  late final $p.SqlClient? _sqlClient;
 
-  SqlDatabase(String name, this.migrations,
-      {$p.SqlClient? client, $rp.ResourcesClient? resourcesClient})
+  SqlDatabase(String name,
+      {this.migrations,
+      $p.SqlClient? client,
+      $rp.ResourcesClient? resourcesClient})
       : super(name, resourcesClient) {
-    if (client == null) {
-      _sqlClient = $p.SqlClient(ClientChannelSingleton.instance.clientChannel);
-    } else {
-      _sqlClient = client;
+    _sqlClient = client;
+  }
+
+  $p.SqlClient _getClient() {
+    if (_sqlClient != null) {
+      return _sqlClient;
     }
+
+    return $p.SqlClient(ClientChannelSingleton.instance.clientChannel);
   }
 
   /// Returns a connection endpoint to connect to the SQL database
   Future<String> connectionString() async {
-    final resp = await _sqlClient
+    final resp = await _getClient()
         .connectionString($p.SqlConnectionStringRequest(databaseName: name));
+
+    await ClientChannelSingleton.instance.release();
 
     return resp.connectionString;
   }

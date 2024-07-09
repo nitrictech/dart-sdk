@@ -6,7 +6,9 @@ class SubscriptionWorker extends Worker<$tp.SubscriberClient> {
 
   SubscriptionWorker(this.registrationRequest, this.middleware,
       {$tp.SubscriberClient? client})
-      : super(client);
+      : super(client ??
+            $tp.SubscriberClient(
+                ClientChannelSingleton.instance.clientChannel));
 
   @override
   Future<void> start() async {
@@ -41,6 +43,6 @@ class SubscriptionWorker extends Worker<$tp.SubscriberClient> {
       }
     }
 
-    await ClientChannelSingleton.instance.shutdown();
+    await ClientChannelSingleton.instance.release();
   }
 }
