@@ -21,10 +21,12 @@ class SqlDatabase extends Resource {
     }
   }
 
-  /// Publish a [message] to the topic. Optional [delay] (in seconds) can be set to delay the message publish time.
-  Future<void> connectionString() async {
-    await _sqlClient
+  /// Returns a connection endpoint to connect to the SQL database
+  Future<String> connectionString() async {
+    final resp = await _sqlClient
         .connectionString($p.SqlConnectionStringRequest(databaseName: name));
+
+    return resp.connectionString;
   }
 
   @override
