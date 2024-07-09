@@ -75,4 +75,11 @@ class ClientChannelSingleton {
       }
     });
   }
+
+  Future<void> shutdown() async {
+    await _lock.synchronized(() async {
+      await _clientChannel?.shutdown();
+      _clientChannel = null;
+    });
+  }
 }

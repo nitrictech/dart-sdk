@@ -69,6 +69,6 @@ class ApiWorker extends Worker<$ap.ApiClient> {
       }
     }
 
-    await ClientChannelSingleton.instance.release();
+    await ClientChannelSingleton.instance.shutdown();
   }
 }
