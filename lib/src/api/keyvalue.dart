@@ -15,12 +15,18 @@ class KeyValueStore {
     _keyValueClient = client;
   }
 
-  $p.KvStoreClient _getClient() {
-    if (_keyValueClient != null) {
-      return _keyValueClient;
+  Future<Resp> _useClient<Resp>(
+      UseClientCallback<$p.KvStoreClient, Resp> callback) async {
+    final client = _keyValueClient ??
+        $p.KvStoreClient(ClientChannelSingleton.instance.clientChannel);
+
+    var resp = callback(client);
+
+    if (_keyValueClient == null) {
+      await ClientChannelSingleton.instance.release();
     }
 
-    return $p.KvStoreClient(ClientChannelSingleton.instance.clientChannel);
+    return resp;
   }
 
   /// Get a reference to a [key] in the store.
@@ -28,9 +34,7 @@ class KeyValueStore {
     var req =
         $p.KvStoreGetValueRequest(ref: $p.ValueRef(key: key, store: name));
 
-    var resp = await _getClient().getValue(req);
-
-    await ClientChannelSingleton.instance.release();
+    var resp = await _useClient((client) async => await client.getValue(req));
 
     return Proto.mapFromStruct(resp.value.content);
   }
@@ -42,9 +46,7 @@ class KeyValueStore {
     var req = $p.KvStoreSetValueRequest(
         ref: $p.ValueRef(key: key, store: name), content: content);
 
-    await _getClient().setValue(req);
-
-    await ClientChannelSingleton.instance.release();
+    await _useClient((client) async => await client.setValue(req));
   }
 
   /// Delete a [key] from the store.
@@ -52,19 +54,15 @@ class KeyValueStore {
     var req =
         $p.KvStoreDeleteKeyRequest(ref: $p.ValueRef(key: key, store: name));
 
-    await _getClient().deleteKey(req);
-
-    await ClientChannelSingleton.instance.release();
+    await _useClient((client) async => await client.deleteKey(req));
   }
 
   /// Get a stream of key values that match the [prefix].
-  Stream<String> keys({String prefix = ""}) {
+  Future<Stream<String>> keys({String prefix = ""}) async {
     var req =
         $p.KvStoreScanKeysRequest(store: $p.Store(name: name), prefix: prefix);
 
-    var resp = _getClient().scanKeys(req);
-
-    unawaited(ClientChannelSingleton.instance.release());
+    var resp = await _useClient((client) async => client.scanKeys(req));
 
     return resp.map((event) => event.key);
   }

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:nitric_sdk/src/api/api.dart';
 import 'package:nitric_sdk/src/context/common.dart';
 import 'package:nitric_sdk/src/grpc_helper.dart';
 import 'package:nitric_sdk/src/nitric/proto/storage/v1/storage.pbgrpc.dart'
@@ -27,24 +28,27 @@ class Bucket {
     return File(this, key);
   }
 
-  $p.StorageClient _getClient() {
-    if (_storageClient != null) {
-      return _storageClient;
+  Future<Resp> _useClient<Resp>(
+      UseClientCallback<$p.StorageClient, Resp> callback) async {
+    final client = _storageClient ??
+        $p.StorageClient(ClientChannelSingleton.instance.clientChannel);
+
+    var resp = await callback(client);
+
+    if (_storageClient == null) {
+      await ClientChannelSingleton.instance.release();
     }
 
-    return $p.StorageClient(ClientChannelSingleton.instance.clientChannel);
+    return resp;
   }
 
   /// Get a list of references to the files in the bucket. Optionally supply a [prefix] to filter by.
   Future<List<File>> files({String prefix = ""}) async {
-    final storageClient = _getClient();
-
     final request =
         $p.StorageListBlobsRequest(bucketName: name, prefix: prefix);
 
-    var resp = await storageClient.listBlobs(request);
-
-    await ClientChannelSingleton.instance.release();
+    var resp =
+        await _useClient((client) async => await client.listBlobs(request));
 
     return resp.blobs.map((blob) => File(this, blob.key)).toList();
   }
@@ -87,9 +91,7 @@ class File {
       key: key,
     );
 
-    await _bucket._getClient().delete(req);
-
-    await ClientChannelSingleton.instance.release();
+    await _bucket._useClient((client) async => await client.delete(req));
   }
 
   /// Read the file from the bucket.
@@ -99,9 +101,8 @@ class File {
       key: key,
     );
 
-    var resp = await _bucket._getClient().read(req);
-
-    await ClientChannelSingleton.instance.release();
+    var resp =
+        await _bucket._useClient((client) async => await client.read(req));
 
     return utf8.decode(resp.body);
   }
@@ -116,9 +117,7 @@ class File {
       body: bytes,
     );
 
-    await _bucket._getClient().write(req);
-
-    await ClientChannelSingleton.instance.release();
+    await _bucket._useClient((client) async => await client.write(req));
   }
 
   /// Check whether the file exists in the bucket.
@@ -128,9 +127,8 @@ class File {
       key: key,
     );
 
-    var resp = await _bucket._getClient().exists(req);
-
-    await ClientChannelSingleton.instance.release();
+    var resp =
+        await _bucket._useClient((client) async => await client.exists(req));
 
     return resp.exists;
   }
@@ -162,9 +160,8 @@ class File {
       expiry: exp,
     );
 
-    var resp = await _bucket._getClient().preSignUrl(req);
-
-    await ClientChannelSingleton.instance.release();
+    var resp = await _bucket
+        ._useClient((client) async => await client.preSignUrl(req));
 
     return resp.url;
   }

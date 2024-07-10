@@ -16,12 +16,18 @@ class Topic {
     _topicsClient = client;
   }
 
-  $p.TopicsClient _getClient() {
-    if (_topicsClient != null) {
-      return _topicsClient;
+  Future<Resp> _useClient<Resp>(
+      UseClientCallback<$p.TopicsClient, Resp> callback) async {
+    final client = _topicsClient ??
+        $p.TopicsClient(ClientChannelSingleton.instance.clientChannel);
+
+    var resp = callback(client);
+
+    if (_topicsClient == null) {
+      await ClientChannelSingleton.instance.release();
     }
 
-    return $p.TopicsClient(ClientChannelSingleton.instance.clientChannel);
+    return resp;
   }
 
   /// Publish a [message] to the topic. Optional [delay] (in seconds) can be set to delay the message publish time.
@@ -35,8 +41,6 @@ class Topic {
       delay: $d.Duration(seconds: Int64(delay)),
     );
 
-    await _getClient().publish(req);
-
-    await ClientChannelSingleton.instance.release();
+    await _useClient((client) async => await client.publish(req));
   }
 }

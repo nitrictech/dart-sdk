@@ -96,7 +96,7 @@ void main() {
 
     var kvStore = KeyValueStore("keyvalueName", client: keyValueClient);
 
-    var keys = kvStore.keys();
+    var keys = await kvStore.keys();
 
     verify(() => keyValueClient.scanKeys(req)).called(1);
 
@@ -117,7 +117,7 @@ void main() {
 
     var kvStore = KeyValueStore("keyvalueName", client: keyValueClient);
 
-    var keys = kvStore.keys(prefix: "f");
+    var keys = await kvStore.keys(prefix: "f");
 
     verify(() => keyValueClient.scanKeys(req)).called(1);
 
