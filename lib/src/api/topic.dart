@@ -1,4 +1,3 @@
-import 'package:grpc/grpc.dart';
 import 'package:nitric_sdk/src/api/api.dart';
 import 'package:nitric_sdk/src/grpc_helper.dart';
 
