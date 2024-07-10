@@ -4,7 +4,7 @@ clean:
 	rm -rf lib/src/nitric
 	rm -rf lib/src/google
 
-NITRIC_VERSION := 1.1.1
+NITRIC_VERSION := 1.6.0
 GRPC_VERSION := 3.2.4
 
 download-nitric:
@@ -13,14 +13,14 @@ download-nitric:
 	rm nitric.tgz
 
 download-google_well_known:
-	curl -L https://github.com/grpc/grpc-dart/archive/refs/tags/v${GRPC_VERSION}.zip -o google.tgz
+	curl -L https://github.com/grpc/grpc-dart/archive/refs/tags/v${GRPC_VERSION}.tar.gz -o google.tgz
 	tar xvzf google.tgz
 	rm google.tgz
 	mkdir -p ./lib/src/google/protobuf
-	mv grpc-dart-${GRPC_VERSION}/example/googleapis/lib/src/generated/google/protobuf ./lib/src/google
+	mv -f grpc-dart-${GRPC_VERSION}/example/googleapis/lib/src/generated/google/protobuf ./lib/src/google
 	rm -rf grpc-dart-${GRPC_VERSION}
 
-build: download-nitric download-google_well_known
+build: clean download-nitric download-google_well_known
 	mkdir -p lib/src/nitric/proto
 	mkdir -p lib/src/nitric/google
 	protoc -I ./ --dart_out=grpc:lib/src/ ./nitric/proto/*/*/*.proto

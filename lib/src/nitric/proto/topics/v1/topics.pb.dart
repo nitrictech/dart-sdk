@@ -13,8 +13,8 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import '../../../../google/protobuf/duration.pb.dart' as $12;
-import '../../../../google/protobuf/struct.pb.dart' as $13;
+import '../../../../google/protobuf/duration.pb.dart' as $13;
+import '../../../../google/protobuf/struct.pb.dart' as $14;
 
 enum ClientMessage_Content { registrationRequest, messageResponse, notSet }
 
@@ -508,7 +508,7 @@ enum TopicMessage_Content { structPayload, notSet }
 
 class TopicMessage extends $pb.GeneratedMessage {
   factory TopicMessage({
-    $13.Struct? structPayload,
+    $14.Struct? structPayload,
   }) {
     final $result = create();
     if (structPayload != null) {
@@ -535,8 +535,8 @@ class TopicMessage extends $pb.GeneratedMessage {
           _omitMessageNames ? '' : 'nitric.proto.topics.v1'),
       createEmptyInstance: create)
     ..oo(0, [1])
-    ..aOM<$13.Struct>(1, _omitFieldNames ? '' : 'structPayload',
-        subBuilder: $13.Struct.create)
+    ..aOM<$14.Struct>(1, _omitFieldNames ? '' : 'structPayload',
+        subBuilder: $14.Struct.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -567,9 +567,9 @@ class TopicMessage extends $pb.GeneratedMessage {
   void clearContent() => clearField($_whichOneof(0));
 
   @$pb.TagNumber(1)
-  $13.Struct get structPayload => $_getN(0);
+  $14.Struct get structPayload => $_getN(0);
   @$pb.TagNumber(1)
-  set structPayload($13.Struct v) {
+  set structPayload($14.Struct v) {
     setField(1, v);
   }
 
@@ -578,7 +578,7 @@ class TopicMessage extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   void clearStructPayload() => clearField(1);
   @$pb.TagNumber(1)
-  $13.Struct ensureStructPayload() => $_ensure(0);
+  $14.Struct ensureStructPayload() => $_ensure(0);
 }
 
 /// Request to publish a message to a topic
@@ -586,7 +586,7 @@ class TopicPublishRequest extends $pb.GeneratedMessage {
   factory TopicPublishRequest({
     $core.String? topicName,
     TopicMessage? message,
-    $12.Duration? delay,
+    $13.Duration? delay,
   }) {
     final $result = create();
     if (topicName != null) {
@@ -616,8 +616,8 @@ class TopicPublishRequest extends $pb.GeneratedMessage {
     ..aOS(1, _omitFieldNames ? '' : 'topicName')
     ..aOM<TopicMessage>(2, _omitFieldNames ? '' : 'message',
         subBuilder: TopicMessage.create)
-    ..aOM<$12.Duration>(3, _omitFieldNames ? '' : 'delay',
-        subBuilder: $12.Duration.create)
+    ..aOM<$13.Duration>(3, _omitFieldNames ? '' : 'delay',
+        subBuilder: $13.Duration.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -673,9 +673,9 @@ class TopicPublishRequest extends $pb.GeneratedMessage {
 
   /// An optional delay specified in seconds (minimum 10 seconds)
   @$pb.TagNumber(3)
-  $12.Duration get delay => $_getN(2);
+  $13.Duration get delay => $_getN(2);
   @$pb.TagNumber(3)
-  set delay($12.Duration v) {
+  set delay($13.Duration v) {
     setField(3, v);
   }
 
@@ -684,7 +684,7 @@ class TopicPublishRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   void clearDelay() => clearField(3);
   @$pb.TagNumber(3)
-  $12.Duration ensureDelay() => $_ensure(2);
+  $13.Duration ensureDelay() => $_ensure(2);
 }
 
 /// Result of publishing an topic

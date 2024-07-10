@@ -16,7 +16,8 @@ class ApiWorker extends Worker<$ap.ApiClient> {
 
   ApiWorker(this.route, this.handler, this.methods,
       {this.security = const [], $ap.ApiClient? client})
-      : super(client);
+      : super(client ??
+            $ap.ApiClient(ClientChannelSingleton.instance.clientChannel));
 
   /// Start the route handler.
   @override

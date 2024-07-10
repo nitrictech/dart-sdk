@@ -6,7 +6,8 @@ class IntervalWorker extends Worker<$sp.SchedulesClient> {
 
   IntervalWorker(this.registrationRequest, this.middleware,
       {$sp.SchedulesClient? client})
-      : super(client);
+      : super(client ??
+            $sp.SchedulesClient(ClientChannelSingleton.instance.clientChannel));
 
   /// Starts the interval handling loop to run the [middleware] at a certain frequency. Uses the [registrationRequest] to register the interval with the Nitric server.
   @override

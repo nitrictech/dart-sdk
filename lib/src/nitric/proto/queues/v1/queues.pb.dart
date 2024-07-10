@@ -13,7 +13,7 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import '../../../../google/protobuf/struct.pb.dart' as $13;
+import '../../../../google/protobuf/struct.pb.dart' as $14;
 
 class QueueEnqueueRequest extends $pb.GeneratedMessage {
   factory QueueEnqueueRequest({
@@ -417,7 +417,7 @@ enum QueueMessage_Content { structPayload, notSet }
 /// An message to be sent to a queue.
 class QueueMessage extends $pb.GeneratedMessage {
   factory QueueMessage({
-    $13.Struct? structPayload,
+    $14.Struct? structPayload,
   }) {
     final $result = create();
     if (structPayload != null) {
@@ -444,8 +444,8 @@ class QueueMessage extends $pb.GeneratedMessage {
           _omitMessageNames ? '' : 'nitric.proto.queues.v1'),
       createEmptyInstance: create)
     ..oo(0, [1])
-    ..aOM<$13.Struct>(1, _omitFieldNames ? '' : 'structPayload',
-        subBuilder: $13.Struct.create)
+    ..aOM<$14.Struct>(1, _omitFieldNames ? '' : 'structPayload',
+        subBuilder: $14.Struct.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -476,9 +476,9 @@ class QueueMessage extends $pb.GeneratedMessage {
   void clearContent() => clearField($_whichOneof(0));
 
   @$pb.TagNumber(1)
-  $13.Struct get structPayload => $_getN(0);
+  $14.Struct get structPayload => $_getN(0);
   @$pb.TagNumber(1)
-  set structPayload($13.Struct v) {
+  set structPayload($14.Struct v) {
     setField(1, v);
   }
 
@@ -487,7 +487,7 @@ class QueueMessage extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   void clearStructPayload() => clearField(1);
   @$pb.TagNumber(1)
-  $13.Struct ensureStructPayload() => $_ensure(0);
+  $14.Struct ensureStructPayload() => $_ensure(0);
 }
 
 class DequeuedMessage extends $pb.GeneratedMessage {

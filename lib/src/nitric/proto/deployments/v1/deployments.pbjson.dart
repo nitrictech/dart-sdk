@@ -610,6 +610,22 @@ final $typed_data.Uint8List scheduleDescriptor = $convert.base64Decode(
     'RyaWMucHJvdG8uZGVwbG95bWVudHMudjEuU2NoZWR1bGVDcm9uSABSBGNyb25CCQoHY2FkZW5j'
     'ZQ==');
 
+@$core.Deprecated('Use sqlDatabaseDescriptor instead')
+const SqlDatabase$json = {
+  '1': 'SqlDatabase',
+  '2': [
+    {'1': 'image_uri', '3': 1, '4': 1, '5': 9, '9': 0, '10': 'imageUri'},
+  ],
+  '8': [
+    {'1': 'migrations'},
+  ],
+};
+
+/// Descriptor for `SqlDatabase`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List sqlDatabaseDescriptor = $convert.base64Decode(
+    'CgtTcWxEYXRhYmFzZRIdCglpbWFnZV91cmkYASABKAlIAFIIaW1hZ2VVcmlCDAoKbWlncmF0aW'
+    '9ucw==');
+
 @$core.Deprecated('Use scheduleEveryDescriptor instead')
 const ScheduleEvery$json = {
   '1': 'ScheduleEvery',
@@ -745,6 +761,15 @@ const Resource$json = {
       '9': 0,
       '10': 'queue'
     },
+    {
+      '1': 'sql_database',
+      '3': 21,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.deployments.v1.SqlDatabase',
+      '9': 0,
+      '10': 'sqlDatabase'
+    },
   ],
   '8': [
     {'1': 'config'},
@@ -767,7 +792,8 @@ final $typed_data.Uint8List resourceDescriptor = $convert.base64Decode(
     'gSIAEoCzImLm5pdHJpYy5wcm90by5kZXBsb3ltZW50cy52MS5XZWJzb2NrZXRIAFIJd2Vic29j'
     'a2V0EjcKBGh0dHAYEyABKAsyIS5uaXRyaWMucHJvdG8uZGVwbG95bWVudHMudjEuSHR0cEgAUg'
     'RodHRwEjoKBXF1ZXVlGBQgASgLMiIubml0cmljLnByb3RvLmRlcGxveW1lbnRzLnYxLlF1ZXVl'
-    'SABSBXF1ZXVlQggKBmNvbmZpZw==');
+    'SABSBXF1ZXVlEk0KDHNxbF9kYXRhYmFzZRgVIAEoCzIoLm5pdHJpYy5wcm90by5kZXBsb3ltZW'
+    '50cy52MS5TcWxEYXRhYmFzZUgAUgtzcWxEYXRhYmFzZUIICgZjb25maWc=');
 
 @$core.Deprecated('Use policyDescriptor instead')
 const Policy$json = {

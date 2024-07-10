@@ -1,5 +1,4 @@
 import 'package:nitric_sdk/nitric.dart';
-import 'package:nitric_sdk/resources.dart';
 import 'package:uuid/uuid.dart';
 
 class Profile {

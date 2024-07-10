@@ -13,7 +13,7 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import '../../../../google/protobuf/struct.pb.dart' as $13;
+import '../../../../google/protobuf/struct.pb.dart' as $14;
 import '../../resources/v1/resources.pb.dart' as $1;
 import '../../resources/v1/resources.pbenum.dart' as $1;
 import '../../storage/v1/storage.pb.dart' as $2;
@@ -24,7 +24,7 @@ export 'deployments.pbenum.dart';
 class DeploymentUpRequest extends $pb.GeneratedMessage {
   factory DeploymentUpRequest({
     Spec? spec,
-    $13.Struct? attributes,
+    $14.Struct? attributes,
     $core.bool? interactive,
   }) {
     final $result = create();
@@ -53,8 +53,8 @@ class DeploymentUpRequest extends $pb.GeneratedMessage {
           _omitMessageNames ? '' : 'nitric.proto.deployments.v1'),
       createEmptyInstance: create)
     ..aOM<Spec>(1, _omitFieldNames ? '' : 'spec', subBuilder: Spec.create)
-    ..aOM<$13.Struct>(2, _omitFieldNames ? '' : 'attributes',
-        subBuilder: $13.Struct.create)
+    ..aOM<$14.Struct>(2, _omitFieldNames ? '' : 'attributes',
+        subBuilder: $14.Struct.create)
     ..aOB(3, _omitFieldNames ? '' : 'interactive')
     ..hasRequiredFields = false;
 
@@ -99,9 +99,9 @@ class DeploymentUpRequest extends $pb.GeneratedMessage {
   /// A map of attributes related to the deploy request
   /// this allows for adding project identifiers etc.
   @$pb.TagNumber(2)
-  $13.Struct get attributes => $_getN(1);
+  $14.Struct get attributes => $_getN(1);
   @$pb.TagNumber(2)
-  set attributes($13.Struct v) {
+  set attributes($14.Struct v) {
     setField(2, v);
   }
 
@@ -110,7 +110,7 @@ class DeploymentUpRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   void clearAttributes() => clearField(2);
   @$pb.TagNumber(2)
-  $13.Struct ensureAttributes() => $_ensure(1);
+  $14.Struct ensureAttributes() => $_ensure(1);
 
   /// A hint to the provider of the kind of output that the client can accept
   /// This will allow provider developers to provider richer output back to clients.
@@ -484,7 +484,7 @@ class UpResult extends $pb.GeneratedMessage {
 
 class DeploymentDownRequest extends $pb.GeneratedMessage {
   factory DeploymentDownRequest({
-    $13.Struct? attributes,
+    $14.Struct? attributes,
     $core.bool? interactive,
   }) {
     final $result = create();
@@ -509,8 +509,8 @@ class DeploymentDownRequest extends $pb.GeneratedMessage {
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'nitric.proto.deployments.v1'),
       createEmptyInstance: create)
-    ..aOM<$13.Struct>(1, _omitFieldNames ? '' : 'attributes',
-        subBuilder: $13.Struct.create)
+    ..aOM<$14.Struct>(1, _omitFieldNames ? '' : 'attributes',
+        subBuilder: $14.Struct.create)
     ..aOB(2, _omitFieldNames ? '' : 'interactive')
     ..hasRequiredFields = false;
 
@@ -542,9 +542,9 @@ class DeploymentDownRequest extends $pb.GeneratedMessage {
   /// A map of attributes related to the deploy request
   /// this allows for adding project identifiers etc.
   @$pb.TagNumber(1)
-  $13.Struct get attributes => $_getN(0);
+  $14.Struct get attributes => $_getN(0);
   @$pb.TagNumber(1)
-  set attributes($13.Struct v) {
+  set attributes($14.Struct v) {
     setField(1, v);
   }
 
@@ -553,7 +553,7 @@ class DeploymentDownRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   void clearAttributes() => clearField(1);
   @$pb.TagNumber(1)
-  $13.Struct ensureAttributes() => $_ensure(0);
+  $14.Struct ensureAttributes() => $_ensure(0);
 
   /// A hint to the provider of the kind of output that the client can accept
   /// This will allow provider developers to provider richer output back to clients.
@@ -1999,6 +1999,80 @@ class Schedule extends $pb.GeneratedMessage {
   ScheduleCron ensureCron() => $_ensure(2);
 }
 
+enum SqlDatabase_Migrations { imageUri, notSet }
+
+class SqlDatabase extends $pb.GeneratedMessage {
+  factory SqlDatabase({
+    $core.String? imageUri,
+  }) {
+    final $result = create();
+    if (imageUri != null) {
+      $result.imageUri = imageUri;
+    }
+    return $result;
+  }
+  SqlDatabase._() : super();
+  factory SqlDatabase.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory SqlDatabase.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
+  static const $core.Map<$core.int, SqlDatabase_Migrations>
+      _SqlDatabase_MigrationsByTag = {
+    1: SqlDatabase_Migrations.imageUri,
+    0: SqlDatabase_Migrations.notSet
+  };
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'SqlDatabase',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'nitric.proto.deployments.v1'),
+      createEmptyInstance: create)
+    ..oo(0, [1])
+    ..aOS(1, _omitFieldNames ? '' : 'imageUri')
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  SqlDatabase clone() => SqlDatabase()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  SqlDatabase copyWith(void Function(SqlDatabase) updates) =>
+      super.copyWith((message) => updates(message as SqlDatabase))
+          as SqlDatabase;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static SqlDatabase create() => SqlDatabase._();
+  SqlDatabase createEmptyInstance() => create();
+  static $pb.PbList<SqlDatabase> createRepeated() => $pb.PbList<SqlDatabase>();
+  @$core.pragma('dart2js:noInline')
+  static SqlDatabase getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<SqlDatabase>(create);
+  static SqlDatabase? _defaultInstance;
+
+  SqlDatabase_Migrations whichMigrations() =>
+      _SqlDatabase_MigrationsByTag[$_whichOneof(0)]!;
+  void clearMigrations() => clearField($_whichOneof(0));
+
+  /// The URI of a docker image to use to execute the migrations for this database
+  @$pb.TagNumber(1)
+  $core.String get imageUri => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set imageUri($core.String v) {
+    $_setString(0, v);
+  }
+
+  @$pb.TagNumber(1)
+  $core.bool hasImageUri() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearImageUri() => clearField(1);
+}
+
 class ScheduleEvery extends $pb.GeneratedMessage {
   factory ScheduleEvery({
     $core.String? rate,
@@ -2137,6 +2211,7 @@ enum Resource_Config {
   websocket,
   http,
   queue,
+  sqlDatabase,
   notSet
 }
 
@@ -2154,6 +2229,7 @@ class Resource extends $pb.GeneratedMessage {
     Websocket? websocket,
     Http? http,
     Queue? queue,
+    SqlDatabase? sqlDatabase,
   }) {
     final $result = create();
     if (id != null) {
@@ -2192,6 +2268,9 @@ class Resource extends $pb.GeneratedMessage {
     if (queue != null) {
       $result.queue = queue;
     }
+    if (sqlDatabase != null) {
+      $result.sqlDatabase = sqlDatabase;
+    }
     return $result;
   }
   Resource._() : super();
@@ -2214,6 +2293,7 @@ class Resource extends $pb.GeneratedMessage {
     18: Resource_Config.websocket,
     19: Resource_Config.http,
     20: Resource_Config.queue,
+    21: Resource_Config.sqlDatabase,
     0: Resource_Config.notSet
   };
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
@@ -2221,7 +2301,7 @@ class Resource extends $pb.GeneratedMessage {
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'nitric.proto.deployments.v1'),
       createEmptyInstance: create)
-    ..oo(0, [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20])
+    ..oo(0, [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21])
     ..aOM<$1.ResourceIdentifier>(1, _omitFieldNames ? '' : 'id',
         subBuilder: $1.ResourceIdentifier.create)
     ..aOM<Service>(10, _omitFieldNames ? '' : 'service',
@@ -2242,6 +2322,8 @@ class Resource extends $pb.GeneratedMessage {
         subBuilder: Websocket.create)
     ..aOM<Http>(19, _omitFieldNames ? '' : 'http', subBuilder: Http.create)
     ..aOM<Queue>(20, _omitFieldNames ? '' : 'queue', subBuilder: Queue.create)
+    ..aOM<SqlDatabase>(21, _omitFieldNames ? '' : 'sqlDatabase',
+        subBuilder: SqlDatabase.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -2435,6 +2517,20 @@ class Resource extends $pb.GeneratedMessage {
   void clearQueue() => clearField(20);
   @$pb.TagNumber(20)
   Queue ensureQueue() => $_ensure(11);
+
+  @$pb.TagNumber(21)
+  SqlDatabase get sqlDatabase => $_getN(12);
+  @$pb.TagNumber(21)
+  set sqlDatabase(SqlDatabase v) {
+    setField(21, v);
+  }
+
+  @$pb.TagNumber(21)
+  $core.bool hasSqlDatabase() => $_has(12);
+  @$pb.TagNumber(21)
+  void clearSqlDatabase() => clearField(21);
+  @$pb.TagNumber(21)
+  SqlDatabase ensureSqlDatabase() => $_ensure(12);
 }
 
 /// This is already defined in the resource contracts,

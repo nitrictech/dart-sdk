@@ -6,7 +6,9 @@ class WebsocketWorker extends Worker<$wp.WebsocketHandlerClient> {
 
   WebsocketWorker(this.registrationRequest, this.middleware,
       {$wp.WebsocketHandlerClient? client})
-      : super(client);
+      : super(client ??
+            $wp.WebsocketHandlerClient(
+                ClientChannelSingleton.instance.clientChannel));
 
   @override
   Future<void> start() async {

@@ -42,6 +42,8 @@ class ResourceType extends $pb.ProtobufEnum {
       ResourceType._(12, _omitEnumNames ? '' : 'ApiSecurityDefinition');
   static const ResourceType Queue =
       ResourceType._(13, _omitEnumNames ? '' : 'Queue');
+  static const ResourceType SqlDatabase =
+      ResourceType._(14, _omitEnumNames ? '' : 'SqlDatabase');
 
   static const $core.List<ResourceType> values = <ResourceType>[
     Api,
@@ -58,6 +60,7 @@ class ResourceType extends $pb.ProtobufEnum {
     Http,
     ApiSecurityDefinition,
     Queue,
+    SqlDatabase,
   ];
 
   static final $core.Map<$core.int, ResourceType> _byValue =

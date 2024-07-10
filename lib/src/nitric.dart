@@ -1,3 +1,5 @@
+import 'package:nitric_sdk/src/api/sql.dart';
+
 import 'resources/common.dart';
 
 class Nitric {
@@ -46,6 +48,11 @@ class Nitric {
   /// Create a [name]d secret for storing encrypted values.
   static SecretResource secret(String name) =>
       _makeResource(name, SecretResource.new) as SecretResource;
+
+  /// Create a [name]d sql database.
+  static SqlDatabase sql(String name, {String? migrations}) =>
+      _makeResource(name, (name) => SqlDatabase(name, migrations: migrations))
+          as SqlDatabase;
 
   /// Create a [name]d topic for registering push-based event handlers.
   static Topic topic(String name) => _makeResource(name, Topic.new) as Topic;

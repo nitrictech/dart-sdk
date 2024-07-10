@@ -13,7 +13,7 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import '../../../../google/protobuf/struct.pb.dart' as $13;
+import '../../../../google/protobuf/struct.pb.dart' as $14;
 
 /// Provides a Key/Value Store
 class Store extends $pb.GeneratedMessage {
@@ -161,7 +161,7 @@ class ValueRef extends $pb.GeneratedMessage {
 class Value extends $pb.GeneratedMessage {
   factory Value({
     ValueRef? ref,
-    $13.Struct? content,
+    $14.Struct? content,
   }) {
     final $result = create();
     if (ref != null) {
@@ -187,8 +187,8 @@ class Value extends $pb.GeneratedMessage {
       createEmptyInstance: create)
     ..aOM<ValueRef>(1, _omitFieldNames ? '' : 'ref',
         subBuilder: ValueRef.create)
-    ..aOM<$13.Struct>(2, _omitFieldNames ? '' : 'content',
-        subBuilder: $13.Struct.create)
+    ..aOM<$14.Struct>(2, _omitFieldNames ? '' : 'content',
+        subBuilder: $14.Struct.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -229,9 +229,9 @@ class Value extends $pb.GeneratedMessage {
 
   /// The content (JSON object)
   @$pb.TagNumber(2)
-  $13.Struct get content => $_getN(1);
+  $14.Struct get content => $_getN(1);
   @$pb.TagNumber(2)
-  set content($13.Struct v) {
+  set content($14.Struct v) {
     setField(2, v);
   }
 
@@ -240,7 +240,7 @@ class Value extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   void clearContent() => clearField(2);
   @$pb.TagNumber(2)
-  $13.Struct ensureContent() => $_ensure(1);
+  $14.Struct ensureContent() => $_ensure(1);
 }
 
 class KvStoreGetValueRequest extends $pb.GeneratedMessage {
@@ -381,7 +381,7 @@ class KvStoreGetValueResponse extends $pb.GeneratedMessage {
 class KvStoreSetValueRequest extends $pb.GeneratedMessage {
   factory KvStoreSetValueRequest({
     ValueRef? ref,
-    $13.Struct? content,
+    $14.Struct? content,
   }) {
     final $result = create();
     if (ref != null) {
@@ -407,8 +407,8 @@ class KvStoreSetValueRequest extends $pb.GeneratedMessage {
       createEmptyInstance: create)
     ..aOM<ValueRef>(1, _omitFieldNames ? '' : 'ref',
         subBuilder: ValueRef.create)
-    ..aOM<$13.Struct>(3, _omitFieldNames ? '' : 'content',
-        subBuilder: $13.Struct.create)
+    ..aOM<$14.Struct>(3, _omitFieldNames ? '' : 'content',
+        subBuilder: $14.Struct.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -453,9 +453,9 @@ class KvStoreSetValueRequest extends $pb.GeneratedMessage {
 
   /// The value content to store (JSON object)
   @$pb.TagNumber(3)
-  $13.Struct get content => $_getN(1);
+  $14.Struct get content => $_getN(1);
   @$pb.TagNumber(3)
-  set content($13.Struct v) {
+  set content($14.Struct v) {
     setField(3, v);
   }
 
@@ -464,7 +464,7 @@ class KvStoreSetValueRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   void clearContent() => clearField(3);
   @$pb.TagNumber(3)
-  $13.Struct ensureContent() => $_ensure(1);
+  $14.Struct ensureContent() => $_ensure(1);
 }
 
 class KvStoreSetValueResponse extends $pb.GeneratedMessage {

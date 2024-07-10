@@ -7,7 +7,9 @@ class FileEventWorker extends Worker<$bp.StorageListenerClient> {
 
   FileEventWorker(this.registrationRequest, this.middleware, this.bucket,
       {$bp.StorageListenerClient? client})
-      : super(client);
+      : super(client ??
+            $bp.StorageListenerClient(
+                ClientChannelSingleton.instance.clientChannel));
 
   @override
   Future<void> start() async {
