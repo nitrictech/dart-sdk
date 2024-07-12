@@ -74,7 +74,7 @@ abstract class Resource {
 
 /// A resource that requires permissions to access it.
 abstract class SecureResource<T extends Enum> extends Resource {
-  SecureResource(String name, $p.ResourcesClient? client) : super(name, client);
+  SecureResource(super.name, super.client);
 
   /// Convert a list of permissions to gRPC actions.
   List<$p.Action> permissionsToActions(List<T> permissions);

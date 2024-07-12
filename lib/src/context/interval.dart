@@ -3,8 +3,7 @@ part of './common.dart';
 /// The context for a scheduled interval request/response.
 class IntervalContext
     extends TriggerContext<IntervalRequest, IntervalResponse> {
-  IntervalContext(String id, IntervalRequest req, IntervalResponse resp)
-      : super(id, req, resp);
+  IntervalContext(super.id, super.req, super.resp);
 
   /// Create an Interval context from a server message.
   IntervalContext.fromRequest($sp.ServerMessage msg)
