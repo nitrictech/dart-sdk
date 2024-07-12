@@ -2,8 +2,7 @@ part of './common.dart';
 
 /// The context of a HTTP request/response triggered by a request to an API.
 class HttpContext extends TriggerContext<HttpRequest, HttpResponse> {
-  HttpContext(String id, HttpRequest req, HttpResponse resp)
-      : super(id, req, resp);
+  HttpContext(super.id, super.req, super.resp);
 
   /// Create a HTTP context from a server message.
   HttpContext.fromRequest($ap.ServerMessage msg)

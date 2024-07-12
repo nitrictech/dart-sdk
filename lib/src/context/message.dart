@@ -2,8 +2,7 @@ part of './common.dart';
 
 /// The context for a topic message for a subscription.
 class MessageContext extends TriggerContext<MessageRequest, MessageResponse> {
-  MessageContext(String id, MessageRequest req, MessageResponse resp)
-      : super(id, req, resp);
+  MessageContext(super.id, super.req, super.resp);
 
   /// Create an Event context from a server message.
   factory MessageContext.fromRequest($ep.ServerMessage msg) {

@@ -5,8 +5,7 @@ enum WebsocketEvent { connect, disconnect, message }
 /// Base context for a websocket based request/response.
 class WebsocketContext
     extends TriggerContext<WebsocketRequest, WebsocketResponse> {
-  WebsocketContext(String id, WebsocketRequest req, WebsocketResponse resp)
-      : super(id, req, resp);
+  WebsocketContext(super.id, super.req, super.resp);
 
   factory WebsocketContext.fromRequest($wp.ServerMessage msg) {
     var eventType = WebsocketEvent.connect;

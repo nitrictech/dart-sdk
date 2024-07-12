@@ -5,8 +5,7 @@ enum BlobEventType { write, delete }
 /// The context of a Blob event request/response.
 class BlobEventContext
     extends TriggerContext<BlobEventRequest, BlobEventResponse> {
-  BlobEventContext(String id, BlobEventRequest req, BlobEventResponse resp)
-      : super(id, req, resp);
+  BlobEventContext(super.id, super.req, super.resp);
 
   /// Create a Blob Event context from a server message.
   BlobEventContext.fromRequest($bp.ServerMessage msg)
@@ -22,8 +21,7 @@ class BlobEventContext
 /// The context of a Blob event request/response.
 class FileEventContext
     extends TriggerContext<FileEventRequest, BlobEventResponse> {
-  FileEventContext(String id, FileEventRequest req, BlobEventResponse resp)
-      : super(id, req, resp);
+  FileEventContext(super.id, super.req, super.resp);
 
   /// Create a Blob Event context from a server message.
   FileEventContext.fromRequest($bp.ServerMessage msg, Bucket bucket)
