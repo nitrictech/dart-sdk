@@ -5,7 +5,12 @@ enum WebsocketEvent { connect, disconnect, message }
 /// Base context for a websocket based request/response.
 class WebsocketContext
     extends TriggerContext<WebsocketRequest, WebsocketResponse> {
-  WebsocketContext(super.id, super.req, super.resp);
+  late WebsocketHandler _nextHandler;
+
+  WebsocketContext(super.id, super.req, super.resp,
+      {next = _defaultHandler<WebsocketContext>}) {
+    _nextHandler = next;
+  }
 
   factory WebsocketContext.fromRequest($wp.ServerMessage msg) {
     var eventType = WebsocketEvent.connect;
@@ -27,14 +32,23 @@ class WebsocketContext
     }
 
     return WebsocketContext(
-        msg.id,
-        WebsocketRequest(
-            msg.websocketEventRequest.socketName,
-            msg.websocketEventRequest.connectionId,
-            eventType,
-            queryParams,
-            message),
-        WebsocketResponse());
+      msg.id,
+      WebsocketRequest(
+          msg.websocketEventRequest.socketName,
+          msg.websocketEventRequest.connectionId,
+          eventType,
+          queryParams,
+          message),
+      WebsocketResponse(),
+    );
+  }
+
+  WebsocketContext.fromCtx(WebsocketContext ctx, WebsocketHandler next)
+      : this(ctx.id, ctx.req, ctx.res, next: next);
+
+  /// Call the next middleware in the middleware chain
+  Future<WebsocketContext> next() async {
+    return await _nextHandler(this);
   }
 
   $wp.ClientMessage toResponse() {

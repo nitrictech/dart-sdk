@@ -23,25 +23,33 @@ class Schedule extends Resource {
     return $p.ResourceDeclareRequest(id: res);
   }
 
-  /// Run [middleware] at a certain interval defined by the [rate]. E.g. '7 days', '3 hours', '30 minutes'.
-  Future<void> every(String rate, IntervalHandler middleware) async {
+  /// Run the [handler] at a certain interval defined by the [rate]. E.g. '7 days', '3 hours', '30 minutes'.
+  Future<void> every(String rate, IntervalHandler handler,
+      {List<IntervalHandler> middlewares = const []}) async {
     var registrationRequest = $sp.RegistrationRequest(
         scheduleName: name, every: $s.ScheduleEvery(rate: rate));
 
-    var worker = IntervalWorker(registrationRequest, middleware,
+    final composedHandler =
+        composeMiddleware([...middlewares, handler], IntervalContext.fromCtx);
+
+    var worker = IntervalWorker(registrationRequest, composedHandler,
         client: _schedulesClient);
 
     await worker.start();
   }
 
-  /// Run [middleware] at a certain interval defined by the [cronExpression].
-  Future<void> cron(String cronExpression, IntervalHandler middleware) async {
+  /// Run the [handler] at a certain interval defined by the [cronExpression].
+  Future<void> cron(String cronExpression, IntervalHandler handler,
+      {List<IntervalHandler> middlewares = const []}) async {
     var registrationRequest = $sp.RegistrationRequest(
       scheduleName: name,
       cron: $sp.ScheduleCron(expression: cronExpression),
     );
 
-    var worker = IntervalWorker(registrationRequest, middleware,
+    final composedHandler =
+        composeMiddleware([...middlewares, handler], IntervalContext.fromCtx);
+
+    var worker = IntervalWorker(registrationRequest, composedHandler,
         client: _schedulesClient);
 
     await worker.start();

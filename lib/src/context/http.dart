@@ -2,7 +2,12 @@ part of './common.dart';
 
 /// The context of a HTTP request/response triggered by a request to an API.
 class HttpContext extends TriggerContext<HttpRequest, HttpResponse> {
-  HttpContext(super.id, super.req, super.resp);
+  late HttpHandler _nextHandler;
+
+  HttpContext(super.id, super.req, super.resp,
+      {next = _defaultHandler<HttpContext>}) {
+    _nextHandler = next;
+  }
 
   /// Create a HTTP context from a server message.
   HttpContext.fromRequest($ap.ServerMessage msg)
@@ -20,6 +25,14 @@ class HttpContext extends TriggerContext<HttpRequest, HttpResponse> {
           ),
           HttpResponse(),
         );
+
+  HttpContext.fromCtx(HttpContext ctx, HttpHandler next)
+      : this(ctx.id, ctx.req, ctx.res, next: next);
+
+  /// Call the next middleware in the middleware chain
+  Future<HttpContext> next() async {
+    return await _nextHandler(this);
+  }
 
   /// Converts the context to a gRPC client response.
   $ap.ClientMessage toResponse() {

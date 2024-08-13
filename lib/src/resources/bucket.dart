@@ -51,7 +51,8 @@ class BucketResource extends SecureResource<BucketPermission> {
 
   /// Create a blob event subscription triggered on the [blobEventType] filtered by files that match the [keyPrefixFilter].
   Future<void> on(BlobEventType blobEventType, String keyPrefixFilter,
-      BlobEventHandler handler) async {
+      BlobEventHandler handler,
+      {List<BlobEventHandler> middlewares = const []}) async {
     // Create the request to register the Storage listener with the membrane
     final eventType = switch (blobEventType) {
       BlobEventType.write => $bp.BlobEventType.Created,
@@ -64,7 +65,10 @@ class BucketResource extends SecureResource<BucketPermission> {
       blobEventType: eventType,
     );
 
-    var worker = BlobEventWorker(registrationRequest, handler,
+    final composedHandler =
+        composeMiddleware([...middlewares, handler], BlobEventContext.fromCtx);
+
+    var worker = BlobEventWorker(registrationRequest, composedHandler,
         client: _storageListenerClient);
 
     await worker.start();

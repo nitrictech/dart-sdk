@@ -2,19 +2,33 @@ part of './common.dart';
 
 /// The context for a topic message for a subscription.
 class MessageContext extends TriggerContext<MessageRequest, MessageResponse> {
-  MessageContext(super.id, super.req, super.resp);
+  late MessageHandler _nextHandler;
+
+  MessageContext(super.id, super.req, super.resp,
+      {next = _defaultHandler<MessageContext>}) {
+    _nextHandler = next;
+  }
 
   /// Create an Event context from a server message.
   factory MessageContext.fromRequest($ep.ServerMessage msg) {
     var payload = Proto.mapFromStruct(msg.messageRequest.message.structPayload);
 
     return MessageContext(
-        msg.id,
-        MessageRequest(
-          msg.messageRequest.topicName,
-          payload,
-        ),
-        MessageResponse());
+      msg.id,
+      MessageRequest(
+        msg.messageRequest.topicName,
+        payload,
+      ),
+      MessageResponse(),
+    );
+  }
+
+  MessageContext.fromCtx(MessageContext ctx, MessageHandler next)
+      : this(ctx.id, ctx.req, ctx.res, next: next);
+
+  /// Call the next middleware in the middleware chain
+  Future<MessageContext> next() async {
+    return await _nextHandler(this);
   }
 
   /// Converts the context to a gRPC client response.
