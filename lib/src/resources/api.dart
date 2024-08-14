@@ -12,8 +12,12 @@ enum HttpMethod {
 class ApiOptions {
   List<OidcOptions> security;
   String basePath;
+  List<HttpHandler> middlewares;
 
-  ApiOptions({this.security = const [], this.basePath = ""});
+  ApiOptions(
+      {this.security = const [],
+      this.basePath = "",
+      this.middlewares = const []});
 }
 
 /// An API resource.
@@ -51,64 +55,65 @@ class Api extends Resource {
 
   /// A GET request [handler] that [match]es a specific route.
   Future<void> get(String match, HttpHandler handler,
-      {List<OidcOptions>? security}) async {
-    await Route(this, opts.basePath + match,
-            security: security ?? opts.security, apiClient: _apiClient)
+      {List<OidcOptions>? security,
+      List<HttpHandler> middlewares = const []}) async {
+    await route(match, security: security, middlewares: middlewares)
         .get(handler);
   }
 
   /// A POST request [handler] that [match]es a specific route.
   Future<void> post(String match, HttpHandler handler,
-      {List<OidcOptions>? security}) async {
-    await Route(this, opts.basePath + match,
-            security: security ?? opts.security, apiClient: _apiClient)
+      {List<OidcOptions>? security,
+      List<HttpHandler> middlewares = const []}) async {
+    await route(match, security: security, middlewares: middlewares)
         .post(handler);
   }
 
   /// A PUT request [handler] that [match]es a specific route.
   Future<void> put(String match, HttpHandler handler,
-      {List<OidcOptions>? security}) async {
-    await Route(this, opts.basePath + match,
-            security: security ?? opts.security, apiClient: _apiClient)
+      {List<OidcOptions>? security,
+      List<HttpHandler> middlewares = const []}) async {
+    await route(match, security: security, middlewares: middlewares)
         .put(handler);
   }
 
   /// A PATCH request [handler] that [match]es a specific route.
   Future<void> patch(String match, HttpHandler handler,
-      {List<OidcOptions>? security}) async {
-    await Route(this, opts.basePath + match,
-            security: security ?? opts.security, apiClient: _apiClient)
+      {List<OidcOptions>? security,
+      List<HttpHandler> middlewares = const []}) async {
+    await route(match, security: security, middlewares: middlewares)
         .patch(handler);
   }
 
   /// A DELETE request [handler] that [match]es a specific route.
   Future<void> delete(String match, HttpHandler handler,
-      {List<OidcOptions>? security}) async {
-    await Route(this, opts.basePath + match,
-            security: security ?? opts.security, apiClient: _apiClient)
+      {List<OidcOptions>? security,
+      List<HttpHandler> middlewares = const []}) async {
+    await route(match, security: security, middlewares: middlewares)
         .delete(handler);
   }
 
   /// A OPTIONS request [handler] that [match]es a specific route.
   Future<void> options(String match, HttpHandler handler,
-      {List<OidcOptions>? security}) async {
-    await Route(this, opts.basePath + match,
-            security: security ?? opts.security, apiClient: _apiClient)
+      {List<OidcOptions>? security,
+      List<HttpHandler> middlewares = const []}) async {
+    await route(match, security: security, middlewares: middlewares)
         .options(handler);
   }
 
   /// A request [handler] that [match]es a specific route on all HTTP methods.
   Future<void> all(String match, HttpHandler handler,
-      {List<OidcOptions>? security}) async {
-    await Route(this, opts.basePath + match,
-            security: security ?? opts.security, apiClient: _apiClient)
+      {List<OidcOptions>? security,
+      List<HttpHandler> middlewares = const []}) async {
+    await route(match, security: security, middlewares: middlewares)
         .all(handler);
   }
 
-  /// Create a route that [match]es on a specific path.
-  Route route(String match, {List<OidcOptions>? security}) {
-    return Route(this, opts.basePath + match,
-        security: security ?? opts.security, apiClient: _apiClient);
+  /// Create a route that [match]es on a specific path with optional [middlewares] and [security].
+  Route route(String match,
+      {List<OidcOptions>? security, List<HttpHandler> middlewares = const []}) {
+    return Route(this, match,
+        security: security, apiClient: _apiClient, middlewares: middlewares);
   }
 }
 
@@ -125,14 +130,25 @@ class Route {
 
   ApiClient? _apiClient;
 
-  Route(this.api, this.match,
-      {this.security = const [], ApiClient? apiClient}) {
+  late List<HttpHandler> _middlewares;
+
+  Route(this.api, match,
+      {security,
+      ApiClient? apiClient,
+      List<HttpHandler> middlewares = const []})
+      : match = api.opts.basePath + match,
+        security = security ?? api.opts.security {
     _apiClient = apiClient;
+    _middlewares = middlewares;
   }
 
   /// A GET request [handler] for this route.
   Future<void> get(HttpHandler handler) async {
-    var worker = ApiWorker(this, handler, [HttpMethod.get],
+    final composedHandler = composeMiddleware(
+        [...api.opts.middlewares, ..._middlewares, handler],
+        HttpContext.fromCtx);
+
+    var worker = ApiWorker(this, composedHandler, [HttpMethod.get],
         security: security, client: _apiClient);
 
     await worker.start();
@@ -140,7 +156,11 @@ class Route {
 
   /// A POST request [handler] for this route.
   Future<void> post(HttpHandler handler) async {
-    var worker = ApiWorker(this, handler, [HttpMethod.post],
+    final composedHandler = composeMiddleware(
+        [...api.opts.middlewares, ..._middlewares, handler],
+        HttpContext.fromCtx);
+
+    var worker = ApiWorker(this, composedHandler, [HttpMethod.post],
         security: security, client: _apiClient);
 
     await worker.start();
@@ -148,7 +168,11 @@ class Route {
 
   /// A PUT request [handler] for this route.
   Future<void> put(HttpHandler handler) async {
-    var worker = ApiWorker(this, handler, [HttpMethod.put],
+    final composedHandler = composeMiddleware(
+        [...api.opts.middlewares, ..._middlewares, handler],
+        HttpContext.fromCtx);
+
+    var worker = ApiWorker(this, composedHandler, [HttpMethod.put],
         security: security, client: _apiClient);
 
     await worker.start();
@@ -156,7 +180,11 @@ class Route {
 
   /// A PATCH request [handler] for this route.
   Future<void> patch(HttpHandler handler) async {
-    var worker = ApiWorker(this, handler, [HttpMethod.patch],
+    final composedHandler = composeMiddleware(
+        [...api.opts.middlewares, ..._middlewares, handler],
+        HttpContext.fromCtx);
+
+    var worker = ApiWorker(this, composedHandler, [HttpMethod.patch],
         security: security, client: _apiClient);
 
     await worker.start();
@@ -164,7 +192,11 @@ class Route {
 
   /// A DELETE request [handler] for this route.
   Future<void> delete(HttpHandler handler) async {
-    var worker = ApiWorker(this, handler, [HttpMethod.delete],
+    final composedHandler = composeMiddleware(
+        [...api.opts.middlewares, ..._middlewares, handler],
+        HttpContext.fromCtx);
+
+    var worker = ApiWorker(this, composedHandler, [HttpMethod.delete],
         security: security, client: _apiClient);
 
     await worker.start();
@@ -172,7 +204,11 @@ class Route {
 
   /// An OPTIONS request [handler] for this route.
   Future<void> options(HttpHandler handler) async {
-    var worker = ApiWorker(this, handler, [HttpMethod.options],
+    final composedHandler = composeMiddleware(
+        [...api.opts.middlewares, ..._middlewares, handler],
+        HttpContext.fromCtx);
+
+    var worker = ApiWorker(this, composedHandler, [HttpMethod.options],
         security: security, client: _apiClient);
 
     await worker.start();
@@ -180,7 +216,11 @@ class Route {
 
   /// A request [handler] for this route that matches all HTTP methods.
   Future<void> all(HttpHandler handler) async {
-    var worker = ApiWorker(this, handler, HttpMethod.values,
+    final composedHandler = composeMiddleware(
+        [...api.opts.middlewares, ..._middlewares, handler],
+        HttpContext.fromCtx);
+
+    var worker = ApiWorker(this, composedHandler, HttpMethod.values,
         security: security, client: _apiClient);
 
     await worker.start();

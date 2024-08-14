@@ -55,7 +55,8 @@ class Bucket {
 
   /// Create a blob event subscription triggered on the [blobEventType] filtered by files that match the [keyPrefixFilter].
   Future<void> on(BlobEventType blobEventType, String keyPrefixFilter,
-      FileEventHandler handler) async {
+      FileEventHandler handler,
+      {List<FileEventHandler> middlewares = const []}) async {
     // Create the request to register the Storage listener with the membrane
     final eventType = switch (blobEventType) {
       BlobEventType.write => $p.BlobEventType.Created,
@@ -68,7 +69,10 @@ class Bucket {
       blobEventType: eventType,
     );
 
-    var worker = FileEventWorker(registrationRequest, handler, this,
+    final composedHandler =
+        composeMiddleware([...middlewares, handler], FileEventContext.fromCtx);
+
+    var worker = FileEventWorker(registrationRequest, composedHandler, this,
         client: _storageListenerClient);
 
     await worker.start();

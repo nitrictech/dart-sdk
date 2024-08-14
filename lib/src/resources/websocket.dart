@@ -49,33 +49,45 @@ class Websocket extends Resource {
   }
 
   /// Set a [handler] for connection requests to the socket.
-  Future<void> onConnect(WebsocketHandler handler) async {
+  Future<void> onConnect(WebsocketHandler handler,
+      {List<WebsocketHandler> middlewares = const []}) async {
     var registrationRequest = $wp.RegistrationRequest(
         eventType: $wp.WebsocketEventType.Connect, socketName: name);
 
-    var worker = WebsocketWorker(registrationRequest, handler,
+    final composedHandler =
+        composeMiddleware([...middlewares, handler], WebsocketContext.fromCtx);
+
+    var worker = WebsocketWorker(registrationRequest, composedHandler,
         client: _websocketHandlerClient);
 
     await worker.start();
   }
 
   /// Set a [handler] for disconnection requests to the socket.
-  Future<void> onDisconnect(WebsocketHandler handler) async {
+  Future<void> onDisconnect(WebsocketHandler handler,
+      {List<WebsocketHandler> middlewares = const []}) async {
     var registrationRequest = $wp.RegistrationRequest(
         eventType: $wp.WebsocketEventType.Disconnect, socketName: name);
 
-    var worker = WebsocketWorker(registrationRequest, handler,
+    final composedHandler =
+        composeMiddleware([...middlewares, handler], WebsocketContext.fromCtx);
+
+    var worker = WebsocketWorker(registrationRequest, composedHandler,
         client: _websocketHandlerClient);
 
     await worker.start();
   }
 
   /// Set a [handler] for messages to the socket.
-  Future<void> onMessage(WebsocketHandler handler) async {
+  Future<void> onMessage(WebsocketHandler handler,
+      {List<WebsocketHandler> middlewares = const []}) async {
     var registrationRequest = $wp.RegistrationRequest(
         eventType: $wp.WebsocketEventType.Message, socketName: name);
 
-    var worker = WebsocketWorker(registrationRequest, handler,
+    final composedHandler =
+        composeMiddleware([...middlewares, handler], WebsocketContext.fromCtx);
+
+    var worker = WebsocketWorker(registrationRequest, composedHandler,
         client: _websocketHandlerClient);
 
     await worker.start();

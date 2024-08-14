@@ -5,12 +5,27 @@ enum BlobEventType { write, delete }
 /// The context of a Blob event request/response.
 class BlobEventContext
     extends TriggerContext<BlobEventRequest, BlobEventResponse> {
-  BlobEventContext(super.id, super.req, super.resp);
+  late BlobEventHandler _nextHandler;
+
+  BlobEventContext(super.id, super.req, super.resp,
+      {next = _defaultHandler<BlobEventContext>}) {
+    _nextHandler = next;
+  }
 
   /// Create a Blob Event context from a server message.
   BlobEventContext.fromRequest($bp.ServerMessage msg)
-      : this(msg.id, BlobEventRequest(msg.blobEventRequest.blobEvent.key),
-            BlobEventResponse());
+      : this(
+          msg.id,
+          BlobEventRequest(msg.blobEventRequest.blobEvent.key),
+          BlobEventResponse(),
+        );
+
+  BlobEventContext.fromCtx(BlobEventContext ctx, BlobEventHandler next)
+      : this(ctx.id, ctx.req, ctx.res, next: next);
+
+  Future<BlobEventContext> next() async {
+    return await _nextHandler(this);
+  }
 
   /// Converts the context to a gRPC client response.
   $bp.ClientMessage toResponse() {
@@ -21,14 +36,28 @@ class BlobEventContext
 /// The context of a Blob event request/response.
 class FileEventContext
     extends TriggerContext<FileEventRequest, BlobEventResponse> {
-  FileEventContext(super.id, super.req, super.resp);
+  late FileEventHandler _nextHandler;
+
+  FileEventContext(super.id, super.req, super.resp,
+      {next = _defaultHandler<FileEventContext>}) {
+    _nextHandler = next;
+  }
 
   /// Create a Blob Event context from a server message.
   FileEventContext.fromRequest($bp.ServerMessage msg, Bucket bucket)
       : this(
-            msg.id,
-            FileEventRequest(bucket.file(msg.blobEventRequest.blobEvent.key)),
-            BlobEventResponse());
+          msg.id,
+          FileEventRequest(bucket.file(msg.blobEventRequest.blobEvent.key)),
+          BlobEventResponse(),
+        );
+
+  /// Call the next middleware in the middleware chain
+  FileEventContext.fromCtx(FileEventContext ctx, FileEventHandler next)
+      : this(ctx.id, ctx.req, ctx.res, next: next);
+
+  Future<FileEventContext> next() async {
+    return await _nextHandler(this);
+  }
 
   /// Converts the context to a gRPC client response.
   $bp.ClientMessage toResponse() {

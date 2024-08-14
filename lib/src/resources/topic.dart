@@ -19,10 +19,14 @@ class Topic extends SecureResource<TopicPermission> {
   }
 
   /// Register a [handler] to subscribe to messages sent to the topic.
-  Future<void> subscribe(MessageHandler middleware) async {
+  Future<void> subscribe(MessageHandler handler,
+      {List<MessageHandler> middlewares = const []}) async {
     var registrationRequest = $tp.RegistrationRequest(topicName: name);
 
-    var worker = SubscriptionWorker(registrationRequest, middleware,
+    final composedHandler =
+        composeMiddleware([...middlewares, handler], MessageContext.fromCtx);
+
+    var worker = SubscriptionWorker(registrationRequest, composedHandler,
         client: _subscriberClient);
 
     await worker.start();

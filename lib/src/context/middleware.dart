@@ -8,3 +8,17 @@ typedef MessageHandler = Handler<MessageContext>;
 typedef BlobEventHandler = Handler<BlobEventContext>;
 typedef FileEventHandler = Handler<FileEventContext>;
 typedef WebsocketHandler = Handler<WebsocketContext>;
+
+Future<T> _defaultHandler<T extends TriggerContext>(T ctx) async => ctx;
+
+Handler<T> composeMiddleware<T extends TriggerContext>(
+        List<Handler<T>> handlers,
+        T Function(T ctx, Handler<T> next) converter) =>
+    (T ctx) async {
+      final Handler<T> composedHandler = handlers.reversed
+          .fold((ctx) async => ctx, (nextHandler, currHandler) {
+        return (ctx) => currHandler(converter(ctx, nextHandler));
+      });
+
+      return await composedHandler(ctx);
+    };

@@ -3,14 +3,28 @@ part of './common.dart';
 /// The context for a scheduled interval request/response.
 class IntervalContext
     extends TriggerContext<IntervalRequest, IntervalResponse> {
-  IntervalContext(super.id, super.req, super.resp);
+  late IntervalHandler _nextHandler;
+
+  IntervalContext(super.id, super.req, super.resp,
+      {next = _defaultHandler<IntervalContext>}) {
+    _nextHandler = next;
+  }
 
   /// Create an Interval context from a server message.
   IntervalContext.fromRequest($sp.ServerMessage msg)
       : this(
-            msg.id,
-            IntervalRequest(scheduleName: msg.intervalRequest.scheduleName),
-            IntervalResponse());
+          msg.id,
+          IntervalRequest(scheduleName: msg.intervalRequest.scheduleName),
+          IntervalResponse(),
+        );
+
+  IntervalContext.fromCtx(IntervalContext ctx, IntervalHandler next)
+      : this(ctx.id, ctx.req, ctx.res, next: next);
+
+  /// Call the next middleware in the middleware chain
+  Future<IntervalContext> next() async {
+    return await _nextHandler(this);
+  }
 
   /// Converts the context to a gRPC client response.
   $sp.ClientMessage toResponse() {
