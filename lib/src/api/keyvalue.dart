@@ -57,13 +57,13 @@ class KeyValueStore {
     await _useClient((client) async => await client.deleteKey(req));
   }
 
-  /// Get a stream of key values that match the [prefix].
-  Future<Stream<String>> keys({String prefix = ""}) async {
+  /// Get a list of key values that match the [prefix].
+  Future<List<String>> keys({String prefix = ""}) async {
     var req =
         $p.KvStoreScanKeysRequest(store: $p.Store(name: name), prefix: prefix);
 
     var resp = await _useClient((client) async => client.scanKeys(req));
 
-    return resp.map((event) => event.key);
+    return await resp.map((event) => event.key).toList();
   }
 }
