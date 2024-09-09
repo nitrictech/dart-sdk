@@ -7,7 +7,7 @@ class JobResourceRequirements {
   int memory;
   int gpus;
 
-  JobResourceRequirements([this.cpus = 1, this.memory = 1024, this.gpus = 0]);
+  JobResourceRequirements({this.cpus = 1, this.memory = 1024, this.gpus = 0});
 
   $jp.JobResourceRequirements _toWire() {
     return $jp.JobResourceRequirements(
