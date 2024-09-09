@@ -13,7 +13,7 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import '../../../../google/protobuf/duration.pb.dart' as $13;
+import '../../../../google/protobuf/duration.pb.dart' as $15;
 import '../../../../google/protobuf/struct.pb.dart' as $14;
 
 enum ClientMessage_Content { registrationRequest, messageResponse, notSet }
@@ -586,7 +586,7 @@ class TopicPublishRequest extends $pb.GeneratedMessage {
   factory TopicPublishRequest({
     $core.String? topicName,
     TopicMessage? message,
-    $13.Duration? delay,
+    $15.Duration? delay,
   }) {
     final $result = create();
     if (topicName != null) {
@@ -616,8 +616,8 @@ class TopicPublishRequest extends $pb.GeneratedMessage {
     ..aOS(1, _omitFieldNames ? '' : 'topicName')
     ..aOM<TopicMessage>(2, _omitFieldNames ? '' : 'message',
         subBuilder: TopicMessage.create)
-    ..aOM<$13.Duration>(3, _omitFieldNames ? '' : 'delay',
-        subBuilder: $13.Duration.create)
+    ..aOM<$15.Duration>(3, _omitFieldNames ? '' : 'delay',
+        subBuilder: $15.Duration.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -673,9 +673,9 @@ class TopicPublishRequest extends $pb.GeneratedMessage {
 
   /// An optional delay specified in seconds (minimum 10 seconds)
   @$pb.TagNumber(3)
-  $13.Duration get delay => $_getN(2);
+  $15.Duration get delay => $_getN(2);
   @$pb.TagNumber(3)
-  set delay($13.Duration v) {
+  set delay($15.Duration v) {
     setField(3, v);
   }
 
@@ -684,7 +684,7 @@ class TopicPublishRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   void clearDelay() => clearField(3);
   @$pb.TagNumber(3)
-  $13.Duration ensureDelay() => $_ensure(2);
+  $15.Duration ensureDelay() => $_ensure(2);
 }
 
 /// Result of publishing an topic

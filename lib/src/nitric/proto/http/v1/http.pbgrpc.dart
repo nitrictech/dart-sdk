@@ -15,24 +15,24 @@ import 'dart:core' as $core;
 import 'package:grpc/service_api.dart' as $grpc;
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'http.pb.dart' as $4;
+import 'http.pb.dart' as $5;
 
 export 'http.pb.dart';
 
 @$pb.GrpcServiceName('nitric.proto.http.v1.Http')
 class HttpClient extends $grpc.Client {
-  static final _$proxy = $grpc.ClientMethod<$4.ClientMessage, $4.ServerMessage>(
+  static final _$proxy = $grpc.ClientMethod<$5.ClientMessage, $5.ServerMessage>(
       '/nitric.proto.http.v1.Http/Proxy',
-      ($4.ClientMessage value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $4.ServerMessage.fromBuffer(value));
+      ($5.ClientMessage value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $5.ServerMessage.fromBuffer(value));
 
   HttpClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
       $core.Iterable<$grpc.ClientInterceptor>? interceptors})
       : super(channel, options: options, interceptors: interceptors);
 
-  $grpc.ResponseStream<$4.ServerMessage> proxy(
-      $async.Stream<$4.ClientMessage> request,
+  $grpc.ResponseStream<$5.ServerMessage> proxy(
+      $async.Stream<$5.ClientMessage> request,
       {$grpc.CallOptions? options}) {
     return $createStreamingCall(_$proxy, request, options: options);
   }
@@ -43,15 +43,15 @@ abstract class HttpServiceBase extends $grpc.Service {
   $core.String get $name => 'nitric.proto.http.v1.Http';
 
   HttpServiceBase() {
-    $addMethod($grpc.ServiceMethod<$4.ClientMessage, $4.ServerMessage>(
+    $addMethod($grpc.ServiceMethod<$5.ClientMessage, $5.ServerMessage>(
         'Proxy',
         proxy,
         true,
         true,
-        ($core.List<$core.int> value) => $4.ClientMessage.fromBuffer(value),
-        ($4.ServerMessage value) => value.writeToBuffer()));
+        ($core.List<$core.int> value) => $5.ClientMessage.fromBuffer(value),
+        ($5.ServerMessage value) => value.writeToBuffer()));
   }
 
-  $async.Stream<$4.ServerMessage> proxy(
-      $grpc.ServiceCall call, $async.Stream<$4.ClientMessage> request);
+  $async.Stream<$5.ServerMessage> proxy(
+      $grpc.ServiceCall call, $async.Stream<$5.ClientMessage> request);
 }

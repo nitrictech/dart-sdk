@@ -186,6 +186,7 @@ enum ResourceDeclareRequest_Config {
   apiSecurityDefinition,
   queue,
   sqlDatabase,
+  job,
   notSet
 }
 
@@ -201,6 +202,7 @@ class ResourceDeclareRequest extends $pb.GeneratedMessage {
     ApiSecurityDefinitionResource? apiSecurityDefinition,
     QueueResource? queue,
     SqlDatabaseResource? sqlDatabase,
+    JobResource? job,
   }) {
     final $result = create();
     if (id != null) {
@@ -233,6 +235,9 @@ class ResourceDeclareRequest extends $pb.GeneratedMessage {
     if (sqlDatabase != null) {
       $result.sqlDatabase = sqlDatabase;
     }
+    if (job != null) {
+      $result.job = job;
+    }
     return $result;
   }
   ResourceDeclareRequest._() : super();
@@ -254,6 +259,7 @@ class ResourceDeclareRequest extends $pb.GeneratedMessage {
     16: ResourceDeclareRequest_Config.apiSecurityDefinition,
     17: ResourceDeclareRequest_Config.queue,
     18: ResourceDeclareRequest_Config.sqlDatabase,
+    19: ResourceDeclareRequest_Config.job,
     0: ResourceDeclareRequest_Config.notSet
   };
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
@@ -261,7 +267,7 @@ class ResourceDeclareRequest extends $pb.GeneratedMessage {
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'nitric.proto.resources.v1'),
       createEmptyInstance: create)
-    ..oo(0, [10, 11, 12, 13, 14, 15, 16, 17, 18])
+    ..oo(0, [10, 11, 12, 13, 14, 15, 16, 17, 18, 19])
     ..aOM<ResourceIdentifier>(1, _omitFieldNames ? '' : 'id',
         subBuilder: ResourceIdentifier.create)
     ..aOM<PolicyResource>(10, _omitFieldNames ? '' : 'policy',
@@ -283,6 +289,8 @@ class ResourceDeclareRequest extends $pb.GeneratedMessage {
         subBuilder: QueueResource.create)
     ..aOM<SqlDatabaseResource>(18, _omitFieldNames ? '' : 'sqlDatabase',
         subBuilder: SqlDatabaseResource.create)
+    ..aOM<JobResource>(19, _omitFieldNames ? '' : 'job',
+        subBuilder: JobResource.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -453,6 +461,20 @@ class ResourceDeclareRequest extends $pb.GeneratedMessage {
   void clearSqlDatabase() => clearField(18);
   @$pb.TagNumber(18)
   SqlDatabaseResource ensureSqlDatabase() => $_ensure(9);
+
+  @$pb.TagNumber(19)
+  JobResource get job => $_getN(10);
+  @$pb.TagNumber(19)
+  set job(JobResource v) {
+    setField(19, v);
+  }
+
+  @$pb.TagNumber(19)
+  $core.bool hasJob() => $_has(10);
+  @$pb.TagNumber(19)
+  void clearJob() => clearField(19);
+  @$pb.TagNumber(19)
+  JobResource ensureJob() => $_ensure(10);
 }
 
 class BucketResource extends $pb.GeneratedMessage {
@@ -660,6 +682,46 @@ class SecretResource extends $pb.GeneratedMessage {
   static SecretResource getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<SecretResource>(create);
   static SecretResource? _defaultInstance;
+}
+
+class JobResource extends $pb.GeneratedMessage {
+  factory JobResource() => create();
+  JobResource._() : super();
+  factory JobResource.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory JobResource.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'JobResource',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'nitric.proto.resources.v1'),
+      createEmptyInstance: create)
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  JobResource clone() => JobResource()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  JobResource copyWith(void Function(JobResource) updates) =>
+      super.copyWith((message) => updates(message as JobResource))
+          as JobResource;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static JobResource create() => JobResource._();
+  JobResource createEmptyInstance() => create();
+  static $pb.PbList<JobResource> createRepeated() => $pb.PbList<JobResource>();
+  @$core.pragma('dart2js:noInline')
+  static JobResource getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<JobResource>(create);
+  static JobResource? _defaultInstance;
 }
 
 enum SqlDatabaseMigrations_Migrations { migrationsPath, notSet }

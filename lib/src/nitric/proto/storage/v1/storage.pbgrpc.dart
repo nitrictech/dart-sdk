@@ -15,86 +15,86 @@ import 'dart:core' as $core;
 import 'package:grpc/service_api.dart' as $grpc;
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'storage.pb.dart' as $2;
+import 'storage.pb.dart' as $3;
 
 export 'storage.pb.dart';
 
 @$pb.GrpcServiceName('nitric.proto.storage.v1.Storage')
 class StorageClient extends $grpc.Client {
   static final _$read =
-      $grpc.ClientMethod<$2.StorageReadRequest, $2.StorageReadResponse>(
+      $grpc.ClientMethod<$3.StorageReadRequest, $3.StorageReadResponse>(
           '/nitric.proto.storage.v1.Storage/Read',
-          ($2.StorageReadRequest value) => value.writeToBuffer(),
+          ($3.StorageReadRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) =>
-              $2.StorageReadResponse.fromBuffer(value));
+              $3.StorageReadResponse.fromBuffer(value));
   static final _$write =
-      $grpc.ClientMethod<$2.StorageWriteRequest, $2.StorageWriteResponse>(
+      $grpc.ClientMethod<$3.StorageWriteRequest, $3.StorageWriteResponse>(
           '/nitric.proto.storage.v1.Storage/Write',
-          ($2.StorageWriteRequest value) => value.writeToBuffer(),
+          ($3.StorageWriteRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) =>
-              $2.StorageWriteResponse.fromBuffer(value));
+              $3.StorageWriteResponse.fromBuffer(value));
   static final _$delete =
-      $grpc.ClientMethod<$2.StorageDeleteRequest, $2.StorageDeleteResponse>(
+      $grpc.ClientMethod<$3.StorageDeleteRequest, $3.StorageDeleteResponse>(
           '/nitric.proto.storage.v1.Storage/Delete',
-          ($2.StorageDeleteRequest value) => value.writeToBuffer(),
+          ($3.StorageDeleteRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) =>
-              $2.StorageDeleteResponse.fromBuffer(value));
-  static final _$preSignUrl = $grpc.ClientMethod<$2.StoragePreSignUrlRequest,
-          $2.StoragePreSignUrlResponse>(
+              $3.StorageDeleteResponse.fromBuffer(value));
+  static final _$preSignUrl = $grpc.ClientMethod<$3.StoragePreSignUrlRequest,
+          $3.StoragePreSignUrlResponse>(
       '/nitric.proto.storage.v1.Storage/PreSignUrl',
-      ($2.StoragePreSignUrlRequest value) => value.writeToBuffer(),
+      ($3.StoragePreSignUrlRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) =>
-          $2.StoragePreSignUrlResponse.fromBuffer(value));
-  static final _$listBlobs = $grpc.ClientMethod<$2.StorageListBlobsRequest,
-          $2.StorageListBlobsResponse>(
+          $3.StoragePreSignUrlResponse.fromBuffer(value));
+  static final _$listBlobs = $grpc.ClientMethod<$3.StorageListBlobsRequest,
+          $3.StorageListBlobsResponse>(
       '/nitric.proto.storage.v1.Storage/ListBlobs',
-      ($2.StorageListBlobsRequest value) => value.writeToBuffer(),
+      ($3.StorageListBlobsRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) =>
-          $2.StorageListBlobsResponse.fromBuffer(value));
+          $3.StorageListBlobsResponse.fromBuffer(value));
   static final _$exists =
-      $grpc.ClientMethod<$2.StorageExistsRequest, $2.StorageExistsResponse>(
+      $grpc.ClientMethod<$3.StorageExistsRequest, $3.StorageExistsResponse>(
           '/nitric.proto.storage.v1.Storage/Exists',
-          ($2.StorageExistsRequest value) => value.writeToBuffer(),
+          ($3.StorageExistsRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) =>
-              $2.StorageExistsResponse.fromBuffer(value));
+              $3.StorageExistsResponse.fromBuffer(value));
 
   StorageClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
       $core.Iterable<$grpc.ClientInterceptor>? interceptors})
       : super(channel, options: options, interceptors: interceptors);
 
-  $grpc.ResponseFuture<$2.StorageReadResponse> read(
-      $2.StorageReadRequest request,
+  $grpc.ResponseFuture<$3.StorageReadResponse> read(
+      $3.StorageReadRequest request,
       {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$read, request, options: options);
   }
 
-  $grpc.ResponseFuture<$2.StorageWriteResponse> write(
-      $2.StorageWriteRequest request,
+  $grpc.ResponseFuture<$3.StorageWriteResponse> write(
+      $3.StorageWriteRequest request,
       {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$write, request, options: options);
   }
 
-  $grpc.ResponseFuture<$2.StorageDeleteResponse> delete(
-      $2.StorageDeleteRequest request,
+  $grpc.ResponseFuture<$3.StorageDeleteResponse> delete(
+      $3.StorageDeleteRequest request,
       {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$delete, request, options: options);
   }
 
-  $grpc.ResponseFuture<$2.StoragePreSignUrlResponse> preSignUrl(
-      $2.StoragePreSignUrlRequest request,
+  $grpc.ResponseFuture<$3.StoragePreSignUrlResponse> preSignUrl(
+      $3.StoragePreSignUrlRequest request,
       {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$preSignUrl, request, options: options);
   }
 
-  $grpc.ResponseFuture<$2.StorageListBlobsResponse> listBlobs(
-      $2.StorageListBlobsRequest request,
+  $grpc.ResponseFuture<$3.StorageListBlobsResponse> listBlobs(
+      $3.StorageListBlobsRequest request,
       {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$listBlobs, request, options: options);
   }
 
-  $grpc.ResponseFuture<$2.StorageExistsResponse> exists(
-      $2.StorageExistsRequest request,
+  $grpc.ResponseFuture<$3.StorageExistsResponse> exists(
+      $3.StorageExistsRequest request,
       {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$exists, request, options: options);
   }
@@ -106,122 +106,122 @@ abstract class StorageServiceBase extends $grpc.Service {
 
   StorageServiceBase() {
     $addMethod(
-        $grpc.ServiceMethod<$2.StorageReadRequest, $2.StorageReadResponse>(
+        $grpc.ServiceMethod<$3.StorageReadRequest, $3.StorageReadResponse>(
             'Read',
             read_Pre,
             false,
             false,
             ($core.List<$core.int> value) =>
-                $2.StorageReadRequest.fromBuffer(value),
-            ($2.StorageReadResponse value) => value.writeToBuffer()));
+                $3.StorageReadRequest.fromBuffer(value),
+            ($3.StorageReadResponse value) => value.writeToBuffer()));
     $addMethod(
-        $grpc.ServiceMethod<$2.StorageWriteRequest, $2.StorageWriteResponse>(
+        $grpc.ServiceMethod<$3.StorageWriteRequest, $3.StorageWriteResponse>(
             'Write',
             write_Pre,
             false,
             false,
             ($core.List<$core.int> value) =>
-                $2.StorageWriteRequest.fromBuffer(value),
-            ($2.StorageWriteResponse value) => value.writeToBuffer()));
+                $3.StorageWriteRequest.fromBuffer(value),
+            ($3.StorageWriteResponse value) => value.writeToBuffer()));
     $addMethod(
-        $grpc.ServiceMethod<$2.StorageDeleteRequest, $2.StorageDeleteResponse>(
+        $grpc.ServiceMethod<$3.StorageDeleteRequest, $3.StorageDeleteResponse>(
             'Delete',
             delete_Pre,
             false,
             false,
             ($core.List<$core.int> value) =>
-                $2.StorageDeleteRequest.fromBuffer(value),
-            ($2.StorageDeleteResponse value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$2.StoragePreSignUrlRequest,
-            $2.StoragePreSignUrlResponse>(
+                $3.StorageDeleteRequest.fromBuffer(value),
+            ($3.StorageDeleteResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$3.StoragePreSignUrlRequest,
+            $3.StoragePreSignUrlResponse>(
         'PreSignUrl',
         preSignUrl_Pre,
         false,
         false,
         ($core.List<$core.int> value) =>
-            $2.StoragePreSignUrlRequest.fromBuffer(value),
-        ($2.StoragePreSignUrlResponse value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$2.StorageListBlobsRequest,
-            $2.StorageListBlobsResponse>(
+            $3.StoragePreSignUrlRequest.fromBuffer(value),
+        ($3.StoragePreSignUrlResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$3.StorageListBlobsRequest,
+            $3.StorageListBlobsResponse>(
         'ListBlobs',
         listBlobs_Pre,
         false,
         false,
         ($core.List<$core.int> value) =>
-            $2.StorageListBlobsRequest.fromBuffer(value),
-        ($2.StorageListBlobsResponse value) => value.writeToBuffer()));
+            $3.StorageListBlobsRequest.fromBuffer(value),
+        ($3.StorageListBlobsResponse value) => value.writeToBuffer()));
     $addMethod(
-        $grpc.ServiceMethod<$2.StorageExistsRequest, $2.StorageExistsResponse>(
+        $grpc.ServiceMethod<$3.StorageExistsRequest, $3.StorageExistsResponse>(
             'Exists',
             exists_Pre,
             false,
             false,
             ($core.List<$core.int> value) =>
-                $2.StorageExistsRequest.fromBuffer(value),
-            ($2.StorageExistsResponse value) => value.writeToBuffer()));
+                $3.StorageExistsRequest.fromBuffer(value),
+            ($3.StorageExistsResponse value) => value.writeToBuffer()));
   }
 
-  $async.Future<$2.StorageReadResponse> read_Pre($grpc.ServiceCall call,
-      $async.Future<$2.StorageReadRequest> request) async {
+  $async.Future<$3.StorageReadResponse> read_Pre($grpc.ServiceCall call,
+      $async.Future<$3.StorageReadRequest> request) async {
     return read(call, await request);
   }
 
-  $async.Future<$2.StorageWriteResponse> write_Pre($grpc.ServiceCall call,
-      $async.Future<$2.StorageWriteRequest> request) async {
+  $async.Future<$3.StorageWriteResponse> write_Pre($grpc.ServiceCall call,
+      $async.Future<$3.StorageWriteRequest> request) async {
     return write(call, await request);
   }
 
-  $async.Future<$2.StorageDeleteResponse> delete_Pre($grpc.ServiceCall call,
-      $async.Future<$2.StorageDeleteRequest> request) async {
+  $async.Future<$3.StorageDeleteResponse> delete_Pre($grpc.ServiceCall call,
+      $async.Future<$3.StorageDeleteRequest> request) async {
     return delete(call, await request);
   }
 
-  $async.Future<$2.StoragePreSignUrlResponse> preSignUrl_Pre(
+  $async.Future<$3.StoragePreSignUrlResponse> preSignUrl_Pre(
       $grpc.ServiceCall call,
-      $async.Future<$2.StoragePreSignUrlRequest> request) async {
+      $async.Future<$3.StoragePreSignUrlRequest> request) async {
     return preSignUrl(call, await request);
   }
 
-  $async.Future<$2.StorageListBlobsResponse> listBlobs_Pre(
+  $async.Future<$3.StorageListBlobsResponse> listBlobs_Pre(
       $grpc.ServiceCall call,
-      $async.Future<$2.StorageListBlobsRequest> request) async {
+      $async.Future<$3.StorageListBlobsRequest> request) async {
     return listBlobs(call, await request);
   }
 
-  $async.Future<$2.StorageExistsResponse> exists_Pre($grpc.ServiceCall call,
-      $async.Future<$2.StorageExistsRequest> request) async {
+  $async.Future<$3.StorageExistsResponse> exists_Pre($grpc.ServiceCall call,
+      $async.Future<$3.StorageExistsRequest> request) async {
     return exists(call, await request);
   }
 
-  $async.Future<$2.StorageReadResponse> read(
-      $grpc.ServiceCall call, $2.StorageReadRequest request);
-  $async.Future<$2.StorageWriteResponse> write(
-      $grpc.ServiceCall call, $2.StorageWriteRequest request);
-  $async.Future<$2.StorageDeleteResponse> delete(
-      $grpc.ServiceCall call, $2.StorageDeleteRequest request);
-  $async.Future<$2.StoragePreSignUrlResponse> preSignUrl(
-      $grpc.ServiceCall call, $2.StoragePreSignUrlRequest request);
-  $async.Future<$2.StorageListBlobsResponse> listBlobs(
-      $grpc.ServiceCall call, $2.StorageListBlobsRequest request);
-  $async.Future<$2.StorageExistsResponse> exists(
-      $grpc.ServiceCall call, $2.StorageExistsRequest request);
+  $async.Future<$3.StorageReadResponse> read(
+      $grpc.ServiceCall call, $3.StorageReadRequest request);
+  $async.Future<$3.StorageWriteResponse> write(
+      $grpc.ServiceCall call, $3.StorageWriteRequest request);
+  $async.Future<$3.StorageDeleteResponse> delete(
+      $grpc.ServiceCall call, $3.StorageDeleteRequest request);
+  $async.Future<$3.StoragePreSignUrlResponse> preSignUrl(
+      $grpc.ServiceCall call, $3.StoragePreSignUrlRequest request);
+  $async.Future<$3.StorageListBlobsResponse> listBlobs(
+      $grpc.ServiceCall call, $3.StorageListBlobsRequest request);
+  $async.Future<$3.StorageExistsResponse> exists(
+      $grpc.ServiceCall call, $3.StorageExistsRequest request);
 }
 
 @$pb.GrpcServiceName('nitric.proto.storage.v1.StorageListener')
 class StorageListenerClient extends $grpc.Client {
   static final _$listen =
-      $grpc.ClientMethod<$2.ClientMessage, $2.ServerMessage>(
+      $grpc.ClientMethod<$3.ClientMessage, $3.ServerMessage>(
           '/nitric.proto.storage.v1.StorageListener/Listen',
-          ($2.ClientMessage value) => value.writeToBuffer(),
-          ($core.List<$core.int> value) => $2.ServerMessage.fromBuffer(value));
+          ($3.ClientMessage value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) => $3.ServerMessage.fromBuffer(value));
 
   StorageListenerClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
       $core.Iterable<$grpc.ClientInterceptor>? interceptors})
       : super(channel, options: options, interceptors: interceptors);
 
-  $grpc.ResponseStream<$2.ServerMessage> listen(
-      $async.Stream<$2.ClientMessage> request,
+  $grpc.ResponseStream<$3.ServerMessage> listen(
+      $async.Stream<$3.ClientMessage> request,
       {$grpc.CallOptions? options}) {
     return $createStreamingCall(_$listen, request, options: options);
   }
@@ -232,15 +232,15 @@ abstract class StorageListenerServiceBase extends $grpc.Service {
   $core.String get $name => 'nitric.proto.storage.v1.StorageListener';
 
   StorageListenerServiceBase() {
-    $addMethod($grpc.ServiceMethod<$2.ClientMessage, $2.ServerMessage>(
+    $addMethod($grpc.ServiceMethod<$3.ClientMessage, $3.ServerMessage>(
         'Listen',
         listen,
         true,
         true,
-        ($core.List<$core.int> value) => $2.ClientMessage.fromBuffer(value),
-        ($2.ServerMessage value) => value.writeToBuffer()));
+        ($core.List<$core.int> value) => $3.ClientMessage.fromBuffer(value),
+        ($3.ServerMessage value) => value.writeToBuffer()));
   }
 
-  $async.Stream<$2.ServerMessage> listen(
-      $grpc.ServiceCall call, $async.Stream<$2.ClientMessage> request);
+  $async.Stream<$3.ServerMessage> listen(
+      $grpc.ServiceCall call, $async.Stream<$3.ClientMessage> request);
 }

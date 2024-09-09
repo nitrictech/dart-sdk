@@ -44,6 +44,10 @@ class ResourceType extends $pb.ProtobufEnum {
       ResourceType._(13, _omitEnumNames ? '' : 'Queue');
   static const ResourceType SqlDatabase =
       ResourceType._(14, _omitEnumNames ? '' : 'SqlDatabase');
+  static const ResourceType Batch =
+      ResourceType._(15, _omitEnumNames ? '' : 'Batch');
+  static const ResourceType Job =
+      ResourceType._(16, _omitEnumNames ? '' : 'Job');
 
   static const $core.List<ResourceType> values = <ResourceType>[
     Api,
@@ -61,6 +65,8 @@ class ResourceType extends $pb.ProtobufEnum {
     ApiSecurityDefinition,
     Queue,
     SqlDatabase,
+    Batch,
+    Job,
   ];
 
   static final $core.Map<$core.int, ResourceType> _byValue =
@@ -97,6 +103,8 @@ class Action extends $pb.ProtobufEnum {
       Action._(600, _omitEnumNames ? '' : 'QueueEnqueue');
   static const Action QueueDequeue =
       Action._(601, _omitEnumNames ? '' : 'QueueDequeue');
+  static const Action JobSubmit =
+      Action._(700, _omitEnumNames ? '' : 'JobSubmit');
 
   static const $core.List<Action> values = <Action>[
     BucketFileList,
@@ -112,6 +120,7 @@ class Action extends $pb.ProtobufEnum {
     WebsocketManage,
     QueueEnqueue,
     QueueDequeue,
+    JobSubmit,
   ];
 
   static final $core.Map<$core.int, Action> _byValue =

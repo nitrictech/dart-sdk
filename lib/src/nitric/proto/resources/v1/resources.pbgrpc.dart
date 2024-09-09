@@ -15,26 +15,26 @@ import 'dart:core' as $core;
 import 'package:grpc/service_api.dart' as $grpc;
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'resources.pb.dart' as $1;
+import 'resources.pb.dart' as $2;
 
 export 'resources.pb.dart';
 
 @$pb.GrpcServiceName('nitric.proto.resources.v1.Resources')
 class ResourcesClient extends $grpc.Client {
   static final _$declare =
-      $grpc.ClientMethod<$1.ResourceDeclareRequest, $1.ResourceDeclareResponse>(
+      $grpc.ClientMethod<$2.ResourceDeclareRequest, $2.ResourceDeclareResponse>(
           '/nitric.proto.resources.v1.Resources/Declare',
-          ($1.ResourceDeclareRequest value) => value.writeToBuffer(),
+          ($2.ResourceDeclareRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) =>
-              $1.ResourceDeclareResponse.fromBuffer(value));
+              $2.ResourceDeclareResponse.fromBuffer(value));
 
   ResourcesClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
       $core.Iterable<$grpc.ClientInterceptor>? interceptors})
       : super(channel, options: options, interceptors: interceptors);
 
-  $grpc.ResponseFuture<$1.ResourceDeclareResponse> declare(
-      $1.ResourceDeclareRequest request,
+  $grpc.ResponseFuture<$2.ResourceDeclareResponse> declare(
+      $2.ResourceDeclareRequest request,
       {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$declare, request, options: options);
   }
@@ -45,22 +45,22 @@ abstract class ResourcesServiceBase extends $grpc.Service {
   $core.String get $name => 'nitric.proto.resources.v1.Resources';
 
   ResourcesServiceBase() {
-    $addMethod($grpc.ServiceMethod<$1.ResourceDeclareRequest,
-            $1.ResourceDeclareResponse>(
+    $addMethod($grpc.ServiceMethod<$2.ResourceDeclareRequest,
+            $2.ResourceDeclareResponse>(
         'Declare',
         declare_Pre,
         false,
         false,
         ($core.List<$core.int> value) =>
-            $1.ResourceDeclareRequest.fromBuffer(value),
-        ($1.ResourceDeclareResponse value) => value.writeToBuffer()));
+            $2.ResourceDeclareRequest.fromBuffer(value),
+        ($2.ResourceDeclareResponse value) => value.writeToBuffer()));
   }
 
-  $async.Future<$1.ResourceDeclareResponse> declare_Pre($grpc.ServiceCall call,
-      $async.Future<$1.ResourceDeclareRequest> request) async {
+  $async.Future<$2.ResourceDeclareResponse> declare_Pre($grpc.ServiceCall call,
+      $async.Future<$2.ResourceDeclareRequest> request) async {
     return declare(call, await request);
   }
 
-  $async.Future<$1.ResourceDeclareResponse> declare(
-      $grpc.ServiceCall call, $1.ResourceDeclareRequest request);
+  $async.Future<$2.ResourceDeclareResponse> declare(
+      $grpc.ServiceCall call, $2.ResourceDeclareRequest request);
 }

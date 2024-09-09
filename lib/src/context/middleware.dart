@@ -8,6 +8,7 @@ typedef MessageHandler = Handler<MessageContext>;
 typedef BlobEventHandler = Handler<BlobEventContext>;
 typedef FileEventHandler = Handler<FileEventContext>;
 typedef WebsocketHandler = Handler<WebsocketContext>;
+typedef JobHandler = Handler<JobContext>;
 
 Future<T> _defaultHandler<T extends TriggerContext>(T ctx) async => ctx;
 

@@ -61,6 +61,10 @@ class Nitric {
   static Websocket websocket(String name) =>
       _makeResource(name, Websocket.new) as Websocket;
 
+  /// Create a [name]d job for running and submitting long-running jobs
+  static JobResource job(String name) =>
+      _makeResource(name, JobResource.new) as JobResource;
+
   /// Create a [name]d oidc rule for attaching security definitions to APIs.
   static SecurityOption oidcRule(
       String name, String issuer, List<String> audiences) {

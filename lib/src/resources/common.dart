@@ -3,6 +3,7 @@ library resources;
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:fixnum/fixnum.dart';
 import 'package:nitric_sdk/src/api/api.dart';
 import 'package:nitric_sdk/src/grpc_helper.dart';
 import 'package:nitric_sdk/src/nitric/proto/apis/v1/apis.pbgrpc.dart';
@@ -23,6 +24,8 @@ import 'package:nitric_sdk/src/nitric/proto/websockets/v1/websockets.pbgrpc.dart
     as $wp;
 import 'package:nitric_sdk/src/nitric/proto/storage/v1/storage.pbgrpc.dart'
     as $bp;
+import 'package:nitric_sdk/src/nitric/proto/batch/v1/batch.pbgrpc.dart' as $jp;
+
 import 'package:meta/meta.dart' hide ResourceIdentifier;
 import 'package:nitric_sdk/src/workers/common.dart';
 
@@ -35,6 +38,7 @@ part 'topic.dart';
 part 'websocket.dart';
 part 'queue.dart';
 part 'oidc.dart';
+part 'batch.dart';
 
 /// A representation of a resource that can be registered with the Nitric server.
 abstract class Resource {
