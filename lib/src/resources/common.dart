@@ -46,16 +46,23 @@ abstract class Resource {
       Completer<ResourceIdentifier>();
 
   /// Internal resource client to declare the resource.
-  late final $p.ResourcesClient _client;
+  final $p.ResourcesClient? _client;
 
   @protected
-  Resource(this.name, $p.ResourcesClient? client) {
-    if (client == null) {
-      _client =
-          $p.ResourcesClient(ClientChannelSingleton.instance.clientChannel);
-    } else {
-      _client = client;
+  Resource(this.name, $p.ResourcesClient? client)
+      : _client = client; 
+
+  Future<Resp> _useClient<Resp>(
+      UseClientCallback<$p.ResourcesClient, Resp> callback) async {
+    final client = _client ?? $p.ResourcesClient(ClientChannelSingleton.instance.clientChannel);
+
+    var resp = callback(client);
+
+    if (_client == null) {
+      await ClientChannelSingleton.instance.release();
     }
+
+    return resp;
   }
 
   ResourceDeclareRequest asRequest();
@@ -64,9 +71,7 @@ abstract class Resource {
   Future<void> register() async {
     var res = asRequest();
 
-    await _client.declare(res);
-
-    await ClientChannelSingleton.instance.release();
+    await _useClient((client) async => await client.declare(res));
 
     _registrationCompletion.complete(res.id);
   }
@@ -90,10 +95,7 @@ abstract class SecureResource<T extends Enum> extends Resource {
         resources: [resourceIdentifier],
         actions: permissionsToActions(permissions));
 
-    await _client
-        .declare($p.ResourceDeclareRequest(policy: policy, id: policyResource));
-
-    await ClientChannelSingleton.instance.release();
+    await _useClient((client) async => await client.declare($p.ResourceDeclareRequest(policy: policy, id: policyResource)));
   }
 
   /// Register the resource with the Nitric server.
@@ -101,7 +103,7 @@ abstract class SecureResource<T extends Enum> extends Resource {
   Future<void> register() async {
     var res = asRequest();
 
-    await _client.declare(res);
+    await _useClient((client) async => await client.declare(res));
 
     _registrationCompletion.complete(res.id);
   }

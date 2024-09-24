@@ -9,22 +9,17 @@ import 'api.dart';
 
 /// A Topic for publishing events to subscribers of this topic.
 class SqlDatabase extends Resource {
-  /// The name of the topic
-  late final String? migrations;
-  late final $p.SqlClient? _sqlClient;
+  /// The Database migrations
+  final String? migrations;
+  final $p.SqlClient? _sqlClient;
 
-  SqlDatabase(String name,
-      {this.migrations,
-      $p.SqlClient? client,
-      $rp.ResourcesClient? resourcesClient})
-      : super(name, resourcesClient) {
-    _sqlClient = client;
-  }
+  SqlDatabase(String name, {this.migrations, $p.SqlClient? client, $rp.ResourcesClient? resourcesClient})
+      : _sqlClient = client,
+        super(name, resourcesClient);
 
   Future<Resp> _useClient<Resp>(
       UseClientCallback<$p.SqlClient, Resp> callback) async {
-    final client = _sqlClient ??
-        $p.SqlClient(ClientChannelSingleton.instance.clientChannel);
+    final client = _sqlClient ?? $p.SqlClient(ClientChannelSingleton.instance.clientChannel);
 
     var resp = callback(client);
 
