@@ -32,6 +32,8 @@ const ResourceType$json = {
     {'1': 'ApiSecurityDefinition', '2': 12},
     {'1': 'Queue', '2': 13},
     {'1': 'SqlDatabase', '2': 14},
+    {'1': 'Batch', '2': 15},
+    {'1': 'Job', '2': 16},
   ],
 };
 
@@ -41,7 +43,7 @@ final $typed_data.Uint8List resourceTypeDescriptor = $convert.base64Decode(
     'ljEAMSDAoIU2NoZWR1bGUQBBIQCgxTdWJzY3JpcHRpb24QBRIRCg1LZXlWYWx1ZVN0b3JlEAYS'
     'CgoGUG9saWN5EAcSCgoGU2VjcmV0EAgSEgoOQnVja2V0TGlzdGVuZXIQCRINCglXZWJzb2NrZX'
     'QQChIICgRIdHRwEAsSGQoVQXBpU2VjdXJpdHlEZWZpbml0aW9uEAwSCQoFUXVldWUQDRIPCgtT'
-    'cWxEYXRhYmFzZRAO');
+    'cWxEYXRhYmFzZRAOEgkKBUJhdGNoEA8SBwoDSm9iEBA=');
 
 @$core.Deprecated('Use actionDescriptor instead')
 const Action$json = {
@@ -60,6 +62,7 @@ const Action$json = {
     {'1': 'WebsocketManage', '2': 500},
     {'1': 'QueueEnqueue', '2': 600},
     {'1': 'QueueDequeue', '2': 601},
+    {'1': 'JobSubmit', '2': 700},
   ],
 };
 
@@ -69,8 +72,8 @@ final $typed_data.Uint8List actionDescriptor = $convert.base64Decode(
     'V0RmlsZVB1dBACEhQKEEJ1Y2tldEZpbGVEZWxldGUQAxIRCgxUb3BpY1B1Ymxpc2gQyAESFgoR'
     'S2V5VmFsdWVTdG9yZVJlYWQQrAISFwoSS2V5VmFsdWVTdG9yZVdyaXRlEK0CEhgKE0tleVZhbH'
     'VlU3RvcmVEZWxldGUQrgISDgoJU2VjcmV0UHV0EJADEhEKDFNlY3JldEFjY2VzcxCRAxIUCg9X'
-    'ZWJzb2NrZXRNYW5hZ2UQ9AMSEQoMUXVldWVFbnF1ZXVlENgEEhEKDFF1ZXVlRGVxdWV1ZRDZBA'
-    '==');
+    'ZWJzb2NrZXRNYW5hZ2UQ9AMSEQoMUXVldWVFbnF1ZXVlENgEEhEKDFF1ZXVlRGVxdWV1ZRDZBB'
+    'IOCglKb2JTdWJtaXQQvAU=');
 
 @$core.Deprecated('Use policyResourceDescriptor instead')
 const PolicyResource$json = {
@@ -225,6 +228,15 @@ const ResourceDeclareRequest$json = {
       '9': 0,
       '10': 'sqlDatabase'
     },
+    {
+      '1': 'job',
+      '3': 19,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.resources.v1.JobResource',
+      '9': 0,
+      '10': 'job'
+    },
   ],
   '8': [
     {'1': 'config'},
@@ -247,7 +259,8 @@ final $typed_data.Uint8List resourceDeclareRequestDescriptor = $convert.base64De
     'NlY3VyaXR5RGVmaW5pdGlvbhJACgVxdWV1ZRgRIAEoCzIoLm5pdHJpYy5wcm90by5yZXNvdXJj'
     'ZXMudjEuUXVldWVSZXNvdXJjZUgAUgVxdWV1ZRJTCgxzcWxfZGF0YWJhc2UYEiABKAsyLi5uaX'
     'RyaWMucHJvdG8ucmVzb3VyY2VzLnYxLlNxbERhdGFiYXNlUmVzb3VyY2VIAFILc3FsRGF0YWJh'
-    'c2VCCAoGY29uZmln');
+    'c2USOgoDam9iGBMgASgLMiYubml0cmljLnByb3RvLnJlc291cmNlcy52MS5Kb2JSZXNvdXJjZU'
+    'gAUgNqb2JCCAoGY29uZmln');
 
 @$core.Deprecated('Use bucketResourceDescriptor instead')
 const BucketResource$json = {
@@ -293,6 +306,15 @@ const SecretResource$json = {
 /// Descriptor for `SecretResource`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List secretResourceDescriptor =
     $convert.base64Decode('Cg5TZWNyZXRSZXNvdXJjZQ==');
+
+@$core.Deprecated('Use jobResourceDescriptor instead')
+const JobResource$json = {
+  '1': 'JobResource',
+};
+
+/// Descriptor for `JobResource`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List jobResourceDescriptor =
+    $convert.base64Decode('CgtKb2JSZXNvdXJjZQ==');
 
 @$core.Deprecated('Use sqlDatabaseMigrationsDescriptor instead')
 const SqlDatabaseMigrations$json = {

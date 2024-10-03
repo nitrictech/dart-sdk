@@ -4,31 +4,12 @@ import 'package:nitric_sdk/src/grpc_helper.dart';
 import 'package:nitric_sdk/src/nitric/proto/secrets/v1/secrets.pbgrpc.dart'
     as $p;
 
-import 'api.dart';
-
 /// References an encrypted secret stored in a secret manager.
 class Secret {
   /// The name of the secret
   final String name;
-  late final $p.SecretManagerClient? _secretClient;
 
-  Secret(this.name, {$p.SecretManagerClient? client}) {
-    _secretClient = client;
-  }
-
-  Future<Resp> _useClient<Resp>(
-      UseClientCallback<$p.SecretManagerClient, Resp> callback) async {
-    final client = _secretClient ??
-        $p.SecretManagerClient(ClientChannelSingleton.instance.clientChannel);
-
-    var resp = callback(client);
-
-    if (_secretClient == null) {
-      await ClientChannelSingleton.instance.release();
-    }
-
-    return resp;
-  }
+  Secret(this.name);
 
   /// Get a reference to a specific [version] of this secret.
   SecretVersion version(String version) {
@@ -43,7 +24,8 @@ class Secret {
   /// Put a new [value] to the secret, creating a new secret version and returning it.
   Future<SecretVersion> put(String value) async {
     var req = $p.SecretPutRequest(secret: _toWire(), value: utf8.encode(value));
-    var resp = await _useClient((client) async => client.put(req));
+    var resp = await ClientChannelSingleton.useClient(
+        $p.SecretManagerClient.new, (client) async => client.put(req));
 
     return SecretVersion._fromWire(this, resp.secretVersion);
   }
@@ -71,8 +53,8 @@ class SecretVersion {
   /// Access the value of this secret version.
   Future<SecretValue> access() async {
     var req = $p.SecretAccessRequest(secretVersion: _toWire());
-    var resp =
-        await _secret._useClient((client) async => await client.access(req));
+    var resp = await ClientChannelSingleton.useClient(
+        $p.SecretManagerClient.new, (client) async => await client.access(req));
 
     return SecretValue(version, utf8.decode(resp.value));
   }

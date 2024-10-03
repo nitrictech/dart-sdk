@@ -318,6 +318,82 @@ final $typed_data.Uint8List serviceDescriptor = $convert.base64Decode(
     'LlNlcnZpY2UuRW52RW50cnlSA2Vudho2CghFbnZFbnRyeRIQCgNrZXkYASABKAlSA2tleRIUCg'
     'V2YWx1ZRgCIAEoCVIFdmFsdWU6AjgBQggKBnNvdXJjZQ==');
 
+@$core.Deprecated('Use jobDescriptor instead')
+const Job$json = {
+  '1': 'Job',
+  '2': [
+    {'1': 'name', '3': 1, '4': 1, '5': 9, '10': 'name'},
+    {
+      '1': 'requirements',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.batch.v1.JobResourceRequirements',
+      '10': 'requirements'
+    },
+  ],
+};
+
+/// Descriptor for `Job`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List jobDescriptor = $convert.base64Decode(
+    'CgNKb2ISEgoEbmFtZRgBIAEoCVIEbmFtZRJSCgxyZXF1aXJlbWVudHMYAiABKAsyLi5uaXRyaW'
+    'MucHJvdG8uYmF0Y2gudjEuSm9iUmVzb3VyY2VSZXF1aXJlbWVudHNSDHJlcXVpcmVtZW50cw==');
+
+@$core.Deprecated('Use batchDescriptor instead')
+const Batch$json = {
+  '1': 'Batch',
+  '2': [
+    {
+      '1': 'image',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.deployments.v1.ImageSource',
+      '9': 0,
+      '10': 'image'
+    },
+    {'1': 'type', '3': 10, '4': 1, '5': 9, '10': 'type'},
+    {
+      '1': 'env',
+      '3': 11,
+      '4': 3,
+      '5': 11,
+      '6': '.nitric.proto.deployments.v1.Batch.EnvEntry',
+      '10': 'env'
+    },
+    {
+      '1': 'jobs',
+      '3': 12,
+      '4': 3,
+      '5': 11,
+      '6': '.nitric.proto.deployments.v1.Job',
+      '10': 'jobs'
+    },
+  ],
+  '3': [Batch_EnvEntry$json],
+  '8': [
+    {'1': 'source'},
+  ],
+};
+
+@$core.Deprecated('Use batchDescriptor instead')
+const Batch_EnvEntry$json = {
+  '1': 'EnvEntry',
+  '2': [
+    {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
+    {'1': 'value', '3': 2, '4': 1, '5': 9, '10': 'value'},
+  ],
+  '7': {'7': true},
+};
+
+/// Descriptor for `Batch`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List batchDescriptor = $convert.base64Decode(
+    'CgVCYXRjaBJACgVpbWFnZRgBIAEoCzIoLm5pdHJpYy5wcm90by5kZXBsb3ltZW50cy52MS5JbW'
+    'FnZVNvdXJjZUgAUgVpbWFnZRISCgR0eXBlGAogASgJUgR0eXBlEj0KA2VudhgLIAMoCzIrLm5p'
+    'dHJpYy5wcm90by5kZXBsb3ltZW50cy52MS5CYXRjaC5FbnZFbnRyeVIDZW52EjQKBGpvYnMYDC'
+    'ADKAsyIC5uaXRyaWMucHJvdG8uZGVwbG95bWVudHMudjEuSm9iUgRqb2JzGjYKCEVudkVudHJ5'
+    'EhAKA2tleRgBIAEoCVIDa2V5EhQKBXZhbHVlGAIgASgJUgV2YWx1ZToCOAFCCAoGc291cmNl');
+
 @$core.Deprecated('Use bucketDescriptor instead')
 const Bucket$json = {
   '1': 'Bucket',
@@ -770,6 +846,15 @@ const Resource$json = {
       '9': 0,
       '10': 'sqlDatabase'
     },
+    {
+      '1': 'batch',
+      '3': 22,
+      '4': 1,
+      '5': 11,
+      '6': '.nitric.proto.deployments.v1.Batch',
+      '9': 0,
+      '10': 'batch'
+    },
   ],
   '8': [
     {'1': 'config'},
@@ -793,7 +878,8 @@ final $typed_data.Uint8List resourceDescriptor = $convert.base64Decode(
     'a2V0EjcKBGh0dHAYEyABKAsyIS5uaXRyaWMucHJvdG8uZGVwbG95bWVudHMudjEuSHR0cEgAUg'
     'RodHRwEjoKBXF1ZXVlGBQgASgLMiIubml0cmljLnByb3RvLmRlcGxveW1lbnRzLnYxLlF1ZXVl'
     'SABSBXF1ZXVlEk0KDHNxbF9kYXRhYmFzZRgVIAEoCzIoLm5pdHJpYy5wcm90by5kZXBsb3ltZW'
-    '50cy52MS5TcWxEYXRhYmFzZUgAUgtzcWxEYXRhYmFzZUIICgZjb25maWc=');
+    '50cy52MS5TcWxEYXRhYmFzZUgAUgtzcWxEYXRhYmFzZRI6CgViYXRjaBgWIAEoCzIiLm5pdHJp'
+    'Yy5wcm90by5kZXBsb3ltZW50cy52MS5CYXRjaEgAUgViYXRjaEIICgZjb25maWc=');
 
 @$core.Deprecated('Use policyDescriptor instead')
 const Policy$json = {

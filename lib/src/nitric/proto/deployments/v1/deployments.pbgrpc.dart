@@ -15,38 +15,38 @@ import 'dart:core' as $core;
 import 'package:grpc/service_api.dart' as $grpc;
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'deployments.pb.dart' as $3;
+import 'deployments.pb.dart' as $4;
 
 export 'deployments.pb.dart';
 
 @$pb.GrpcServiceName('nitric.proto.deployments.v1.Deployment')
 class DeploymentClient extends $grpc.Client {
   static final _$up =
-      $grpc.ClientMethod<$3.DeploymentUpRequest, $3.DeploymentUpEvent>(
+      $grpc.ClientMethod<$4.DeploymentUpRequest, $4.DeploymentUpEvent>(
           '/nitric.proto.deployments.v1.Deployment/Up',
-          ($3.DeploymentUpRequest value) => value.writeToBuffer(),
+          ($4.DeploymentUpRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) =>
-              $3.DeploymentUpEvent.fromBuffer(value));
+              $4.DeploymentUpEvent.fromBuffer(value));
   static final _$down =
-      $grpc.ClientMethod<$3.DeploymentDownRequest, $3.DeploymentDownEvent>(
+      $grpc.ClientMethod<$4.DeploymentDownRequest, $4.DeploymentDownEvent>(
           '/nitric.proto.deployments.v1.Deployment/Down',
-          ($3.DeploymentDownRequest value) => value.writeToBuffer(),
+          ($4.DeploymentDownRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) =>
-              $3.DeploymentDownEvent.fromBuffer(value));
+              $4.DeploymentDownEvent.fromBuffer(value));
 
   DeploymentClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
       $core.Iterable<$grpc.ClientInterceptor>? interceptors})
       : super(channel, options: options, interceptors: interceptors);
 
-  $grpc.ResponseStream<$3.DeploymentUpEvent> up($3.DeploymentUpRequest request,
+  $grpc.ResponseStream<$4.DeploymentUpEvent> up($4.DeploymentUpRequest request,
       {$grpc.CallOptions? options}) {
     return $createStreamingCall(_$up, $async.Stream.fromIterable([request]),
         options: options);
   }
 
-  $grpc.ResponseStream<$3.DeploymentDownEvent> down(
-      $3.DeploymentDownRequest request,
+  $grpc.ResponseStream<$4.DeploymentDownEvent> down(
+      $4.DeploymentDownRequest request,
       {$grpc.CallOptions? options}) {
     return $createStreamingCall(_$down, $async.Stream.fromIterable([request]),
         options: options);
@@ -59,37 +59,37 @@ abstract class DeploymentServiceBase extends $grpc.Service {
 
   DeploymentServiceBase() {
     $addMethod(
-        $grpc.ServiceMethod<$3.DeploymentUpRequest, $3.DeploymentUpEvent>(
+        $grpc.ServiceMethod<$4.DeploymentUpRequest, $4.DeploymentUpEvent>(
             'Up',
             up_Pre,
             false,
             true,
             ($core.List<$core.int> value) =>
-                $3.DeploymentUpRequest.fromBuffer(value),
-            ($3.DeploymentUpEvent value) => value.writeToBuffer()));
+                $4.DeploymentUpRequest.fromBuffer(value),
+            ($4.DeploymentUpEvent value) => value.writeToBuffer()));
     $addMethod(
-        $grpc.ServiceMethod<$3.DeploymentDownRequest, $3.DeploymentDownEvent>(
+        $grpc.ServiceMethod<$4.DeploymentDownRequest, $4.DeploymentDownEvent>(
             'Down',
             down_Pre,
             false,
             true,
             ($core.List<$core.int> value) =>
-                $3.DeploymentDownRequest.fromBuffer(value),
-            ($3.DeploymentDownEvent value) => value.writeToBuffer()));
+                $4.DeploymentDownRequest.fromBuffer(value),
+            ($4.DeploymentDownEvent value) => value.writeToBuffer()));
   }
 
-  $async.Stream<$3.DeploymentUpEvent> up_Pre($grpc.ServiceCall call,
-      $async.Future<$3.DeploymentUpRequest> request) async* {
+  $async.Stream<$4.DeploymentUpEvent> up_Pre($grpc.ServiceCall call,
+      $async.Future<$4.DeploymentUpRequest> request) async* {
     yield* up(call, await request);
   }
 
-  $async.Stream<$3.DeploymentDownEvent> down_Pre($grpc.ServiceCall call,
-      $async.Future<$3.DeploymentDownRequest> request) async* {
+  $async.Stream<$4.DeploymentDownEvent> down_Pre($grpc.ServiceCall call,
+      $async.Future<$4.DeploymentDownRequest> request) async* {
     yield* down(call, await request);
   }
 
-  $async.Stream<$3.DeploymentUpEvent> up(
-      $grpc.ServiceCall call, $3.DeploymentUpRequest request);
-  $async.Stream<$3.DeploymentDownEvent> down(
-      $grpc.ServiceCall call, $3.DeploymentDownRequest request);
+  $async.Stream<$4.DeploymentUpEvent> up(
+      $grpc.ServiceCall call, $4.DeploymentUpRequest request);
+  $async.Stream<$4.DeploymentDownEvent> down(
+      $grpc.ServiceCall call, $4.DeploymentDownRequest request);
 }

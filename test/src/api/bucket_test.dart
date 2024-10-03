@@ -5,6 +5,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:nitric_sdk/nitric.dart';
 import 'package:nitric_sdk/src/api/api.dart';
 import 'package:nitric_sdk/src/google/protobuf/duration.pb.dart';
+import 'package:nitric_sdk/src/grpc_helper.dart';
 import 'package:nitric_sdk/src/nitric/proto/storage/v1/storage.pbgrpc.dart'
     as $sp;
 import 'package:test/test.dart';
@@ -23,6 +24,11 @@ void main() {
   setUp(() {
     storageClient = MockStorageClient();
     storageListenerClient = MockStorageListenerClient();
+
+    ClientChannelSingleton.registerClientConstructors(Map.from({
+      $sp.StorageClient: storageClient,
+      $sp.StorageListenerClient: storageListenerClient
+    }));
   });
 
   setUpAll(() {
@@ -35,13 +41,13 @@ void main() {
   });
 
   test('Test build bucket', () {
-    var bucket = Bucket("bucketName", client: storageClient);
+    var bucket = Bucket("bucketName");
 
     expect(bucket.name, "bucketName");
   });
 
   test('Test get file reference', () {
-    var bucket = Bucket("bucketName", client: storageClient);
+    var bucket = Bucket("bucketName");
 
     var file = bucket.file("fileName");
 
@@ -60,7 +66,7 @@ void main() {
     when(() => storageClient.listBlobs(req))
         .thenAnswer((_) => MockResponseFuture.value(resp));
 
-    var bucket = Bucket("bucketName", client: storageClient);
+    var bucket = Bucket("bucketName");
 
     var blobs = await bucket.files();
 
@@ -85,7 +91,7 @@ void main() {
     when(() => storageClient.listBlobs(req))
         .thenAnswer((_) => MockResponseFuture.value(resp));
 
-    var bucket = Bucket("bucketName", client: storageClient);
+    var bucket = Bucket("bucketName");
 
     var blobs = await bucket.files(prefix: "blob-");
 
@@ -108,7 +114,7 @@ void main() {
     when(() => storageClient.write(req))
         .thenAnswer((_) => MockResponseFuture.value(resp));
 
-    var bucket = Bucket("bucketName", client: storageClient);
+    var bucket = Bucket("bucketName");
 
     await bucket.file("fileName").write("contents");
 
@@ -128,7 +134,7 @@ void main() {
     when(() => storageClient.read(req))
         .thenAnswer((_) => MockResponseFuture.value(resp));
 
-    var bucket = Bucket("bucketName", client: storageClient);
+    var bucket = Bucket("bucketName");
 
     var contents = await bucket.file("fileName").read();
 
@@ -148,7 +154,7 @@ void main() {
     when(() => storageClient.delete(req))
         .thenAnswer((_) => MockResponseFuture.value(resp));
 
-    var bucket = Bucket("bucketName", client: storageClient);
+    var bucket = Bucket("bucketName");
 
     await bucket.file("fileName").delete();
 
@@ -167,7 +173,7 @@ void main() {
     when(() => storageClient.preSignUrl(req))
         .thenAnswer((_) => MockResponseFuture.value(resp));
 
-    var bucket = Bucket("bucketName", client: storageClient);
+    var bucket = Bucket("bucketName");
 
     var url = await bucket.file("fileName").getDownloadUrl();
 
@@ -188,7 +194,7 @@ void main() {
     when(() => storageClient.preSignUrl(req))
         .thenAnswer((_) => MockResponseFuture.value(resp));
 
-    var bucket = Bucket("bucketName", client: storageClient);
+    var bucket = Bucket("bucketName");
 
     var url = await bucket.file("fileName").getDownloadUrl(3600);
 
@@ -198,7 +204,7 @@ void main() {
   });
 
   test('Test get download url with out of bounds expiry', () async {
-    var bucket = Bucket("bucketName", client: storageClient);
+    var bucket = Bucket("bucketName");
 
     try {
       await bucket.file("fileName").getDownloadUrl(604801);
@@ -222,7 +228,7 @@ void main() {
     when(() => storageClient.preSignUrl(req))
         .thenAnswer((_) => MockResponseFuture.value(resp));
 
-    var bucket = Bucket("bucketName", client: storageClient);
+    var bucket = Bucket("bucketName");
 
     var url = await bucket.file("fileName").getUploadUrl();
 
@@ -243,7 +249,7 @@ void main() {
     when(() => storageClient.preSignUrl(req))
         .thenAnswer((_) => MockResponseFuture.value(resp));
 
-    var bucket = Bucket("bucketName", client: storageClient);
+    var bucket = Bucket("bucketName");
 
     var url = await bucket.file("fileName").getUploadUrl(3600);
 
@@ -253,7 +259,7 @@ void main() {
   });
 
   test('Test get upload url with out of bounds expiry', () async {
-    var bucket = Bucket("bucketName", client: storageClient);
+    var bucket = Bucket("bucketName");
 
     try {
       await bucket.file("fileName").getUploadUrl(604801);
@@ -274,7 +280,7 @@ void main() {
     when(() => storageClient.exists(req))
         .thenAnswer((_) => MockResponseFuture.value(resp));
 
-    var bucket = Bucket("bucketName", client: storageClient);
+    var bucket = Bucket("bucketName");
 
     var exists = await bucket.file("fileName").exists();
 
@@ -292,7 +298,7 @@ void main() {
     when(() => storageClient.exists(req))
         .thenAnswer((_) => MockResponseFuture.value(resp));
 
-    var bucket = Bucket("bucketName", client: storageClient);
+    var bucket = Bucket("bucketName");
 
     var exists = await bucket.file("fileName").exists();
 
@@ -302,8 +308,9 @@ void main() {
   });
 
   test('Test bucket on write event', () async {
-    var bucket = Bucket("bucketName",
-        client: storageClient, storageListenerClient: storageListenerClient);
+    var bucket = Bucket(
+      "bucketName",
+    );
 
     when(() => storageListenerClient.listen(any()))
         .thenAnswer((_) => MockResponseStream.fromIterable([
@@ -323,8 +330,9 @@ void main() {
   });
 
   test('Test bucket on delete event', () async {
-    var bucket = Bucket("bucketName",
-        client: storageClient, storageListenerClient: storageListenerClient);
+    var bucket = Bucket(
+      "bucketName",
+    );
 
     when(() => storageListenerClient.listen(any()))
         .thenAnswer((_) => MockResponseStream.fromIterable([
@@ -344,8 +352,9 @@ void main() {
   });
 
   test('Test bucket event error', () async {
-    var bucket = Bucket("bucketName",
-        client: storageClient, storageListenerClient: storageListenerClient);
+    var bucket = Bucket(
+      "bucketName",
+    );
 
     when(() => storageListenerClient.listen(any()))
         .thenAnswer((_) => MockResponseStream.fromIterable([

@@ -3,8 +3,7 @@ part of 'common.dart';
 enum SecretPermission { access, put }
 
 class SecretResource extends SecureResource<SecretPermission> {
-  SecretResource(String name, {$p.ResourcesClient? client})
-      : super(name, client);
+  SecretResource(super.name);
 
   @override
   ResourceDeclareRequest asRequest() {

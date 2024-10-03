@@ -14,9 +14,10 @@ import 'dart:core' as $core;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 import '../../../../google/protobuf/struct.pb.dart' as $14;
-import '../../resources/v1/resources.pb.dart' as $1;
-import '../../resources/v1/resources.pbenum.dart' as $1;
-import '../../storage/v1/storage.pb.dart' as $2;
+import '../../batch/v1/batch.pb.dart' as $1;
+import '../../resources/v1/resources.pb.dart' as $2;
+import '../../resources/v1/resources.pbenum.dart' as $2;
+import '../../storage/v1/storage.pb.dart' as $3;
 import 'deployments.pbenum.dart';
 
 export 'deployments.pbenum.dart';
@@ -245,7 +246,7 @@ class DeploymentUpEvent extends $pb.GeneratedMessage {
 
 class ResourceUpdate extends $pb.GeneratedMessage {
   factory ResourceUpdate({
-    $1.ResourceIdentifier? id,
+    $2.ResourceIdentifier? id,
     ResourceDeploymentAction? action,
     ResourceDeploymentStatus? status,
     $core.String? subResource,
@@ -282,8 +283,8 @@ class ResourceUpdate extends $pb.GeneratedMessage {
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'nitric.proto.deployments.v1'),
       createEmptyInstance: create)
-    ..aOM<$1.ResourceIdentifier>(1, _omitFieldNames ? '' : 'id',
-        subBuilder: $1.ResourceIdentifier.create)
+    ..aOM<$2.ResourceIdentifier>(1, _omitFieldNames ? '' : 'id',
+        subBuilder: $2.ResourceIdentifier.create)
     ..e<ResourceDeploymentAction>(
         3, _omitFieldNames ? '' : 'action', $pb.PbFieldType.OE,
         defaultOrMaker: ResourceDeploymentAction.CREATE,
@@ -323,9 +324,9 @@ class ResourceUpdate extends $pb.GeneratedMessage {
 
   /// The resource being updated, if this is nil the update applies to the stack
   @$pb.TagNumber(1)
-  $1.ResourceIdentifier get id => $_getN(0);
+  $2.ResourceIdentifier get id => $_getN(0);
   @$pb.TagNumber(1)
-  set id($1.ResourceIdentifier v) {
+  set id($2.ResourceIdentifier v) {
     setField(1, v);
   }
 
@@ -334,7 +335,7 @@ class ResourceUpdate extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   void clearId() => clearField(1);
   @$pb.TagNumber(1)
-  $1.ResourceIdentifier ensureId() => $_ensure(0);
+  $2.ResourceIdentifier ensureId() => $_ensure(0);
 
   /// The type of update being applied
   @$pb.TagNumber(3)
@@ -963,6 +964,206 @@ class Service extends $pb.GeneratedMessage {
   $core.Map<$core.String, $core.String> get env => $_getMap(5);
 }
 
+class Job extends $pb.GeneratedMessage {
+  factory Job({
+    $core.String? name,
+    $1.JobResourceRequirements? requirements,
+  }) {
+    final $result = create();
+    if (name != null) {
+      $result.name = name;
+    }
+    if (requirements != null) {
+      $result.requirements = requirements;
+    }
+    return $result;
+  }
+  Job._() : super();
+  factory Job.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory Job.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'Job',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'nitric.proto.deployments.v1'),
+      createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'name')
+    ..aOM<$1.JobResourceRequirements>(2, _omitFieldNames ? '' : 'requirements',
+        subBuilder: $1.JobResourceRequirements.create)
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  Job clone() => Job()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  Job copyWith(void Function(Job) updates) =>
+      super.copyWith((message) => updates(message as Job)) as Job;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static Job create() => Job._();
+  Job createEmptyInstance() => create();
+  static $pb.PbList<Job> createRepeated() => $pb.PbList<Job>();
+  @$core.pragma('dart2js:noInline')
+  static Job getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Job>(create);
+  static Job? _defaultInstance;
+
+  /// The name of the job to create
+  @$pb.TagNumber(1)
+  $core.String get name => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set name($core.String v) {
+    $_setString(0, v);
+  }
+
+  @$pb.TagNumber(1)
+  $core.bool hasName() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearName() => clearField(1);
+
+  /// The default resource requirements of the job
+  @$pb.TagNumber(2)
+  $1.JobResourceRequirements get requirements => $_getN(1);
+  @$pb.TagNumber(2)
+  set requirements($1.JobResourceRequirements v) {
+    setField(2, v);
+  }
+
+  @$pb.TagNumber(2)
+  $core.bool hasRequirements() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearRequirements() => clearField(2);
+  @$pb.TagNumber(2)
+  $1.JobResourceRequirements ensureRequirements() => $_ensure(1);
+}
+
+enum Batch_Source { image, notSet }
+
+class Batch extends $pb.GeneratedMessage {
+  factory Batch({
+    ImageSource? image,
+    $core.String? type,
+    $core.Map<$core.String, $core.String>? env,
+    $core.Iterable<Job>? jobs,
+  }) {
+    final $result = create();
+    if (image != null) {
+      $result.image = image;
+    }
+    if (type != null) {
+      $result.type = type;
+    }
+    if (env != null) {
+      $result.env.addAll(env);
+    }
+    if (jobs != null) {
+      $result.jobs.addAll(jobs);
+    }
+    return $result;
+  }
+  Batch._() : super();
+  factory Batch.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory Batch.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
+  static const $core.Map<$core.int, Batch_Source> _Batch_SourceByTag = {
+    1: Batch_Source.image,
+    0: Batch_Source.notSet
+  };
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'Batch',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'nitric.proto.deployments.v1'),
+      createEmptyInstance: create)
+    ..oo(0, [1])
+    ..aOM<ImageSource>(1, _omitFieldNames ? '' : 'image',
+        subBuilder: ImageSource.create)
+    ..aOS(10, _omitFieldNames ? '' : 'type')
+    ..m<$core.String, $core.String>(11, _omitFieldNames ? '' : 'env',
+        entryClassName: 'Batch.EnvEntry',
+        keyFieldType: $pb.PbFieldType.OS,
+        valueFieldType: $pb.PbFieldType.OS,
+        packageName: const $pb.PackageName('nitric.proto.deployments.v1'))
+    ..pc<Job>(12, _omitFieldNames ? '' : 'jobs', $pb.PbFieldType.PM,
+        subBuilder: Job.create)
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  Batch clone() => Batch()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  Batch copyWith(void Function(Batch) updates) =>
+      super.copyWith((message) => updates(message as Batch)) as Batch;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static Batch create() => Batch._();
+  Batch createEmptyInstance() => create();
+  static $pb.PbList<Batch> createRepeated() => $pb.PbList<Batch>();
+  @$core.pragma('dart2js:noInline')
+  static Batch getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Batch>(create);
+  static Batch? _defaultInstance;
+
+  Batch_Source whichSource() => _Batch_SourceByTag[$_whichOneof(0)]!;
+  void clearSource() => clearField($_whichOneof(0));
+
+  /// Image URI for this batch service
+  @$pb.TagNumber(1)
+  ImageSource get image => $_getN(0);
+  @$pb.TagNumber(1)
+  set image(ImageSource v) {
+    setField(1, v);
+  }
+
+  @$pb.TagNumber(1)
+  $core.bool hasImage() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearImage() => clearField(1);
+  @$pb.TagNumber(1)
+  ImageSource ensureImage() => $_ensure(0);
+
+  /// A simple type property
+  /// describes the requested type of batch that this should be
+  /// for this project, a provider can implement how this request is satisfied
+  /// in any way
+  @$pb.TagNumber(10)
+  $core.String get type => $_getSZ(1);
+  @$pb.TagNumber(10)
+  set type($core.String v) {
+    $_setString(1, v);
+  }
+
+  @$pb.TagNumber(10)
+  $core.bool hasType() => $_has(1);
+  @$pb.TagNumber(10)
+  void clearType() => clearField(10);
+
+  /// Environment variables for this Batch
+  @$pb.TagNumber(11)
+  $core.Map<$core.String, $core.String> get env => $_getMap(2);
+
+  /// Jobs that are defined in this Batch
+  @$pb.TagNumber(12)
+  $core.List<Job> get jobs => $_getList(3);
+}
+
 class Bucket extends $pb.GeneratedMessage {
   factory Bucket({
     $core.Iterable<BucketListener>? listeners,
@@ -1020,7 +1221,7 @@ enum BucketListener_Target { service, notSet }
 
 class BucketListener extends $pb.GeneratedMessage {
   factory BucketListener({
-    $2.RegistrationRequest? config,
+    $3.RegistrationRequest? config,
     $core.String? service,
   }) {
     final $result = create();
@@ -1051,8 +1252,8 @@ class BucketListener extends $pb.GeneratedMessage {
           _omitMessageNames ? '' : 'nitric.proto.deployments.v1'),
       createEmptyInstance: create)
     ..oo(0, [2])
-    ..aOM<$2.RegistrationRequest>(1, _omitFieldNames ? '' : 'config',
-        subBuilder: $2.RegistrationRequest.create)
+    ..aOM<$3.RegistrationRequest>(1, _omitFieldNames ? '' : 'config',
+        subBuilder: $3.RegistrationRequest.create)
     ..aOS(2, _omitFieldNames ? '' : 'service')
     ..hasRequiredFields = false;
 
@@ -1084,9 +1285,9 @@ class BucketListener extends $pb.GeneratedMessage {
   void clearTarget() => clearField($_whichOneof(0));
 
   @$pb.TagNumber(1)
-  $2.RegistrationRequest get config => $_getN(0);
+  $3.RegistrationRequest get config => $_getN(0);
   @$pb.TagNumber(1)
-  set config($2.RegistrationRequest v) {
+  set config($3.RegistrationRequest v) {
     setField(1, v);
   }
 
@@ -1095,7 +1296,7 @@ class BucketListener extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   void clearConfig() => clearField(1);
   @$pb.TagNumber(1)
-  $2.RegistrationRequest ensureConfig() => $_ensure(0);
+  $3.RegistrationRequest ensureConfig() => $_ensure(0);
 
   /// The name of an service to target
   @$pb.TagNumber(2)
@@ -2212,12 +2413,13 @@ enum Resource_Config {
   http,
   queue,
   sqlDatabase,
+  batch,
   notSet
 }
 
 class Resource extends $pb.GeneratedMessage {
   factory Resource({
-    $1.ResourceIdentifier? id,
+    $2.ResourceIdentifier? id,
     Service? service,
     Bucket? bucket,
     Topic? topic,
@@ -2230,6 +2432,7 @@ class Resource extends $pb.GeneratedMessage {
     Http? http,
     Queue? queue,
     SqlDatabase? sqlDatabase,
+    Batch? batch,
   }) {
     final $result = create();
     if (id != null) {
@@ -2271,6 +2474,9 @@ class Resource extends $pb.GeneratedMessage {
     if (sqlDatabase != null) {
       $result.sqlDatabase = sqlDatabase;
     }
+    if (batch != null) {
+      $result.batch = batch;
+    }
     return $result;
   }
   Resource._() : super();
@@ -2294,6 +2500,7 @@ class Resource extends $pb.GeneratedMessage {
     19: Resource_Config.http,
     20: Resource_Config.queue,
     21: Resource_Config.sqlDatabase,
+    22: Resource_Config.batch,
     0: Resource_Config.notSet
   };
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
@@ -2301,9 +2508,9 @@ class Resource extends $pb.GeneratedMessage {
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'nitric.proto.deployments.v1'),
       createEmptyInstance: create)
-    ..oo(0, [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21])
-    ..aOM<$1.ResourceIdentifier>(1, _omitFieldNames ? '' : 'id',
-        subBuilder: $1.ResourceIdentifier.create)
+    ..oo(0, [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22])
+    ..aOM<$2.ResourceIdentifier>(1, _omitFieldNames ? '' : 'id',
+        subBuilder: $2.ResourceIdentifier.create)
     ..aOM<Service>(10, _omitFieldNames ? '' : 'service',
         subBuilder: Service.create)
     ..aOM<Bucket>(11, _omitFieldNames ? '' : 'bucket',
@@ -2324,6 +2531,7 @@ class Resource extends $pb.GeneratedMessage {
     ..aOM<Queue>(20, _omitFieldNames ? '' : 'queue', subBuilder: Queue.create)
     ..aOM<SqlDatabase>(21, _omitFieldNames ? '' : 'sqlDatabase',
         subBuilder: SqlDatabase.create)
+    ..aOM<Batch>(22, _omitFieldNames ? '' : 'batch', subBuilder: Batch.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -2351,9 +2559,9 @@ class Resource extends $pb.GeneratedMessage {
   void clearConfig() => clearField($_whichOneof(0));
 
   @$pb.TagNumber(1)
-  $1.ResourceIdentifier get id => $_getN(0);
+  $2.ResourceIdentifier get id => $_getN(0);
   @$pb.TagNumber(1)
-  set id($1.ResourceIdentifier v) {
+  set id($2.ResourceIdentifier v) {
     setField(1, v);
   }
 
@@ -2362,7 +2570,7 @@ class Resource extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   void clearId() => clearField(1);
   @$pb.TagNumber(1)
-  $1.ResourceIdentifier ensureId() => $_ensure(0);
+  $2.ResourceIdentifier ensureId() => $_ensure(0);
 
   @$pb.TagNumber(10)
   Service get service => $_getN(1);
@@ -2531,6 +2739,20 @@ class Resource extends $pb.GeneratedMessage {
   void clearSqlDatabase() => clearField(21);
   @$pb.TagNumber(21)
   SqlDatabase ensureSqlDatabase() => $_ensure(12);
+
+  @$pb.TagNumber(22)
+  Batch get batch => $_getN(13);
+  @$pb.TagNumber(22)
+  set batch(Batch v) {
+    setField(22, v);
+  }
+
+  @$pb.TagNumber(22)
+  $core.bool hasBatch() => $_has(13);
+  @$pb.TagNumber(22)
+  void clearBatch() => clearField(22);
+  @$pb.TagNumber(22)
+  Batch ensureBatch() => $_ensure(13);
 }
 
 /// This is already defined in the resource contracts,
@@ -2538,7 +2760,7 @@ class Resource extends $pb.GeneratedMessage {
 class Policy extends $pb.GeneratedMessage {
   factory Policy({
     $core.Iterable<Resource>? principals,
-    $core.Iterable<$1.Action>? actions,
+    $core.Iterable<$2.Action>? actions,
     $core.Iterable<Resource>? resources,
   }) {
     final $result = create();
@@ -2568,10 +2790,10 @@ class Policy extends $pb.GeneratedMessage {
       createEmptyInstance: create)
     ..pc<Resource>(1, _omitFieldNames ? '' : 'principals', $pb.PbFieldType.PM,
         subBuilder: Resource.create)
-    ..pc<$1.Action>(2, _omitFieldNames ? '' : 'actions', $pb.PbFieldType.KE,
-        valueOf: $1.Action.valueOf,
-        enumValues: $1.Action.values,
-        defaultEnumValue: $1.Action.BucketFileList)
+    ..pc<$2.Action>(2, _omitFieldNames ? '' : 'actions', $pb.PbFieldType.KE,
+        valueOf: $2.Action.valueOf,
+        enumValues: $2.Action.values,
+        defaultEnumValue: $2.Action.BucketFileList)
     ..pc<Resource>(3, _omitFieldNames ? '' : 'resources', $pb.PbFieldType.PM,
         subBuilder: Resource.create)
     ..hasRequiredFields = false;
@@ -2601,7 +2823,7 @@ class Policy extends $pb.GeneratedMessage {
   $core.List<Resource> get principals => $_getList(0);
 
   @$pb.TagNumber(2)
-  $core.List<$1.Action> get actions => $_getList(1);
+  $core.List<$2.Action> get actions => $_getList(1);
 
   @$pb.TagNumber(3)
   $core.List<Resource> get resources => $_getList(2);

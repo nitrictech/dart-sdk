@@ -1,7 +1,8 @@
 import 'package:mocktail/mocktail.dart';
 import 'package:nitric_sdk/nitric.dart';
+import 'package:nitric_sdk/src/grpc_helper.dart';
 import 'package:nitric_sdk/src/nitric/proto/apis/v1/apis.pbgrpc.dart' as $p;
-import 'package:nitric_sdk/src/nitric/proto/resources/v1/resources.pb.dart';
+import 'package:nitric_sdk/src/nitric/proto/resources/v1/resources.pbgrpc.dart';
 import 'package:test/test.dart';
 
 import '../common.dart';
@@ -19,6 +20,11 @@ void main() {
   setUp(() {
     apiClient = MockApiClient();
     resourceClient = MockResourceClient();
+
+    ClientChannelSingleton.registerClientConstructors(Map.from({
+      $p.ApiClient: apiClient,
+      ResourcesClient: resourceClient,
+    }));
   });
 
   setUpAll(() {
@@ -32,13 +38,17 @@ void main() {
   });
 
   test("Test build api", () async {
-    var api = Api("apiName", client: resourceClient);
+    var api = Api(
+      "apiName",
+    );
 
     expect(api.name, "apiName");
   });
 
   test("Test register api", () async {
-    var api = Api("apiName", client: resourceClient);
+    var api = Api(
+      "apiName",
+    );
 
     var req = ResourceDeclareRequest(
         id: ResourceIdentifier(name: "apiName", type: ResourceType.Api),
@@ -56,7 +66,7 @@ void main() {
 
   group("test building API worker with no security", () {
     test('HTTP GET Worker build', () async {
-      var api = Api("apiName", apiClient: apiClient);
+      var api = Api("apiName");
 
       when(() => apiClient.serve(any()))
           .thenAnswer((_) => MockResponseStream.fromIterable([
@@ -72,7 +82,7 @@ void main() {
     });
 
     test('HTTP POST Worker build', () async {
-      var api = Api("apiName", apiClient: apiClient);
+      var api = Api("apiName");
 
       when(() => apiClient.serve(any()))
           .thenAnswer((_) => MockResponseStream.fromIterable([
@@ -88,7 +98,7 @@ void main() {
     });
 
     test('HTTP PATCH Worker build ', () async {
-      var api = Api("apiName", apiClient: apiClient);
+      var api = Api("apiName");
 
       when(() => apiClient.serve(any()))
           .thenAnswer((_) => MockResponseStream.fromIterable([
@@ -104,7 +114,7 @@ void main() {
     });
 
     test('HTTP OPTIONS Worker build ', () async {
-      var api = Api("apiName", apiClient: apiClient);
+      var api = Api("apiName");
 
       when(() => apiClient.serve(any()))
           .thenAnswer((_) => MockResponseStream.fromIterable([
@@ -120,7 +130,7 @@ void main() {
     });
 
     test('HTTP DELETE Worker build ', () async {
-      var api = Api("apiName", apiClient: apiClient);
+      var api = Api("apiName");
 
       when(() => apiClient.serve(any()))
           .thenAnswer((_) => MockResponseStream.fromIterable([
@@ -136,7 +146,7 @@ void main() {
     });
 
     test('HTTP PUT Worker build ', () async {
-      var api = Api("apiName", apiClient: apiClient);
+      var api = Api("apiName");
 
       when(() => apiClient.serve(any()))
           .thenAnswer((_) => MockResponseStream.fromIterable([
@@ -152,7 +162,7 @@ void main() {
     });
 
     test('HTTP ALL Worker build ', () async {
-      var api = Api("apiName", apiClient: apiClient);
+      var api = Api("apiName");
 
       when(() => apiClient.serve(any()))
           .thenAnswer((_) => MockResponseStream.fromIterable([
@@ -170,7 +180,7 @@ void main() {
 
   group("test building API with route", () {
     test('HTTP GET Worker build', () async {
-      var api = Api("apiName", apiClient: apiClient);
+      var api = Api("apiName");
 
       when(() => apiClient.serve(any()))
           .thenAnswer((_) => MockResponseStream.fromIterable([
@@ -186,7 +196,7 @@ void main() {
     });
 
     test('HTTP POST Worker build', () async {
-      var api = Api("apiName", apiClient: apiClient);
+      var api = Api("apiName");
 
       when(() => apiClient.serve(any()))
           .thenAnswer((_) => MockResponseStream.fromIterable([
@@ -202,7 +212,7 @@ void main() {
     });
 
     test('HTTP PATCH Worker build', () async {
-      var api = Api("apiName", apiClient: apiClient);
+      var api = Api("apiName");
 
       when(() => apiClient.serve(any()))
           .thenAnswer((_) => MockResponseStream.fromIterable([
@@ -218,7 +228,7 @@ void main() {
     });
 
     test('HTTP OPTIONS Worker build', () async {
-      var api = Api("apiName", apiClient: apiClient);
+      var api = Api("apiName");
 
       when(() => apiClient.serve(any()))
           .thenAnswer((_) => MockResponseStream.fromIterable([
@@ -234,7 +244,7 @@ void main() {
     });
 
     test('HTTP DELETE Worker build', () async {
-      var api = Api("apiName", apiClient: apiClient);
+      var api = Api("apiName");
 
       when(() => apiClient.serve(any()))
           .thenAnswer((_) => MockResponseStream.fromIterable([
@@ -250,7 +260,7 @@ void main() {
     });
 
     test('HTTP PUT Worker build', () async {
-      var api = Api("apiName", apiClient: apiClient);
+      var api = Api("apiName");
 
       when(() => apiClient.serve(any()))
           .thenAnswer((_) => MockResponseStream.fromIterable([
@@ -266,7 +276,7 @@ void main() {
     });
 
     test('HTTP ALL Worker build', () async {
-      var api = Api("apiName", apiClient: apiClient);
+      var api = Api("apiName");
 
       when(() => apiClient.serve(any()))
           .thenAnswer((_) => MockResponseStream.fromIterable([
@@ -285,11 +295,13 @@ void main() {
   group("test building with security", () {
     test('HTTP GET Worker build', () async {
       var oidc = OidcOptions(
-          "oidcName", "oidcIssuer", ["oidcAudience"], ["oidcScopes"],
-          client: resourceClient);
+        "oidcName",
+        "oidcIssuer",
+        ["oidcAudience"],
+        ["oidcScopes"],
+      );
 
-      var api = Api("apiName",
-          opts: ApiOptions(security: [oidc]), apiClient: apiClient);
+      var api = Api("apiName", opts: ApiOptions(security: [oidc]));
 
       when(() => apiClient.serve(any()))
           .thenAnswer((_) => MockResponseStream.fromIterable([
@@ -310,11 +322,13 @@ void main() {
 
     test('HTTP POST Worker build', () async {
       var oidc = OidcOptions(
-          "oidcName", "oidcIssuer", ["oidcAudience"], ["oidcScopes"],
-          client: resourceClient);
+        "oidcName",
+        "oidcIssuer",
+        ["oidcAudience"],
+        ["oidcScopes"],
+      );
 
-      var api = Api("apiName",
-          opts: ApiOptions(security: [oidc]), apiClient: apiClient);
+      var api = Api("apiName", opts: ApiOptions(security: [oidc]));
 
       when(() => apiClient.serve(any()))
           .thenAnswer((_) => MockResponseStream.fromIterable([
@@ -335,11 +349,13 @@ void main() {
 
     test('HTTP PUT Worker build', () async {
       var oidc = OidcOptions(
-          "oidcName", "oidcIssuer", ["oidcAudience"], ["oidcScopes"],
-          client: resourceClient);
+        "oidcName",
+        "oidcIssuer",
+        ["oidcAudience"],
+        ["oidcScopes"],
+      );
 
-      var api = Api("apiName",
-          opts: ApiOptions(security: [oidc]), apiClient: apiClient);
+      var api = Api("apiName", opts: ApiOptions(security: [oidc]));
 
       when(() => apiClient.serve(any()))
           .thenAnswer((_) => MockResponseStream.fromIterable([
@@ -360,11 +376,13 @@ void main() {
 
     test('HTTP PATCH Worker build', () async {
       var oidc = OidcOptions(
-          "oidcName", "oidcIssuer", ["oidcAudience"], ["oidcScopes"],
-          client: resourceClient);
+        "oidcName",
+        "oidcIssuer",
+        ["oidcAudience"],
+        ["oidcScopes"],
+      );
 
-      var api = Api("apiName",
-          opts: ApiOptions(security: [oidc]), apiClient: apiClient);
+      var api = Api("apiName", opts: ApiOptions(security: [oidc]));
 
       when(() => apiClient.serve(any()))
           .thenAnswer((_) => MockResponseStream.fromIterable([
@@ -385,11 +403,13 @@ void main() {
 
     test('HTTP OPTIONS Worker build', () async {
       var oidc = OidcOptions(
-          "oidcName", "oidcIssuer", ["oidcAudience"], ["oidcScopes"],
-          client: resourceClient);
+        "oidcName",
+        "oidcIssuer",
+        ["oidcAudience"],
+        ["oidcScopes"],
+      );
 
-      var api = Api("apiName",
-          opts: ApiOptions(security: [oidc]), apiClient: apiClient);
+      var api = Api("apiName", opts: ApiOptions(security: [oidc]));
 
       when(() => apiClient.serve(any()))
           .thenAnswer((_) => MockResponseStream.fromIterable([
@@ -410,11 +430,13 @@ void main() {
 
     test('HTTP DELETE Worker build', () async {
       var oidc = OidcOptions(
-          "oidcName", "oidcIssuer", ["oidcAudience"], ["oidcScopes"],
-          client: resourceClient);
+        "oidcName",
+        "oidcIssuer",
+        ["oidcAudience"],
+        ["oidcScopes"],
+      );
 
-      var api = Api("apiName",
-          opts: ApiOptions(security: [oidc]), apiClient: apiClient);
+      var api = Api("apiName", opts: ApiOptions(security: [oidc]));
 
       when(() => apiClient.serve(any()))
           .thenAnswer((_) => MockResponseStream.fromIterable([
@@ -435,11 +457,13 @@ void main() {
 
     test('HTTP ALL Worker build', () async {
       var oidc = OidcOptions(
-          "oidcName", "oidcIssuer", ["oidcAudience"], ["oidcScopes"],
-          client: resourceClient);
+        "oidcName",
+        "oidcIssuer",
+        ["oidcAudience"],
+        ["oidcScopes"],
+      );
 
-      var api = Api("apiName",
-          opts: ApiOptions(security: [oidc]), apiClient: apiClient);
+      var api = Api("apiName", opts: ApiOptions(security: [oidc]));
 
       when(() => apiClient.serve(any()))
           .thenAnswer((_) => MockResponseStream.fromIterable([
@@ -460,7 +484,7 @@ void main() {
   });
 
   test('HTTP worker error', () async {
-    var api = Api("apiName", apiClient: apiClient);
+    var api = Api("apiName");
 
     when(() => apiClient.serve(any()))
         .thenAnswer((_) => MockResponseStream.fromIterable([

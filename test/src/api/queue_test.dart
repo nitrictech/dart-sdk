@@ -1,6 +1,7 @@
 import 'package:mocktail/mocktail.dart';
 import 'package:nitric_sdk/src/api/api.dart';
 import 'package:nitric_sdk/src/google/protobuf/struct.pb.dart';
+import 'package:nitric_sdk/src/grpc_helper.dart';
 import 'package:nitric_sdk/src/nitric/proto/queues/v1/queues.pbgrpc.dart' as $p;
 import 'package:test/test.dart';
 
@@ -11,18 +12,24 @@ class MockQueuesClient extends Mock implements $p.QueuesClient {}
 void main() {
   late MockQueuesClient queuesClient;
 
-  setUp(() => queuesClient = MockQueuesClient());
+  setUp(() {
+    queuesClient = MockQueuesClient();
+
+    ClientChannelSingleton.registerClientConstructors(Map.from({
+      $p.QueuesClient: queuesClient,
+    }));
+  });
 
   tearDown(() => reset(queuesClient));
 
   test('Test build queue', () {
-    var queue = Queue("queueName", client: queuesClient);
+    var queue = Queue("queueName");
 
     expect(queue.name, "queueName");
   });
 
   test("Test enqueue messages with no failures", () async {
-    var queue = Queue("queueName", client: queuesClient);
+    var queue = Queue("queueName");
 
     var req = $p.QueueEnqueueRequest(queueName: "queueName", messages: [
       $p.QueueMessage(
@@ -45,7 +52,7 @@ void main() {
   });
 
   test("Test enqueue messages with failures", () async {
-    var queue = Queue("queueName", client: queuesClient);
+    var queue = Queue("queueName");
 
     var req = $p.QueueEnqueueRequest(queueName: "queueName", messages: [
       $p.QueueMessage(
@@ -76,7 +83,7 @@ void main() {
   });
 
   test("Test dequeue messages with default depth", () async {
-    var queue = Queue("queueName", client: queuesClient);
+    var queue = Queue("queueName");
 
     var req = $p.QueueDequeueRequest(queueName: "queueName", depth: 1);
 
@@ -100,7 +107,7 @@ void main() {
   });
 
   test("Test dequeue messages with specific depth", () async {
-    var queue = Queue("queueName", client: queuesClient);
+    var queue = Queue("queueName");
 
     var req = $p.QueueDequeueRequest(queueName: "queueName", depth: 2);
 
@@ -130,7 +137,7 @@ void main() {
   });
 
   test("Test complete message", () async {
-    var queue = Queue("queueName", client: queuesClient);
+    var queue = Queue("queueName");
 
     var protoDequeuedMessage = $p.DequeuedMessage(
         leaseId: "1234",

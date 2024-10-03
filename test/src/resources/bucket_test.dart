@@ -1,6 +1,7 @@
 import 'package:mocktail/mocktail.dart';
 import 'package:nitric_sdk/nitric.dart';
-import 'package:nitric_sdk/src/nitric/proto/resources/v1/resources.pb.dart'
+import 'package:nitric_sdk/src/grpc_helper.dart';
+import 'package:nitric_sdk/src/nitric/proto/resources/v1/resources.pbgrpc.dart'
     as $p;
 import 'package:nitric_sdk/src/nitric/proto/storage/v1/storage.pbgrpc.dart'
     as $sp;
@@ -18,6 +19,11 @@ void main() {
   setUp(() {
     resourceClient = MockResourceClient();
     storageListenerClient = MockStorageListenerClient();
+
+    ClientChannelSingleton.registerClientConstructors(Map.from({
+      $sp.StorageListenerClient: storageListenerClient,
+      $p.ResourcesClient: resourceClient,
+    }));
   });
 
   setUpAll(() {
@@ -30,13 +36,13 @@ void main() {
   });
 
   test("Test build bucket resource", () async {
-    var bucket = BucketResource("bucketName", client: resourceClient);
+    var bucket = BucketResource("bucketName");
 
     expect(bucket.name, "bucketName");
   });
 
   test("Test register bucket resource", () async {
-    var bucket = BucketResource("bucketName", client: resourceClient);
+    var bucket = BucketResource("bucketName");
 
     var req = $p.ResourceDeclareRequest(
         id: $p.ResourceIdentifier(
@@ -54,7 +60,7 @@ void main() {
   });
 
   test("Test converting bucket permissions to actions", () async {
-    var bucket = BucketResource("bucketName", client: resourceClient);
+    var bucket = BucketResource("bucketName");
 
     var readActions = bucket.permissionsToActions([BucketPermission.read]);
     expect(readActions, [$p.Action.BucketFileGet, $p.Action.BucketFileList]);
@@ -79,8 +85,7 @@ void main() {
   });
 
   test('Test bucket on write event', () async {
-    var bucket = BucketResource("bucketName",
-        client: resourceClient, storageListenerClient: storageListenerClient);
+    var bucket = BucketResource("bucketName");
 
     when(() => storageListenerClient.listen(any()))
         .thenAnswer((_) => MockResponseStream.fromIterable([
@@ -100,8 +105,7 @@ void main() {
   });
 
   test('Test bucket on delete event', () async {
-    var bucket = BucketResource("bucketName",
-        client: resourceClient, storageListenerClient: storageListenerClient);
+    var bucket = BucketResource("bucketName");
 
     when(() => storageListenerClient.listen(any()))
         .thenAnswer((_) => MockResponseStream.fromIterable([
@@ -121,8 +125,7 @@ void main() {
   });
 
   test('Test bucket event error', () async {
-    var bucket = BucketResource("bucketName",
-        client: resourceClient, storageListenerClient: storageListenerClient);
+    var bucket = BucketResource("bucketName");
 
     when(() => storageListenerClient.listen(any()))
         .thenAnswer((_) => MockResponseStream.fromIterable([
@@ -143,7 +146,7 @@ void main() {
   });
 
   test("Test register bucket policies", () async {
-    var bucketResource = BucketResource("bucketName", client: resourceClient);
+    var bucketResource = BucketResource("bucketName");
 
     var resourceIdentifier =
         $p.ResourceIdentifier(type: $p.ResourceType.Bucket, name: "bucketName");

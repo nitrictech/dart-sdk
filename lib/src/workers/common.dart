@@ -15,6 +15,7 @@ import 'package:nitric_sdk/src/nitric/proto/websockets/v1/websockets.pbgrpc.dart
     as $wp;
 import 'package:nitric_sdk/src/nitric/proto/storage/v1/storage.pbgrpc.dart'
     as $bp;
+import 'package:nitric_sdk/src/nitric/proto/batch/v1/batch.pbgrpc.dart' as $jp;
 
 part 'api.dart';
 part 'blob_event.dart';
@@ -22,13 +23,8 @@ part 'interval.dart';
 part 'subscription.dart';
 part 'file_event.dart';
 part 'websocket.dart';
+part 'batch.dart';
 
 abstract class Worker<T extends Client> {
-  late T _client;
-
-  Worker(T client) {
-    _client = client;
-  }
-
   Future<void> start();
 }

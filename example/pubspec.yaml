@@ -4,7 +4,7 @@ version: 1.0.0
 publish_to: none
 
 environment:
-  sdk: ^3.2.5
+  sdk: ^3.5.0
 
 dependencies:
   nitric_sdk:
@@ -12,5 +12,5 @@ dependencies:
   uuid: ^4.3.3
 
 dev_dependencies:
-  lints: ^2.1.0
+  lints: ^4.0.0
   test: ^1.24.0

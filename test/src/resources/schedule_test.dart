@@ -1,5 +1,6 @@
 import 'package:mocktail/mocktail.dart';
-import 'package:nitric_sdk/src/nitric/proto/resources/v1/resources.pb.dart';
+import 'package:nitric_sdk/src/grpc_helper.dart';
+import 'package:nitric_sdk/src/nitric/proto/resources/v1/resources.pbgrpc.dart';
 import 'package:nitric_sdk/src/nitric/proto/schedules/v1/schedules.pbgrpc.dart';
 import 'package:nitric_sdk/src/resources/common.dart';
 import 'package:test/test.dart';
@@ -15,6 +16,11 @@ void main() {
   setUp(() {
     schedulesClient = MockSchedulesClient();
     resourceClient = MockResourceClient();
+
+    ClientChannelSingleton.registerClientConstructors(Map.from({
+      ResourcesClient: resourceClient,
+      SchedulesClient: schedulesClient,
+    }));
   });
 
   setUpAll(() {
@@ -27,13 +33,13 @@ void main() {
   });
 
   test("Test build schedule", () async {
-    var schedule = Schedule("scheduleName", client: resourceClient);
+    var schedule = Schedule("scheduleName");
 
     expect(schedule.name, "scheduleName");
   });
 
   test("Test register schedule", () async {
-    var api = Schedule("scheduleName", client: resourceClient);
+    var api = Schedule("scheduleName");
 
     var req = ResourceDeclareRequest(
         id: ResourceIdentifier(
@@ -50,8 +56,7 @@ void main() {
   });
 
   test('Test schedule every worker', () async {
-    var schedule = Schedule("scheduleName",
-        client: resourceClient, schedulesClient: schedulesClient);
+    var schedule = Schedule("scheduleName");
 
     when(() => schedulesClient.schedule(any()))
         .thenAnswer((_) => MockResponseStream.fromIterable([
@@ -69,8 +74,7 @@ void main() {
   });
 
   test('Test schedule cron worker', () async {
-    var schedule = Schedule("scheduleName",
-        client: resourceClient, schedulesClient: schedulesClient);
+    var schedule = Schedule("scheduleName");
 
     when(() => schedulesClient.schedule(any()))
         .thenAnswer((_) => MockResponseStream.fromIterable([
@@ -88,8 +92,7 @@ void main() {
   });
 
   test('Test schedule worker error', () async {
-    var schedule = Schedule("scheduleName",
-        client: resourceClient, schedulesClient: schedulesClient);
+    var schedule = Schedule("scheduleName");
 
     when(() => schedulesClient.schedule(any()))
         .thenAnswer((_) => MockResponseStream.fromIterable([

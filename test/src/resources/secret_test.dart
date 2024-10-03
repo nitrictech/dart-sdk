@@ -1,6 +1,7 @@
 import 'package:mocktail/mocktail.dart';
 import 'package:nitric_sdk/resources.dart';
-import 'package:nitric_sdk/src/nitric/proto/resources/v1/resources.pb.dart'
+import 'package:nitric_sdk/src/grpc_helper.dart';
+import 'package:nitric_sdk/src/nitric/proto/resources/v1/resources.pbgrpc.dart'
     as $p;
 import 'package:nitric_sdk/src/resources/common.dart';
 import 'package:test/test.dart';
@@ -10,18 +11,24 @@ import '../common.dart';
 void main() {
   late MockResourceClient resourceClient;
 
-  setUp(() => resourceClient = MockResourceClient());
+  setUp(() {
+    resourceClient = MockResourceClient();
+
+    ClientChannelSingleton.registerClientConstructors(Map.from({
+      $p.ResourcesClient: resourceClient,
+    }));
+  });
 
   tearDown(() => reset(resourceClient));
 
   test("Test build secret resource", () async {
-    var secret = SecretResource("secretName", client: resourceClient);
+    var secret = SecretResource("secretName");
 
     expect(secret.name, "secretName");
   });
 
   test("Test register secret resource", () async {
-    var secret = SecretResource("secretName", client: resourceClient);
+    var secret = SecretResource("secretName");
 
     var req = $p.ResourceDeclareRequest(
         id: $p.ResourceIdentifier(
@@ -39,7 +46,7 @@ void main() {
   });
 
   test("Test converting secret permissions to actions", () async {
-    var secret = SecretResource("secretName", client: resourceClient);
+    var secret = SecretResource("secretName");
 
     var accessActions = secret.permissionsToActions([SecretPermission.access]);
     expect(accessActions, [$p.Action.SecretAccess]);
@@ -58,7 +65,7 @@ void main() {
   });
 
   test("Test register secret policies", () async {
-    var secretResource = SecretResource("secretName", client: resourceClient);
+    var secretResource = SecretResource("secretName");
 
     var resourceIdentifier =
         $p.ResourceIdentifier(type: $p.ResourceType.Secret, name: "secretName");

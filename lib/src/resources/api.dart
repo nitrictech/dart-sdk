@@ -24,13 +24,8 @@ class ApiOptions {
 class Api extends Resource {
   late ApiOptions opts;
 
-  late ApiClient? _apiClient;
-
-  Api(String name,
-      {ApiOptions? opts, $p.ResourcesClient? client, ApiClient? apiClient})
-      : super(name, client) {
+  Api(super.name, {ApiOptions? opts}) {
     this.opts = opts ?? ApiOptions();
-    _apiClient = apiClient;
   }
 
   @override
@@ -112,8 +107,7 @@ class Api extends Resource {
   /// Create a route that [match]es on a specific path with optional [middlewares] and [security].
   Route route(String match,
       {List<OidcOptions>? security, List<HttpHandler> middlewares = const []}) {
-    return Route(this, match,
-        security: security, apiClient: _apiClient, middlewares: middlewares);
+    return Route(this, match, security: security, middlewares: middlewares);
   }
 }
 
@@ -128,8 +122,6 @@ class Route {
   /// The security to apply to the route.
   List<OidcOptions> security;
 
-  ApiClient? _apiClient;
-
   late List<HttpHandler> _middlewares;
 
   Route(this.api, match,
@@ -138,91 +130,44 @@ class Route {
       List<HttpHandler> middlewares = const []})
       : match = api.opts.basePath + match,
         security = security ?? api.opts.security {
-    _apiClient = apiClient;
     _middlewares = middlewares;
   }
 
-  /// A GET request [handler] for this route.
-  Future<void> get(HttpHandler handler) async {
+  Future<void> _method(HttpHandler handler, List<HttpMethod> methods) async {
     final composedHandler = composeMiddleware(
         [...api.opts.middlewares, ..._middlewares, handler],
         HttpContext.fromCtx);
 
-    var worker = ApiWorker(this, composedHandler, [HttpMethod.get],
-        security: security, client: _apiClient);
+    var worker = ApiWorker(this, composedHandler, methods, security: security);
 
     await worker.start();
   }
+
+  /// A GET request [handler] for this route.
+  Future<void> get(HttpHandler handler) async =>
+      await _method(handler, [HttpMethod.get]);
 
   /// A POST request [handler] for this route.
-  Future<void> post(HttpHandler handler) async {
-    final composedHandler = composeMiddleware(
-        [...api.opts.middlewares, ..._middlewares, handler],
-        HttpContext.fromCtx);
-
-    var worker = ApiWorker(this, composedHandler, [HttpMethod.post],
-        security: security, client: _apiClient);
-
-    await worker.start();
-  }
+  Future<void> post(HttpHandler handler) async =>
+      await _method(handler, [HttpMethod.post]);
 
   /// A PUT request [handler] for this route.
-  Future<void> put(HttpHandler handler) async {
-    final composedHandler = composeMiddleware(
-        [...api.opts.middlewares, ..._middlewares, handler],
-        HttpContext.fromCtx);
-
-    var worker = ApiWorker(this, composedHandler, [HttpMethod.put],
-        security: security, client: _apiClient);
-
-    await worker.start();
-  }
+  Future<void> put(HttpHandler handler) async =>
+      await _method(handler, [HttpMethod.put]);
 
   /// A PATCH request [handler] for this route.
-  Future<void> patch(HttpHandler handler) async {
-    final composedHandler = composeMiddleware(
-        [...api.opts.middlewares, ..._middlewares, handler],
-        HttpContext.fromCtx);
-
-    var worker = ApiWorker(this, composedHandler, [HttpMethod.patch],
-        security: security, client: _apiClient);
-
-    await worker.start();
-  }
+  Future<void> patch(HttpHandler handler) async =>
+      await _method(handler, [HttpMethod.patch]);
 
   /// A DELETE request [handler] for this route.
-  Future<void> delete(HttpHandler handler) async {
-    final composedHandler = composeMiddleware(
-        [...api.opts.middlewares, ..._middlewares, handler],
-        HttpContext.fromCtx);
-
-    var worker = ApiWorker(this, composedHandler, [HttpMethod.delete],
-        security: security, client: _apiClient);
-
-    await worker.start();
-  }
+  Future<void> delete(HttpHandler handler) async =>
+      await _method(handler, [HttpMethod.delete]);
 
   /// An OPTIONS request [handler] for this route.
-  Future<void> options(HttpHandler handler) async {
-    final composedHandler = composeMiddleware(
-        [...api.opts.middlewares, ..._middlewares, handler],
-        HttpContext.fromCtx);
-
-    var worker = ApiWorker(this, composedHandler, [HttpMethod.options],
-        security: security, client: _apiClient);
-
-    await worker.start();
-  }
+  Future<void> options(HttpHandler handler) async =>
+      await _method(handler, [HttpMethod.options]);
 
   /// A request [handler] for this route that matches all HTTP methods.
-  Future<void> all(HttpHandler handler) async {
-    final composedHandler = composeMiddleware(
-        [...api.opts.middlewares, ..._middlewares, handler],
-        HttpContext.fromCtx);
-
-    var worker = ApiWorker(this, composedHandler, HttpMethod.values,
-        security: security, client: _apiClient);
-
-    await worker.start();
-  }
+  Future<void> all(HttpHandler handler) async =>
+      await _method(handler, HttpMethod.values);
 }

@@ -1,6 +1,7 @@
 import 'package:mocktail/mocktail.dart';
 import 'package:nitric_sdk/resources.dart';
-import 'package:nitric_sdk/src/nitric/proto/resources/v1/resources.pb.dart'
+import 'package:nitric_sdk/src/grpc_helper.dart';
+import 'package:nitric_sdk/src/nitric/proto/resources/v1/resources.pbgrpc.dart'
     as $p;
 import 'package:nitric_sdk/src/resources/common.dart';
 import 'package:test/test.dart';
@@ -10,18 +11,24 @@ import '../common.dart';
 void main() {
   late MockResourceClient resourceClient;
 
-  setUp(() => resourceClient = MockResourceClient());
+  setUp(() {
+    resourceClient = MockResourceClient();
+
+    ClientChannelSingleton.registerClientConstructors(Map.from({
+      $p.ResourcesClient: resourceClient,
+    }));
+  });
 
   tearDown(() => reset(resourceClient));
 
   test("Test build queue resource", () async {
-    var queue = QueueResource("queueName", client: resourceClient);
+    var queue = QueueResource("queueName");
 
     expect(queue.name, "queueName");
   });
 
   test("Test register queue resource", () async {
-    var queue = QueueResource("queueName", client: resourceClient);
+    var queue = QueueResource("queueName");
 
     var req = $p.ResourceDeclareRequest(
         id: $p.ResourceIdentifier(
@@ -39,7 +46,7 @@ void main() {
   });
 
   test("Test converting queue permissions to actions", () async {
-    var queue = QueueResource("queueName", client: resourceClient);
+    var queue = QueueResource("queueName");
 
     var enqueueActions = queue.permissionsToActions([QueuePermission.enqueue]);
     expect(enqueueActions, [$p.Action.QueueEnqueue]);
@@ -58,7 +65,7 @@ void main() {
   });
 
   test("Test register queue policies", () async {
-    var queueResource = QueueResource("queueName", client: resourceClient);
+    var queueResource = QueueResource("queueName");
 
     var resourceIdentifier =
         $p.ResourceIdentifier(type: $p.ResourceType.Queue, name: "queueName");

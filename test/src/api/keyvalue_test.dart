@@ -1,6 +1,7 @@
 import 'package:mocktail/mocktail.dart';
 import 'package:nitric_sdk/src/api/api.dart';
 import 'package:nitric_sdk/src/google/protobuf/struct.pb.dart' as $p;
+import 'package:nitric_sdk/src/grpc_helper.dart';
 import 'package:nitric_sdk/src/nitric/proto/kvstore/v1/kvstore.pbgrpc.dart';
 import 'package:test/test.dart';
 
@@ -11,12 +12,18 @@ class MockKeyValueClient extends Mock implements KvStoreClient {}
 void main() {
   late MockKeyValueClient keyValueClient;
 
-  setUp(() => keyValueClient = MockKeyValueClient());
+  setUp(() {
+    keyValueClient = MockKeyValueClient();
+
+    ClientChannelSingleton.registerClientConstructors(Map.from({
+      KvStoreClient: keyValueClient,
+    }));
+  });
 
   tearDown(() => reset(keyValueClient));
 
   test('Test build key value store', () {
-    var kv = KeyValueStore("keyvalueName", client: keyValueClient);
+    var kv = KeyValueStore("keyvalueName");
 
     expect(kv.name, "keyvalueName");
   });
@@ -34,7 +41,7 @@ void main() {
     when(() => keyValueClient.setValue(req))
         .thenAnswer((_) => MockResponseFuture.value(resp));
 
-    var kvStore = KeyValueStore("keyvalueName", client: keyValueClient);
+    var kvStore = KeyValueStore("keyvalueName");
 
     await kvStore.set("keyName", {'message': 'test'});
 
@@ -57,7 +64,7 @@ void main() {
     when(() => keyValueClient.getValue(req))
         .thenAnswer((_) => MockResponseFuture.value(resp));
 
-    var kvStore = KeyValueStore("keyvalueName", client: keyValueClient);
+    var kvStore = KeyValueStore("keyvalueName");
 
     var keyContents = await kvStore.get("keyName");
 
@@ -76,7 +83,7 @@ void main() {
     when(() => keyValueClient.deleteKey(req))
         .thenAnswer((_) => MockResponseFuture.value(resp));
 
-    var kvStore = KeyValueStore("keyvalueName", client: keyValueClient);
+    var kvStore = KeyValueStore("keyvalueName");
 
     await kvStore.delete("keyName");
 
@@ -94,7 +101,7 @@ void main() {
     when(() => keyValueClient.scanKeys(req))
         .thenAnswer((_) => MockResponseStream.fromIterable(resp));
 
-    var kvStore = KeyValueStore("keyvalueName", client: keyValueClient);
+    var kvStore = KeyValueStore("keyvalueName");
 
     var keys = await kvStore.keys();
 
@@ -115,7 +122,7 @@ void main() {
     when(() => keyValueClient.scanKeys(req))
         .thenAnswer((_) => MockResponseStream.fromIterable(resp));
 
-    var kvStore = KeyValueStore("keyvalueName", client: keyValueClient);
+    var kvStore = KeyValueStore("keyvalueName");
 
     var keys = await kvStore.keys(prefix: "f");
 

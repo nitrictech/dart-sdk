@@ -5,12 +5,8 @@ class OidcOptions {
   String issuer;
   List<String> audiences;
   List<String> scopes;
-  $p.ResourcesClient? _client;
 
-  OidcOptions(this.name, this.issuer, this.audiences, this.scopes,
-      {$p.ResourcesClient? client}) {
-    _client = client;
-  }
+  OidcOptions(this.name, this.issuer, this.audiences, this.scopes);
 }
 
 typedef SecurityOption = OidcOptions Function(List<String> scopes);
@@ -28,7 +24,7 @@ class OidcSecurityDefinition extends Resource {
   late List<String> audiences;
 
   OidcSecurityDefinition(this.apiName, OidcOptions options)
-      : super("${options.name}-$apiName", options._client) {
+      : super("${options.name}-$apiName") {
     ruleName = options.name;
     issuer = options.issuer;
     audiences = options.audiences;

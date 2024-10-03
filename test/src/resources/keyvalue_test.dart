@@ -1,6 +1,7 @@
 import 'package:mocktail/mocktail.dart';
 import 'package:nitric_sdk/resources.dart';
-import 'package:nitric_sdk/src/nitric/proto/resources/v1/resources.pb.dart'
+import 'package:nitric_sdk/src/grpc_helper.dart';
+import 'package:nitric_sdk/src/nitric/proto/resources/v1/resources.pbgrpc.dart'
     as $p;
 import 'package:nitric_sdk/src/resources/common.dart';
 import 'package:test/test.dart';
@@ -10,18 +11,24 @@ import '../common.dart';
 void main() {
   late MockResourceClient resourceClient;
 
-  setUp(() => resourceClient = MockResourceClient());
+  setUp(() {
+    resourceClient = MockResourceClient();
+
+    ClientChannelSingleton.registerClientConstructors(Map.from({
+      $p.ResourcesClient: resourceClient,
+    }));
+  });
 
   tearDown(() => reset(resourceClient));
 
   test("Test build key value resource", () async {
-    var kv = KeyValueStoreResource("kvStoreName", client: resourceClient);
+    var kv = KeyValueStoreResource("kvStoreName");
 
     expect(kv.name, "kvStoreName");
   });
 
   test("Test register key value resource", () async {
-    var kv = KeyValueStoreResource("kvStoreName", client: resourceClient);
+    var kv = KeyValueStoreResource("kvStoreName");
 
     var req = $p.ResourceDeclareRequest(
         id: $p.ResourceIdentifier(
@@ -39,7 +46,7 @@ void main() {
   });
 
   test("Test converting key value permissions to actions", () async {
-    var kv = KeyValueStoreResource("kvStoreName", client: resourceClient);
+    var kv = KeyValueStoreResource("kvStoreName");
 
     var getActions = kv.permissionsToActions([KeyValueStorePermission.get]);
     expect(getActions, [$p.Action.KeyValueStoreRead]);
@@ -64,8 +71,7 @@ void main() {
   });
 
   test("Test register key value policies", () async {
-    var kvResource =
-        KeyValueStoreResource("keyvalueName", client: resourceClient);
+    var kvResource = KeyValueStoreResource("keyvalueName");
 
     var resourceIdentifier = $p.ResourceIdentifier(
         type: $p.ResourceType.KeyValueStore, name: "keyvalueName");

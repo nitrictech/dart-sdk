@@ -3,8 +3,7 @@ part of 'common.dart';
 enum KeyValueStorePermission { get, set, delete }
 
 class KeyValueStoreResource extends SecureResource<KeyValueStorePermission> {
-  KeyValueStoreResource(String name, {$p.ResourcesClient? client})
-      : super(name, client);
+  KeyValueStoreResource(super.name);
 
   @override
   ResourceDeclareRequest asRequest() {

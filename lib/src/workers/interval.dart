@@ -4,10 +4,7 @@ class IntervalWorker extends Worker<$sp.SchedulesClient> {
   $sp.RegistrationRequest registrationRequest;
   IntervalHandler middleware;
 
-  IntervalWorker(this.registrationRequest, this.middleware,
-      {$sp.SchedulesClient? client})
-      : super(client ??
-            $sp.SchedulesClient(ClientChannelSingleton.instance.clientChannel));
+  IntervalWorker(this.registrationRequest, this.middleware);
 
   /// Starts the interval handling loop to run the [middleware] at a certain frequency. Uses the [registrationRequest] to register the interval with the Nitric server.
   @override
@@ -18,30 +15,31 @@ class IntervalWorker extends Worker<$sp.SchedulesClient> {
     final requestStream = StreamController<$sp.ClientMessage>();
     requestStream.add(initMsg);
 
-    final response = _client.schedule(
-      requestStream.stream,
-    );
+    await ClientChannelSingleton.useClient($sp.SchedulesClient.new,
+        (client) async {
+      final response = client.schedule(
+        requestStream.stream,
+      );
 
-    await for (final msg in response) {
-      if (msg.hasRegistrationResponse()) {
-        // Schedule connected with Nitric server
-      } else if (msg.hasIntervalRequest()) {
-        var ctx = IntervalContext.fromRequest(msg);
+      await for (final msg in response) {
+        if (msg.hasRegistrationResponse()) {
+          // Schedule connected with Nitric server
+        } else if (msg.hasIntervalRequest()) {
+          var ctx = IntervalContext.fromRequest(msg);
 
-        try {
-          ctx = await middleware(ctx);
-        } on GrpcError catch (e) {
-          print("caught a GrpcError: $e");
-        } catch (e) {
-          print("unhandled application error: $e");
+          try {
+            ctx = await middleware(ctx);
+          } on GrpcError catch (e) {
+            print("caught a GrpcError: $e");
+          } catch (e) {
+            print("unhandled application error: $e");
 
-          ctx.res.success = false;
+            ctx.res.success = false;
+          }
+
+          requestStream.add(ctx.toResponse());
         }
-
-        requestStream.add(ctx.toResponse());
       }
-    }
-
-    await ClientChannelSingleton.instance.release();
+    });
   }
 }

@@ -1,5 +1,3 @@
-library context;
-
 import 'dart:convert';
 
 import 'package:nitric_sdk/src/api/api.dart';
@@ -12,6 +10,7 @@ import 'package:nitric_sdk/src/nitric/proto/websockets/v1/websockets.pb.dart'
     as $wp;
 import 'package:meta/meta.dart';
 import 'package:nitric_sdk/src/nitric/proto/websockets/v1/websockets.pbgrpc.dart';
+import 'package:nitric_sdk/src/nitric/proto/batch/v1/batch.pb.dart' as $jp;
 
 part 'http.dart';
 part 'interval.dart';
@@ -19,6 +18,7 @@ part 'middleware.dart';
 part 'message.dart';
 part 'blobevent.dart';
 part 'websocket.dart';
+part 'batch.dart';
 
 /// Base context to wrap request/response objects from the server.
 class TriggerContext<Req extends TriggerRequest, Resp extends TriggerResponse> {

@@ -15,50 +15,50 @@ import 'dart:core' as $core;
 import 'package:grpc/service_api.dart' as $grpc;
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'queues.pb.dart' as $7;
+import 'queues.pb.dart' as $8;
 
 export 'queues.pb.dart';
 
 @$pb.GrpcServiceName('nitric.proto.queues.v1.Queues')
 class QueuesClient extends $grpc.Client {
   static final _$enqueue =
-      $grpc.ClientMethod<$7.QueueEnqueueRequest, $7.QueueEnqueueResponse>(
+      $grpc.ClientMethod<$8.QueueEnqueueRequest, $8.QueueEnqueueResponse>(
           '/nitric.proto.queues.v1.Queues/Enqueue',
-          ($7.QueueEnqueueRequest value) => value.writeToBuffer(),
+          ($8.QueueEnqueueRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) =>
-              $7.QueueEnqueueResponse.fromBuffer(value));
+              $8.QueueEnqueueResponse.fromBuffer(value));
   static final _$dequeue =
-      $grpc.ClientMethod<$7.QueueDequeueRequest, $7.QueueDequeueResponse>(
+      $grpc.ClientMethod<$8.QueueDequeueRequest, $8.QueueDequeueResponse>(
           '/nitric.proto.queues.v1.Queues/Dequeue',
-          ($7.QueueDequeueRequest value) => value.writeToBuffer(),
+          ($8.QueueDequeueRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) =>
-              $7.QueueDequeueResponse.fromBuffer(value));
+              $8.QueueDequeueResponse.fromBuffer(value));
   static final _$complete =
-      $grpc.ClientMethod<$7.QueueCompleteRequest, $7.QueueCompleteResponse>(
+      $grpc.ClientMethod<$8.QueueCompleteRequest, $8.QueueCompleteResponse>(
           '/nitric.proto.queues.v1.Queues/Complete',
-          ($7.QueueCompleteRequest value) => value.writeToBuffer(),
+          ($8.QueueCompleteRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) =>
-              $7.QueueCompleteResponse.fromBuffer(value));
+              $8.QueueCompleteResponse.fromBuffer(value));
 
   QueuesClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
       $core.Iterable<$grpc.ClientInterceptor>? interceptors})
       : super(channel, options: options, interceptors: interceptors);
 
-  $grpc.ResponseFuture<$7.QueueEnqueueResponse> enqueue(
-      $7.QueueEnqueueRequest request,
+  $grpc.ResponseFuture<$8.QueueEnqueueResponse> enqueue(
+      $8.QueueEnqueueRequest request,
       {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$enqueue, request, options: options);
   }
 
-  $grpc.ResponseFuture<$7.QueueDequeueResponse> dequeue(
-      $7.QueueDequeueRequest request,
+  $grpc.ResponseFuture<$8.QueueDequeueResponse> dequeue(
+      $8.QueueDequeueRequest request,
       {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$dequeue, request, options: options);
   }
 
-  $grpc.ResponseFuture<$7.QueueCompleteResponse> complete(
-      $7.QueueCompleteRequest request,
+  $grpc.ResponseFuture<$8.QueueCompleteResponse> complete(
+      $8.QueueCompleteRequest request,
       {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$complete, request, options: options);
   }
@@ -70,53 +70,53 @@ abstract class QueuesServiceBase extends $grpc.Service {
 
   QueuesServiceBase() {
     $addMethod(
-        $grpc.ServiceMethod<$7.QueueEnqueueRequest, $7.QueueEnqueueResponse>(
+        $grpc.ServiceMethod<$8.QueueEnqueueRequest, $8.QueueEnqueueResponse>(
             'Enqueue',
             enqueue_Pre,
             false,
             false,
             ($core.List<$core.int> value) =>
-                $7.QueueEnqueueRequest.fromBuffer(value),
-            ($7.QueueEnqueueResponse value) => value.writeToBuffer()));
+                $8.QueueEnqueueRequest.fromBuffer(value),
+            ($8.QueueEnqueueResponse value) => value.writeToBuffer()));
     $addMethod(
-        $grpc.ServiceMethod<$7.QueueDequeueRequest, $7.QueueDequeueResponse>(
+        $grpc.ServiceMethod<$8.QueueDequeueRequest, $8.QueueDequeueResponse>(
             'Dequeue',
             dequeue_Pre,
             false,
             false,
             ($core.List<$core.int> value) =>
-                $7.QueueDequeueRequest.fromBuffer(value),
-            ($7.QueueDequeueResponse value) => value.writeToBuffer()));
+                $8.QueueDequeueRequest.fromBuffer(value),
+            ($8.QueueDequeueResponse value) => value.writeToBuffer()));
     $addMethod(
-        $grpc.ServiceMethod<$7.QueueCompleteRequest, $7.QueueCompleteResponse>(
+        $grpc.ServiceMethod<$8.QueueCompleteRequest, $8.QueueCompleteResponse>(
             'Complete',
             complete_Pre,
             false,
             false,
             ($core.List<$core.int> value) =>
-                $7.QueueCompleteRequest.fromBuffer(value),
-            ($7.QueueCompleteResponse value) => value.writeToBuffer()));
+                $8.QueueCompleteRequest.fromBuffer(value),
+            ($8.QueueCompleteResponse value) => value.writeToBuffer()));
   }
 
-  $async.Future<$7.QueueEnqueueResponse> enqueue_Pre($grpc.ServiceCall call,
-      $async.Future<$7.QueueEnqueueRequest> request) async {
+  $async.Future<$8.QueueEnqueueResponse> enqueue_Pre($grpc.ServiceCall call,
+      $async.Future<$8.QueueEnqueueRequest> request) async {
     return enqueue(call, await request);
   }
 
-  $async.Future<$7.QueueDequeueResponse> dequeue_Pre($grpc.ServiceCall call,
-      $async.Future<$7.QueueDequeueRequest> request) async {
+  $async.Future<$8.QueueDequeueResponse> dequeue_Pre($grpc.ServiceCall call,
+      $async.Future<$8.QueueDequeueRequest> request) async {
     return dequeue(call, await request);
   }
 
-  $async.Future<$7.QueueCompleteResponse> complete_Pre($grpc.ServiceCall call,
-      $async.Future<$7.QueueCompleteRequest> request) async {
+  $async.Future<$8.QueueCompleteResponse> complete_Pre($grpc.ServiceCall call,
+      $async.Future<$8.QueueCompleteRequest> request) async {
     return complete(call, await request);
   }
 
-  $async.Future<$7.QueueEnqueueResponse> enqueue(
-      $grpc.ServiceCall call, $7.QueueEnqueueRequest request);
-  $async.Future<$7.QueueDequeueResponse> dequeue(
-      $grpc.ServiceCall call, $7.QueueDequeueRequest request);
-  $async.Future<$7.QueueCompleteResponse> complete(
-      $grpc.ServiceCall call, $7.QueueCompleteRequest request);
+  $async.Future<$8.QueueEnqueueResponse> enqueue(
+      $grpc.ServiceCall call, $8.QueueEnqueueRequest request);
+  $async.Future<$8.QueueDequeueResponse> dequeue(
+      $grpc.ServiceCall call, $8.QueueDequeueRequest request);
+  $async.Future<$8.QueueCompleteResponse> complete(
+      $grpc.ServiceCall call, $8.QueueCompleteRequest request);
 }

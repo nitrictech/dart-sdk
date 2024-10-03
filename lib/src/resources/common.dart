@@ -1,8 +1,7 @@
-library resources;
-
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:fixnum/fixnum.dart';
 import 'package:nitric_sdk/src/api/api.dart';
 import 'package:nitric_sdk/src/grpc_helper.dart';
 import 'package:nitric_sdk/src/nitric/proto/apis/v1/apis.pbgrpc.dart';
@@ -23,7 +22,9 @@ import 'package:nitric_sdk/src/nitric/proto/websockets/v1/websockets.pbgrpc.dart
     as $wp;
 import 'package:nitric_sdk/src/nitric/proto/storage/v1/storage.pbgrpc.dart'
     as $bp;
-import 'package:meta/meta.dart' hide ResourceIdentifier;
+import 'package:nitric_sdk/src/nitric/proto/batch/v1/batch.pbgrpc.dart' as $jp;
+
+import 'package:meta/meta.dart';
 import 'package:nitric_sdk/src/workers/common.dart';
 
 part 'schedule.dart';
@@ -35,6 +36,7 @@ part 'topic.dart';
 part 'websocket.dart';
 part 'queue.dart';
 part 'oidc.dart';
+part 'batch.dart';
 
 /// A representation of a resource that can be registered with the Nitric server.
 abstract class Resource {
@@ -42,39 +44,30 @@ abstract class Resource {
   final String name;
 
   // Used to resolve the given resource for policy creation
-  final Completer<ResourceIdentifier> _registrationCompletion =
-      Completer<ResourceIdentifier>();
-
-  /// Internal resource client to declare the resource.
-  late final $p.ResourcesClient _client;
+  final Completer<$p.ResourceIdentifier> _registrationCompletion =
+      Completer<$p.ResourceIdentifier>();
 
   @protected
-  Resource(this.name, $p.ResourcesClient? client) {
-    if (client == null) {
-      _client =
-          $p.ResourcesClient(ClientChannelSingleton.instance.clientChannel);
-    } else {
-      _client = client;
-    }
-  }
+  Resource(this.name);
 
   ResourceDeclareRequest asRequest();
 
   /// Register the resource with the Nitric server. Handles shutting down the channel.
   Future<void> register() async {
-    var res = asRequest();
+    await ClientChannelSingleton.useClient($p.ResourcesClient.new,
+        (client) async {
+      var res = asRequest();
 
-    await _client.declare(res);
+      await client.declare(res);
 
-    await ClientChannelSingleton.instance.release();
-
-    _registrationCompletion.complete(res.id);
+      _registrationCompletion.complete(res.id);
+    });
   }
 }
 
 /// A resource that requires permissions to access it.
 abstract class SecureResource<T extends Enum> extends Resource {
-  SecureResource(super.name, super.client);
+  SecureResource(super.name);
 
   /// Convert a list of permissions to gRPC actions.
   List<$p.Action> permissionsToActions(List<T> permissions);
@@ -90,19 +83,24 @@ abstract class SecureResource<T extends Enum> extends Resource {
         resources: [resourceIdentifier],
         actions: permissionsToActions(permissions));
 
-    await _client
-        .declare($p.ResourceDeclareRequest(policy: policy, id: policyResource));
+    var req = $p.ResourceDeclareRequest(policy: policy, id: policyResource);
 
-    await ClientChannelSingleton.instance.release();
+    await ClientChannelSingleton.useClient($p.ResourcesClient.new,
+        (client) async {
+      await client.declare(req);
+    });
   }
 
   /// Register the resource with the Nitric server.
   @override
   Future<void> register() async {
-    var res = asRequest();
+    await ClientChannelSingleton.useClient($p.ResourcesClient.new,
+        (client) async {
+      var req = asRequest();
 
-    await _client.declare(res);
+      await client.declare(req);
 
-    _registrationCompletion.complete(res.id);
+      _registrationCompletion.complete(req.id);
+    });
   }
 }

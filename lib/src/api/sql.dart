@@ -5,42 +5,19 @@ import 'package:nitric_sdk/src/nitric/proto/resources/v1/resources.pbgrpc.dart'
     as $rp;
 import 'package:nitric_sdk/src/nitric/proto/sql/v1/sql.pbgrpc.dart' as $p;
 
-import 'api.dart';
-
 /// A Topic for publishing events to subscribers of this topic.
 class SqlDatabase extends Resource {
   /// The name of the topic
-  late final String? migrations;
-  late final $p.SqlClient? _sqlClient;
+  final String? migrations;
 
-  SqlDatabase(String name,
-      {this.migrations,
-      $p.SqlClient? client,
-      $rp.ResourcesClient? resourcesClient})
-      : super(name, resourcesClient) {
-    _sqlClient = client;
-  }
-
-  Future<Resp> _useClient<Resp>(
-      UseClientCallback<$p.SqlClient, Resp> callback) async {
-    final client = _sqlClient ??
-        $p.SqlClient(ClientChannelSingleton.instance.clientChannel);
-
-    var resp = callback(client);
-
-    if (_sqlClient == null) {
-      await ClientChannelSingleton.instance.release();
-    }
-
-    return resp;
-  }
+  SqlDatabase(super.name, {this.migrations});
 
   /// Returns a connection endpoint to connect to the SQL database
   Future<String> connectionString() async {
     final req = $p.SqlConnectionStringRequest(databaseName: name);
 
-    final resp =
-        await _useClient((client) async => await client.connectionString(req));
+    final resp = await ClientChannelSingleton.useClient(
+        $p.SqlClient.new, (client) async => await client.connectionString(req));
 
     return resp.connectionString;
   }
