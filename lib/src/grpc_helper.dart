@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:grpc/grpc.dart';
+import 'package:nitric_sdk/src/api/api.dart';
 import 'package:synchronized/synchronized.dart';
 
 const String envVarName = 'SERVICE_ADDRESS';
@@ -57,8 +58,10 @@ class ClientChannelSingleton {
 
   static ClientChannelSingleton get instance => _instance;
 
-  ClientChannel get clientChannel {
-    _lock.synchronized(() {
+  static Map<Type, Client> _overrideClientConstructors = {};
+
+  Future<ClientChannel> get _channel async {
+    await _lock.synchronized(() async {
       _clientChannel ??= _createClientChannelFromEnvVar();
       _consumerCount++;
     });
@@ -66,7 +69,7 @@ class ClientChannelSingleton {
     return _clientChannel as ClientChannel;
   }
 
-  Future<void> release() async {
+  Future<void> _release() async {
     await _lock.synchronized(() async {
       _consumerCount--;
       if (_consumerCount <= 0) {
@@ -74,5 +77,28 @@ class ClientChannelSingleton {
         _clientChannel = null;
       }
     });
+  }
+
+  static Future<Resp> useClient<GrpcClient extends Client, Resp>(
+      ClientConstructor<GrpcClient> clientConstructor,
+      UseClientCallback<GrpcClient, Resp> callback) async {
+    // Will use the overriden client constructor (used in tests), if there is one registered.
+    GrpcClient client;
+    if (_overrideClientConstructors[GrpcClient] != null) {
+      client = _overrideClientConstructors[GrpcClient] as GrpcClient;
+    } else {
+      client =
+          clientConstructor(await ClientChannelSingleton.instance._channel);
+    }
+
+    var resp = await callback(client);
+
+    await ClientChannelSingleton.instance._release();
+
+    return resp;
+  }
+
+  static registerClientConstructors(Map<Type, Client> clientConstructors) {
+    _overrideClientConstructors = clientConstructors;
   }
 }

@@ -26,11 +26,5 @@ part 'websocket.dart';
 part 'batch.dart';
 
 abstract class Worker<T extends Client> {
-  late T _client;
-
-  Worker(T client) {
-    _client = client;
-  }
-
   Future<void> start();
 }

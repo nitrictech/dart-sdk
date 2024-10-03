@@ -3,8 +3,7 @@ part of 'common.dart';
 enum QueuePermission { enqueue, dequeue }
 
 class QueueResource extends SecureResource<QueuePermission> {
-  QueueResource(String name, {$p.ResourcesClient? client})
-      : super(name, client);
+  QueueResource(super.name);
 
   @override
   ResourceDeclareRequest asRequest() {

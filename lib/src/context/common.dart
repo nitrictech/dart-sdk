@@ -1,5 +1,3 @@
-library context;
-
 import 'dart:convert';
 
 import 'package:nitric_sdk/src/api/api.dart';

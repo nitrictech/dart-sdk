@@ -1,5 +1,6 @@
 import 'package:mocktail/mocktail.dart';
-import 'package:nitric_sdk/src/nitric/proto/resources/v1/resources.pb.dart';
+import 'package:nitric_sdk/src/grpc_helper.dart';
+import 'package:nitric_sdk/src/nitric/proto/resources/v1/resources.pbgrpc.dart';
 import 'package:nitric_sdk/src/resources/common.dart';
 import 'package:test/test.dart';
 
@@ -8,7 +9,13 @@ import '../common.dart';
 void main() {
   late MockResourceClient resourceClient;
 
-  setUp(() => resourceClient = MockResourceClient());
+  setUp(() {
+    resourceClient = MockResourceClient();
+
+    ClientChannelSingleton.registerClientConstructors(Map.from({
+      ResourcesClient: resourceClient,
+    }));
+  });
 
   tearDown(() => reset(resourceClient));
 
@@ -23,9 +30,8 @@ void main() {
   });
 
   test("Test register oidc", () async {
-    var opts = OidcOptions(
-        "oidcName", "http://test-issuer", ["users"], ["user:read"],
-        client: resourceClient);
+    var opts =
+        OidcOptions("oidcName", "http://test-issuer", ["users"], ["user:read"]);
 
     var oidc = OidcSecurityDefinition("apiName", opts);
 

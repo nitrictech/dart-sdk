@@ -1,9 +1,10 @@
 import 'dart:convert';
 
 import 'package:mocktail/mocktail.dart';
-import 'package:nitric_sdk/src/nitric/proto/resources/v1/resources.pb.dart';
+import 'package:nitric_sdk/nitric.dart';
+import 'package:nitric_sdk/src/grpc_helper.dart';
+import 'package:nitric_sdk/src/nitric/proto/resources/v1/resources.pbgrpc.dart';
 import 'package:nitric_sdk/src/nitric/proto/websockets/v1/websockets.pbgrpc.dart';
-import 'package:nitric_sdk/src/resources/common.dart';
 import 'package:test/test.dart';
 
 import '../common.dart';
@@ -22,6 +23,12 @@ void main() {
     resourceClient = MockResourceClient();
     websocketClient = MockWebsocketClient();
     websocketHandlerClient = MockWebsocketHandlerClient();
+
+    ClientChannelSingleton.registerClientConstructors(Map.from({
+      ResourcesClient: resourceClient,
+      WebsocketClient: websocketClient,
+      WebsocketHandlerClient: websocketHandlerClient,
+    }));
   });
 
   setUpAll(() {
@@ -35,13 +42,13 @@ void main() {
   });
 
   test("Test build websocket", () async {
-    var websocket = Websocket("websocketName", client: resourceClient);
+    var websocket = Websocket("websocketName");
 
     expect(websocket.name, "websocketName");
   });
 
   test("Test register websocket", () async {
-    var websocket = Websocket("websocketName", client: resourceClient);
+    var websocket = Websocket("websocketName");
 
     var req = ResourceDeclareRequest(
         id: ResourceIdentifier(
@@ -68,8 +75,7 @@ void main() {
     when(() => websocketClient.sendMessage(req))
         .thenAnswer((_) => MockResponseFuture.value(resp));
 
-    var websocket = Websocket("socketName",
-        client: resourceClient, websocketClient: websocketClient);
+    var websocket = Websocket("socketName");
 
     await websocket.send("connectionId", "hello world");
 
@@ -87,8 +93,7 @@ void main() {
     when(() => websocketClient.closeConnection(req))
         .thenAnswer((_) => MockResponseFuture.value(resp));
 
-    var websocket = Websocket("socketName",
-        client: resourceClient, websocketClient: websocketClient);
+    var websocket = Websocket("socketName");
 
     await websocket.close("connectionId");
 
@@ -96,10 +101,7 @@ void main() {
   });
 
   test('Test websocket connect worker', () async {
-    var websocket = Websocket("websocketName",
-        client: resourceClient,
-        websocketClient: websocketClient,
-        websocketHandlerClient: websocketHandlerClient);
+    var websocket = Websocket("websocketName");
 
     when(() => websocketHandlerClient.handleEvents(any()))
         .thenAnswer((_) => MockResponseStream.fromIterable([
@@ -121,10 +123,7 @@ void main() {
   });
 
   test('Test websocket disconnect worker', () async {
-    var websocket = Websocket("websocketName",
-        client: resourceClient,
-        websocketClient: websocketClient,
-        websocketHandlerClient: websocketHandlerClient);
+    var websocket = Websocket("websocketName");
 
     when(() => websocketHandlerClient.handleEvents(any()))
         .thenAnswer((_) => MockResponseStream.fromIterable([
@@ -144,10 +143,7 @@ void main() {
   });
 
   test('Test websocket message worker', () async {
-    var websocket = Websocket("websocketName",
-        client: resourceClient,
-        websocketClient: websocketClient,
-        websocketHandlerClient: websocketHandlerClient);
+    var websocket = Websocket("websocketName");
 
     when(() => websocketHandlerClient.handleEvents(any()))
         .thenAnswer((_) => MockResponseStream.fromIterable([
@@ -167,10 +163,7 @@ void main() {
   });
 
   test('Test websocket worker error', () async {
-    var websocket = Websocket("websocketName",
-        client: resourceClient,
-        websocketClient: websocketClient,
-        websocketHandlerClient: websocketHandlerClient);
+    var websocket = Websocket("websocketName");
 
     when(() => websocketHandlerClient.handleEvents(any()))
         .thenAnswer((_) => MockResponseStream.fromIterable([

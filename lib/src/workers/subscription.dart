@@ -4,11 +4,7 @@ class SubscriptionWorker extends Worker<$tp.SubscriberClient> {
   $tp.RegistrationRequest registrationRequest;
   MessageHandler middleware;
 
-  SubscriptionWorker(this.registrationRequest, this.middleware,
-      {$tp.SubscriberClient? client})
-      : super(client ??
-            $tp.SubscriberClient(
-                ClientChannelSingleton.instance.clientChannel));
+  SubscriptionWorker(this.registrationRequest, this.middleware);
 
   @override
   Future<void> start() async {
@@ -19,30 +15,31 @@ class SubscriptionWorker extends Worker<$tp.SubscriberClient> {
     final requestStream = StreamController<$tp.ClientMessage>();
     requestStream.add(initMsg);
 
-    final response = _client.subscribe(
-      requestStream.stream,
-    );
+    await ClientChannelSingleton.useClient($tp.SubscriberClient.new,
+        (client) async {
+      final response = client.subscribe(
+        requestStream.stream,
+      );
 
-    await for (final msg in response) {
-      if (msg.hasRegistrationResponse()) {
-        // Topic connected with Nitric server
-      } else if (msg.hasMessageRequest()) {
-        var ctx = MessageContext.fromRequest(msg);
+      await for (final msg in response) {
+        if (msg.hasRegistrationResponse()) {
+          // Topic connected with Nitric server
+        } else if (msg.hasMessageRequest()) {
+          var ctx = MessageContext.fromRequest(msg);
 
-        try {
-          ctx = await middleware(ctx);
-        } on GrpcError catch (e) {
-          print("caught a GrpcError: $e");
-        } catch (e) {
-          print("unhandled application error: $e");
+          try {
+            ctx = await middleware(ctx);
+          } on GrpcError catch (e) {
+            print("caught a GrpcError: $e");
+          } catch (e) {
+            print("unhandled application error: $e");
 
-          ctx.res.success = false;
+            ctx.res.success = false;
+          }
+
+          requestStream.add(ctx.toResponse());
         }
-
-        requestStream.add(ctx.toResponse());
       }
-    }
-
-    await ClientChannelSingleton.instance.release();
+    });
   }
 }

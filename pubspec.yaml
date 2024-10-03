@@ -3,20 +3,19 @@ description: The Dart SDK supports the use of the Nitric framework with Dart and
 repository: https://github.com/nitrictech/dart-sdk
 
 environment:
-  sdk: ^3.2.4
+  sdk: ^3.5.0
 
 # Add regular dependencies here.
 dependencies:
   fixnum: ^1.1.0
-  grpc: ^3.2.4
+  grpc: ^4.0.1
   http: ^1.2.1
   meta: ^1.11.0
   protobuf: ^3.1.0
-  synchronized: ^3.1.0+1
+  synchronized: ^3.3.0
   uuid: ^4.3.2
-  # path: ^1.8.0
 
 dev_dependencies:
-  lints: ^4.0.0
+  lints: ^5.0.0
   mocktail: ^1.0.3
-  test: ^1.24.0
+  test: ^1.25.8

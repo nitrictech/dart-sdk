@@ -1,28 +1,7 @@
 part of 'common.dart';
 
 class Websocket extends Resource {
-  late $wp.WebsocketClient _websocketClient;
-  late $wp.WebsocketHandlerClient? _websocketHandlerClient;
-
-  Websocket(String name,
-      {$p.ResourcesClient? client,
-      $wp.WebsocketClient? websocketClient,
-      $wp.WebsocketHandlerClient? websocketHandlerClient})
-      : super(name, client) {
-    if (websocketClient == null) {
-      _websocketClient =
-          $wp.WebsocketClient(ClientChannelSingleton.instance.clientChannel);
-    } else {
-      _websocketClient = websocketClient;
-    }
-
-    if (websocketHandlerClient == null) {
-      _websocketHandlerClient = $wp.WebsocketHandlerClient(
-          ClientChannelSingleton.instance.clientChannel);
-    } else {
-      _websocketHandlerClient = websocketHandlerClient;
-    }
-  }
+  Websocket(super.name);
 
   @override
   ResourceDeclareRequest asRequest() {
@@ -38,14 +17,16 @@ class Websocket extends Resource {
   Future<void> send(String connectionId, String data) async {
     var req = $wp.WebsocketSendRequest(
         socketName: name, connectionId: connectionId, data: utf8.encode(data));
-    await _websocketClient.sendMessage(req);
+    await ClientChannelSingleton.useClient($wp.WebsocketClient.new,
+        (client) async => await client.sendMessage(req));
   }
 
   /// Close a connection to the socket, referenced by its [connectionId].
   Future<void> close(String connectionId) async {
     var req = $wp.WebsocketCloseConnectionRequest(
         socketName: name, connectionId: connectionId);
-    await _websocketClient.closeConnection(req);
+    await ClientChannelSingleton.useClient($wp.WebsocketClient.new,
+        (client) async => await client.closeConnection(req));
   }
 
   /// Set a [handler] for connection requests to the socket.
@@ -57,8 +38,7 @@ class Websocket extends Resource {
     final composedHandler =
         composeMiddleware([...middlewares, handler], WebsocketContext.fromCtx);
 
-    var worker = WebsocketWorker(registrationRequest, composedHandler,
-        client: _websocketHandlerClient);
+    var worker = WebsocketWorker(registrationRequest, composedHandler);
 
     await worker.start();
   }
@@ -72,8 +52,7 @@ class Websocket extends Resource {
     final composedHandler =
         composeMiddleware([...middlewares, handler], WebsocketContext.fromCtx);
 
-    var worker = WebsocketWorker(registrationRequest, composedHandler,
-        client: _websocketHandlerClient);
+    var worker = WebsocketWorker(registrationRequest, composedHandler);
 
     await worker.start();
   }
@@ -87,8 +66,7 @@ class Websocket extends Resource {
     final composedHandler =
         composeMiddleware([...middlewares, handler], WebsocketContext.fromCtx);
 
-    var worker = WebsocketWorker(registrationRequest, composedHandler,
-        client: _websocketHandlerClient);
+    var worker = WebsocketWorker(registrationRequest, composedHandler);
 
     await worker.start();
   }

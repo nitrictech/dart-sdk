@@ -3,6 +3,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:nitric_sdk/src/api/api.dart';
 import 'package:nitric_sdk/src/google/protobuf/duration.pb.dart';
 import 'package:nitric_sdk/src/google/protobuf/struct.pb.dart';
+import 'package:nitric_sdk/src/grpc_helper.dart';
 import 'package:nitric_sdk/src/nitric/proto/topics/v1/topics.pbgrpc.dart' as $p;
 import 'package:test/test.dart';
 
@@ -13,12 +14,18 @@ class MockTopicsClient extends Mock implements $p.TopicsClient {}
 void main() {
   late MockTopicsClient topicsClient;
 
-  setUp(() => topicsClient = MockTopicsClient());
+  setUp(() {
+    topicsClient = MockTopicsClient();
+
+    ClientChannelSingleton.registerClientConstructors(Map.from({
+      $p.TopicsClient: topicsClient,
+    }));
+  });
 
   tearDown(() => reset(topicsClient));
 
   test('Test build topic', () {
-    var topic = Topic("topicName", client: topicsClient);
+    var topic = Topic("topicName");
 
     expect(topic.name, "topicName");
   });
@@ -37,7 +44,7 @@ void main() {
     when(() => topicsClient.publish(req))
         .thenAnswer((_) => MockResponseFuture.value(resp));
 
-    var secret = Topic("topicName", client: topicsClient);
+    var secret = Topic("topicName");
 
     await secret.publish({"message": "test"});
 
@@ -55,7 +62,7 @@ void main() {
     when(() => topicsClient.publish(req))
         .thenAnswer((_) => MockResponseFuture.value(resp));
 
-    var secret = Topic("topicName", client: topicsClient);
+    var secret = Topic("topicName");
 
     await secret.publish({});
 
@@ -76,7 +83,7 @@ void main() {
     when(() => topicsClient.publish(req))
         .thenAnswer((_) => MockResponseFuture.value(resp));
 
-    var secret = Topic("topicName", client: topicsClient);
+    var secret = Topic("topicName");
 
     await secret.publish({"message": "test"}, delay: 30);
 

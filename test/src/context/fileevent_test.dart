@@ -17,7 +17,7 @@ void main() {
               $pb.BlobEvent(key: "key", type: $pb.BlobEventType.Created)),
     );
 
-    final bucket = Bucket("bucket", client: MockStorageClient());
+    final bucket = Bucket("bucket");
 
     final ctx = FileEventContext.fromRequest(msg, bucket);
 
@@ -27,8 +27,7 @@ void main() {
   test('ClientMessage from Blob Event Context', () {
     final ctx = FileEventContext(
         "id",
-        FileEventRequest(
-            File(Bucket("bucket", client: MockStorageClient()), "key")),
+        FileEventRequest(File(Bucket("bucket"), "key")),
         BlobEventResponse(true));
 
     final clientMessage = ctx.toResponse();

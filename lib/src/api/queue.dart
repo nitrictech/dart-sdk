@@ -5,29 +5,11 @@ import 'package:nitric_sdk/src/grpc_helper.dart';
 import 'package:nitric_sdk/src/nitric/proto/queues/v1/queues.pbgrpc.dart' as $p;
 
 class Queue {
-  late final $p.QueuesClient? _queuesClient;
-
   /// The name of the queue.
   String name;
 
   /// Construct a new queue.
-  Queue(this.name, {$p.QueuesClient? client}) {
-    _queuesClient = client;
-  }
-
-  Future<Resp> _useClient<Resp>(
-      UseClientCallback<$p.QueuesClient, Resp> callback) async {
-    final client = _queuesClient ??
-        $p.QueuesClient(ClientChannelSingleton.instance.clientChannel);
-
-    var resp = callback(client);
-
-    if (_queuesClient == null) {
-      await ClientChannelSingleton.instance.release();
-    }
-
-    return resp;
-  }
+  Queue(this.name);
 
   /// Enqueue a list of [messages] to the queue.
   Future<List<FailedMessage>> enqueue(
@@ -40,7 +22,8 @@ class Queue {
       queueName: name,
     );
 
-    var resp = await _useClient((client) async => await client.enqueue(req));
+    var resp = await ClientChannelSingleton.useClient(
+        $p.QueuesClient.new, (client) async => await client.enqueue(req));
 
     return resp.failedMessages.map((fm) => FailedMessage(fm)).toList();
   }
@@ -49,7 +32,8 @@ class Queue {
   Future<List<DequeuedMessage>> dequeue({int depth = 1}) async {
     var req = $p.QueueDequeueRequest(queueName: name, depth: depth);
 
-    var resp = await _useClient((client) async => await client.dequeue(req));
+    var resp = await ClientChannelSingleton.useClient(
+        $p.QueuesClient.new, (client) async => await client.dequeue(req));
 
     return resp.messages.map((m) => DequeuedMessage(this, m)).toList();
   }
@@ -73,7 +57,8 @@ class DequeuedMessage {
     var req =
         $p.QueueCompleteRequest(leaseId: _leaseId, queueName: _queue.name);
 
-    await _queue._useClient((client) async => await client.complete(req));
+    await ClientChannelSingleton.useClient(
+        $p.QueuesClient.new, (client) async => await client.complete(req));
   }
 }
 

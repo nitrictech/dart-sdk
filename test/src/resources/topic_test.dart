@@ -1,6 +1,7 @@
 import 'package:mocktail/mocktail.dart';
 import 'package:nitric_sdk/src/google/protobuf/struct.pb.dart';
-import 'package:nitric_sdk/src/nitric/proto/resources/v1/resources.pb.dart';
+import 'package:nitric_sdk/src/grpc_helper.dart';
+import 'package:nitric_sdk/src/nitric/proto/resources/v1/resources.pbgrpc.dart';
 import 'package:nitric_sdk/src/nitric/proto/topics/v1/topics.pbgrpc.dart';
 import 'package:nitric_sdk/src/resources/common.dart';
 import 'package:test/test.dart';
@@ -16,6 +17,11 @@ void main() {
   setUp(() {
     resourceClient = MockResourceClient();
     subscriberClient = MockSubscriberClient();
+
+    ClientChannelSingleton.registerClientConstructors(Map.from({
+      ResourcesClient: resourceClient,
+      SubscriberClient: subscriberClient,
+    }));
   });
 
   setUpAll(() {
@@ -28,13 +34,13 @@ void main() {
   });
 
   test("Test build topic", () async {
-    var topic = Topic("topicName", client: resourceClient);
+    var topic = Topic("topicName");
 
     expect(topic.name, "topicName");
   });
 
   test("Test register topic", () async {
-    var topic = Topic("topicName", client: resourceClient);
+    var topic = Topic("topicName");
 
     var req = ResourceDeclareRequest(
         id: ResourceIdentifier(name: "topicName", type: ResourceType.Topic),
@@ -51,7 +57,7 @@ void main() {
   });
 
   test("Test register topic policies", () async {
-    var topicResource = Topic("topicName", client: resourceClient);
+    var topicResource = Topic("topicName");
 
     var resourceIdentifier =
         ResourceIdentifier(type: ResourceType.Topic, name: "topicName");
@@ -75,15 +81,14 @@ void main() {
   });
 
   test("Test converting topic permissions to actions", () async {
-    var topic = Topic("topicName", client: resourceClient);
+    var topic = Topic("topicName");
 
     var actions = topic.permissionsToActions([TopicPermission.publish]);
     expect(actions, [Action.TopicPublish]);
   });
 
   test('Test subscription worker', () async {
-    var topic = Topic("topicName",
-        client: resourceClient, subscriberClient: subscriberClient);
+    var topic = Topic("topicName");
 
     when(() => subscriberClient.subscribe(any()))
         .thenAnswer((_) => MockResponseStream.fromIterable([
@@ -102,8 +107,7 @@ void main() {
   });
 
   test('Test subscription worker error ', () async {
-    var topic = Topic("topicName",
-        client: resourceClient, subscriberClient: subscriberClient);
+    var topic = Topic("topicName");
 
     when(() => subscriberClient.subscribe(any()))
         .thenAnswer((_) => MockResponseStream.fromIterable([

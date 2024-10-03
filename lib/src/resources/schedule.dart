@@ -1,20 +1,7 @@
 part of 'common.dart';
 
 class Schedule extends Resource {
-  $sp.SchedulesClient? _schedulesClient;
-
-  Schedule(String name,
-      {$p.ResourcesClient? client, $sp.SchedulesClient? schedulesClient})
-      : super(name, client) {
-    _schedulesClient = schedulesClient;
-
-    if (schedulesClient == null) {
-      _schedulesClient =
-          $sp.SchedulesClient(ClientChannelSingleton.instance.clientChannel);
-    } else {
-      _schedulesClient = schedulesClient;
-    }
-  }
+  Schedule(super.name);
 
   @override
   ResourceDeclareRequest asRequest() {
@@ -32,8 +19,7 @@ class Schedule extends Resource {
     final composedHandler =
         composeMiddleware([...middlewares, handler], IntervalContext.fromCtx);
 
-    var worker = IntervalWorker(registrationRequest, composedHandler,
-        client: _schedulesClient);
+    var worker = IntervalWorker(registrationRequest, composedHandler);
 
     await worker.start();
   }
@@ -49,8 +35,7 @@ class Schedule extends Resource {
     final composedHandler =
         composeMiddleware([...middlewares, handler], IntervalContext.fromCtx);
 
-    var worker = IntervalWorker(registrationRequest, composedHandler,
-        client: _schedulesClient);
+    var worker = IntervalWorker(registrationRequest, composedHandler);
 
     await worker.start();
   }

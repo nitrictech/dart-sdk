@@ -14,10 +14,7 @@ class ApiWorker extends Worker<$ap.ApiClient> {
   /// The security to apply to this api worker.
   List<OidcOptions> security;
 
-  ApiWorker(this.route, this.handler, this.methods,
-      {this.security = const [], $ap.ApiClient? client})
-      : super(client ??
-            $ap.ApiClient(ClientChannelSingleton.instance.clientChannel));
+  ApiWorker(this.route, this.handler, this.methods, {this.security = const []});
 
   /// Start the route handler.
   @override
@@ -45,31 +42,31 @@ class ApiWorker extends Worker<$ap.ApiClient> {
     final requestStream = StreamController<$ap.ClientMessage>();
     requestStream.add(initMsg);
 
-    final response = _client.serve(
-      requestStream.stream,
-    );
+    await ClientChannelSingleton.useClient($ap.ApiClient.new, (client) async {
+      final response = client.serve(
+        requestStream.stream,
+      );
 
-    await for (final msg in response) {
-      if (msg.hasRegistrationResponse()) {
-        // Function connected with Nitric server
-      } else if (msg.hasHttpRequest()) {
-        var ctx = HttpContext.fromRequest(msg);
+      await for (final msg in response) {
+        if (msg.hasRegistrationResponse()) {
+          // Function connected with Nitric server
+        } else if (msg.hasHttpRequest()) {
+          var ctx = HttpContext.fromRequest(msg);
 
-        try {
-          ctx = await handler(ctx);
-        } on GrpcError catch (e) {
-          print("caught a GrpcError: $e");
-        } catch (e) {
-          // Program has experienced an unexpected programatic error
-          print("unhandled application error: $e");
+          try {
+            ctx = await handler(ctx);
+          } on GrpcError catch (e) {
+            print("caught a GrpcError: $e");
+          } catch (e) {
+            // Program has experienced an unexpected programatic error
+            print("unhandled application error: $e");
 
-          ctx.res.withError(e);
+            ctx.res.withError(e);
+          }
+
+          requestStream.add(ctx.toResponse());
         }
-
-        requestStream.add(ctx.toResponse());
       }
-    }
-
-    await ClientChannelSingleton.instance.release();
+    });
   }
 }

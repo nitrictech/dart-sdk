@@ -3,21 +3,7 @@ part of 'common.dart';
 enum BucketPermission { read, write, delete }
 
 class BucketResource extends SecureResource<BucketPermission> {
-  $bp.StorageListenerClient? _storageListenerClient;
-
-  BucketResource(String name,
-      {$p.ResourcesClient? client,
-      $bp.StorageListenerClient? storageListenerClient})
-      : super(name, client) {
-    _storageListenerClient = storageListenerClient;
-
-    if (storageListenerClient == null) {
-      _storageListenerClient = $bp.StorageListenerClient(
-          ClientChannelSingleton.instance.clientChannel);
-    } else {
-      _storageListenerClient = storageListenerClient;
-    }
-  }
+  BucketResource(super.name);
 
   @override
   ResourceDeclareRequest asRequest() {
@@ -68,8 +54,7 @@ class BucketResource extends SecureResource<BucketPermission> {
     final composedHandler =
         composeMiddleware([...middlewares, handler], BlobEventContext.fromCtx);
 
-    var worker = BlobEventWorker(registrationRequest, composedHandler,
-        client: _storageListenerClient);
+    var worker = BlobEventWorker(registrationRequest, composedHandler);
 
     await worker.start();
   }

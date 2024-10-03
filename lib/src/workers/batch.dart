@@ -4,9 +4,7 @@ class JobWorker extends Worker<$jp.JobClient> {
   $jp.RegistrationRequest registrationRequest;
   JobHandler middleware;
 
-  JobWorker(this.registrationRequest, this.middleware, {$jp.JobClient? client})
-      : super(client ??
-            $jp.JobClient(ClientChannelSingleton.instance.clientChannel));
+  JobWorker(this.registrationRequest, this.middleware);
 
   @override
   Future<void> start() async {
@@ -17,30 +15,30 @@ class JobWorker extends Worker<$jp.JobClient> {
     final requestStream = StreamController<$jp.ClientMessage>();
     requestStream.add(initMsg);
 
-    final response = _client.handleJob(
-      requestStream.stream,
-    );
+    await ClientChannelSingleton.useClient($jp.JobClient.new, (client) async {
+      final response = client.handleJob(
+        requestStream.stream,
+      );
 
-    await for (final msg in response) {
-      if (msg.hasRegistrationResponse()) {
-        // Topic connected with Nitric server
-      } else if (msg.hasJobRequest()) {
-        var ctx = JobContext.fromRequest(msg);
+      await for (final msg in response) {
+        if (msg.hasRegistrationResponse()) {
+          // Topic connected with Nitric server
+        } else if (msg.hasJobRequest()) {
+          var ctx = JobContext.fromRequest(msg);
 
-        try {
-          ctx = await middleware(ctx);
-        } on GrpcError catch (e) {
-          print("caught a GrpcError: $e");
-        } catch (e) {
-          print("unhandled application error: $e");
+          try {
+            ctx = await middleware(ctx);
+          } on GrpcError catch (e) {
+            print("caught a GrpcError: $e");
+          } catch (e) {
+            print("unhandled application error: $e");
 
-          ctx.res.success = false;
+            ctx.res.success = false;
+          }
+
+          requestStream.add(ctx.toResponse());
         }
-
-        requestStream.add(ctx.toResponse());
       }
-    }
-
-    await ClientChannelSingleton.instance.release();
+    });
   }
 }

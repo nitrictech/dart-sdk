@@ -3,20 +3,7 @@ part of 'common.dart';
 enum TopicPermission { publish }
 
 class Topic extends SecureResource<TopicPermission> {
-  $tp.SubscriberClient? _subscriberClient;
-
-  Topic(String name,
-      {$p.ResourcesClient? client, $tp.SubscriberClient? subscriberClient})
-      : super(name, client) {
-    _subscriberClient = subscriberClient;
-
-    if (subscriberClient == null) {
-      _subscriberClient =
-          $tp.SubscriberClient(ClientChannelSingleton.instance.clientChannel);
-    } else {
-      _subscriberClient = subscriberClient;
-    }
-  }
+  Topic(super.name);
 
   /// Register a [handler] to subscribe to messages sent to the topic.
   Future<void> subscribe(MessageHandler handler,
@@ -26,8 +13,7 @@ class Topic extends SecureResource<TopicPermission> {
     final composedHandler =
         composeMiddleware([...middlewares, handler], MessageContext.fromCtx);
 
-    var worker = SubscriptionWorker(registrationRequest, composedHandler,
-        client: _subscriberClient);
+    var worker = SubscriptionWorker(registrationRequest, composedHandler);
 
     await worker.start();
   }

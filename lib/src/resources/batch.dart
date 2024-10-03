@@ -16,17 +16,7 @@ class JobResourceRequirements {
 }
 
 class JobResource extends SecureResource<JobPermission> {
-  $jp.JobClient? _jobClient;
-
-  JobResource(String name,
-      {$p.ResourcesClient? client, $jp.JobClient? jobClient})
-      : super(name, client) {
-    if (jobClient == null) {
-      _jobClient = $jp.JobClient(ClientChannelSingleton.instance.clientChannel);
-    } else {
-      _jobClient = jobClient;
-    }
-  }
+  JobResource(super.name);
 
   /// Create a handler function that will be executed when a job is submitted.
   Future<void> handler(JobHandler handler,
@@ -42,8 +32,7 @@ class JobResource extends SecureResource<JobPermission> {
     final composedHandler =
         composeMiddleware([...middlewares, handler], JobContext.fromCtx);
 
-    var worker =
-        JobWorker(registrationRequest, composedHandler, client: _jobClient);
+    var worker = JobWorker(registrationRequest, composedHandler);
 
     await worker.start();
   }

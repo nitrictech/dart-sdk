@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:mocktail/mocktail.dart';
 import 'package:nitric_sdk/src/api/api.dart';
+import 'package:nitric_sdk/src/grpc_helper.dart';
 import 'package:nitric_sdk/src/nitric/proto/secrets/v1/secrets.pbgrpc.dart'
     as $p;
 import 'package:test/test.dart';
@@ -13,18 +14,24 @@ class MockSecretClient extends Mock implements $p.SecretManagerClient {}
 void main() {
   late MockSecretClient secretClient;
 
-  setUp(() => secretClient = MockSecretClient());
+  setUp(() {
+    secretClient = MockSecretClient();
+
+    ClientChannelSingleton.registerClientConstructors(Map.from({
+      $p.SecretManagerClient: secretClient,
+    }));
+  });
 
   tearDown(() => reset(secretClient));
 
   test('Test build secret', () {
-    var secret = Secret("secretName", client: secretClient);
+    var secret = Secret("secretName");
 
     expect(secret.name, "secretName");
   });
 
   test('Test get secret version', () {
-    var secret = Secret("secretName", client: secretClient);
+    var secret = Secret("secretName");
 
     var version = secret.version("versionID");
 
@@ -32,7 +39,7 @@ void main() {
   });
 
   test('Test get latest secret version', () {
-    var secret = Secret("secretName", client: secretClient);
+    var secret = Secret("secretName");
 
     var latest = secret.latest();
 
@@ -50,7 +57,7 @@ void main() {
     when(() => secretClient.put(req))
         .thenAnswer((_) => MockResponseFuture.value(resp));
 
-    var secret = Secret("secretName", client: secretClient);
+    var secret = Secret("secretName");
 
     await secret.put("contents");
 
@@ -71,7 +78,7 @@ void main() {
     when(() => secretClient.access(req))
         .thenAnswer((_) => MockResponseFuture.value(resp));
 
-    var secret = Secret("secretName", client: secretClient);
+    var secret = Secret("secretName");
 
     var contents = await secret.version("secretVersion").access();
 

@@ -9,25 +9,8 @@ import 'package:fixnum/fixnum.dart';
 class Topic {
   /// The name of the topic
   final String name;
-  late final $p.TopicsClient? _topicsClient;
 
-  Topic(this.name, {$p.TopicsClient? client}) {
-    _topicsClient = client;
-  }
-
-  Future<Resp> _useClient<Resp>(
-      UseClientCallback<$p.TopicsClient, Resp> callback) async {
-    final client = _topicsClient ??
-        $p.TopicsClient(ClientChannelSingleton.instance.clientChannel);
-
-    var resp = callback(client);
-
-    if (_topicsClient == null) {
-      await ClientChannelSingleton.instance.release();
-    }
-
-    return resp;
-  }
+  Topic(this.name);
 
   /// Publish a [message] to the topic. Optional [delay] (in seconds) can be set to delay the message publish time.
   Future<void> publish(Map<String, dynamic> message, {int delay = 0}) async {
@@ -40,6 +23,7 @@ class Topic {
       delay: $d.Duration(seconds: Int64(delay)),
     );
 
-    await _useClient((client) async => await client.publish(req));
+    await ClientChannelSingleton.useClient(
+        $p.TopicsClient.new, (client) async => await client.publish(req));
   }
 }
