@@ -7,7 +7,7 @@ class BlobEventWorker extends Worker<$bp.StorageListenerClient> {
   BlobEventWorker(this.registrationRequest, this.middleware);
 
   @override
-  Future<void> start() async {
+  Future<void> _startWorkerLoop() async {
     final initMsg = $bp.ClientMessage(registrationRequest: registrationRequest);
 
     // Create the request stream and send the initial message

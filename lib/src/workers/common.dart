@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:grpc/grpc.dart';
 
@@ -26,5 +27,17 @@ part 'websocket.dart';
 part 'batch.dart';
 
 abstract class Worker<T extends Client> {
-  Future<void> start();
+  Future<void> _startWorkerLoop();
+
+  Future<void> start() async {
+    ProcessSignal.sigint.watch().listen((signal) {
+      exit(0);
+    });
+
+    ProcessSignal.sigterm.watch().listen((signal) {
+      exit(0);
+    });
+
+    await _startWorkerLoop();
+  }
 }

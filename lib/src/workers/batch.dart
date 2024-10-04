@@ -7,7 +7,7 @@ class JobWorker extends Worker<$jp.JobClient> {
   JobWorker(this.registrationRequest, this.middleware);
 
   @override
-  Future<void> start() async {
+  Future<void> _startWorkerLoop() async {
     // Create the request to register the subscription with the membrane
     final initMsg = $jp.ClientMessage(registrationRequest: registrationRequest);
 

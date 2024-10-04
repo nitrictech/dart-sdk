@@ -7,7 +7,7 @@ class WebsocketWorker extends Worker<$wp.WebsocketHandlerClient> {
   WebsocketWorker(this.registrationRequest, this.middleware);
 
   @override
-  Future<void> start() async {
+  Future<void> _startWorkerLoop() async {
     final initMsg = $wp.ClientMessage(registrationRequest: registrationRequest);
 
     // Create the request stream and send the initial message

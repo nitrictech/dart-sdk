@@ -8,7 +8,7 @@ class FileEventWorker extends Worker<$bp.StorageListenerClient> {
   FileEventWorker(this.registrationRequest, this.middleware, this.bucket);
 
   @override
-  Future<void> start() async {
+  Future<void> _startWorkerLoop() async {
     final initMsg = $bp.ClientMessage(registrationRequest: registrationRequest);
 
     // Create the request stream and send the initial message
