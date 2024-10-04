@@ -8,7 +8,7 @@ class IntervalWorker extends Worker<$sp.SchedulesClient> {
 
   /// Starts the interval handling loop to run the [middleware] at a certain frequency. Uses the [registrationRequest] to register the interval with the Nitric server.
   @override
-  Future<void> start() async {
+  Future<void> _startWorkerLoop() async {
     final initMsg = $sp.ClientMessage(registrationRequest: registrationRequest);
 
     // Create the request stream and send the initial message

@@ -18,7 +18,7 @@ class ApiWorker extends Worker<$ap.ApiClient> {
 
   /// Start the route handler.
   @override
-  Future<void> start() async {
+  Future<void> _startWorkerLoop() async {
     // Create API client
 
     var options = $ap.ApiWorkerOptions(securityDisabled: security.isEmpty);
