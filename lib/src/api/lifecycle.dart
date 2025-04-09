@@ -32,7 +32,7 @@ enum LifecycleStage {
 /// Get the current lifecycle stage from environment variables
 LifecycleStage _getCurrentLifecycle() {
   final lifecycle = Platform.environment[nitricEnvironment];
-  
+
   if (lifecycle == null) {
     throw Exception(
       'Unable to determine the current Nitric lifecycle, please ensure the $nitricEnvironment environment variable is set',
@@ -66,8 +66,8 @@ T? _whenInLifecycles<T>(List<LifecycleStage> stages, T Function() callback) {
 }
 
 /// If the current environment is running (local or cloud), execute the provided callback
-T? _whenRunning<T>(T Function() callback) =>
-    _whenInLifecycles<T>([LifecycleStage.local, LifecycleStage.cloud], callback);
+T? _whenRunning<T>(T Function() callback) => _whenInLifecycles<T>(
+    [LifecycleStage.local, LifecycleStage.cloud], callback);
 
 /// If the current environment is collecting requirements, execute the provided callback
 T? _whenCollecting<T>(T Function() callback) =>
@@ -100,6 +100,5 @@ class Lifecycle {
       _whenCollecting<T>(callback);
 
   /// If the current environment is a cloud environment, execute the provided callback
-  static T? whenRunning<T>(T Function() callback) =>
-      _whenRunning<T>(callback);
-} 
+  static T? whenRunning<T>(T Function() callback) => _whenRunning<T>(callback);
+}
