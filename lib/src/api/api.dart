@@ -8,6 +8,7 @@ export 'proto.dart';
 export 'queue.dart';
 export 'batch.dart';
 export 'sql.dart';
+export 'lifecycle.dart';
 
 typedef UseClientCallback<GrpcClient extends Client, Resp> = Future<Resp>
     Function(GrpcClient);
